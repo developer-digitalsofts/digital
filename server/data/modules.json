@@ -1,0 +1,115 @@
+{
+  "pill": { "en": "Connected platform", "ar": "منصة متصلة" },
+  "title": { "en": "ERP Module Ecosystem", "ar": "منظومة وحدات ERP" },
+  "subtitle": {
+    "en": "Mix and match modules based on your business needs — accounts, inventory, sales, POS, payroll, HR and reports in one connected ERP system.",
+    "ar": "امزج الوحدات حسب احتياجك — الحسابات، المخزون، المبيعات، نقطة البيع، الرواتب، الموارد البشرية والتقارير في نظام ERP واحد متصل."
+  },
+  "exploreLabel": { "en": "Explore module →", "ar": "استكشف الوحدة ←" },
+  "items": [
+    {
+      "id": "m1",
+      "icon": "Wallet",
+      "badge": { "en": "Core", "ar": "أساسي" },
+      "title": { "en": "Accounts", "ar": "الحسابات" },
+      "description": {
+        "en": "Ledger, vouchers, AR/AP, and statements with audit-ready trails your accountant will trust.",
+        "ar": "دفتر أستاذ وقيود وذمم وقوائم مالية بمسارات تدقيق يثق بها المحاسب."
+      },
+      "href": "/software/module/accounts-management-software",
+      "sortOrder": 0,
+      "active": true
+    },
+    {
+      "id": "m2",
+      "icon": "ShoppingCart",
+      "badge": { "en": "Core", "ar": "أساسي" },
+      "title": { "en": "Purchase", "ar": "المشتريات" },
+      "description": {
+        "en": "Requisitions through GRN with vendor performance tied to stock and payables.",
+        "ar": "من الطلب إلى الاستلام مع أداء الموردين مرتبطاً بالمخزون والذمم الدائنة."
+      },
+      "href": "/software/module/purchase-management-software",
+      "sortOrder": 1,
+      "active": true
+    },
+    {
+      "id": "m3",
+      "icon": "TrendingUp",
+      "badge": { "en": "Popular", "ar": "شائع" },
+      "title": { "en": "Sales", "ar": "المبيعات" },
+      "description": {
+        "en": "Quotes to cash with orders, deliveries, and invoicing synced to inventory and receivables.",
+        "ar": "من عرض السعر إلى التحصيل مع أوامر وتسليم وفوترة متزامنة مع المخزون والذمم."
+      },
+      "href": "/software/module/sales-order-management-software",
+      "sortOrder": 2,
+      "active": true
+    },
+    {
+      "id": "m4",
+      "icon": "Package",
+      "badge": { "en": "Core", "ar": "أساسي" },
+      "title": { "en": "Inventory", "ar": "المخزون" },
+      "description": {
+        "en": "Multi-location stock, transfers, costing, and cycle counts that match the warehouse floor.",
+        "ar": "مواقع متعددة وتحويلات وتكلفة وجرد يعكس ما يراه المستودع."
+      },
+      "href": "/software/module/inventory-management-software",
+      "sortOrder": 3,
+      "active": true
+    },
+    {
+      "id": "m5",
+      "icon": "CreditCard",
+      "badge": { "en": "Popular", "ar": "شائع" },
+      "title": { "en": "POS", "ar": "نقطة البيع" },
+      "description": {
+        "en": "Fast checkout, promotions, and stock movement flowing straight back into ERP.",
+        "ar": "كاشير سريع وعروض وحركة مخزون تتدفق مباشرة إلى الـ ERP."
+      },
+      "href": "/software/module/point-of-sale-management-software",
+      "sortOrder": 4,
+      "active": true
+    },
+    {
+      "id": "m6",
+      "icon": "Banknote",
+      "badge": { "en": "Core", "ar": "أساسي" },
+      "title": { "en": "Payroll", "ar": "الرواتب" },
+      "description": {
+        "en": "Structures, payslips, statutory deductions, and approvals in one controlled payroll run.",
+        "ar": "هياكل وكشوف واستقطاعات نظامية وموافقات في دورة رواتب واحدة."
+      },
+      "href": "/software/module/payroll-management-software",
+      "sortOrder": 5,
+      "active": true
+    },
+    {
+      "id": "m7",
+      "icon": "UserCircle2",
+      "badge": { "en": "Popular", "ar": "شائع" },
+      "title": { "en": "HRM", "ar": "الموارد البشرية" },
+      "description": {
+        "en": "Records, attendance, leave, and HR analytics so people ops scales with headcount.",
+        "ar": "سجلات وحضور وإجازات وتحليلات لتناسب نمو عدد الموظفين."
+      },
+      "href": "/software/module/human-resource-management-software",
+      "sortOrder": 6,
+      "active": true
+    },
+    {
+      "id": "m8",
+      "icon": "BarChart3",
+      "badge": { "en": "Core", "ar": "أساسي" },
+      "title": { "en": "Reports", "ar": "التقارير" },
+      "description": {
+        "en": "Executive dashboards and operational KPIs without exporting everything to spreadsheets.",
+        "ar": "لوحات تنفيذية ومؤشرات تشغيلية دون تصدير كل شيء لجداول منفصلة."
+      },
+      "href": "/software/module/executive-reporting-analytics-software",
+      "sortOrder": 7,
+      "active": true
+    }
+  ]
+}

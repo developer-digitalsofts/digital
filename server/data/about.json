@@ -1,0 +1,61 @@
+{
+  "eyebrow": { "en": "Why DigitalManager", "ar": "لماذا ديجيتال مانجر" },
+  "title": { "en": "About DigitalManager", "ar": "عن ديجيتال مانجر" },
+  "paragraphs": [
+    {
+      "en": "DigitalManager is a business ERP platform built for companies that want to control accounts, stock, sales, purchases, daily operations, POS and reports from one place.",
+      "ar": "ديجيتال مانجر منصة ERP للشركات التي تريد ضبط الحسابات والمخزون والمبيعات والمشتريات والعمليات اليومية ونقاط البيع والتقارير من مكان واحد."
+    },
+    {
+      "en": "It helps owners reduce manual work, improve accuracy, monitor teams, and make faster decisions with real-time dashboards and industry-specific workflows.",
+      "ar": "يساعد المالكين على تقليل العمل اليدوي وتحسين الدقة ومتابعة الفرق واتخاذ قرارات أسرع عبر لوحات لحظية وسير عمل مخصص للقطاع."
+    }
+  ],
+  "highlightsLabel": { "en": "Platform highlights", "ar": "أبرز ما في المنصة" },
+  "cards": [
+    {
+      "id": "ac1",
+      "icon": "Boxes",
+      "title": { "en": "Modular ERP setup", "ar": "إعداد ERP معياري" },
+      "description": {
+        "en": "Turn on finance, inventory, POS, and HR as you need — one core, not scattered apps.",
+        "ar": "فعّل المالية والمخزون ونقطة البيع والموارد حسب الحاجة — نواة واحدة لا تطبيقات متفرقة."
+      },
+      "sortOrder": 0,
+      "active": true
+    },
+    {
+      "id": "ac2",
+      "icon": "Activity",
+      "title": { "en": "Real-time reports", "ar": "تقارير لحظية" },
+      "description": {
+        "en": "Live dashboards and drill-downs so leadership sees margin, stock, and cash without waiting.",
+        "ar": "لوحات وتفاصيل لقيادة الأعمال ترى الهامش والمخزون والنقد دون انتظار."
+      },
+      "sortOrder": 1,
+      "active": true
+    },
+    {
+      "id": "ac3",
+      "icon": "ShieldCheck",
+      "title": { "en": "Role-based access", "ar": "صلاحيات حسب الدور" },
+      "description": {
+        "en": "Granular permissions keep sensitive data with the right teams only.",
+        "ar": "أذونات دقيقة تبقي البيانات الحساسة لدى الفرق المناسبة فقط."
+      },
+      "sortOrder": 2,
+      "active": true
+    },
+    {
+      "id": "ac4",
+      "icon": "Zap",
+      "title": { "en": "Process automation", "ar": "أتمتة العمليات" },
+      "description": {
+        "en": "Fewer manual handoffs from quote to invoice to reconciliation.",
+        "ar": "تقليل التسليم اليدوي من عرض السعر إلى الفاتورة إلى التسوية."
+      },
+      "sortOrder": 3,
+      "active": true
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "title": {
+    "en": "Manage Accounts, Inventory, Sales & Operations from One ERP Platform",
+    "ar": "أدر الحسابات والمخزون والمبيعات والعمليات من منصة ERP واحدة"
+  },
+  "sub": {
+    "en": "One connected cloud ERP for finance, stock, retail, HR, and industry programmes",
+    "ar": "ERP سحابي متصل للمالية والمخزون والتجزئة والموارد وبرامج القطاع"
+  },
+  "body": {
+    "en": "DigitalManager helps businesses control daily operations, stock, accounts, sales, purchases, HR, reports and industry-specific workflows from one powerful cloud ERP system.",
+    "ar": "يساعدك ديجيتال مانجر على ضبط العمليات اليومية والمخزون والحسابات والمبيعات والمشتريات والموارد البشرية والتقارير وسير العمل الخاص بالقطاع من نظام ERP سحابي واحد قوي."
+  },
+  "ctaPrimary": {
+    "label": {
+      "en": "Book Free Demo",
+      "ar": "احجز عرضاً مجانياً"
+    },
+    "href": "/contact"
+  },
+  "ctaSecondary": {
+    "label": {
+      "en": "Explore ERP Modules",
+      "ar": "استكشف وحدات ERP"
+    },
+    "href": "/#modules"
+  },
+  "mockupImageUrl": "",
+  "badges": [
+    {
+      "id": "b1",
+      "icon": "Wallet",
+      "label": {
+        "en": "Accounts",
+        "ar": "الحسابات"
+      },
+      "sortOrder": 0,
+      "active": true
+    },
+    {
+      "id": "b2",
+      "icon": "Boxes",
+      "label": {
+        "en": "Inventory",
+        "ar": "المخزون"
+      },
+      "sortOrder": 1,
+      "active": true
+    },
+    {
+      "id": "b3",
+      "icon": "CreditCard",
+      "label": {
+        "en": "POS",
+        "ar": "نقطة البيع"
+      },
+      "sortOrder": 2,
+      "active": true
+    },
+    {
+      "id": "b4",
+      "icon": "Users",
+      "label": {
+        "en": "Payroll",
+        "ar": "الرواتب"
+      },
+      "sortOrder": 3,
+      "active": true
+    },
+    {
+      "id": "b5",
+      "icon": "BarChart3",
+      "label": {
+        "en": "Reports",
+        "ar": "التقارير"
+      },
+      "sortOrder": 4,
+      "active": true
+    }
+  ]
+}

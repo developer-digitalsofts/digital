@@ -1,0 +1,205 @@
+{
+  "title": { "en": "Industry ERP Solutions", "ar": "حلول ERP حسب القطاع" },
+  "subtitle": {
+    "en": "Ready ERP solutions for petrol pumps, retail stores, manufacturing, poultry, dairy, real estate, services and more.",
+    "ar": "حلول جاهزة لمحطات الوقود والتجزئة والتصنيع والدواجن والألبان والعقارات والخدمات وغيرها."
+  },
+  "exploreLabel": { "en": "Explore →", "ar": "استكشف ←" },
+  "items": [
+    {
+      "id": "i1",
+      "icon": "Droplets",
+      "category": { "en": "Industry Solution", "ar": "حل قطاعي" },
+      "title": { "en": "Petrol Pump ERP", "ar": "ERP محطات الوقود" },
+      "description": {
+        "en": "Shifts, nozzles, wet stock, and forecourt retail connected to central finance.",
+        "ar": "ورديات وفوهات ومخزون رطب وتجزئة أمامية مربوطة بالمالية المركزية."
+      },
+      "href": "/software/industry/petrol-pump-software",
+      "sortOrder": 0,
+      "active": true
+    },
+    {
+      "id": "i2",
+      "icon": "Building2",
+      "category": { "en": "Industry Solution", "ar": "حل قطاعي" },
+      "title": { "en": "General ERP", "ar": "ERP عام" },
+      "description": {
+        "en": "Core finance, inventory, and operations for trading and services businesses.",
+        "ar": "مالية ومخزون وعمليات للتجارة والخدمات في منصة واحدة."
+      },
+      "href": "/software/industry/retail-management-software",
+      "sortOrder": 1,
+      "active": true
+    },
+    {
+      "id": "i3",
+      "icon": "FileText",
+      "category": { "en": "Compliance", "ar": "الامتثال" },
+      "title": { "en": "FBR Digital Invoicing", "ar": "الفوترة الرقمية FBR" },
+      "description": {
+        "en": "Digital invoicing workflows aligned with compliance and faster reconciliation.",
+        "ar": "سير عمل فوترة متوافق مع الامتثال وتسوية أسرع."
+      },
+      "href": "/software/module/fbr-pos-integration-software",
+      "sortOrder": 2,
+      "active": true
+    },
+    {
+      "id": "i4",
+      "icon": "Bird",
+      "category": { "en": "Agriculture", "ar": "الزراعة" },
+      "title": { "en": "Poultry Farm ERP", "ar": "ERP دواجن" },
+      "description": {
+        "en": "Flock cycles, feed, production batches, and cost tracking in one ledger.",
+        "ar": "دورات قطعان وعلف ودفعات إنتاج وتكلفة في دفتر واحد."
+      },
+      "href": "/software/industry/poultry-control-shed-management-software",
+      "sortOrder": 3,
+      "active": true
+    },
+    {
+      "id": "i5",
+      "icon": "Milk",
+      "category": { "en": "Agriculture", "ar": "الزراعة" },
+      "title": { "en": "Dairy Farm ERP", "ar": "ERP ألبان" },
+      "description": {
+        "en": "Milk collection, chilling, routes, and producer settlements with clarity.",
+        "ar": "تجميع وتبريد ومسارات وتسويات منتجين بوضوح."
+      },
+      "href": "/software/industry/dairy-farm-management-software",
+      "sortOrder": 4,
+      "active": true
+    },
+    {
+      "id": "i6",
+      "icon": "Flame",
+      "category": { "en": "Energy", "ar": "الطاقة" },
+      "title": { "en": "LPG Software", "ar": "برمجيات الغاز LPG" },
+      "description": {
+        "en": "Cylinder tracking, refills, safety checks, and depot operations under control.",
+        "ar": "تتبع أسطوانات وإعادة تعبئة وفحوصات أمان ومستودعات تحت السيطرة."
+      },
+      "href": "/software/industry/lpg-business-software",
+      "sortOrder": 5,
+      "active": true
+    },
+    {
+      "id": "i7",
+      "icon": "Calculator",
+      "category": { "en": "Finance", "ar": "المالية" },
+      "title": { "en": "Installment Software", "ar": "برمجيات الأقساط" },
+      "description": {
+        "en": "Contracts, schedules, collections, and delinquency views for finance teams.",
+        "ar": "عقود وجداول وتحصيل ورؤية التعثر لفرق المالية."
+      },
+      "href": "/software/industry/erp-software-for-real-estate-business",
+      "sortOrder": 6,
+      "active": true
+    },
+    {
+      "id": "i8",
+      "icon": "Factory",
+      "category": { "en": "Manufacturing", "ar": "التصنيع" },
+      "title": { "en": "Manufacturing ERP", "ar": "ERP تصنيع" },
+      "description": {
+        "en": "BOM, production orders, material issues, and shop-floor visibility.",
+        "ar": "قائمة مواد وأوامر إنتاج وصرف مواد ورؤية ورشة."
+      },
+      "href": "/software/industry/garments-manufacturing-software",
+      "sortOrder": 7,
+      "active": true
+    },
+    {
+      "id": "i9",
+      "icon": "ArrowLeftRight",
+      "category": { "en": "Trading", "ar": "التجارة" },
+      "title": { "en": "Trading ERP", "ar": "ERP تجارة" },
+      "description": {
+        "en": "Imports, landed cost, multi-currency, and high-volume SKU movement.",
+        "ar": "استيراد وتكلفة شحن وعملات متعددة وحركة SKU عالية."
+      },
+      "href": "/software/industry/logistics-transportation-software",
+      "sortOrder": 8,
+      "active": true
+    },
+    {
+      "id": "i10",
+      "icon": "Store",
+      "category": { "en": "Retail", "ar": "التجزئة" },
+      "title": { "en": "Retail POS", "ar": "نقطة بيع تجزئة" },
+      "description": {
+        "en": "Omnichannel-ready POS with promotions and stock sync to the back office.",
+        "ar": "POS جاهز للقنوات مع عروض ومزامنة مخزون مع المكتب الخلفي."
+      },
+      "href": "/software/industry/grocery-store-management-software",
+      "sortOrder": 9,
+      "active": true
+    },
+    {
+      "id": "i11",
+      "icon": "Droplets",
+      "category": { "en": "Field Service", "ar": "الخدمات الميدانية" },
+      "title": { "en": "Water Pump ERP", "ar": "ERP مضخات مياه" },
+      "description": {
+        "en": "Service routes, AMC billing, spare parts, and technician productivity.",
+        "ar": "مسارات خدمة وفوترة عقود صيانة وقطع غيار وإنتاجية فنيين."
+      },
+      "href": "/software/industry/motor-market-management-software",
+      "sortOrder": 10,
+      "active": true
+    },
+    {
+      "id": "i12",
+      "icon": "Wrench",
+      "category": { "en": "Services", "ar": "الخدمات" },
+      "title": { "en": "Workshop Management", "ar": "إدارة ورش" },
+      "description": {
+        "en": "Job cards, labor hours, parts consumption, and invoicing for workshops.",
+        "ar": "أوامر شغل وساعات عمل واستهلاك قطع وفوترة للورش."
+      },
+      "href": "/software/industry/auto-parts-business-software",
+      "sortOrder": 11,
+      "active": true
+    },
+    {
+      "id": "i13",
+      "icon": "GraduationCap",
+      "category": { "en": "Education", "ar": "التعليم" },
+      "title": { "en": "School Management", "ar": "إدارة مدارس" },
+      "description": {
+        "en": "Fees, admissions, payroll for staff, and finance reporting for institutions.",
+        "ar": "رسوم وقبول ورواتب موظفين وتقارير مالية للمؤسسات."
+      },
+      "href": "/contact#contact-form",
+      "sortOrder": 12,
+      "active": true
+    },
+    {
+      "id": "i14",
+      "icon": "Home",
+      "category": { "en": "Real Estate", "ar": "العقارات" },
+      "title": { "en": "Real Estate ERP", "ar": "ERP عقارات" },
+      "description": {
+        "en": "Projects, installments, broker commissions, and investor reporting.",
+        "ar": "مشاريع وأقساط وعمولات وسمسار وتقارير للمستثمرين."
+      },
+      "href": "/software/industry/erp-software-for-real-estate-business",
+      "sortOrder": 13,
+      "active": true
+    },
+    {
+      "id": "i15",
+      "icon": "Briefcase",
+      "category": { "en": "Professional Services", "ar": "الخدمات المهنية" },
+      "title": { "en": "Service Business ERP", "ar": "ERP أعمال خدمية" },
+      "description": {
+        "en": "Projects, timesheets, billing milestones, and profitability by engagement.",
+        "ar": "مشاريع وجداول زمنية وفوترة مراحل وربحية حسب العقد."
+      },
+      "href": "/software/industry/erp-software-for-construction-business",
+      "sortOrder": 14,
+      "active": true
+    }
+  ]
+}

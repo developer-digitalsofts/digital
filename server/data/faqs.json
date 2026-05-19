@@ -1,0 +1,87 @@
+{
+  "title": { "en": "Questions ERP buyers ask", "ar": "أسئلة يطرحها مشترو ERP" },
+  "subtitle": {
+    "en": "Straight answers before you shortlist or roll out.",
+    "ar": "إجابات واضحة قبل الاختيار أو الإطلاق."
+  },
+  "items": [
+    {
+      "id": "f1",
+      "question": {
+        "en": "Is DigitalManager suitable for small businesses?",
+        "ar": "هل ديجيتال مانجر مناسب للشركات الصغيرة؟"
+      },
+      "answer": {
+        "en": "Yes. Start with accounts and inventory, then add POS or payroll as you grow. You only enable what you are ready to run day to day.",
+        "ar": "نعم. ابدأ بالحسابات والمخزون ثم أضف نقطة البيع أو الرواتب مع النمو. تفعّل فقط ما أنت مستعد لتشغيله يوميًا."
+      },
+      "sortOrder": 0,
+      "active": true
+    },
+    {
+      "id": "f2",
+      "question": {
+        "en": "Can I use only selected ERP modules?",
+        "ar": "هل يمكن استخدام وحدات ERP مختارة فقط؟"
+      },
+      "answer": {
+        "en": "Yes. Turn on the modules you need while sharing one chart of accounts, item master, and customer records across the company.",
+        "ar": "نعم. فعّل الوحدات التي تحتاجها مع دليل حسابات وسجل أصناف وعملاء موحّدين عبر الشركة."
+      },
+      "sortOrder": 1,
+      "active": true
+    },
+    {
+      "id": "f3",
+      "question": {
+        "en": "Does it support POS and inventory?",
+        "ar": "هل يدعم نقطة البيع والمخزون؟"
+      },
+      "answer": {
+        "en": "Yes. POS sales can update stock in near real time, and inventory valuation follows the same rules your finance team expects.",
+        "ar": "نعم. مبيعات نقطة البيع يمكن أن تحدّث المخزون تقريبًا لحظيًا، وتقييم المخزون يتبع قواعدك المالية."
+      },
+      "sortOrder": 2,
+      "active": true
+    },
+    {
+      "id": "f4",
+      "question": {
+        "en": "Can reports be customized?",
+        "ar": "هل يمكن تخصيص التقارير؟"
+      },
+      "answer": {
+        "en": "Role-based dashboards and standard packs are included. Heavier custom layouts depend on your plan and implementation scope.",
+        "ar": "تُضمَّن لوحات حسب الدور وحزم قياسية. التخصيص الأعمق يعتمد على خطتك ونطاق التنفيذ."
+      },
+      "sortOrder": 3,
+      "active": true
+    },
+    {
+      "id": "f5",
+      "question": {
+        "en": "Can it work for multiple branches?",
+        "ar": "هل يعمل لعدة فروع؟"
+      },
+      "answer": {
+        "en": "Yes. Use inter-branch transfers, consolidated reporting, and branch-level permissions without splitting your data.",
+        "ar": "نعم. تحويلات بين الفروع وتقارير موحّدة وصلاحيات على مستوى الفرع دون تفتيت بياناتك."
+      },
+      "sortOrder": 4,
+      "active": true
+    },
+    {
+      "id": "f6",
+      "question": {
+        "en": "How do I start?",
+        "ar": "كيف أبدأ؟"
+      },
+      "answer": {
+        "en": "Book a demo, share your priorities, and we will recommend a sensible module footprint and rollout sequence.",
+        "ar": "احجز عرضًا، شارك أولوياتك، ونوصي ببصمة وحدات وترتيب إطلاق منطقي."
+      },
+      "sortOrder": 5,
+      "active": true
+    }
+  ]
+}

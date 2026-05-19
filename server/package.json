@@ -1,0 +1,18 @@
+{
+  "name": "digitalmanager-cms-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node index.mjs",
+    "dev": "node --watch index.mjs"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.0",
+    "nanoid": "^5.1.5",
+    "nodemailer": "^6.9.16"
+  }
+}

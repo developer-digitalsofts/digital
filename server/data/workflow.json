@@ -1,0 +1,13 @@
+{
+  "title": {
+    "en": "See how your daily workflows run inside DigitalManager",
+    "ar": "شاهد كيف تسير عملياتك اليومية داخل ديجيتال مانجر"
+  },
+  "paragraph": {
+    "en": "From sales and purchases to stock, accounts and reports — your complete business process can be managed in one ERP platform.",
+    "ar": "من المبيعات والمشتريات إلى المخزون والحسابات والتقارير — يمكن إدارة عملك بالكامل في منصة ERP واحدة."
+  },
+  "cta": { "en": "Book Workflow Walkthrough", "ar": "احجز جولة على سير العمل" },
+  "ctaHref": "/contact#contact-form",
+  "background": "gradient-soft"
+}

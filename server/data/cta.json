@@ -1,0 +1,16 @@
+{
+  "title": {
+    "en": "Ready to digitize your business operations?",
+    "ar": "هل أنت مستعد لرقمنة عمليات عملك؟"
+  },
+  "paragraph": {
+    "en": "Book a walkthrough and see how DigitalManager can manage your accounts, inventory, sales, purchases and reports in one connected ERP system.",
+    "ar": "احجز جولة وشاهد كيف يدير ديجيتال مانجر حساباتك ومخزونك ومبيعاتك ومشترياتك وتقاريرك في نظام ERP واحد متصل."
+  },
+  "primary": { "label": { "en": "Book Free Demo", "ar": "احجز عرضًا مجانيًا" }, "href": "/contact" },
+  "secondary": { "label": { "en": "Talk to Expert", "ar": "تحدث مع خبير" }, "href": "/contact" },
+  "whatsapp": {
+    "label": { "en": "WhatsApp Now", "ar": "واتساب الآن" },
+    "href": "https://wa.me/971581174911"
+  }
+}

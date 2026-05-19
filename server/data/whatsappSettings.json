@@ -1,0 +1,13 @@
+{
+  "show": true,
+  "active": true,
+  "phoneDigits": "971581174911",
+  "defaultMessage": { "en": "Hello, I would like to know more about DigitalManager ERP.", "ar": "مرحباً، أود معرفة المزيد عن ديجيتال مانجر ERP." },
+  "position": "bottom-right",
+  "buttonLabel": { "en": "", "ar": "" },
+  "_meta": {
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z",
+    "updatedBy": ""
+  }
+}

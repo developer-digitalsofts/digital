@@ -1,0 +1,20 @@
+{
+  "sections": [
+    { "id": "topBar", "name": "Header top bar", "visible": true, "sortOrder": 0 },
+    { "id": "hero", "name": "Hero", "visible": true, "sortOrder": 1 },
+    { "id": "stats", "name": "Stats", "visible": true, "sortOrder": 2 },
+    { "id": "about", "name": "About", "visible": true, "sortOrder": 3 },
+    { "id": "valueChain", "name": "Features / Value chain", "visible": true, "sortOrder": 4 },
+    { "id": "modules", "name": "ERP module ecosystem", "visible": true, "sortOrder": 5 },
+    { "id": "workflow", "name": "Workflow CTA", "visible": true, "sortOrder": 6 },
+    { "id": "industries", "name": "Industry solutions", "visible": true, "sortOrder": 7 },
+    { "id": "faqs", "name": "FAQ", "visible": true, "sortOrder": 8 },
+    { "id": "cta", "name": "Final CTA", "visible": true, "sortOrder": 9 },
+    { "id": "footer", "name": "Footer", "visible": true, "sortOrder": 10 }
+  ],
+  "_meta": {
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z",
+    "updatedBy": ""
+  }
+}

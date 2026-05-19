@@ -1,0 +1,387 @@
+{
+  "accounts-management-software": {
+    "heroTeam": "/software-images/accounts-management-software/hero.jpg",
+    "financialReports": "/software-images/accounts-management-software/reports.jpg",
+    "dashboard": "/software-images/accounts-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/accounts-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/accounts-management-software/ledger.jpg"
+  },
+  "production-management-software": {
+    "heroTeam": "/software-images/production-management-software/hero.jpg",
+    "financialReports": "/software-images/production-management-software/reports.jpg",
+    "dashboard": "/software-images/production-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/production-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/production-management-software/ledger.jpg"
+  },
+  "point-of-sale-management-software": {
+    "heroTeam": "/software-images/point-of-sale-management-software/hero.jpg",
+    "financialReports": "/software-images/point-of-sale-management-software/reports.jpg",
+    "dashboard": "/software-images/point-of-sale-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/point-of-sale-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/point-of-sale-management-software/ledger.jpg"
+  },
+  "fbr-pos-integration-software": {
+    "heroTeam": "/software-images/fbr-pos-integration-software/hero.jpg",
+    "financialReports": "/software-images/fbr-pos-integration-software/reports.jpg",
+    "dashboard": "/software-images/fbr-pos-integration-software/dashboard.jpg",
+    "teamMeeting": "/software-images/fbr-pos-integration-software/meeting.jpg",
+    "ledgerOffice": "/software-images/fbr-pos-integration-software/ledger.jpg"
+  },
+  "inventory-management-software": {
+    "heroTeam": "/software-images/inventory-management-software/hero.jpg",
+    "financialReports": "/software-images/inventory-management-software/reports.jpg",
+    "dashboard": "/software-images/inventory-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/inventory-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/inventory-management-software/ledger.jpg"
+  },
+  "payroll-management-software": {
+    "heroTeam": "/software-images/payroll-management-software/hero.jpg",
+    "financialReports": "/software-images/payroll-management-software/reports.jpg",
+    "dashboard": "/software-images/payroll-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/payroll-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/payroll-management-software/ledger.jpg"
+  },
+  "integration-system": {
+    "heroTeam": "/software-images/integration-system/hero.jpg",
+    "financialReports": "/software-images/integration-system/reports.jpg",
+    "dashboard": "/software-images/integration-system/dashboard.jpg",
+    "teamMeeting": "/software-images/integration-system/meeting.jpg",
+    "ledgerOffice": "/software-images/integration-system/ledger.jpg"
+  },
+  "crm-software": {
+    "heroTeam": "/software-images/crm-software/hero.jpg",
+    "financialReports": "/software-images/crm-software/reports.jpg",
+    "dashboard": "/software-images/crm-software/dashboard.jpg",
+    "teamMeeting": "/software-images/crm-software/meeting.jpg",
+    "ledgerOffice": "/software-images/crm-software/ledger.jpg"
+  },
+  "petrol-pump-software": {
+    "heroTeam": "/software-images/petrol-pump-software/hero.jpg",
+    "financialReports": "/software-images/petrol-pump-software/reports.jpg",
+    "dashboard": "/software-images/petrol-pump-software/dashboard.jpg",
+    "teamMeeting": "/software-images/petrol-pump-software/meeting.jpg",
+    "ledgerOffice": "/software-images/petrol-pump-software/ledger.jpg"
+  },
+  "petrol-gas-filling-station-software": {
+    "heroTeam": "/software-images/petrol-gas-filling-station-software/hero.jpg",
+    "financialReports": "/software-images/petrol-gas-filling-station-software/reports.jpg",
+    "dashboard": "/software-images/petrol-gas-filling-station-software/dashboard.jpg",
+    "teamMeeting": "/software-images/petrol-gas-filling-station-software/meeting.jpg",
+    "ledgerOffice": "/software-images/petrol-gas-filling-station-software/ledger.jpg"
+  },
+  "lpg-business-software": {
+    "heroTeam": "/software-images/lpg-business-software/hero.jpg",
+    "financialReports": "/software-images/lpg-business-software/reports.jpg",
+    "dashboard": "/software-images/lpg-business-software/dashboard.jpg",
+    "teamMeeting": "/software-images/lpg-business-software/meeting.jpg",
+    "ledgerOffice": "/software-images/lpg-business-software/ledger.jpg"
+  },
+  "lpg-transport-management-software": {
+    "heroTeam": "/software-images/lpg-transport-management-software/hero.jpg",
+    "financialReports": "/software-images/lpg-transport-management-software/reports.jpg",
+    "dashboard": "/software-images/lpg-transport-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/lpg-transport-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/lpg-transport-management-software/ledger.jpg"
+  },
+  "lpg-bowser-supply-chain-software": {
+    "heroTeam": "/software-images/lpg-bowser-supply-chain-software/hero.jpg",
+    "financialReports": "/software-images/lpg-bowser-supply-chain-software/reports.jpg",
+    "dashboard": "/software-images/lpg-bowser-supply-chain-software/dashboard.jpg",
+    "teamMeeting": "/software-images/lpg-bowser-supply-chain-software/meeting.jpg",
+    "ledgerOffice": "/software-images/lpg-bowser-supply-chain-software/ledger.jpg"
+  },
+  "fleet-fuel-management-software": {
+    "heroTeam": "/software-images/fleet-fuel-management-software/hero.jpg",
+    "financialReports": "/software-images/fleet-fuel-management-software/reports.jpg",
+    "dashboard": "/software-images/fleet-fuel-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/fleet-fuel-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/fleet-fuel-management-software/ledger.jpg"
+  },
+  "petrol-depot-management-software": {
+    "heroTeam": "/software-images/petrol-depot-management-software/hero.jpg",
+    "financialReports": "/software-images/petrol-depot-management-software/reports.jpg",
+    "dashboard": "/software-images/petrol-depot-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/petrol-depot-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/petrol-depot-management-software/ledger.jpg"
+  },
+  "fuel-tank-lorry-management-software": {
+    "heroTeam": "/software-images/fuel-tank-lorry-management-software/hero.jpg",
+    "financialReports": "/software-images/fuel-tank-lorry-management-software/reports.jpg",
+    "dashboard": "/software-images/fuel-tank-lorry-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/fuel-tank-lorry-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/fuel-tank-lorry-management-software/ledger.jpg"
+  },
+  "cloud-erp-software-for-textile-industries": {
+    "heroTeam": "/software-images/cloud-erp-software-for-textile-industries/hero.jpg",
+    "financialReports": "/software-images/cloud-erp-software-for-textile-industries/reports.jpg",
+    "dashboard": "/software-images/cloud-erp-software-for-textile-industries/dashboard.jpg",
+    "teamMeeting": "/software-images/cloud-erp-software-for-textile-industries/meeting.jpg",
+    "ledgerOffice": "/software-images/cloud-erp-software-for-textile-industries/ledger.jpg"
+  },
+  "knitting-dyeing-industry-software": {
+    "heroTeam": "/software-images/knitting-dyeing-industry-software/hero.jpg",
+    "financialReports": "/software-images/knitting-dyeing-industry-software/reports.jpg",
+    "dashboard": "/software-images/knitting-dyeing-industry-software/dashboard.jpg",
+    "teamMeeting": "/software-images/knitting-dyeing-industry-software/meeting.jpg",
+    "ledgerOffice": "/software-images/knitting-dyeing-industry-software/ledger.jpg"
+  },
+  "fabric-store-management-software": {
+    "heroTeam": "/software-images/fabric-store-management-software/hero.jpg",
+    "financialReports": "/software-images/fabric-store-management-software/reports.jpg",
+    "dashboard": "/software-images/fabric-store-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/fabric-store-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/fabric-store-management-software/ledger.jpg"
+  },
+  "garments-manufacturing-software": {
+    "heroTeam": "/software-images/garments-manufacturing-software/hero.jpg",
+    "financialReports": "/software-images/garments-manufacturing-software/reports.jpg",
+    "dashboard": "/software-images/garments-manufacturing-software/dashboard.jpg",
+    "teamMeeting": "/software-images/garments-manufacturing-software/meeting.jpg",
+    "ledgerOffice": "/software-images/garments-manufacturing-software/ledger.jpg"
+  },
+  "candy-and-confectionery-manufacturing-software": {
+    "heroTeam": "/software-images/candy-and-confectionery-manufacturing-software/hero.jpg",
+    "financialReports": "/software-images/candy-and-confectionery-manufacturing-software/reports.jpg",
+    "dashboard": "/software-images/candy-and-confectionery-manufacturing-software/dashboard.jpg",
+    "teamMeeting": "/software-images/candy-and-confectionery-manufacturing-software/meeting.jpg",
+    "ledgerOffice": "/software-images/candy-and-confectionery-manufacturing-software/ledger.jpg"
+  },
+  "retail-management-software": {
+    "heroTeam": "/software-images/retail-management-software/hero.jpg",
+    "financialReports": "/software-images/retail-management-software/reports.jpg",
+    "dashboard": "/software-images/retail-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/retail-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/retail-management-software/ledger.jpg"
+  },
+  "luggage-bags-store-software": {
+    "heroTeam": "/software-images/luggage-bags-store-software/hero.jpg",
+    "financialReports": "/software-images/luggage-bags-store-software/reports.jpg",
+    "dashboard": "/software-images/luggage-bags-store-software/dashboard.jpg",
+    "teamMeeting": "/software-images/luggage-bags-store-software/meeting.jpg",
+    "ledgerOffice": "/software-images/luggage-bags-store-software/ledger.jpg"
+  },
+  "toy-shop-management-software": {
+    "heroTeam": "/software-images/toy-shop-management-software/hero.jpg",
+    "financialReports": "/software-images/toy-shop-management-software/reports.jpg",
+    "dashboard": "/software-images/toy-shop-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/toy-shop-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/toy-shop-management-software/ledger.jpg"
+  },
+  "crockery-store-management-software": {
+    "heroTeam": "/software-images/crockery-store-management-software/hero.jpg",
+    "financialReports": "/software-images/crockery-store-management-software/reports.jpg",
+    "dashboard": "/software-images/crockery-store-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/crockery-store-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/crockery-store-management-software/ledger.jpg"
+  },
+  "grocery-store-management-software": {
+    "heroTeam": "/software-images/grocery-store-management-software/hero.jpg",
+    "financialReports": "/software-images/grocery-store-management-software/reports.jpg",
+    "dashboard": "/software-images/grocery-store-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/grocery-store-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/grocery-store-management-software/ledger.jpg"
+  },
+  "cloud-erp-software-for-services-business": {
+    "heroTeam": "/software-images/cloud-erp-software-for-services-business/hero.jpg",
+    "financialReports": "/software-images/cloud-erp-software-for-services-business/reports.jpg",
+    "dashboard": "/software-images/cloud-erp-software-for-services-business/dashboard.jpg",
+    "teamMeeting": "/software-images/cloud-erp-software-for-services-business/meeting.jpg",
+    "ledgerOffice": "/software-images/cloud-erp-software-for-services-business/ledger.jpg"
+  },
+  "small-and-medium-business-erp-software": {
+    "heroTeam": "/software-images/small-and-medium-business-erp-software/hero.jpg",
+    "financialReports": "/software-images/small-and-medium-business-erp-software/reports.jpg",
+    "dashboard": "/software-images/small-and-medium-business-erp-software/dashboard.jpg",
+    "teamMeeting": "/software-images/small-and-medium-business-erp-software/meeting.jpg",
+    "ledgerOffice": "/software-images/small-and-medium-business-erp-software/ledger.jpg"
+  },
+  "installment-management-software": {
+    "heroTeam": "/software-images/installment-management-software/hero.jpg",
+    "financialReports": "/software-images/installment-management-software/reports.jpg",
+    "dashboard": "/software-images/installment-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/installment-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/installment-management-software/ledger.jpg"
+  },
+  "pharmacy-business-management-software": {
+    "heroTeam": "/software-images/pharmacy-business-management-software/hero.jpg",
+    "financialReports": "/software-images/pharmacy-business-management-software/reports.jpg",
+    "dashboard": "/software-images/pharmacy-business-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/pharmacy-business-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/pharmacy-business-management-software/ledger.jpg"
+  },
+  "homeopathic-business-management-software": {
+    "heroTeam": "/software-images/homeopathic-business-management-software/hero.jpg",
+    "financialReports": "/software-images/homeopathic-business-management-software/reports.jpg",
+    "dashboard": "/software-images/homeopathic-business-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/homeopathic-business-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/homeopathic-business-management-software/ledger.jpg"
+  },
+  "hotel-management-software": {
+    "heroTeam": "/software-images/hotel-management-software/hero.jpg",
+    "financialReports": "/software-images/hotel-management-software/reports.jpg",
+    "dashboard": "/software-images/hotel-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/hotel-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/hotel-management-software/ledger.jpg"
+  },
+  "tuc-shop-management-software": {
+    "heroTeam": "/software-images/tuc-shop-management-software/hero.jpg",
+    "financialReports": "/software-images/tuc-shop-management-software/reports.jpg",
+    "dashboard": "/software-images/tuc-shop-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/tuc-shop-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/tuc-shop-management-software/ledger.jpg"
+  },
+  "logistics-transportation-software": {
+    "heroTeam": "/software-images/logistics-transportation-software/hero.jpg",
+    "financialReports": "/software-images/logistics-transportation-software/reports.jpg",
+    "dashboard": "/software-images/logistics-transportation-software/dashboard.jpg",
+    "teamMeeting": "/software-images/logistics-transportation-software/meeting.jpg",
+    "ledgerOffice": "/software-images/logistics-transportation-software/ledger.jpg"
+  },
+  "motor-market-management-software": {
+    "heroTeam": "/software-images/motor-market-management-software/hero.jpg",
+    "financialReports": "/software-images/motor-market-management-software/reports.jpg",
+    "dashboard": "/software-images/motor-market-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/motor-market-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/motor-market-management-software/ledger.jpg"
+  },
+  "auto-parts-business-software": {
+    "heroTeam": "/software-images/auto-parts-business-software/hero.jpg",
+    "financialReports": "/software-images/auto-parts-business-software/reports.jpg",
+    "dashboard": "/software-images/auto-parts-business-software/dashboard.jpg",
+    "teamMeeting": "/software-images/auto-parts-business-software/meeting.jpg",
+    "ledgerOffice": "/software-images/auto-parts-business-software/ledger.jpg"
+  },
+  "poultry-control-shed-management-software": {
+    "heroTeam": "/software-images/poultry-control-shed-management-software/hero.jpg",
+    "financialReports": "/software-images/poultry-control-shed-management-software/reports.jpg",
+    "dashboard": "/software-images/poultry-control-shed-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/poultry-control-shed-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/poultry-control-shed-management-software/ledger.jpg"
+  },
+  "poultry-chicken-supply-management-software": {
+    "heroTeam": "/software-images/poultry-chicken-supply-management-software/hero.jpg",
+    "financialReports": "/software-images/poultry-chicken-supply-management-software/reports.jpg",
+    "dashboard": "/software-images/poultry-chicken-supply-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/poultry-chicken-supply-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/poultry-chicken-supply-management-software/ledger.jpg"
+  },
+  "poultry-waste-management-software": {
+    "heroTeam": "/software-images/poultry-waste-management-software/hero.jpg",
+    "financialReports": "/software-images/poultry-waste-management-software/reports.jpg",
+    "dashboard": "/software-images/poultry-waste-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/poultry-waste-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/poultry-waste-management-software/ledger.jpg"
+  },
+  "poultry-arhat-software": {
+    "heroTeam": "/software-images/poultry-arhat-software/hero.jpg",
+    "financialReports": "/software-images/poultry-arhat-software/reports.jpg",
+    "dashboard": "/software-images/poultry-arhat-software/dashboard.jpg",
+    "teamMeeting": "/software-images/poultry-arhat-software/meeting.jpg",
+    "ledgerOffice": "/software-images/poultry-arhat-software/ledger.jpg"
+  },
+  "cloud-erp-software-for-agriculture-business": {
+    "heroTeam": "/software-images/cloud-erp-software-for-agriculture-business/hero.jpg",
+    "financialReports": "/software-images/cloud-erp-software-for-agriculture-business/reports.jpg",
+    "dashboard": "/software-images/cloud-erp-software-for-agriculture-business/dashboard.jpg",
+    "teamMeeting": "/software-images/cloud-erp-software-for-agriculture-business/meeting.jpg",
+    "ledgerOffice": "/software-images/cloud-erp-software-for-agriculture-business/ledger.jpg"
+  },
+  "dairy-farm-management-software": {
+    "heroTeam": "/software-images/dairy-farm-management-software/hero.jpg",
+    "financialReports": "/software-images/dairy-farm-management-software/reports.jpg",
+    "dashboard": "/software-images/dairy-farm-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/dairy-farm-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/dairy-farm-management-software/ledger.jpg"
+  },
+  "marble-and-granite-factory-software": {
+    "heroTeam": "/software-images/marble-and-granite-factory-software/hero.jpg",
+    "financialReports": "/software-images/marble-and-granite-factory-software/reports.jpg",
+    "dashboard": "/software-images/marble-and-granite-factory-software/dashboard.jpg",
+    "teamMeeting": "/software-images/marble-and-granite-factory-software/meeting.jpg",
+    "ledgerOffice": "/software-images/marble-and-granite-factory-software/ledger.jpg"
+  },
+  "plastic-pipes-fitting-industry-software": {
+    "heroTeam": "/software-images/plastic-pipes-fitting-industry-software/hero.jpg",
+    "financialReports": "/software-images/plastic-pipes-fitting-industry-software/reports.jpg",
+    "dashboard": "/software-images/plastic-pipes-fitting-industry-software/dashboard.jpg",
+    "teamMeeting": "/software-images/plastic-pipes-fitting-industry-software/meeting.jpg",
+    "ledgerOffice": "/software-images/plastic-pipes-fitting-industry-software/ledger.jpg"
+  },
+  "ceiling-and-wall-paneling-store-software": {
+    "heroTeam": "/software-images/ceiling-and-wall-paneling-store-software/hero.jpg",
+    "financialReports": "/software-images/ceiling-and-wall-paneling-store-software/reports.jpg",
+    "dashboard": "/software-images/ceiling-and-wall-paneling-store-software/dashboard.jpg",
+    "teamMeeting": "/software-images/ceiling-and-wall-paneling-store-software/meeting.jpg",
+    "ledgerOffice": "/software-images/ceiling-and-wall-paneling-store-software/ledger.jpg"
+  },
+  "tiles-and-ceramics-store-software": {
+    "heroTeam": "/software-images/tiles-and-ceramics-store-software/hero.jpg",
+    "financialReports": "/software-images/tiles-and-ceramics-store-software/reports.jpg",
+    "dashboard": "/software-images/tiles-and-ceramics-store-software/dashboard.jpg",
+    "teamMeeting": "/software-images/tiles-and-ceramics-store-software/meeting.jpg",
+    "ledgerOffice": "/software-images/tiles-and-ceramics-store-software/ledger.jpg"
+  },
+  "hardware-sanitary-store-software": {
+    "heroTeam": "/software-images/hardware-sanitary-store-software/hero.jpg",
+    "financialReports": "/software-images/hardware-sanitary-store-software/reports.jpg",
+    "dashboard": "/software-images/hardware-sanitary-store-software/dashboard.jpg",
+    "teamMeeting": "/software-images/hardware-sanitary-store-software/meeting.jpg",
+    "ledgerOffice": "/software-images/hardware-sanitary-store-software/ledger.jpg"
+  },
+  "erp-software-for-real-estate-business": {
+    "heroTeam": "/software-images/erp-software-for-real-estate-business/hero.jpg",
+    "financialReports": "/software-images/erp-software-for-real-estate-business/reports.jpg",
+    "dashboard": "/software-images/erp-software-for-real-estate-business/dashboard.jpg",
+    "teamMeeting": "/software-images/erp-software-for-real-estate-business/meeting.jpg",
+    "ledgerOffice": "/software-images/erp-software-for-real-estate-business/ledger.jpg"
+  },
+  "erp-software-for-construction-business": {
+    "heroTeam": "/software-images/erp-software-for-construction-business/hero.jpg",
+    "financialReports": "/software-images/erp-software-for-construction-business/reports.jpg",
+    "dashboard": "/software-images/erp-software-for-construction-business/dashboard.jpg",
+    "teamMeeting": "/software-images/erp-software-for-construction-business/meeting.jpg",
+    "ledgerOffice": "/software-images/erp-software-for-construction-business/ledger.jpg"
+  },
+  "software-for-visa-immigration-consultants": {
+    "heroTeam": "/software-images/software-for-visa-immigration-consultants/hero.jpg",
+    "financialReports": "/software-images/software-for-visa-immigration-consultants/reports.jpg",
+    "dashboard": "/software-images/software-for-visa-immigration-consultants/dashboard.jpg",
+    "teamMeeting": "/software-images/software-for-visa-immigration-consultants/meeting.jpg",
+    "ledgerOffice": "/software-images/software-for-visa-immigration-consultants/ledger.jpg"
+  },
+  "computers-laptop-business-software": {
+    "heroTeam": "/software-images/computers-laptop-business-software/hero.jpg",
+    "financialReports": "/software-images/computers-laptop-business-software/reports.jpg",
+    "dashboard": "/software-images/computers-laptop-business-software/dashboard.jpg",
+    "teamMeeting": "/software-images/computers-laptop-business-software/meeting.jpg",
+    "ledgerOffice": "/software-images/computers-laptop-business-software/ledger.jpg"
+  },
+  "electronics-management-software": {
+    "heroTeam": "/software-images/electronics-management-software/hero.jpg",
+    "financialReports": "/software-images/electronics-management-software/reports.jpg",
+    "dashboard": "/software-images/electronics-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/electronics-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/electronics-management-software/ledger.jpg"
+  },
+  "electric-store-management-software": {
+    "heroTeam": "/software-images/electric-store-management-software/hero.jpg",
+    "financialReports": "/software-images/electric-store-management-software/reports.jpg",
+    "dashboard": "/software-images/electric-store-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/electric-store-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/electric-store-management-software/ledger.jpg"
+  },
+  "mobile-accessories-business-software": {
+    "heroTeam": "/software-images/mobile-accessories-business-software/hero.jpg",
+    "financialReports": "/software-images/mobile-accessories-business-software/reports.jpg",
+    "dashboard": "/software-images/mobile-accessories-business-software/dashboard.jpg",
+    "teamMeeting": "/software-images/mobile-accessories-business-software/meeting.jpg",
+    "ledgerOffice": "/software-images/mobile-accessories-business-software/ledger.jpg"
+  },
+  "ev-charging-station-management-software": {
+    "heroTeam": "/software-images/ev-charging-station-management-software/hero.jpg",
+    "financialReports": "/software-images/ev-charging-station-management-software/reports.jpg",
+    "dashboard": "/software-images/ev-charging-station-management-software/dashboard.jpg",
+    "teamMeeting": "/software-images/ev-charging-station-management-software/meeting.jpg",
+    "ledgerOffice": "/software-images/ev-charging-station-management-software/ledger.jpg"
+  }
+}
