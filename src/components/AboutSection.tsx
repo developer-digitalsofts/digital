@@ -73,7 +73,7 @@ export function AboutSection() {
     <section
       ref={ref}
       id="about"
-      className={`relative overflow-hidden ${sectionWhite} ${sectionPad}`}
+      className={`relative scroll-mt-28 overflow-hidden ${sectionWhite} ${sectionPad}`}
     >
       <div className={`${pageShellClass} relative`}>
         <div className="grid gap-6 lg:grid-cols-2 lg:items-start lg:gap-8">

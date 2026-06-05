@@ -15,6 +15,7 @@ import {
 } from './PremiumSoftwarePhotos'
 import { pageShellClass } from '../../ui/pageShell'
 import { WHATSAPP_URL } from '../../constants'
+import { CmsLink } from '../CmsLink'
 
 function IconByName({ name, className }: { name: string; className?: string }) {
   const Cmp =
@@ -44,9 +45,9 @@ function HeroSecondaryCta({ label, to }: { label: string; to: string }) {
     )
   }
   return (
-    <Link to={to} className={className}>
+    <CmsLink to={to} className={className}>
       {label}
-    </Link>
+    </CmsLink>
   )
 }
 
@@ -173,13 +174,13 @@ export function PremiumSoftwareDetailView({
                   ))}
                 </div>
                 <div className="mt-8 flex flex-wrap gap-3">
-                  <Link
+                  <CmsLink
                     to={detail.hero.ctaPrimary.to}
                     className="inline-flex min-h-[48px] items-center gap-2 rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-white transition-[background-color,transform] hover:-translate-y-0.5 hover:bg-brand-dark"
                   >
                     {detail.hero.ctaPrimary.label}
                     <ChevronFwd className="size-4" aria-hidden />
-                  </Link>
+                  </CmsLink>
                   <HeroSecondaryCta label={detail.hero.ctaSecondary.label} to={detail.hero.ctaSecondary.to} />
                 </div>
               </div>
@@ -414,13 +415,13 @@ export function PremiumSoftwareDetailView({
                   <p className="mt-3 text-sm leading-relaxed text-slate-600 md:text-base">{cfg.industriesSection.description}</p>
                   <div className="mt-6 flex flex-wrap gap-2">
                     {cfg.industriesSection.items.map((item) => (
-                      <Link
-                        key={item.to}
+                      <CmsLink
+                        key={item.label}
                         to={item.to}
                         className="inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:border-brand hover:text-brand"
                       >
                         {item.label}
-                      </Link>
+                      </CmsLink>
                     ))}
                   </div>
                   <p className="mt-6 rounded-xl border border-dashed border-brand/40 bg-brand/5 px-4 py-3 text-sm font-medium text-slate-800">
@@ -646,13 +647,13 @@ export function PremiumSoftwareDetailView({
                 {detail.hero.intro}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link
+                <CmsLink
                   to={detail.hero.ctaPrimary.to}
-                  className="inline-flex min-h-[48px] items-center gap-2 rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-white  transition-colors hover:bg-brand-dark"
+                  className="inline-flex min-h-[48px] items-center gap-2 rounded-xl bg-brand px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
                 >
                   {detail.hero.ctaPrimary.label}
                   <ChevronFwd className="size-4" aria-hidden />
-                </Link>
+                </CmsLink>
                 <HeroSecondaryCta label={detail.hero.ctaSecondary.label} to={detail.hero.ctaSecondary.to} />
               </div>
             </div>

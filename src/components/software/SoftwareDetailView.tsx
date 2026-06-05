@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { CmsLink } from '../CmsLink'
 import * as Icons from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { ChevronLeft, ChevronRight, MessageCircle, Send } from 'lucide-react'
@@ -80,19 +81,19 @@ export function SoftwareDetailView({ detail, displayName, isModule }: SoftwareDe
                 ))}
               </div>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Link
+                <CmsLink
                   to={detail.hero.ctaPrimary.to}
                   className="inline-flex items-center gap-2 rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
                 >
                   {detail.hero.ctaPrimary.label}
                   <ChevronFwd className="size-4" aria-hidden />
-                </Link>
-                <Link
+                </CmsLink>
+                <CmsLink
                   to={detail.hero.ctaSecondary.to}
                   className="inline-flex items-center rounded-lg border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-800 transition-colors hover:border-brand hover:text-brand"
                 >
                   {detail.hero.ctaSecondary.label}
-                </Link>
+                </CmsLink>
               </div>
             </div>
             <div className="relative mx-auto w-full max-w-lg lg:mx-0 lg:max-w-none">

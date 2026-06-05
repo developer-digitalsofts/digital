@@ -202,9 +202,9 @@ export function Footer() {
                   ))
                 : companyKeys.map((key, i) => (
                     <li key={key}>
-                      <Link to={companyTos[i]} className={footerLink}>
+                      <CmsLink to={companyTos[i]} className={footerLink}>
                         {t(`footer.${key}`)}
-                      </Link>
+                      </CmsLink>
                     </li>
                   ))}
             </ul>

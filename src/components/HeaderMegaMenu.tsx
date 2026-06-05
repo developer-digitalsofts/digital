@@ -26,7 +26,7 @@ export function MegaMenuModulesPanel({ onPick }: { onPick: () => void }) {
                 key={item.slug}
                 to={item.to}
                 onClick={onPick}
-                className="group flex items-center gap-2.5 rounded-lg border border-slate-200 bg-white px-2.5 py-2 outline-none transition-colors duration-200 hover:border-slate-300 hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-brand/35 focus-visible:ring-offset-2 sm:px-3 sm:py-2"
+                className="group flex items-center gap-2.5 rounded-lg border border-slate-200 bg-white px-2.5 py-2 no-underline outline-none transition-colors duration-200 hover:border-slate-300 hover:bg-slate-50 hover:no-underline focus-visible:ring-2 focus-visible:ring-brand/35 focus-visible:ring-offset-2 sm:px-3 sm:py-2"
               >
                 <span
                   className={`flex size-10 shrink-0 items-center justify-center rounded-full transition-transform duration-200 group-hover:scale-105 ${item.iconWrap}`}
@@ -101,7 +101,7 @@ function IndustryCategoryBlock({
               <Link
                 to={link.to}
                 onClick={onPick}
-                className="group flex items-center justify-between gap-2 px-2.5 py-1 text-xs font-medium leading-snug text-slate-700 outline-none transition-colors hover:bg-white hover:text-[#e85b3a] focus-visible:bg-white focus-visible:text-[#e85b3a] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand/20 sm:px-3 sm:py-1.5 sm:text-[13px]"
+                className="group flex items-center justify-between gap-2 px-2.5 py-1 text-xs font-medium leading-snug text-slate-700 no-underline outline-none transition-colors hover:bg-white hover:text-[#e85b3a] hover:no-underline focus-visible:bg-white focus-visible:text-[#e85b3a] focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand/20 sm:px-3 sm:py-1.5 sm:text-[13px]"
               >
                 <span className="min-w-0 flex-1 text-start">
                   {megaIndustryLabel(lang, link.slug, link.labelEn)}

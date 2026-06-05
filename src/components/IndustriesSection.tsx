@@ -58,7 +58,7 @@ export function IndustriesSection() {
     : []
 
   return (
-    <section id="industries" className={`relative ${sectionMuted} ${sectionPadCompact}`}>
+    <section id="industries" className={`relative scroll-mt-28 ${sectionMuted} ${sectionPadCompact}`}>
       <div className={pageShellClass}>
         <ScrollReveal>
           <h2 className={`${sectionTitle} mx-auto max-w-4xl`}>{title}</h2>

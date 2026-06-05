@@ -27,27 +27,27 @@ function TopBar({ header }: { header?: CmsHeader }) {
   const phoneHref = tb?.phoneHref ?? 'tel:+971581174911'
   return (
     <div
-      className="border-b border-white/10 text-[13px] leading-snug text-slate-200 antialiased sm:text-sm"
+      className="border-b border-white/10 text-[11px] leading-snug text-slate-200 antialiased sm:text-[12px]"
       style={{ backgroundColor: BRAND_DEEP_BG }}
     >
-      <div className={`${pageShellClass} flex flex-col gap-1 py-1.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:py-2`}>
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
+      <div className={`${pageShellClass} flex flex-col gap-0.5 py-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:py-1.5`}>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-0.5">
           <a
             href={`mailto:${email}`}
-            className="inline-flex items-center gap-2 text-slate-200 transition-colors hover:text-white"
+            className="inline-flex items-center gap-1.5 text-slate-200 transition-colors hover:text-white"
           >
-            <Mail className="size-3.5 shrink-0 text-brand sm:size-4" aria-hidden />
+            <Mail className="size-3 shrink-0 text-brand sm:size-3.5" aria-hidden />
             <span className="font-medium">{email}</span>
           </a>
-          <span className="hidden h-3.5 w-px bg-white/15 sm:block" aria-hidden />
-          <span className="inline-flex items-center gap-2">
-            <Clock className="size-3.5 shrink-0 text-brand sm:size-4" aria-hidden />
+          <span className="hidden h-3 w-px bg-white/15 sm:block" aria-hidden />
+          <span className="inline-flex items-center gap-1.5">
+            <Clock className="size-3 shrink-0 text-brand sm:size-3.5" aria-hidden />
             <span className="font-medium">{hours}</span>
           </span>
         </div>
         <a
           href={phoneHref}
-          className="shrink-0 font-semibold tracking-tight text-white transition-colors hover:text-slate-100"
+          className="shrink-0 text-[11px] font-semibold tracking-tight text-white transition-colors hover:text-slate-100 sm:text-[12px]"
         >
           {phoneCta} {phoneDisplay}
         </a>
@@ -56,15 +56,15 @@ function TopBar({ header }: { header?: CmsHeader }) {
   )
 }
 
-/** Home / Contact — full underline on hover + active. */
+/** Home / Contact — color only, no hover underline. */
 const navLinkBase =
-  'relative inline-flex items-center gap-1.5 pb-0.5 text-[12px] font-bold uppercase tracking-wide text-[#0f172a] transition-[color] duration-200 after:pointer-events-none after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:rounded-full after:bg-brand after:transition-[width] after:duration-300 ease-out hover:text-brand hover:after:w-full rtl:after:left-auto rtl:after:right-0 lg:text-[13px]'
+  'inline-flex items-center gap-1.5 pb-0.5 text-[12px] font-bold uppercase tracking-wide text-[#0f172a] transition-colors duration-200 hover:text-brand lg:text-[13px]'
 
-/** Module / Industries triggers — underline only when that mega is open (not on hover). */
+/** Module / Industries triggers — color only, no underline on hover or when open. */
 function navMegaTrigger(active: boolean) {
   return [
-    'relative inline-flex items-center gap-1.5 border-0 bg-transparent pb-1 text-[13px] font-bold uppercase tracking-wide transition-colors duration-200 after:pointer-events-none after:absolute after:bottom-0 after:left-0 after:h-0.5 after:rounded-full after:bg-brand after:transition-[width] after:duration-300 rtl:after:left-auto rtl:after:right-0',
-    active ? 'cursor-pointer text-brand after:w-full' : 'cursor-pointer text-[#0f172a] after:w-0 hover:text-brand',
+    'inline-flex items-center gap-1.5 border-0 bg-transparent pb-1 text-[13px] font-bold uppercase tracking-wide transition-colors duration-200',
+    active ? 'cursor-pointer text-brand' : 'cursor-pointer text-[#0f172a] hover:text-brand',
   ].join(' ')
 }
 
@@ -275,7 +275,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                           to={item.href.trim()}
                           end={item.href.trim() === '/'}
                           onClick={closeMega}
-                          className={({ isActive }) => `${navLinkBase} ${isActive ? 'text-brand after:w-full' : ''}`}
+                          className={({ isActive }) => `${navLinkBase} ${isActive ? 'text-brand' : ''}`}
                         >
                           {pick(item.label, lang)}
                         </NavLink>
@@ -291,7 +291,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                       end
                       onClick={closeMega}
                       className={({ isActive }) =>
-                        `${navLinkBase} ${isActive ? 'text-brand after:w-full' : ''}`
+                        `${navLinkBase} ${isActive ? 'text-brand' : ''}`
                       }
                     >
                       {navHome}
@@ -320,7 +320,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                       to="/contact"
                       onClick={closeMega}
                       className={({ isActive }) =>
-                        `${navLinkBase} ${isActive ? 'text-brand after:w-full' : ''}`
+                        `${navLinkBase} ${isActive ? 'text-brand' : ''}`
                       }
                     >
                       {navContact}

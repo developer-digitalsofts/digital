@@ -33,7 +33,7 @@ export function WorkflowCTASection() {
       : 'border-y border-slate-100/90 bg-gradient-to-b from-slate-50/90 via-white to-slate-50/80'
 
   return (
-    <section id="workflow" className={`relative overflow-hidden ${sectionPad} ${bgClass}`}>
+    <section id="workflow" className={`relative scroll-mt-28 overflow-hidden ${sectionPad} ${bgClass}`}>
       <div
         className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-brand/[0.04] to-transparent"
         aria-hidden

@@ -87,7 +87,7 @@ export function ContactPage() {
               <h2 className="font-heading text-base font-bold text-slate-900">{t('contactPage.phoneLabel')}</h2>
               <a
                 href={PHONE_HREF}
-                className="mt-3 inline-flex items-center gap-2 text-base font-semibold text-brand hover:underline"
+                className="mt-3 inline-flex items-center gap-2 text-base font-semibold text-brand transition-colors hover:text-brand-dark"
               >
                 <Phone className="size-5 shrink-0" aria-hidden />
                 {PHONE_DISPLAY}
@@ -96,7 +96,7 @@ export function ContactPage() {
               <h2 className="font-heading mt-6 text-base font-bold text-slate-900">{t('contactPage.emailLabel')}</h2>
               <a
                 href={`mailto:${EMAIL}`}
-                className="mt-3 inline-flex items-center gap-2 break-all text-base font-semibold text-brand hover:underline"
+                className="mt-3 inline-flex items-center gap-2 break-all text-base font-semibold text-brand transition-colors hover:text-brand-dark"
               >
                 <Mail className="size-5 shrink-0" aria-hidden />
                 {EMAIL}
@@ -107,7 +107,7 @@ export function ContactPage() {
                 href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-3 inline-flex items-center gap-2 text-base font-semibold text-[#128C7E] hover:underline"
+                className="mt-3 inline-flex items-center gap-2 text-base font-semibold text-[#128C7E] transition-colors hover:text-[#0d6b5c]"
               >
                 <WhatsAppIcon className="size-5 shrink-0" aria-hidden />
                 {t('contactPage.whatsappAction')}

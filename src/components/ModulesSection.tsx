@@ -63,7 +63,7 @@ export function ModulesSection() {
   return (
     <section
       id="modules"
-      className={`relative overflow-hidden ${sectionWhite} ${sectionPad}`}
+      className={`relative scroll-mt-28 overflow-hidden ${sectionWhite} ${sectionPad}`}
     >
       <div
         className="pointer-events-none absolute left-1/2 top-0 h-40 w-[min(720px,100%)] -translate-x-1/2 rounded-full bg-brand/[0.035] blur-3xl"

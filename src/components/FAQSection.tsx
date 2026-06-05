@@ -48,7 +48,7 @@ export function FAQSection() {
   const [open, setOpen] = useState<number | null>(0)
 
   return (
-    <section id="faqs" className={`${sectionMuted} ${sectionPad}`}>
+    <section id="faqs" className={`scroll-mt-28 ${sectionMuted} ${sectionPad}`}>
       <div className={pageShellClass}>
         <div className="mx-auto w-full max-w-[min(100%,40rem)]">
         <ScrollReveal>
