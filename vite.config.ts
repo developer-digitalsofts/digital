@@ -15,9 +15,12 @@ export default defineConfig({
     },
   },
   preview: {
-    host: '127.0.0.1',
-    port: 5281,
+    host: '0.0.0.0',
+    port: 3010,
     strictPort: false,
+    allowedHosts: [
+      'n133beijjmpnunnf4xb5faqn.s0226.digitalsofts.com',
+    ],
     proxy: {
       '/api': { target: 'http://127.0.0.1:3040', changeOrigin: true },
       '/uploads': { target: 'http://127.0.0.1:3040', changeOrigin: true },
