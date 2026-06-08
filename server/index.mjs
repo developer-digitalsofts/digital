@@ -8,14 +8,23 @@ import jwt from 'jsonwebtoken'
 import multer from 'multer'
 import { nanoid } from 'nanoid'
 import nodemailer from 'nodemailer'
+import { loadEnv } from './loadEnv.mjs'
+
+loadEnv()
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = __dirname
 const DATA_DIR = path.join(ROOT, 'data')
 const UPLOADS_DIR = path.join(ROOT, 'uploads')
+const DIST_DIR = path.join(ROOT, '..', 'dist')
 
 const PORT = Number(process.env.PORT) || 3040
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-only-change-me-in-production'
+const SERVE_STATIC = process.env.SERVE_STATIC === 'true'
+
+if (process.env.NODE_ENV === 'production' && JWT_SECRET === 'dev-only-change-me-in-production') {
+  console.warn('[security] JWT_SECRET is not set — admin tokens are not safe for production')
+}
 
 const DATA_FILES = {
   header: 'header.json',
@@ -1341,6 +1350,14 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ error: 'Server error' })
 })
 
+if (SERVE_STATIC) {
+  app.use(express.static(DIST_DIR))
+  app.get(/^(?!\/api|\/uploads).*/, (_req, res) => {
+    res.sendFile(path.join(DIST_DIR, 'index.html'))
+  })
+}
+
 app.listen(PORT, () => {
   console.log(`CMS API http://localhost:${PORT}`)
+  if (SERVE_STATIC) console.log(`Serving frontend from ${DIST_DIR}`)
 })
