@@ -855,6 +855,102 @@ export function mergePetrolDepotIndustryPage(data: SoftwareDetailPageData): Soft
   }
 }
 
+export function mergePetrolFillingStationIndustryPage(data: SoftwareDetailPageData): SoftwareDetailPageData {
+  const pl = data.premiumLayout
+  if (!pl) return data
+
+  const premiumLayout: SoftwarePremiumPageConfig = {
+    ...baseIndustryTrim(pl),
+    featuresHeading: 'Filling Station Software Modules',
+    featuresLead:
+      'Nozzle sales, tank stock, lubricants, credit customers, and accounts — built for petrol and CNG forecourts.',
+    vouchersSectionEyebrow: 'Petrol & CNG station',
+    challengesHeading: 'Why filling station owners choose DigitalManager',
+    challengesIntro:
+      'Wet-stock dips, nozzle readings, and shift closing need one governed system—not parallel registers and spreadsheets.',
+    challengesListLead: '',
+    challengeBullets: [
+      'Real-time tank and nozzle monitoring',
+      'CNG and petrol sales on one platform',
+      'Credit customer ledger and outstanding balances',
+      'Lubricant and retail shop inventory',
+      'Shift-wise sales and dip reconciliation',
+      'Accounts and tax-ready reporting',
+    ],
+    solutionHeading: 'Forecourt operations under control',
+    solutionParagraphs: [
+      'Manage nozzle sales, tank dips, lubricant inventory, credit customers, shift closing, and financial reporting from one cloud ERP built for petrol and CNG filling stations.',
+    ],
+    heroAsideCaption: 'Petrol and CNG filling station ERP with wet stock, nozzle sales, and accounts.',
+  }
+
+  return {
+    ...data,
+    metaTitle: 'Petrol & CNG Filling Station Software | DigitalManager ERP',
+    metaDescription:
+      'Nozzle sales, tank stock, dips, lubricants, credit sales, and accounts for petrol and CNG filling stations in Pakistan.',
+    premiumLayout,
+    hero: {
+      ...data.hero,
+      headline: 'Petrol & CNG Filling Station Management Software',
+      subhead: 'Nozzle Sales. Tank Stock. Shift Closing. One Platform.',
+      intro:
+        'Cloud ERP for petrol and CNG filling stations — manage nozzle sales, tank dips, lubricant inventory, credit customers, shift closing, and accounts without parallel registers.',
+      trust: [...ENERGY_TRUST],
+      ctaPrimary: { label: 'Get Live Demo', to: '/contact#contact-form' },
+      ctaSecondary: data.hero.ctaSecondary,
+    },
+    features: [
+      {
+        icon: 'Fuel',
+        title: 'Nozzle & CNG Sales',
+        description: 'Forecourt sales, bulk dispensing, and shift-wise nozzle readings.',
+      },
+      {
+        icon: 'Gauge',
+        title: 'Tank Stock & Dip Reading',
+        description: 'Wet-stock reconciliation, gain/loss, and multi-tank monitoring.',
+      },
+      {
+        icon: 'Store',
+        title: 'Lubricant & Shop Sales',
+        description: 'Lubricant inventory, retail shop billing, and returns.',
+      },
+      {
+        icon: 'Users',
+        title: 'Credit Customer Ledger',
+        description: 'Fleet and dealer credit sales with outstanding balance tracking.',
+      },
+      {
+        icon: 'Landmark',
+        title: 'Accounts & Reporting',
+        description: 'Vouchers, banking, P&L, and shift closing reports.',
+      },
+      {
+        icon: 'BarChart3',
+        title: 'Management Dashboard',
+        description: 'Branch-wise KPIs for sales, stock, and receivables.',
+      },
+    ],
+    vouchersReports: {
+      heading: 'Filling station operations by area',
+      subheading: 'Purchase, sales, inventory, and accounts — representative transactions and reports.',
+      tabs: PETROL_PUMP_TABS,
+    },
+    whyChoose: { ...data.whyChoose, points: [] },
+    realtimeReports: { ...data.realtimeReports, bullets: [] },
+    implementation: [],
+    related: [],
+    seoBlocks: [],
+    faqs: [],
+    demoCta: {
+      ...data.demoCta,
+      heading: 'Want To Try Our Software Or Need A Quotation?',
+      sub: 'Share your email and contact number — we will respond with a tailored walkthrough for your petrol or CNG filling station.',
+    },
+  }
+}
+
 export function mergeFleetFuelIndustryPage(data: SoftwareDetailPageData): SoftwareDetailPageData {
   const pl = data.premiumLayout
   if (!pl) return data

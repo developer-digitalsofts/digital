@@ -14,6 +14,7 @@ import {
   PremiumTeamMeetingPhoto,
 } from './PremiumSoftwarePhotos'
 import { pageShellClass } from '../../ui/pageShell'
+import { cardDesc, cardInteractive, cardTitle, detailCardStatic, iconBoxLg } from '../../ui/saas'
 import { WHATSAPP_URL } from '../../constants'
 import { CmsLink } from '../CmsLink'
 
@@ -23,7 +24,8 @@ function IconByName({ name, className }: { name: string; className?: string }) {
   return <Cmp className={className} aria-hidden />
 }
 
-const IMPL_ICON_WRAP = 'border border-brand/15 bg-brand/[0.08] text-brand'
+const DETAIL_FEATURE_CARD = `${cardInteractive} flex h-full flex-col p-6`
+const DETAIL_PANEL_CARD = detailCardStatic
 
 type Props = {
   detail: SoftwareDetailPageData
@@ -159,7 +161,7 @@ export function PremiumSoftwareDetailView({
 
             <div className="grid gap-9 lg:grid-cols-[minmax(0,1.02fr)_minmax(420px,0.98fr)] lg:items-center lg:gap-12">
               <div>
-                <p className="inline-flex rounded-full border border-brand/15 bg-white/80 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-brand shadow-[0_4px_14px_rgba(15,23,42,0.04)]">
+                <p className="inline-flex rounded-full border border-brand/15 bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-brand">
                   {detail.hero.eyebrow}
                 </p>
                 <h1 className="mt-4 max-w-3xl font-heading text-3xl font-bold leading-[1.05] tracking-tight text-slate-950 sm:text-4xl lg:text-[3rem]">
@@ -194,11 +196,11 @@ export function PremiumSoftwareDetailView({
               {detail.hero.trust.map((stat) => (
                 <article
                   key={stat.label}
-                  className="rounded-2xl border border-slate-200/80 bg-white/85 p-4 text-center shadow-[0_4px_14px_rgba(15,23,42,0.04)] backdrop-blur"
+                  className="rounded-2xl border border-slate-200/90 bg-white p-5 text-center"
                 >
                   {stat.icon ? (
-                    <div className="mx-auto mb-2 flex size-10 items-center justify-center rounded-xl border border-brand/15 bg-brand/[0.08] text-brand">
-                      <IconByName name={stat.icon} className="size-5" />
+                    <div className={`${iconBoxLg} mx-auto mb-3`}>
+                      <IconByName name={stat.icon} className="size-7" />
                     </div>
                   ) : null}
                   <p className="font-heading text-xl font-bold text-slate-950 md:text-2xl">{stat.value}</p>
@@ -218,17 +220,14 @@ export function PremiumSoftwareDetailView({
               </h2>
               <p className="mt-3 text-sm leading-relaxed text-slate-600 md:text-base">{cfg.featuresLead}</p>
             </div>
-            <div className="mt-8 grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {detail.features.map((feature) => (
-                <article
-                  key={feature.title}
-                  className="group flex h-full flex-col rounded-2xl border border-slate-200 bg-[#fefefe] p-5 shadow-[0_4px_14px_rgba(15,23,42,0.04)] transition-[border-color,transform] hover:-translate-y-0.5 hover:border-slate-300"
-                >
-                  <div className="flex size-11 items-center justify-center rounded-xl border border-brand/15 bg-brand/[0.08] text-brand">
-                    <IconByName name={feature.icon} className="size-5" />
+            <div className="mt-8 grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+              {detail.features.slice(0, 6).map((feature) => (
+                <article key={feature.title} className={DETAIL_FEATURE_CARD}>
+                  <div className={iconBoxLg}>
+                    <IconByName name={feature.icon} className="size-7" />
                   </div>
-                  <h3 className="mt-4 font-heading text-base font-bold text-slate-950">{feature.title}</h3>
-                  <p className="mt-2 flex-1 text-sm leading-[1.65] text-slate-600">{feature.description}</p>
+                  <h3 className={`${cardTitle} mt-5 line-clamp-2`}>{feature.title}</h3>
+                  <p className={`${cardDesc} line-clamp-3`}>{feature.description}</p>
                 </article>
               ))}
             </div>
@@ -246,10 +245,10 @@ export function PremiumSoftwareDetailView({
             </div>
 
             <div className="mt-8 grid gap-4 lg:grid-cols-3">
-              <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_4px_14px_rgba(15,23,42,0.04)] md:p-6">
-                <div className="flex items-center gap-3">
-                  <span className="flex size-11 items-center justify-center rounded-xl border border-brand/15 bg-brand/[0.08] text-brand">
-                    <IconByName name="AlertTriangle" className="size-5" />
+              <article className={DETAIL_PANEL_CARD}>
+                <div className="flex items-center gap-4">
+                  <span className={iconBoxLg}>
+                    <IconByName name="AlertTriangle" className="size-7" />
                   </span>
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-brand">{ui.problem}</p>
@@ -258,7 +257,7 @@ export function PremiumSoftwareDetailView({
                 </div>
                 <p className="mt-4 text-sm leading-relaxed text-slate-600">{cfg.challengesIntro}</p>
                 <ul className="mt-5 space-y-2.5">
-                  {cfg.challengeBullets.map((item) => (
+                  {cfg.challengeBullets.slice(0, 6).map((item) => (
                     <li key={item} className="flex gap-2.5 text-sm leading-snug text-slate-700">
                       <IconByName name="CheckCircle2" className="mt-0.5 size-4 shrink-0 text-brand" />
                       <span>{item}</span>
@@ -267,10 +266,10 @@ export function PremiumSoftwareDetailView({
                 </ul>
               </article>
 
-              <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_4px_14px_rgba(15,23,42,0.04)] md:p-6">
-                <div className="flex items-center gap-3">
-                  <span className="flex size-11 items-center justify-center rounded-xl border border-brand/15 bg-brand/[0.08] text-brand">
-                    <IconByName name="ReceiptText" className="size-5" />
+              <article className={DETAIL_PANEL_CARD}>
+                <div className="flex items-center gap-4">
+                  <span className={iconBoxLg}>
+                    <IconByName name="ReceiptText" className="size-7" />
                   </span>
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-brand">{ui.transactions}</p>
@@ -290,10 +289,10 @@ export function PremiumSoftwareDetailView({
                 </ul>
               </article>
 
-              <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_4px_14px_rgba(15,23,42,0.04)] md:p-6">
-                <div className="flex items-center gap-3">
-                  <span className="flex size-11 items-center justify-center rounded-xl border border-brand/15 bg-brand/[0.08] text-brand">
-                    <IconByName name="BarChart3" className="size-5" />
+              <article className={DETAIL_PANEL_CARD}>
+                <div className="flex items-center gap-4">
+                  <span className={iconBoxLg}>
+                    <IconByName name="BarChart3" className="size-7" />
                   </span>
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-brand">{ui.reporting}</p>
@@ -447,10 +446,10 @@ export function PremiumSoftwareDetailView({
                 {detail.implementation.map((step, idx) => (
                   <li
                     key={step.title}
-                    className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_4px_14px_rgba(15,23,42,0.04)] transition-[border-color,transform] hover:-translate-y-0.5 hover:border-slate-300"
+                    className={`${cardInteractive} p-6`}
                   >
-                    <div className={`mb-4 flex size-12 items-center justify-center rounded-xl ${IMPL_ICON_WRAP}`}>
-                      <IconByName name={step.icon} className="size-6 text-brand" />
+                    <div className={`${iconBoxLg} mb-5`}>
+                      <IconByName name={step.icon} className="size-7 text-brand" />
                     </div>
                     <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
                       {t('softwareDetail.stepLabel')} {idx + 1}
@@ -601,7 +600,7 @@ export function PremiumSoftwareDetailView({
                 {detail.faqs.map((faq) => (
                   <details
                     key={faq.q}
-                    className="group rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-[0_4px_14px_rgba(15,23,42,0.04)] transition-colors open:border-brand/30 md:px-5 md:py-4"
+                    className={`${cardInteractive} px-5 py-4 open:border-brand/30 md:px-6 md:py-5`}
                   >
                     <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-bold text-slate-950 md:text-base [&::-webkit-details-marker]:hidden">
                       <span>{faq.q}</span>
@@ -643,8 +642,9 @@ export function PremiumSoftwareDetailView({
                 {detail.hero.headline}
               </h1>
               <p className="mt-3 text-lg font-semibold text-slate-800 md:text-xl">{detail.hero.subhead}</p>
-              <p className="mt-4 max-w-xl text-pretty whitespace-pre-line text-base leading-relaxed text-slate-600 md:text-[1.05rem]">
-                {detail.hero.intro}
+              <p className="mt-4 max-w-xl text-pretty text-base leading-relaxed text-slate-600 md:text-[1.05rem]">
+                {(detail.hero.intro.split(/\n+/).map((p) => p.trim()).filter(Boolean)[0] ?? detail.hero.intro).slice(0, 420)}
+                {(detail.hero.intro.split(/\n+/).map((p) => p.trim()).filter(Boolean)[0] ?? detail.hero.intro).length > 420 ? '…' : ''}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <CmsLink
@@ -700,18 +700,18 @@ export function PremiumSoftwareDetailView({
         <div className={pageShellClass}>
           <h2 className="font-heading text-2xl font-bold text-slate-900 md:text-3xl">{cfg.featuresHeading}</h2>
           <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-600 md:text-base">{cfg.featuresLead}</p>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            {detail.features.map((f) => (
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {detail.features.slice(0, 6).map((f) => (
               <article
                 key={f.title}
-                className="flex gap-4 rounded-2xl border border-slate-200 bg-slate-50/50 p-5 transition-shadow hover:border-slate-300 hover:border-slate-300 md:p-6"
+                className={`${cardInteractive} flex gap-4 p-6 md:gap-5`}
               >
-                <div className="flex size-12 shrink-0 items-center justify-center rounded-xl border border-brand/15 bg-brand/[0.08] text-brand">
-                  <IconByName name={f.icon} className="size-6 text-brand" />
+                <div className={`${iconBoxLg} shrink-0`}>
+                  <IconByName name={f.icon} className="size-7 text-brand" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="font-heading text-base font-bold text-slate-900">{f.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{f.description}</p>
+                  <h3 className={`${cardTitle} line-clamp-2`}>{f.title}</h3>
+                  <p className={`${cardDesc} line-clamp-3`}>{f.description}</p>
                 </div>
               </article>
             ))}
@@ -743,7 +743,7 @@ export function PremiumSoftwareDetailView({
               ))}
             </div>
             <ul className="mt-2 divide-y divide-slate-100">
-              {activeTab.items.map((it) => (
+              {activeTab.items.slice(0, 6).map((it) => (
                 <li key={it.name} className="px-1 py-3 sm:px-2">
                   <div className="flex items-start gap-3">
                     <FileText className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden />
@@ -772,7 +772,7 @@ export function PremiumSoftwareDetailView({
               ) : null}
               {cfg.challengeBullets.length > 0 ? (
                 <ol className="mt-4 space-y-2.5 text-sm leading-relaxed text-slate-700">
-                  {cfg.challengeBullets.map((b, i) => (
+                  {cfg.challengeBullets.slice(0, 6).map((b, i) => (
                     <li key={b} className="flex gap-3">
                       <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-brand/15 text-xs font-bold text-brand">
                         {i + 1}
@@ -888,12 +888,10 @@ export function PremiumSoftwareDetailView({
               {detail.implementation.map((step, i) => (
                 <li
                   key={step.title}
-                  className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 "
+                  className={`${cardInteractive} relative overflow-hidden p-6`}
                 >
-                  <div
-                    className={`mb-4 flex size-12 items-center justify-center rounded-xl ${IMPL_ICON_WRAP}`}
-                  >
-                    <IconByName name={step.icon} className="size-6 text-brand" />
+                  <div className={`${iconBoxLg} mb-5`}>
+                    <IconByName name={step.icon} className="size-7 text-brand" />
                   </div>
                   <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
                     {t('softwareDetail.stepLabel')} {i + 1}

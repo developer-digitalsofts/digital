@@ -1,28 +1,17 @@
-import { Link } from 'react-router-dom'
-import { ArrowUpRight } from 'lucide-react'
+import { useMemo, useState } from 'react'
+import { ChevronDown } from 'lucide-react'
 import { industryProgrammeCards } from '../data/industryProgrammeCards'
 import { useI18n } from '../i18n/I18nProvider'
 import { useCms } from '../cms/CmsContext'
 import { pick } from '../cms/pick'
 import type { Bilingual } from '../cms/types'
 import { LucideByName } from '../utils/lucideFromName'
-import { CmsLink } from './CmsLink'
 import { pageShellClass } from '../ui/pageShell'
 import { ScrollReveal } from './ScrollReveal'
-import {
-  cardDesc,
-  cardFooter,
-  cardTitle,
-  iconBox,
-  iconGlyph,
-  industryCard,
-  linkAccent,
-  sectionMuted,
-  sectionContentTop,
-  sectionPadCompact,
-  sectionSubCenter,
-  sectionTitle,
-} from '../ui/saas'
+import { PremiumFeatureCard } from './PremiumFeatureCard'
+import { btnSecondary, sectionContentTop, sectionPad, sectionSubCenter, sectionTitle } from '../ui/saas'
+
+const INITIAL_VISIBLE = 6
 
 type IndItem = {
   id: string
@@ -46,6 +35,7 @@ export function IndustriesSection() {
   const { t, lang } = useI18n()
   const { data } = useCms()
   const block = data?.industries as IndCms | undefined
+  const [expanded, setExpanded] = useState(false)
 
   const title = block?.title ? pick(block.title, lang) : t('industryBlock.title')
   const sub = block?.subtitle ? pick(block.subtitle, lang) : t('industryBlock.sub')
@@ -57,76 +47,83 @@ export function IndustriesSection() {
         .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
     : []
 
+  const allCards = useMemo(() => {
+    if (cmsItems.length > 0) {
+      return cmsItems.map((item) => ({
+        key: item.id,
+        title: item.title ? pick(item.title, lang) : '',
+        description: item.description ? pick(item.description, lang) : '',
+        to: item.href?.trim() || '/',
+        eyebrow: item.category ? pick(item.category, lang) : undefined,
+        useCmsLink: true as const,
+        icon: <LucideByName name={item.icon} strokeWidth={1.75} />,
+      }))
+    }
+    return industryProgrammeCards.map((item) => ({
+      key: item.cardKey,
+      title: t(`industryBlock.card.${item.cardKey}.title`),
+      description: t(`industryBlock.card.${item.cardKey}.desc`),
+      to: item.exploreTo,
+      eyebrow: t(`industryBlock.card.${item.cardKey}.cat`),
+      useCmsLink: false as const,
+      icon: <item.icon strokeWidth={1.75} aria-hidden />,
+    }))
+  }, [cmsItems, lang, t])
+
+  const hasMore = allCards.length > INITIAL_VISIBLE
+  const visibleCards = expanded ? allCards : allCards.slice(0, INITIAL_VISIBLE)
+
   return (
-    <section id="industries" className={`relative scroll-mt-28 ${sectionMuted} ${sectionPadCompact}`}>
-      <div className={pageShellClass}>
-        <ScrollReveal>
-          <h2 className={`${sectionTitle} mx-auto max-w-4xl`}>{title}</h2>
+    <section
+      id="industries"
+      className={`relative scroll-mt-28 overflow-hidden border-y border-slate-200/50 bg-gradient-to-b from-slate-50/50 via-white to-white ${sectionPad}`}
+    >
+      <div
+        className="pointer-events-none absolute right-0 top-0 h-48 w-[min(480px,70%)] rounded-full bg-brand/[0.03] blur-3xl"
+        aria-hidden
+      />
+
+      <div className={`${pageShellClass} relative`}>
+        <ScrollReveal className="mx-auto max-w-4xl text-center">
+          <h2 className={sectionTitle}>{title}</h2>
           <p className={sectionSubCenter}>{sub}</p>
         </ScrollReveal>
 
         <div
-          className={`${sectionContentTop} grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5`}
+          className={`${sectionContentTop} grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6`}
         >
-          {cmsItems.length > 0
-            ? cmsItems.map((item, i) => {
-                const to = item.href?.trim() || '/'
-                return (
-                  <ScrollReveal key={item.id} delayMs={i * 90}>
-                    <article className={industryCard}>
-                      <div className="flex items-start gap-3">
-                        <div className={iconBox}>
-                          <LucideByName name={item.icon} className={iconGlyph} strokeWidth={2} />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          {item.category ? (
-                            <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">
-                              {pick(item.category, lang)}
-                            </p>
-                          ) : null}
-                          <h3 className={`${cardTitle} ${item.category ? 'mt-0.5' : ''}`}>
-                            {item.title ? pick(item.title, lang) : ''}
-                          </h3>
-                        </div>
-                      </div>
-                      <p className={cardDesc}>{item.description ? pick(item.description, lang) : ''}</p>
-                      <div className={cardFooter}>
-                        <CmsLink to={to} className={linkAccent}>
-                          {explore}
-                          <ArrowUpRight className="size-4" aria-hidden />
-                        </CmsLink>
-                      </div>
-                    </article>
-                  </ScrollReveal>
-                )
-              })
-            : industryProgrammeCards.map((item, i) => (
-                <ScrollReveal key={item.cardKey} delayMs={i * 90}>
-                  <article className={industryCard}>
-                    <div className="flex items-start gap-3">
-                      <div className={iconBox}>
-                        <item.icon className={iconGlyph} strokeWidth={2} aria-hidden />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-[11px] font-medium uppercase tracking-wider text-slate-500">
-                          {t(`industryBlock.card.${item.cardKey}.cat`)}
-                        </p>
-                        <h3 className={`${cardTitle} mt-0.5`}>
-                          {t(`industryBlock.card.${item.cardKey}.title`)}
-                        </h3>
-                      </div>
-                    </div>
-                    <p className={cardDesc}>{t(`industryBlock.card.${item.cardKey}.desc`)}</p>
-                    <div className={cardFooter}>
-                      <Link to={item.exploreTo} className={linkAccent}>
-                        {t('industryBlock.explore')}
-                        <ArrowUpRight className="size-4" aria-hidden />
-                      </Link>
-                    </div>
-                  </article>
-                </ScrollReveal>
-              ))}
+          {visibleCards.map((item, i) => (
+            <ScrollReveal key={item.key} delayMs={i * 60}>
+              <PremiumFeatureCard
+                title={item.title}
+                description={item.description}
+                exploreLabel={explore}
+                to={item.to}
+                eyebrow={item.eyebrow}
+                useCmsLink={item.useCmsLink}
+                icon={item.icon}
+                variant="industry"
+              />
+            </ScrollReveal>
+          ))}
         </div>
+
+        {hasMore ? (
+          <div className="mt-8 flex justify-center">
+            <button
+              type="button"
+              className={`${btnSecondary} gap-2`}
+              aria-expanded={expanded}
+              onClick={() => setExpanded((v) => !v)}
+            >
+              {expanded ? t('industryBlock.showLess') : t('industryBlock.showMore')}
+              <ChevronDown
+                className={`size-4 shrink-0 text-brand transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
+                aria-hidden
+              />
+            </button>
+          </div>
+        ) : null}
       </div>
     </section>
   )

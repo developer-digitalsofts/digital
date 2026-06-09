@@ -3,8 +3,8 @@
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-heading: 'Sora', 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --color-brand: #ea6f4f;
-  --color-brand-dark: #cf5d40;
+  --color-brand: #f47c4d;
+  --color-brand-dark: #e06840;
   --color-brand-deep: #141d38;
   --color-cream: #fdf9f6;
   --color-cream-dark: #fbf5ef;
@@ -21,8 +21,8 @@ html {
 body {
   margin: 0;
   font-family: var(--font-sans);
-  font-size: 0.9375rem;
-  line-height: var(--leading-body);
+  font-size: 1rem;
+  line-height: 1.6;
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -173,20 +173,9 @@ html[dir='rtl'] .text-start {
   z-index: 0;
   border-radius: 1.25rem;
   background:
-    radial-gradient(ellipse 70% 55% at 50% 45%, rgba(234, 111, 79, 0.16), transparent 68%),
+    radial-gradient(ellipse 70% 55% at 50% 45%, rgba(244, 124, 77, 0.14), transparent 68%),
     radial-gradient(ellipse 90% 70% at 50% 100%, rgba(148, 163, 184, 0.12), transparent 72%);
   pointer-events: none;
-}
-
-.hero-mockup-stage::after {
-  content: '';
-  position: absolute;
-  inset: 10% 8%;
-  z-index: 0;
-  border-radius: 1rem;
-  box-shadow: 0 28px 64px -24px rgba(234, 111, 79, 0.22);
-  pointer-events: none;
-  opacity: 0.75;
 }
 
 .hero-mockup-float {
@@ -194,6 +183,13 @@ html[dir='rtl'] .text-start {
   z-index: 1;
   animation: float-dashboard 6.5s ease-in-out infinite;
   will-change: transform;
+}
+
+.hero-mockup-frame {
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: none;
 }
 
 .cta-glass-panel {
@@ -205,10 +201,93 @@ html[dir='rtl'] .text-start {
   );
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow:
-    0 16px 48px -24px rgba(234, 111, 79, 0.22),
-    0 0 0 1px rgba(15, 23, 42, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+}
+
+/* Full-width homepage CTA banners */
+.cta-banner {
+  position: relative;
+  isolation: isolate;
+}
+
+.cta-banner__bg {
+  transform: scale(1.02);
+}
+
+.cta-banner__overlay {
+  background: linear-gradient(
+    112deg,
+    rgba(10, 10, 12, 0.78) 0%,
+    rgba(10, 10, 12, 0.68) 45%,
+    rgba(10, 10, 12, 0.58) 100%
+  );
+}
+
+.cta-banner--overlay-45 .cta-banner__overlay {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.cta-banner--overlay-40 .cta-banner__overlay {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.cta-banner--overlay-55 .cta-banner__overlay {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+/* Legacy boxed CTA panels (unused on homepage banners) */
+.cta-panel-visual {
+  position: relative;
+  isolation: isolate;
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  background-color: #ffffff;
+}
+
+.cta-panel-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url('/software-images/accounts-management-software/dashboard.jpg');
+  background-size: cover;
+  background-position: 72% center;
+  opacity: 0.09;
+  pointer-events: none;
+}
+
+.cta-panel-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(
+      118deg,
+      rgba(255, 255, 255, 0.97) 0%,
+      rgba(255, 252, 250, 0.94) 38%,
+      rgba(255, 243, 237, 0.9) 72%,
+      rgba(255, 236, 228, 0.86) 100%
+    ),
+    repeating-linear-gradient(
+      -12deg,
+      transparent,
+      transparent 31px,
+      rgba(234, 111, 79, 0.03) 31px,
+      rgba(234, 111, 79, 0.03) 32px
+    );
+  pointer-events: none;
+}
+
+.cta-panel-visual--workflow::before {
+  background-image: url('/software-images/retail-management-software/dashboard.jpg');
+  background-position: 65% center;
+  opacity: 0.1;
+}
+
+.cta-panel-visual--final::before {
+  background-image: url('/software-images/inventory-management-software/dashboard.jpg');
+  background-position: 60% center;
+  opacity: 0.09;
 }
 
 .animate-float-delayed {

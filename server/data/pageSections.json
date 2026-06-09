@@ -2,7 +2,7 @@
   "sections": [
     { "id": "topBar", "name": "Header top bar", "visible": true, "sortOrder": 0 },
     { "id": "hero", "name": "Hero", "visible": true, "sortOrder": 1 },
-    { "id": "stats", "name": "Stats", "visible": true, "sortOrder": 2 },
+    { "id": "stats", "name": "Stats", "visible": false, "sortOrder": 2 },
     { "id": "about", "name": "About", "visible": true, "sortOrder": 3 },
     { "id": "valueChain", "name": "Features / Value chain", "visible": true, "sortOrder": 4 },
     { "id": "modules", "name": "ERP module ecosystem", "visible": true, "sortOrder": 5 },

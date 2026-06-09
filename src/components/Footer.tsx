@@ -64,7 +64,7 @@ function FooterBrandLogo({ src }: { src: string }) {
   return (
     <Link
       to="/"
-      className="relative inline-block aspect-[274/62] h-11 max-w-[min(280px,85vw)] shrink-0 transition-opacity duration-200 hover:opacity-90 sm:h-12 md:h-[3.25rem]"
+      className="relative inline-block aspect-[274/62] h-12 max-w-[min(300px,85vw)] shrink-0 transition-opacity duration-200 hover:opacity-90 sm:h-[3.25rem] md:h-14"
       aria-label="DigitalManager"
     >
       <img
@@ -141,17 +141,17 @@ export function Footer() {
       style={{ backgroundColor: BRAND_DEEP_BG }}
     >
       <div className={`${pageShellClass} ${footerPad}`}>
-        <div className="grid gap-6 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-6 lg:gap-x-8">
+        <div className="grid gap-8 sm:grid-cols-2 sm:gap-x-8 lg:grid-cols-6 lg:gap-x-10">
           <div className="sm:col-span-2 lg:col-span-2">
             <FooterBrandLogo src={logo} />
-            <p className="mt-3 max-w-sm text-pretty text-[13px] leading-[1.6] text-slate-300/95">{tagline}</p>
-            <div className="mt-4 flex gap-2.5">
+            <p className="mt-4 max-w-md text-pretty text-[0.9375rem] leading-[1.7] text-slate-300">{tagline}</p>
+            <div className="mt-5 flex gap-2.5">
               <FooterSocialLinks items={f?.social} />
             </div>
           </div>
           <div>
             <h3 className={footerColTitle}>{colP}</h3>
-            <ul className="mt-3 space-y-1.5">
+            <ul className="mt-4 space-y-2">
               {productRows.length
                 ? productRows.map((row) => (
                     <li key={row.id}>
@@ -171,7 +171,7 @@ export function Footer() {
           </div>
           <div>
             <h3 className={footerColTitle}>{colI}</h3>
-            <ul className="mt-3 space-y-1.5">
+            <ul className="mt-4 space-y-2">
               {industryRows.length
                 ? industryRows.map((row) => (
                     <li key={row.id}>
@@ -191,7 +191,7 @@ export function Footer() {
           </div>
           <div>
             <h3 className={footerColTitle}>{colC}</h3>
-            <ul className="mt-3 space-y-1.5">
+            <ul className="mt-4 space-y-2">
               {companyRows.length
                 ? companyRows.map((row) => (
                     <li key={row.id}>
@@ -211,7 +211,7 @@ export function Footer() {
           </div>
           <div className="sm:col-span-2 lg:col-span-1">
             <h3 className={footerColTitle}>{colContact}</h3>
-            <ul className="mt-3 space-y-2.5 text-[13px] leading-snug text-slate-300/95">
+            <ul className="mt-4 space-y-3 text-sm leading-relaxed text-slate-300/95">
               <li className="flex gap-2">
                 <MapPin className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden />
                 <span>{addr}</span>
@@ -239,7 +239,7 @@ export function Footer() {
             </ul>
           </div>
         </div>
-        <div className="mt-8 flex flex-col items-center justify-between gap-3 border-t border-white/10 pt-6 text-center text-[13px] leading-snug text-slate-400 sm:flex-row sm:text-left">
+        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-7 text-center text-sm leading-relaxed text-slate-400 sm:flex-row sm:text-left">
           <p>{copyrightText}</p>
           <div className="flex flex-wrap justify-center gap-4 sm:justify-end sm:gap-6">
             <a href={privacyHref} className="hover:text-brand">

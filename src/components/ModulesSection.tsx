@@ -1,23 +1,16 @@
-import { Link } from 'react-router-dom'
-import { ArrowUpRight, Sparkles } from 'lucide-react'
+import { Sparkles } from 'lucide-react'
 import { moduleExplorerCards } from '../data/moduleExplorerCards'
 import { useI18n } from '../i18n/I18nProvider'
 import { useCms } from '../cms/CmsContext'
 import { pick } from '../cms/pick'
 import type { Bilingual } from '../cms/types'
 import { LucideByName } from '../utils/lucideFromName'
-import { CmsLink } from './CmsLink'
 import { pageShellClass } from '../ui/pageShell'
 import { ScrollReveal } from './ScrollReveal'
+import { PremiumFeatureCard } from './PremiumFeatureCard'
 import {
   badgePill,
-  cardDesc,
-  cardFooter,
-  cardTitle,
-  iconBox,
   iconGlyph,
-  linkAccent,
-  moduleCard,
   sectionContentTop,
   sectionPad,
   sectionSubCenter,
@@ -80,60 +73,39 @@ export function ModulesSection() {
           <p className={`${sectionSubCenter} text-slate-600`}>{sub}</p>
         </ScrollReveal>
 
-        <div className={`${sectionContentTop} grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5`}>
+        <div
+          className={`${sectionContentTop} mx-auto grid max-w-[72rem] auto-rows-fr grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6`}
+        >
           {cmsItems.length > 0
             ? cmsItems.map((m, i) => {
                 const to = m.href?.trim() || '/'
                 const badgeText = m.badge ? pick(m.badge, lang) : ''
                 return (
                   <ScrollReveal key={m.id} delayMs={i * 70}>
-                  <article className={moduleCard}>
-                    <div className="relative flex items-start justify-between gap-3">
-                      <span className={iconBox}>
-                        <LucideByName name={m.icon} className={iconGlyph} strokeWidth={2} />
-                      </span>
-                      {badgeText ? (
-                        <span className="rounded-full border border-brand/15 bg-brand/[0.06] px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-brand-dark">
-                          {badgeText}
-                        </span>
-                      ) : null}
-                    </div>
-
-                    <h3 className={`${cardTitle} mt-4`}>{m.title ? pick(m.title, lang) : ''}</h3>
-                    <p className={cardDesc}>{m.description ? pick(m.description, lang) : ''}</p>
-
-                    <div className={cardFooter}>
-                      <CmsLink to={to} className={linkAccent}>
-                        {explore}
-                        <ArrowUpRight className="size-4" aria-hidden />
-                      </CmsLink>
-                    </div>
-                  </article>
+                    <PremiumFeatureCard
+                      title={m.title ? pick(m.title, lang) : ''}
+                      description={m.description ? pick(m.description, lang) : ''}
+                      exploreLabel={explore}
+                      to={to}
+                      eyebrow={badgeText || undefined}
+                      useCmsLink
+                      icon={<LucideByName name={m.icon} strokeWidth={1.75} />}
+                    />
                   </ScrollReveal>
                 )
               })
             : moduleExplorerCards.map((m, i) => (
                 <ScrollReveal key={m.slug} delayMs={i * 70}>
-                <article className={moduleCard}>
-                  <div className="relative flex items-start justify-between gap-3">
-                    <span className={iconBox}>
-                      <m.icon className={iconGlyph} strokeWidth={2} aria-hidden />
-                    </span>
-                    <span className="rounded-full border border-brand/15 bg-brand/[0.06] px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-brand-dark">
-                      {m.badge === 'core' ? t('moduleBlock.badgeCore') : t('moduleBlock.badgePopular')}
-                    </span>
-                  </div>
-
-                  <h3 className={`${cardTitle} mt-4`}>{t(`moduleBlock.card.${m.slug}.title`)}</h3>
-                  <p className={cardDesc}>{t(`moduleBlock.card.${m.slug}.desc`)}</p>
-
-                  <div className={cardFooter}>
-                    <Link to={m.to} className={linkAccent}>
-                      {t('moduleBlock.explore')}
-                      <ArrowUpRight className="size-4" aria-hidden />
-                    </Link>
-                  </div>
-                </article>
+                  <PremiumFeatureCard
+                    title={t(`moduleBlock.card.${m.slug}.title`)}
+                    description={t(`moduleBlock.card.${m.slug}.desc`)}
+                    exploreLabel={t('moduleBlock.explore')}
+                    to={m.to}
+                    eyebrow={
+                      m.badge === 'core' ? t('moduleBlock.badgeCore') : t('moduleBlock.badgePopular')
+                    }
+                    icon={<m.icon strokeWidth={1.75} aria-hidden />}
+                  />
                 </ScrollReveal>
               ))}
         </div>

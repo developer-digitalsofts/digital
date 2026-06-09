@@ -4,19 +4,9 @@ import { pick } from '../cms/pick'
 import type { Bilingual } from '../cms/types'
 import { LucideByName } from '../utils/lucideFromName'
 import { ScrollReveal } from './ScrollReveal'
+import { EnterpriseIconCard } from './EnterpriseIconCard'
 import { pageShellClass } from '../ui/pageShell'
-import {
-  cardDesc,
-  cardTitle,
-  featureCard,
-  iconBox,
-  iconGlyph,
-  sectionContentTop,
-  sectionMuted,
-  sectionPad,
-  sectionSubCenter,
-  sectionTitle,
-} from '../ui/saas'
+import { sectionContentTop, sectionMuted, sectionPad, sectionSubCenter, sectionTitle } from '../ui/saas'
 
 import {
   Activity,
@@ -72,28 +62,28 @@ export function ValueChainSection() {
           <h2 className={`${sectionTitle} mx-auto max-w-4xl`}>{title}</h2>
           <p className={sectionSubCenter}>{sub}</p>
         </ScrollReveal>
-        <div className={`${sectionContentTop} grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5`}>
+        <div
+          className={`${sectionContentTop} grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6`}
+        >
           {cmsCards.length > 0
             ? cmsCards.map((c, i) => (
                 <ScrollReveal key={c.id} delayMs={i * 80}>
-                <article className={featureCard}>
-                  <div className={iconBox}>
-                    <LucideByName name={c.icon} className={iconGlyph} strokeWidth={2} />
-                  </div>
-                  <h3 className={`${cardTitle} mt-4`}>{c.title ? pick(c.title, lang) : ''}</h3>
-                  <p className={cardDesc}>{c.description ? pick(c.description, lang) : ''}</p>
-                </article>
+                  <EnterpriseIconCard
+                    title={c.title ? pick(c.title, lang) : ''}
+                    description={c.description ? pick(c.description, lang) : ''}
+                    icon={
+                      <LucideByName name={c.icon} strokeWidth={1.75} aria-hidden />
+                    }
+                  />
                 </ScrollReveal>
               ))
             : fallbackCards.map((c, i) => (
                 <ScrollReveal key={c.n} delayMs={i * 80}>
-                <article className={featureCard}>
-                  <div className={iconBox}>
-                    <c.icon className={iconGlyph} strokeWidth={2} aria-hidden />
-                  </div>
-                  <h3 className={`${cardTitle} mt-4`}>{t(`valueChain.c${c.n}t`)}</h3>
-                  <p className={cardDesc}>{t(`valueChain.c${c.n}d`)}</p>
-                </article>
+                  <EnterpriseIconCard
+                    title={t(`valueChain.c${c.n}t`)}
+                    description={t(`valueChain.c${c.n}d`)}
+                    icon={<c.icon strokeWidth={1.75} aria-hidden />}
+                  />
                 </ScrollReveal>
               ))}
         </div>

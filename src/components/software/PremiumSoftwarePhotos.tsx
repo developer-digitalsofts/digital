@@ -26,7 +26,7 @@ function PremiumPhotoFrame({ src, alt, aspectClass, priority = false, className 
           src={imgSrc}
           alt={alt}
           width={1600}
-          height={1200}
+          height={900}
           className="absolute inset-0 size-full object-cover object-center"
           loading={priority ? 'eager' : 'lazy'}
           decoding="async"
@@ -40,77 +40,64 @@ function PremiumPhotoFrame({ src, alt, aspectClass, priority = false, className 
   )
 }
 
-export function PremiumHeroPhoto({ paths, productLabel }: { paths: PremiumPhotoPaths; productLabel: string }) {
+type PhotoProps = {
+  paths: PremiumPhotoPaths
+  productLabel: string
+  className?: string
+}
+
+export function PremiumHeroPhoto({ paths, productLabel, className }: PhotoProps) {
   return (
     <PremiumPhotoFrame
       src={paths.heroTeam}
-      alt={`${productLabel} — business team collaborating with laptops and operational dashboards`}
+      alt={`${productLabel} — industry ERP operations`}
       aspectClass="aspect-[5/4] min-h-[220px] sm:min-h-[260px] md:aspect-[16/11] md:min-h-[280px] lg:max-h-[440px]"
       priority
+      className={className}
     />
   )
 }
 
-export function PremiumFinancialReportsPhoto({
-  paths,
-  productLabel,
-}: {
-  paths: PremiumPhotoPaths
-  productLabel: string
-}) {
+export function PremiumFinancialReportsPhoto({ paths, productLabel, className }: PhotoProps) {
   return (
     <PremiumPhotoFrame
       src={paths.financialReports}
-      alt={`${productLabel} — financial reports and business performance review`}
+      alt={`${productLabel} — analytics and reporting dashboard`}
       aspectClass="aspect-[4/3] sm:aspect-[5/4]"
+      className={className}
     />
   )
 }
 
-export function PremiumDashboardPhoto({
-  paths,
-  productLabel,
-}: {
-  paths: PremiumPhotoPaths
-  productLabel: string
-}) {
+export function PremiumDashboardPhoto({ paths, productLabel, className }: PhotoProps) {
   return (
     <PremiumPhotoFrame
       src={paths.dashboard}
-      alt={`${productLabel} — operations dashboard with KPIs and analytics`}
+      alt={`${productLabel} — ERP management dashboard`}
       aspectClass="aspect-[4/3] sm:aspect-[16/10]"
+      className={className}
     />
   )
 }
 
-export function PremiumTeamMeetingPhoto({
-  paths,
-  productLabel,
-}: {
-  paths: PremiumPhotoPaths
-  productLabel: string
-}) {
+export function PremiumTeamMeetingPhoto({ paths, productLabel, className }: PhotoProps) {
   return (
     <PremiumPhotoFrame
       src={paths.teamMeeting}
-      alt={`${productLabel} — team meeting and business planning session`}
+      alt={`${productLabel} — industry workflow and operations`}
       aspectClass="aspect-[4/3] sm:aspect-[3/2]"
+      className={className}
     />
   )
 }
 
-export function PremiumLedgerOfficePhoto({
-  paths,
-  productLabel,
-}: {
-  paths: PremiumPhotoPaths
-  productLabel: string
-}) {
+export function PremiumLedgerOfficePhoto({ paths, productLabel, className }: PhotoProps) {
   return (
     <PremiumPhotoFrame
       src={paths.ledgerOffice}
-      alt={`${productLabel} — ledger, documents, and day-to-day operations`}
+      alt={`${productLabel} — business records and document management`}
       aspectClass="aspect-[4/3] sm:aspect-[5/4]"
+      className={className}
     />
   )
 }

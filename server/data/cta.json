@@ -7,6 +7,7 @@
     "en": "Book a walkthrough and see how DigitalManager can manage your accounts, inventory, sales, purchases and reports in one connected ERP system.",
     "ar": "احجز جولة وشاهد كيف يدير ديجيتال مانجر حساباتك ومخزونك ومبيعاتك ومشترياتك وتقاريرك في نظام ERP واحد متصل."
   },
+  "background": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1920&q=90",
   "primary": { "label": { "en": "Book Free Demo", "ar": "احجز عرضًا مجانيًا" }, "href": "/contact" },
   "secondary": { "label": { "en": "Talk to Expert", "ar": "تحدث مع خبير" }, "href": "/contact" },
   "whatsapp": {

@@ -1,19 +1,19 @@
 import type { LucideIcon } from 'lucide-react'
 import {
   Bird,
-  Briefcase,
   Building2,
-  Calculator,
-  Droplets,
   Factory,
   FileText,
   Flame,
+  Fuel,
   GraduationCap,
-  Home,
+  HardHat,
+  Landmark,
   Milk,
   Store,
+  Truck,
+  Wheat,
   Wrench,
-  ArrowLeftRight,
 } from 'lucide-react'
 import { softwarePath } from '../utils/slug'
 
@@ -42,12 +42,12 @@ export type IndustryProgrammeCard = {
 export const industryProgrammeCards: IndustryProgrammeCard[] = [
   {
     cardKey: 'petrol',
-    icon: Droplets,
+    icon: Fuel,
     exploreTo: softwarePath('industry', 'petrol-pump-software'),
   },
   {
     cardKey: 'general',
-    icon: Building2,
+    icon: Store,
     exploreTo: softwarePath('industry', 'retail-management-software'),
   },
   {
@@ -72,7 +72,7 @@ export const industryProgrammeCards: IndustryProgrammeCard[] = [
   },
   {
     cardKey: 'installment',
-    icon: Calculator,
+    icon: Landmark,
     exploreTo: softwarePath('industry', 'erp-software-for-real-estate-business'),
   },
   {
@@ -82,7 +82,7 @@ export const industryProgrammeCards: IndustryProgrammeCard[] = [
   },
   {
     cardKey: 'trading',
-    icon: ArrowLeftRight,
+    icon: Truck,
     exploreTo: softwarePath('industry', 'logistics-transportation-software'),
   },
   {
@@ -92,7 +92,7 @@ export const industryProgrammeCards: IndustryProgrammeCard[] = [
   },
   {
     cardKey: 'water',
-    icon: Droplets,
+    icon: Wheat,
     exploreTo: softwarePath('industry', 'motor-market-management-software'),
   },
   {
@@ -107,12 +107,12 @@ export const industryProgrammeCards: IndustryProgrammeCard[] = [
   },
   {
     cardKey: 'realestate',
-    icon: Home,
+    icon: Building2,
     exploreTo: softwarePath('industry', 'erp-software-for-real-estate-business'),
   },
   {
     cardKey: 'service',
-    icon: Briefcase,
+    icon: HardHat,
     exploreTo: softwarePath('industry', 'erp-software-for-construction-business'),
   },
 ]

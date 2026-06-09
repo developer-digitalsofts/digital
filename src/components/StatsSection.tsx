@@ -6,10 +6,19 @@ import { LucideByName } from '../utils/lucideFromName'
 import { ScrollReveal } from './ScrollReveal'
 import { StatValue } from './StatValue'
 import { pageShellClass } from '../ui/pageShell'
-import { iconBox, iconGlyph, sectionContentTop, sectionMuted, sectionPad, sectionTitle, statCard } from '../ui/saas'
+import {
+  sectionContentTop,
+  sectionEyebrow,
+  sectionMuted,
+  sectionPad,
+  sectionTitle,
+  statCard,
+} from '../ui/saas'
 
 const statKeys = ['l1', 'l2', 'l3', 'l4'] as const
 const statValues = ['500+', '75+', '10+', '2K+'] as const
+const highlightIcon =
+  'mx-auto mb-4 flex size-[3rem] items-center justify-center rounded-xl border border-slate-200/90 bg-slate-50/90 [&_svg]:size-6 [&_svg]:shrink-0 [&_svg]:text-brand'
 
 type StatItem = {
   id: string
@@ -44,21 +53,24 @@ export function StatsSection() {
         aria-hidden
       />
       <div className={pageShellClass}>
-        <ScrollReveal>
-          <h2 className={`${sectionTitle} mx-auto max-w-4xl`}>{title}</h2>
+        <ScrollReveal className="mx-auto max-w-2xl text-center">
+          <p className={sectionEyebrow}>{t('stats.eyebrow')}</p>
+          <h2 className={`${sectionTitle} mt-2`}>{title}</h2>
         </ScrollReveal>
-        <div className={`${sectionContentTop} grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5`}>
+        <div
+          className={`${sectionContentTop} grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6`}
+        >
           {items && items.length > 0
             ? items.map((s, i) => (
                 <ScrollReveal key={s.id} delayMs={i * 80}>
                   <div className={statCard}>
                     {s.icon ? (
-                      <div className={`${iconBox} mb-3`}>
-                        <LucideByName name={s.icon} className={`size-5 ${iconGlyph}`} strokeWidth={2} />
+                      <div className={highlightIcon}>
+                        <LucideByName name={s.icon} strokeWidth={1.75} />
                       </div>
                     ) : null}
                     <StatValue value={s.value} />
-                    <p className="mt-2 text-sm font-medium leading-[1.5] text-slate-600">
+                    <p className="mt-2.5 text-sm font-medium leading-relaxed text-slate-600">
                       {s.label ? pick(s.label, lang) : ''}
                     </p>
                   </div>
@@ -68,7 +80,9 @@ export function StatsSection() {
                 <ScrollReveal key={key} delayMs={i * 80}>
                   <div className={statCard}>
                     <StatValue value={statValues[i]} />
-                    <p className="mt-2 text-sm font-medium leading-[1.5] text-slate-600">{t(`stats.${key}`)}</p>
+                    <p className="mt-2.5 text-sm font-medium leading-relaxed text-slate-600">
+                      {t(`stats.${key}`)}
+                    </p>
                   </div>
                 </ScrollReveal>
               ))}

@@ -21,13 +21,14 @@ import { mergePosManagementPremiumPage } from './posManagementPageContent'
 import { mergeFbrPosIntegrationPremiumPage } from './fbrPosIntegrationPageContent'
 import { mergeCrmPremiumPage } from './crmPageContent'
 import { mergeSmsIntegrationPremiumPage } from './smsIntegrationPageContent'
-import { mergeGroceryStoreIndustryPage, mergeToyShopIndustryPage, mergeHardwareSanitaryIndustryPage, mergeLuggageBagsIndustryPage, mergeCrockeryStoreIndustryPage, mergeRetailManagementIndustryPage, mergeLogisticsTransportationIndustryPage, mergeMotorMarketIndustryPage, mergePoultryChickenSupplyIndustryPage, mergePoultryWasteIndustryPage, mergePoultryControlShedIndustryPage, mergeFabricStoreIndustryPage, mergeKnittingDyeingIndustryPage, mergeTextileIndustryErpPage } from './industryRetailPageContent'
+import { mergeGroceryStoreIndustryPage, mergeToyShopIndustryPage, mergeHardwareSanitaryIndustryPage, mergeLuggageBagsIndustryPage, mergeCrockeryStoreIndustryPage, mergeRetailManagementIndustryPage, mergeLogisticsTransportationIndustryPage, mergeMotorMarketIndustryPage, mergePoultryArhatIndustryPage, mergePoultryChickenSupplyIndustryPage, mergePoultryWasteIndustryPage, mergePoultryControlShedIndustryPage, mergeFabricStoreIndustryPage, mergeKnittingDyeingIndustryPage, mergeTextileIndustryErpPage } from './industryRetailPageContent'
 import {
   mergeFleetFuelIndustryPage,
   mergeFuelTankLorryIndustryPage,
   mergeLpgBowserIndustryPage,
   mergeLpgErpIndustryPage,
   mergePetrolDepotIndustryPage,
+  mergePetrolFillingStationIndustryPage,
   mergePetrolPumpIndustryPage,
 } from './industryOilGasPageContent'
 import { mergeAgricultureIndustryPage, mergeDairyFarmIndustryPage } from './industryAgrifoodPageContent'
@@ -99,7 +100,7 @@ function defaultWhyPoints(displayName: string, rich: ModuleRichPage, copy: Retur
         ? c.body
         : `${c.body} Teams adopt faster when screens match how ${displayName} actually works day to day.`,
   }))
-  return [...fromCaps, ...copy.whyTail].slice(0, 8)
+  return [...fromCaps, ...copy.whyTail].slice(0, 5)
 }
 
 function defaultReportBullets(rich: ModuleRichPage, copy: ReturnType<typeof getSoftwareDetailCopy>): SoftwareReportBullet[] {
@@ -111,7 +112,7 @@ function defaultReportBullets(rich: ModuleRichPage, copy: ReturnType<typeof getS
     title: copy.reportBulletSignal,
     text: h,
   }))
-  return [...fromOutcomes, ...extra].slice(0, 12)
+  return [...fromOutcomes, ...extra].slice(0, 6)
 }
 
 export function buildSoftwareDetailPageData(
@@ -150,19 +151,20 @@ export function buildSoftwareDetailPageData(
       description: copy.expandFeature(displayName, w.detail),
     })
   }
-  while (features.length < 12) {
+  while (features.length < 6) {
     features.push({
       icon: FEATURE_ICONS[fi++ % FEATURE_ICONS.length],
       title: copy.featurePadSecurityTitle,
       description: copy.featurePadSecurityDesc(displayName),
     })
-    if (features.length >= 12) break
+    if (features.length >= 6) break
     features.push({
       icon: FEATURE_ICONS[fi++ % FEATURE_ICONS.length],
       title: copy.featurePadIntegrationTitle,
       description: copy.featurePadIntegrationDesc,
     })
   }
+  const trimmedFeatures = features.slice(0, 6)
 
   const voucherTab: SoftwareTabBlock = {
     id: 'vouchers',
@@ -190,7 +192,7 @@ export function buildSoftwareDetailPageData(
         to: kind === 'module' ? '/#modules' : '/#industries',
       },
     },
-    features,
+    features: trimmedFeatures,
     vouchersReports: {
       heading: copy.vouchersReportsHeading,
       subheading: copy.vouchersReportsSubheading,
@@ -327,7 +329,7 @@ export function buildSoftwareDetailPageData(
     out = mergeFuelTankLorryIndustryPage(out)
   }
   if (slug === 'petrol-gas-filling-station-software' && kind === 'industry') {
-    out = mergePetrolDepotIndustryPage(out)
+    out = mergePetrolFillingStationIndustryPage(out)
   }
   if (slug === 'petrol-depot-management-software' && kind === 'industry') {
     out = mergePetrolDepotIndustryPage(out)
@@ -348,7 +350,7 @@ export function buildSoftwareDetailPageData(
     out = mergeFuelTankLorryIndustryPage(out)
   }
   if (slug === 'poultry-arhat-software' && kind === 'industry') {
-    out = mergePoultryChickenSupplyIndustryPage(out)
+    out = mergePoultryArhatIndustryPage(out)
   }
   if (slug === 'dairy-farm-management-software' && kind === 'industry') {
     out = mergeDairyFarmIndustryPage(out)

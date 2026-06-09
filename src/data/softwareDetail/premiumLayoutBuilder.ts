@@ -72,12 +72,12 @@ function premiumWorkflowTabs(displayName: string, rich: ModuleRichPage, copy: So
     {
       id: 'workflows',
       title: copy.premiumTabWorkflows,
-      items: primaryItems.length ? primaryItems.slice(0, 14) : [v(coreCycle, rich.subhead)],
+      items: primaryItems.length ? primaryItems.slice(0, 6) : [v(coreCycle, rich.subhead)],
     },
     {
       id: 'reports',
       title: copy.premiumTabReports,
-      items: reportItems.length ? reportItems.slice(0, 16) : [v(execRollups, rich.subhead)],
+      items: reportItems.length ? reportItems.slice(0, 6) : [v(execRollups, rich.subhead)],
     },
   ]
 }
@@ -97,7 +97,7 @@ function premiumChallengeBullets(displayName: string, rich: ModuleRichPage, copy
       `توسيع الفروع أو خطوط المنتجات يكسر الأساسيات دون نواة ERP موحدة.`,
       `تُعاد لوحات الإدارة يدوياً لكل مراجعة بدلاً من قراءة نفس الترحيلات المباشرة.`,
     ]
-    return [...core, ...fromHighlights].slice(0, 10)
+    return [...core, ...fromHighlights].slice(0, 6)
   }
   const core = [
     `${s} teams lose time when operational and financial numbers are reconciled manually after month-end.`,
@@ -106,7 +106,7 @@ function premiumChallengeBullets(displayName: string, rich: ModuleRichPage, copy
     `Scaling branches or new product lines breaks item, tax, and pricing masters without a single governed ERP core.`,
     `Leadership dashboards are rebuilt manually for every review instead of reading the same live postings operations use.`,
   ]
-  return [...core, ...fromHighlights].slice(0, 10)
+  return [...core, ...fromHighlights].slice(0, 6)
 }
 
 function premiumWhyChoosePoints(displayName: string, rich: ModuleRichPage, copy: SoftwareDetailCopy): SoftwareWhyPoint[] {
@@ -139,7 +139,7 @@ function premiumRealtimeBullets(rich: ModuleRichPage, copy: SoftwareDetailCopy):
       text: c.body.length > 200 ? `${c.body.slice(0, 197)}…` : c.body,
     })
   }
-  return rows.slice(0, 10)
+  return rows.slice(0, 6)
 }
 
 /**
@@ -174,7 +174,7 @@ export function applyPremiumSoftwareTemplate(
   const premiumLayout: SoftwarePremiumPageConfig = {
     layout: 'premium',
     featuresHeading: copy.premiumFeaturesHeading(displayName),
-    featuresLead: `${rich.subhead} ${introPlain.slice(0, 360)}${introPlain.length > 360 ? '…' : ''}`,
+    featuresLead: `${rich.subhead} ${introPlain.slice(0, 200)}${introPlain.length > 200 ? '…' : ''}`,
     vouchersSectionEyebrow:
       kind === 'module' ? copy.premiumVouchersEyebrowModule : copy.premiumVouchersEyebrowIndustry,
     challengesHeading: copy.premiumChallengesHeading(short),
@@ -240,6 +240,11 @@ export function applyPremiumSoftwareTemplate(
         ? 'Software by module'
         : 'Software by industry'
 
+  const industryIntro =
+    kind === 'industry'
+      ? (rich.intro.split(/\n+/).map((p) => p.trim()).filter(Boolean)[0] ?? rich.intro).slice(0, 380)
+      : rich.intro
+
   return {
     ...merged,
     metaTitle: `${displayName} | ${copy.metaTitleSuffix}`,
@@ -250,11 +255,12 @@ export function applyPremiumSoftwareTemplate(
       eyebrow: heroEyebrow,
       headline: rich.headline,
       subhead: rich.subhead,
-      intro: rich.intro,
+      intro: industryIntro,
       trust: [...trust],
       ctaPrimary: { label: copy.ctaLetUsDemo, to: '/contact#contact-form' },
       ctaSecondary: { label: copy.ctaWhatsApp, to: WHATSAPP_URL },
     },
+    features: kind === 'industry' ? merged.features.slice(0, 6) : merged.features,
     vouchersReports: {
       heading:
         kind === 'module' ? copy.premiumVouchersHeadingModule : copy.premiumVouchersHeadingIndustry,
@@ -265,14 +271,21 @@ export function applyPremiumSoftwareTemplate(
     whyChoose: {
       heading: copy.premiumWhyHeading(short),
       intro: `${rich.subhead} ${copy.premiumWhyIntro}`,
-      points: premiumWhyChoosePoints(displayName, rich, copy),
+      points:
+        kind === 'industry'
+          ? premiumWhyChoosePoints(displayName, rich, copy).slice(0, 3)
+          : premiumWhyChoosePoints(displayName, rich, copy),
     },
     realtimeReports: {
       heading: copy.premiumRealtimeHeading,
       intro: copy.premiumRealtimeIntro(short),
-      bullets: premiumRealtimeBullets(rich, copy),
+      bullets:
+        kind === 'industry'
+          ? premiumRealtimeBullets(rich, copy).slice(0, 4)
+          : premiumRealtimeBullets(rich, copy),
     },
-    implementation: premiumImplementation(displayName, copy),
+    implementation: kind === 'industry' ? premiumImplementation(displayName, copy).slice(0, 4) : premiumImplementation(displayName, copy),
+    seoBlocks: kind === 'industry' ? [] : merged.seoBlocks,
     demoCta: {
       ...merged.demoCta,
       heading: copy.premiumDemoHeading,

@@ -1,0 +1,3030 @@
+{
+  "generatedAt": "2026-06-08T10:51:45.917Z",
+  "pages": [
+    {
+      "page": "Accounts Management Software",
+      "slug": "accounts-management-software",
+      "pool": "accounts",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1551288049-bebda4e38f71",
+          "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — ERP financial dashboard and analytics"
+        },
+        "reports": {
+          "unsplashId": "1608222351212-18fe0ec7b13b",
+          "url": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1460925895917-afdab827c52f",
+          "url": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1526628953301-3e589a6a8b74",
+          "url": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — ERP financial dashboard and analytics"
+        },
+        "ledger": {
+          "unsplashId": "1504868584819-f8e8b4b6d7e3",
+          "url": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/accounts-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/accounts-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/accounts-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/accounts-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/accounts-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Production Management Software",
+      "slug": "production-management-software",
+      "pool": "factory",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1717386255773-1e3037c81788",
+          "url": "https://images.unsplash.com/photo-1717386255773-1e3037c81788?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — manufacturing production line"
+        },
+        "reports": {
+          "unsplashId": "1599658880436-c61792e70672",
+          "url": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1542744173-05336fcc7ad4",
+          "url": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1610891015188-5369212db097",
+          "url": "https://images.unsplash.com/photo-1610891015188-5369212db097?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — manufacturing production line"
+        },
+        "ledger": {
+          "unsplashId": "1580983559367-0dc2f8934365",
+          "url": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1717386255773-1e3037c81788?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/production-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/production-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/production-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1610891015188-5369212db097?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/production-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/production-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Point of Sale Management Software",
+      "slug": "point-of-sale-management-software",
+      "pool": "pos",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1509017174183-0b7e0278f1ec",
+          "url": "https://images.unsplash.com/photo-1509017174183-0b7e0278f1ec?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — POS terminal and retail payment"
+        },
+        "reports": {
+          "unsplashId": "1613347761493-4060c969cd28",
+          "url": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1745847768367-893e989d3a98",
+          "url": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1647427017067-8f33ccbae493",
+          "url": "https://images.unsplash.com/photo-1647427017067-8f33ccbae493?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — POS terminal and retail payment"
+        },
+        "ledger": {
+          "unsplashId": "1518186285589-2f7649de83e0",
+          "url": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1509017174183-0b7e0278f1ec?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/point-of-sale-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/point-of-sale-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/point-of-sale-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1647427017067-8f33ccbae493?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/point-of-sale-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/point-of-sale-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "FBR POS Integration Software",
+      "slug": "fbr-pos-integration-software",
+      "pool": "pos",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1628527304948-06157ee3c8a6",
+          "url": "https://images.unsplash.com/photo-1628527304948-06157ee3c8a6?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — POS terminal and retail payment"
+        },
+        "reports": {
+          "unsplashId": "1613347761513-0f37baebfd20",
+          "url": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1499673610122-01c7122c5dcb",
+          "url": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1556742521-9713bf272865",
+          "url": "https://images.unsplash.com/photo-1556742521-9713bf272865?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — POS terminal and retail payment"
+        },
+        "ledger": {
+          "unsplashId": "1763038311036-6d18805537e5",
+          "url": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1628527304948-06157ee3c8a6?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fbr-pos-integration-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fbr-pos-integration-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fbr-pos-integration-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1556742521-9713bf272865?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fbr-pos-integration-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fbr-pos-integration-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Inventory Management Software",
+      "slug": "inventory-management-software",
+      "pool": "warehouse",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1664382953403-fc1ac77073a0",
+          "url": "https://images.unsplash.com/photo-1664382953403-fc1ac77073a0?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — warehouse inventory and shelving"
+        },
+        "reports": {
+          "unsplashId": "1581094289810-adf5d25690e3",
+          "url": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1763038311036-6d18805537e5",
+          "url": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1749244768351-2726dc23d26c",
+          "url": "https://images.unsplash.com/photo-1749244768351-2726dc23d26c?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — warehouse inventory and shelving"
+        },
+        "ledger": {
+          "unsplashId": "1581094289810-adf5d25690e3",
+          "url": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1664382953403-fc1ac77073a0?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/inventory-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/inventory-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/inventory-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1749244768351-2726dc23d26c?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/inventory-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/inventory-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Payroll Management Software",
+      "slug": "payroll-management-software",
+      "pool": "office",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1556742031-c6961e8560b0",
+          "url": "https://images.unsplash.com/photo-1556742031-c6961e8560b0?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — business management and ERP workflow"
+        },
+        "reports": {
+          "unsplashId": "1551288049-bebda4e38f71",
+          "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1608222351212-18fe0ec7b13b",
+          "url": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1556740714-a8395b3bf30f",
+          "url": "https://images.unsplash.com/photo-1556740714-a8395b3bf30f?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — business management and ERP workflow"
+        },
+        "ledger": {
+          "unsplashId": "1460925895917-afdab827c52f",
+          "url": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1556742031-c6961e8560b0?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/payroll-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/payroll-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/payroll-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1556740714-a8395b3bf30f?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/payroll-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/payroll-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Integration System",
+      "slug": "integration-system",
+      "pool": "office",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1608286022625-bc07f7a21154",
+          "url": "https://images.unsplash.com/photo-1608286022625-bc07f7a21154?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — business management and ERP workflow"
+        },
+        "reports": {
+          "unsplashId": "1526628953301-3e589a6a8b74",
+          "url": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1504868584819-f8e8b4b6d7e3",
+          "url": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1634733988138-bf2c3a2a13fa",
+          "url": "https://images.unsplash.com/photo-1634733988138-bf2c3a2a13fa?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — business management and ERP workflow"
+        },
+        "ledger": {
+          "unsplashId": "1599658880436-c61792e70672",
+          "url": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1608286022625-bc07f7a21154?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/integration-system/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/integration-system/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/integration-system/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1634733988138-bf2c3a2a13fa?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/integration-system/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/integration-system/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "CRM Software",
+      "slug": "crm-software",
+      "pool": "office",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1599050751795-6cdaafbc2319",
+          "url": "https://images.unsplash.com/photo-1599050751795-6cdaafbc2319?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — business management and ERP workflow"
+        },
+        "reports": {
+          "unsplashId": "1542744173-05336fcc7ad4",
+          "url": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1580983559367-0dc2f8934365",
+          "url": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1556742077-0a6b6a4a4ac4",
+          "url": "https://images.unsplash.com/photo-1556742077-0a6b6a4a4ac4?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — business management and ERP workflow"
+        },
+        "ledger": {
+          "unsplashId": "1613347761493-4060c969cd28",
+          "url": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1599050751795-6cdaafbc2319?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/crm-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/crm-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/crm-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1556742077-0a6b6a4a4ac4?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/crm-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/crm-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Petrol Pump Software",
+      "slug": "petrol-pump-software",
+      "pool": "energy",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1567777176186-dfa735f1fe20",
+          "url": "https://images.unsplash.com/photo-1567777176186-dfa735f1fe20?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — fuel station / pump operations"
+        },
+        "reports": {
+          "unsplashId": "1745847768367-893e989d3a98",
+          "url": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1518186285589-2f7649de83e0",
+          "url": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1709536240401-58dff8e8d597",
+          "url": "https://images.unsplash.com/photo-1709536240401-58dff8e8d597?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — fuel station / pump operations"
+        },
+        "ledger": {
+          "unsplashId": "1613347761513-0f37baebfd20",
+          "url": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1567777176186-dfa735f1fe20?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/petrol-pump-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/petrol-pump-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/petrol-pump-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1709536240401-58dff8e8d597?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/petrol-pump-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/petrol-pump-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Petrol & Gas Filling Station Software",
+      "slug": "petrol-gas-filling-station-software",
+      "pool": "energy",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1629241290025-6bb716261f5f",
+          "url": "https://images.unsplash.com/photo-1629241290025-6bb716261f5f?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — fuel station / pump operations"
+        },
+        "reports": {
+          "unsplashId": "1499673610122-01c7122c5dcb",
+          "url": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1763038311036-6d18805537e5",
+          "url": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1654334036171-e01e52b2ce8e",
+          "url": "https://images.unsplash.com/photo-1654334036171-e01e52b2ce8e?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — fuel station / pump operations"
+        },
+        "ledger": {
+          "unsplashId": "1581094289810-adf5d25690e3",
+          "url": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1629241290025-6bb716261f5f?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/petrol-gas-filling-station-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/petrol-gas-filling-station-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/petrol-gas-filling-station-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1654334036171-e01e52b2ce8e?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/petrol-gas-filling-station-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/petrol-gas-filling-station-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "LPG Business Software",
+      "slug": "lpg-business-software",
+      "pool": "energy",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1654334036169-840615ab6a34",
+          "url": "https://images.unsplash.com/photo-1654334036169-840615ab6a34?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — fuel station / pump operations"
+        },
+        "reports": {
+          "unsplashId": "1551288049-bebda4e38f71",
+          "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1608222351212-18fe0ec7b13b",
+          "url": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1635627026254-b652e62d1d07",
+          "url": "https://images.unsplash.com/photo-1635627026254-b652e62d1d07?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — fuel station / pump operations"
+        },
+        "ledger": {
+          "unsplashId": "1460925895917-afdab827c52f",
+          "url": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1654334036169-840615ab6a34?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/lpg-business-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/lpg-business-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/lpg-business-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1635627026254-b652e62d1d07?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/lpg-business-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/lpg-business-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "LPG Transport Management Software",
+      "slug": "lpg-transport-management-software",
+      "pool": "logistics",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1532635042-a6f6ad4745f9",
+          "url": "https://images.unsplash.com/photo-1532635042-a6f6ad4745f9?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — warehouse and transport logistics"
+        },
+        "reports": {
+          "unsplashId": "1526628953301-3e589a6a8b74",
+          "url": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1504868584819-f8e8b4b6d7e3",
+          "url": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1571989928541-674d0cf46c4a",
+          "url": "https://images.unsplash.com/photo-1571989928541-674d0cf46c4a?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — warehouse and transport logistics"
+        },
+        "ledger": {
+          "unsplashId": "1599658880436-c61792e70672",
+          "url": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1532635042-a6f6ad4745f9?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/lpg-transport-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/lpg-transport-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/lpg-transport-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1571989928541-674d0cf46c4a?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/lpg-transport-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/lpg-transport-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "LPG Bowser Supply Chain Software",
+      "slug": "lpg-bowser-supply-chain-software",
+      "pool": "energy",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1695561324569-5e47c76dc0a3",
+          "url": "https://images.unsplash.com/photo-1695561324569-5e47c76dc0a3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — fuel station / pump operations"
+        },
+        "reports": {
+          "unsplashId": "1542744173-05336fcc7ad4",
+          "url": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1580983559367-0dc2f8934365",
+          "url": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1527018601619-a508a2be00cd",
+          "url": "https://images.unsplash.com/photo-1527018601619-a508a2be00cd?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — fuel station / pump operations"
+        },
+        "ledger": {
+          "unsplashId": "1613347761493-4060c969cd28",
+          "url": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1695561324569-5e47c76dc0a3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/lpg-bowser-supply-chain-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/lpg-bowser-supply-chain-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/lpg-bowser-supply-chain-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1527018601619-a508a2be00cd?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/lpg-bowser-supply-chain-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/lpg-bowser-supply-chain-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Fleet Fuel Management Software",
+      "slug": "fleet-fuel-management-software",
+      "pool": "energy",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1591179535738-0fe38055847b",
+          "url": "https://images.unsplash.com/photo-1591179535738-0fe38055847b?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — fuel station / pump operations"
+        },
+        "reports": {
+          "unsplashId": "1745847768367-893e989d3a98",
+          "url": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1518186285589-2f7649de83e0",
+          "url": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1678903434882-d8bc7782b953",
+          "url": "https://images.unsplash.com/photo-1678903434882-d8bc7782b953?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — fuel station / pump operations"
+        },
+        "ledger": {
+          "unsplashId": "1613347761513-0f37baebfd20",
+          "url": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1591179535738-0fe38055847b?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fleet-fuel-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fleet-fuel-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fleet-fuel-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1678903434882-d8bc7782b953?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fleet-fuel-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fleet-fuel-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Petrol Depot Management Software",
+      "slug": "petrol-depot-management-software",
+      "pool": "energy",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1709719263439-364363375a3a",
+          "url": "https://images.unsplash.com/photo-1709719263439-364363375a3a?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — fuel station / pump operations"
+        },
+        "reports": {
+          "unsplashId": "1499673610122-01c7122c5dcb",
+          "url": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1763038311036-6d18805537e5",
+          "url": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1604282742204-1e7bb6ffbd9f",
+          "url": "https://images.unsplash.com/photo-1604282742204-1e7bb6ffbd9f?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — fuel station / pump operations"
+        },
+        "ledger": {
+          "unsplashId": "1581094289810-adf5d25690e3",
+          "url": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1709719263439-364363375a3a?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/petrol-depot-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/petrol-depot-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/petrol-depot-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1604282742204-1e7bb6ffbd9f?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/petrol-depot-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/petrol-depot-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Fuel Tank Lorry Management Software",
+      "slug": "fuel-tank-lorry-management-software",
+      "pool": "logistics",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1620388640785-892616248ec8",
+          "url": "https://images.unsplash.com/photo-1620388640785-892616248ec8?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — warehouse and transport logistics"
+        },
+        "reports": {
+          "unsplashId": "1551288049-bebda4e38f71",
+          "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1608222351212-18fe0ec7b13b",
+          "url": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1689942010216-dc412bb1e7a9",
+          "url": "https://images.unsplash.com/photo-1689942010216-dc412bb1e7a9?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — warehouse and transport logistics"
+        },
+        "ledger": {
+          "unsplashId": "1460925895917-afdab827c52f",
+          "url": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1620388640785-892616248ec8?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fuel-tank-lorry-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fuel-tank-lorry-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fuel-tank-lorry-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1689942010216-dc412bb1e7a9?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fuel-tank-lorry-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fuel-tank-lorry-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Cloud ERP for Textile Industries",
+      "slug": "cloud-erp-software-for-textile-industries",
+      "pool": "textile",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1675176785803-bffbbb0cd2f4",
+          "url": "https://images.unsplash.com/photo-1675176785803-bffbbb0cd2f4?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — textile factory and fabric production"
+        },
+        "reports": {
+          "unsplashId": "1526628953301-3e589a6a8b74",
+          "url": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1504868584819-f8e8b4b6d7e3",
+          "url": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1517146783983-418c681b56c5",
+          "url": "https://images.unsplash.com/photo-1517146783983-418c681b56c5?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — textile factory and fabric production"
+        },
+        "ledger": {
+          "unsplashId": "1599658880436-c61792e70672",
+          "url": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1675176785803-bffbbb0cd2f4?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/cloud-erp-software-for-textile-industries/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/cloud-erp-software-for-textile-industries/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/cloud-erp-software-for-textile-industries/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1517146783983-418c681b56c5?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/cloud-erp-software-for-textile-industries/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/cloud-erp-software-for-textile-industries/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Knitting & Dyeing Industry Software",
+      "slug": "knitting-dyeing-industry-software",
+      "pool": "textile",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1524292332709-b33366a7f165",
+          "url": "https://images.unsplash.com/photo-1524292332709-b33366a7f165?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — textile factory and fabric production"
+        },
+        "reports": {
+          "unsplashId": "1542744173-05336fcc7ad4",
+          "url": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1580983559367-0dc2f8934365",
+          "url": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1606053929013-311c13f97b5f",
+          "url": "https://images.unsplash.com/photo-1606053929013-311c13f97b5f?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — textile factory and fabric production"
+        },
+        "ledger": {
+          "unsplashId": "1613347761493-4060c969cd28",
+          "url": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1524292332709-b33366a7f165?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/knitting-dyeing-industry-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/knitting-dyeing-industry-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/knitting-dyeing-industry-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1606053929013-311c13f97b5f?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/knitting-dyeing-industry-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/knitting-dyeing-industry-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Fabric Store Management Software",
+      "slug": "fabric-store-management-software",
+      "pool": "textile",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1633655442330-0b44ca0cce9b",
+          "url": "https://images.unsplash.com/photo-1633655442330-0b44ca0cce9b?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — textile factory and fabric production"
+        },
+        "reports": {
+          "unsplashId": "1745847768367-893e989d3a98",
+          "url": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1518186285589-2f7649de83e0",
+          "url": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1660980041852-230420b8f99f",
+          "url": "https://images.unsplash.com/photo-1660980041852-230420b8f99f?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — textile factory and fabric production"
+        },
+        "ledger": {
+          "unsplashId": "1613347761513-0f37baebfd20",
+          "url": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1633655442330-0b44ca0cce9b?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fabric-store-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fabric-store-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fabric-store-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1660980041852-230420b8f99f?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fabric-store-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/fabric-store-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Garments Manufacturing Software",
+      "slug": "garments-manufacturing-software",
+      "pool": "factory",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1647427060118-4911c9821b82",
+          "url": "https://images.unsplash.com/photo-1647427060118-4911c9821b82?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — manufacturing production line"
+        },
+        "reports": {
+          "unsplashId": "1499673610122-01c7122c5dcb",
+          "url": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1763038311036-6d18805537e5",
+          "url": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1716643863806-989dd76ae093",
+          "url": "https://images.unsplash.com/photo-1716643863806-989dd76ae093?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — manufacturing production line"
+        },
+        "ledger": {
+          "unsplashId": "1581094289810-adf5d25690e3",
+          "url": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1647427060118-4911c9821b82?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/garments-manufacturing-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/garments-manufacturing-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/garments-manufacturing-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1716643863806-989dd76ae093?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/garments-manufacturing-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/garments-manufacturing-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Candy & Confectionery Manufacturing Software",
+      "slug": "candy-and-confectionery-manufacturing-software",
+      "pool": "factory",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1496247749665-49cf5b1022e9",
+          "url": "https://images.unsplash.com/photo-1496247749665-49cf5b1022e9?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — manufacturing production line"
+        },
+        "reports": {
+          "unsplashId": "1551288049-bebda4e38f71",
+          "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1608222351212-18fe0ec7b13b",
+          "url": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1589793463357-5fb813435467",
+          "url": "https://images.unsplash.com/photo-1589793463357-5fb813435467?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — manufacturing production line"
+        },
+        "ledger": {
+          "unsplashId": "1460925895917-afdab827c52f",
+          "url": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1496247749665-49cf5b1022e9?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/candy-and-confectionery-manufacturing-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/candy-and-confectionery-manufacturing-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/candy-and-confectionery-manufacturing-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1589793463357-5fb813435467?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/candy-and-confectionery-manufacturing-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/candy-and-confectionery-manufacturing-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Retail Management Software",
+      "slug": "retail-management-software",
+      "pool": "retail",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1584771145729-0bd9fda6529b",
+          "url": "https://images.unsplash.com/photo-1584771145729-0bd9fda6529b?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — retail store and checkout operations"
+        },
+        "reports": {
+          "unsplashId": "1526628953301-3e589a6a8b74",
+          "url": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1504868584819-f8e8b4b6d7e3",
+          "url": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1641029956071-272caab5857a",
+          "url": "https://images.unsplash.com/photo-1641029956071-272caab5857a?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — retail store and checkout operations"
+        },
+        "ledger": {
+          "unsplashId": "1599658880436-c61792e70672",
+          "url": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1584771145729-0bd9fda6529b?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/retail-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/retail-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/retail-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1641029956071-272caab5857a?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/retail-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/retail-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Luggage & Bags Store Software",
+      "slug": "luggage-bags-store-software",
+      "pool": "retail",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1527493324787-47372b893452",
+          "url": "https://images.unsplash.com/photo-1527493324787-47372b893452?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — retail store and checkout operations"
+        },
+        "reports": {
+          "unsplashId": "1542744173-05336fcc7ad4",
+          "url": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1580983559367-0dc2f8934365",
+          "url": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1568835679605-ba674a4d12e1",
+          "url": "https://images.unsplash.com/photo-1568835679605-ba674a4d12e1?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — retail store and checkout operations"
+        },
+        "ledger": {
+          "unsplashId": "1613347761493-4060c969cd28",
+          "url": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1527493324787-47372b893452?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/luggage-bags-store-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/luggage-bags-store-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/luggage-bags-store-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1568835679605-ba674a4d12e1?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/luggage-bags-store-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/luggage-bags-store-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Toy Shop Management Software",
+      "slug": "toy-shop-management-software",
+      "pool": "retail",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1646836390736-ee0af3b6e9c6",
+          "url": "https://images.unsplash.com/photo-1646836390736-ee0af3b6e9c6?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — retail store and checkout operations"
+        },
+        "reports": {
+          "unsplashId": "1745847768367-893e989d3a98",
+          "url": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1518186285589-2f7649de83e0",
+          "url": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1752057118708-cb96baf7ef45",
+          "url": "https://images.unsplash.com/photo-1752057118708-cb96baf7ef45?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — retail store and checkout operations"
+        },
+        "ledger": {
+          "unsplashId": "1613347761513-0f37baebfd20",
+          "url": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1646836390736-ee0af3b6e9c6?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/toy-shop-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/toy-shop-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/toy-shop-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1752057118708-cb96baf7ef45?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/toy-shop-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/toy-shop-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Crockery Store Management Software",
+      "slug": "crockery-store-management-software",
+      "pool": "retail",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1726137569911-bc03e55fd87f",
+          "url": "https://images.unsplash.com/photo-1726137569911-bc03e55fd87f?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — retail store and checkout operations"
+        },
+        "reports": {
+          "unsplashId": "1499673610122-01c7122c5dcb",
+          "url": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1763038311036-6d18805537e5",
+          "url": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1752057119009-b6784a9d8dc3",
+          "url": "https://images.unsplash.com/photo-1752057119009-b6784a9d8dc3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — retail store and checkout operations"
+        },
+        "ledger": {
+          "unsplashId": "1581094289810-adf5d25690e3",
+          "url": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1726137569911-bc03e55fd87f?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/crockery-store-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/crockery-store-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/crockery-store-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1752057119009-b6784a9d8dc3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/crockery-store-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/crockery-store-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Grocery Store Management Software",
+      "slug": "grocery-store-management-software",
+      "pool": "retail",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1757085231439-877f0b128e75",
+          "url": "https://images.unsplash.com/photo-1757085231439-877f0b128e75?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — retail store and checkout operations"
+        },
+        "reports": {
+          "unsplashId": "1551288049-bebda4e38f71",
+          "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1608222351212-18fe0ec7b13b",
+          "url": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1668396292026-4ff360c16355",
+          "url": "https://images.unsplash.com/photo-1668396292026-4ff360c16355?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — retail store and checkout operations"
+        },
+        "ledger": {
+          "unsplashId": "1460925895917-afdab827c52f",
+          "url": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1757085231439-877f0b128e75?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/grocery-store-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/grocery-store-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/grocery-store-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1668396292026-4ff360c16355?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/grocery-store-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/grocery-store-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Cloud ERP for Services Business",
+      "slug": "cloud-erp-software-for-services-business",
+      "pool": "smb",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1556740720-776b84291f8e",
+          "url": "https://images.unsplash.com/photo-1556740720-776b84291f8e?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — modern SaaS business operations"
+        },
+        "reports": {
+          "unsplashId": "1526628953301-3e589a6a8b74",
+          "url": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1504868584819-f8e8b4b6d7e3",
+          "url": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1718010571964-bac048b9ded0",
+          "url": "https://images.unsplash.com/photo-1718010571964-bac048b9ded0?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — modern SaaS business operations"
+        },
+        "ledger": {
+          "unsplashId": "1599658880436-c61792e70672",
+          "url": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1556740720-776b84291f8e?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/cloud-erp-software-for-services-business/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/cloud-erp-software-for-services-business/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/cloud-erp-software-for-services-business/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1718010571964-bac048b9ded0?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/cloud-erp-software-for-services-business/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/cloud-erp-software-for-services-business/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Small & Medium Business ERP Software",
+      "slug": "small-and-medium-business-erp-software",
+      "pool": "smb",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1508938255445-041651dfe0c3",
+          "url": "https://images.unsplash.com/photo-1508938255445-041651dfe0c3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — modern SaaS business operations"
+        },
+        "reports": {
+          "unsplashId": "1542744173-05336fcc7ad4",
+          "url": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1580983559367-0dc2f8934365",
+          "url": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1683313107043-283d0319a11e",
+          "url": "https://images.unsplash.com/photo-1683313107043-283d0319a11e?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — modern SaaS business operations"
+        },
+        "ledger": {
+          "unsplashId": "1613347761493-4060c969cd28",
+          "url": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1508938255445-041651dfe0c3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/small-and-medium-business-erp-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/small-and-medium-business-erp-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/small-and-medium-business-erp-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1683313107043-283d0319a11e?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/small-and-medium-business-erp-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/small-and-medium-business-erp-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Installment Management Software",
+      "slug": "installment-management-software",
+      "pool": "property",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1654658975918-a2c06424550a",
+          "url": "https://images.unsplash.com/photo-1654658975918-a2c06424550a?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — commercial real estate and property"
+        },
+        "reports": {
+          "unsplashId": "1745847768367-893e989d3a98",
+          "url": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1518186285589-2f7649de83e0",
+          "url": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1580741276595-92d7e435d1f4",
+          "url": "https://images.unsplash.com/photo-1580741276595-92d7e435d1f4?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — commercial real estate and property"
+        },
+        "ledger": {
+          "unsplashId": "1613347761513-0f37baebfd20",
+          "url": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1654658975918-a2c06424550a?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/installment-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/installment-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/installment-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1580741276595-92d7e435d1f4?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/installment-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/installment-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Pharmacy Business Management Software",
+      "slug": "pharmacy-business-management-software",
+      "pool": "medical",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1576602976047-174e57a47881",
+          "url": "https://images.unsplash.com/photo-1576602976047-174e57a47881?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — healthcare and pharmacy operations"
+        },
+        "reports": {
+          "unsplashId": "1499673610122-01c7122c5dcb",
+          "url": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1763038311036-6d18805537e5",
+          "url": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1642055514517-7b52288890ec",
+          "url": "https://images.unsplash.com/photo-1642055514517-7b52288890ec?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — healthcare and pharmacy operations"
+        },
+        "ledger": {
+          "unsplashId": "1581094289810-adf5d25690e3",
+          "url": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1576602976047-174e57a47881?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/pharmacy-business-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/pharmacy-business-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/pharmacy-business-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1642055514517-7b52288890ec?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/pharmacy-business-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/pharmacy-business-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Homeopathic Business Management Software",
+      "slug": "homeopathic-business-management-software",
+      "pool": "medical",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1580281657527-47f249e8f4df",
+          "url": "https://images.unsplash.com/photo-1580281657527-47f249e8f4df?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — healthcare and pharmacy operations"
+        },
+        "reports": {
+          "unsplashId": "1551288049-bebda4e38f71",
+          "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1608222351212-18fe0ec7b13b",
+          "url": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1580281657529-557a6abb6387",
+          "url": "https://images.unsplash.com/photo-1580281657529-557a6abb6387?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — healthcare and pharmacy operations"
+        },
+        "ledger": {
+          "unsplashId": "1460925895917-afdab827c52f",
+          "url": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1580281657527-47f249e8f4df?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/homeopathic-business-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/homeopathic-business-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/homeopathic-business-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1580281657529-557a6abb6387?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/homeopathic-business-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/homeopathic-business-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Hotel Management Software",
+      "slug": "hotel-management-software",
+      "pool": "hospitality",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1551632436-cbf8dd35adfa",
+          "url": "https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — hotel and restaurant hospitality"
+        },
+        "reports": {
+          "unsplashId": "1526628953301-3e589a6a8b74",
+          "url": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1504868584819-f8e8b4b6d7e3",
+          "url": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1578474846511-04ba529f0b88",
+          "url": "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — hotel and restaurant hospitality"
+        },
+        "ledger": {
+          "unsplashId": "1599658880436-c61792e70672",
+          "url": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/hotel-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/hotel-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/hotel-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/hotel-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/hotel-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Tuc Shop Management Software",
+      "slug": "tuc-shop-management-software",
+      "pool": "hospitality",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1550966871-3ed3cdb5ed0c",
+          "url": "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — hotel and restaurant hospitality"
+        },
+        "reports": {
+          "unsplashId": "1542744173-05336fcc7ad4",
+          "url": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1580983559367-0dc2f8934365",
+          "url": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1549488344-1f9b8d2bd1f3",
+          "url": "https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — hotel and restaurant hospitality"
+        },
+        "ledger": {
+          "unsplashId": "1613347761493-4060c969cd28",
+          "url": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/tuc-shop-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/tuc-shop-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/tuc-shop-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1549488344-1f9b8d2bd1f3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/tuc-shop-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/tuc-shop-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Logistics & Transportation Software",
+      "slug": "logistics-transportation-software",
+      "pool": "logistics",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1740914994657-f1cdffdc418e",
+          "url": "https://images.unsplash.com/photo-1740914994657-f1cdffdc418e?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — warehouse and transport logistics"
+        },
+        "reports": {
+          "unsplashId": "1745847768367-893e989d3a98",
+          "url": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1518186285589-2f7649de83e0",
+          "url": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1601467995997-ac1ae9a8fff4",
+          "url": "https://images.unsplash.com/photo-1601467995997-ac1ae9a8fff4?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — warehouse and transport logistics"
+        },
+        "ledger": {
+          "unsplashId": "1613347761513-0f37baebfd20",
+          "url": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1740914994657-f1cdffdc418e?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/logistics-transportation-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/logistics-transportation-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/logistics-transportation-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1601467995997-ac1ae9a8fff4?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/logistics-transportation-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/logistics-transportation-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Motor Market Management Software",
+      "slug": "motor-market-management-software",
+      "pool": "retail",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1683840567064-e430df9f5ed6",
+          "url": "https://images.unsplash.com/photo-1683840567064-e430df9f5ed6?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — retail store and checkout operations"
+        },
+        "reports": {
+          "unsplashId": "1499673610122-01c7122c5dcb",
+          "url": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1763038311036-6d18805537e5",
+          "url": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1740355668529-1d42931b6850",
+          "url": "https://images.unsplash.com/photo-1740355668529-1d42931b6850?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — retail store and checkout operations"
+        },
+        "ledger": {
+          "unsplashId": "1581094289810-adf5d25690e3",
+          "url": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1683840567064-e430df9f5ed6?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/motor-market-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/motor-market-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/motor-market-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1740355668529-1d42931b6850?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/motor-market-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/motor-market-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Auto Parts Business Software",
+      "slug": "auto-parts-business-software",
+      "pool": "logistics",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1645736315000-6f788915923b",
+          "url": "https://images.unsplash.com/photo-1645736315000-6f788915923b?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — warehouse and transport logistics"
+        },
+        "reports": {
+          "unsplashId": "1551288049-bebda4e38f71",
+          "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1608222351212-18fe0ec7b13b",
+          "url": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1672552226669-f6c3041972ea",
+          "url": "https://images.unsplash.com/photo-1672552226669-f6c3041972ea?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — warehouse and transport logistics"
+        },
+        "ledger": {
+          "unsplashId": "1460925895917-afdab827c52f",
+          "url": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1645736315000-6f788915923b?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/auto-parts-business-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/auto-parts-business-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/auto-parts-business-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1672552226669-f6c3041972ea?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/auto-parts-business-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/auto-parts-business-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Poultry Control Shed Management Software",
+      "slug": "poultry-control-shed-management-software",
+      "pool": "poultry",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1548550023-2bdb3c5beed7",
+          "url": "https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — poultry farm and flock operations"
+        },
+        "reports": {
+          "unsplashId": "1526628953301-3e589a6a8b74",
+          "url": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1504868584819-f8e8b4b6d7e3",
+          "url": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1588597989061-b60ad0eefdbf",
+          "url": "https://images.unsplash.com/photo-1588597989061-b60ad0eefdbf?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — poultry farm and flock operations"
+        },
+        "ledger": {
+          "unsplashId": "1599658880436-c61792e70672",
+          "url": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1548550023-2bdb3c5beed7?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-control-shed-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-control-shed-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-control-shed-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1588597989061-b60ad0eefdbf?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-control-shed-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-control-shed-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Poultry Chicken Supply Management Software",
+      "slug": "poultry-chicken-supply-management-software",
+      "pool": "poultry",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1556316918-880f9e893822",
+          "url": "https://images.unsplash.com/photo-1556316918-880f9e893822?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — poultry farm and flock operations"
+        },
+        "reports": {
+          "unsplashId": "1542744173-05336fcc7ad4",
+          "url": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1580983559367-0dc2f8934365",
+          "url": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1589922583749-6b8473a85048",
+          "url": "https://images.unsplash.com/photo-1589922583749-6b8473a85048?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — poultry farm and flock operations"
+        },
+        "ledger": {
+          "unsplashId": "1613347761493-4060c969cd28",
+          "url": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1556316918-880f9e893822?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-chicken-supply-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-chicken-supply-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-chicken-supply-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1589922583749-6b8473a85048?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-chicken-supply-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-chicken-supply-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Poultry Waste Management Software",
+      "slug": "poultry-waste-management-software",
+      "pool": "poultry",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1441122456239-401e92b73c65",
+          "url": "https://images.unsplash.com/photo-1441122456239-401e92b73c65?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — poultry farm and flock operations"
+        },
+        "reports": {
+          "unsplashId": "1745847768367-893e989d3a98",
+          "url": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1518186285589-2f7649de83e0",
+          "url": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1569396327972-6231a5b05ea8",
+          "url": "https://images.unsplash.com/photo-1569396327972-6231a5b05ea8?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — poultry farm and flock operations"
+        },
+        "ledger": {
+          "unsplashId": "1613347761513-0f37baebfd20",
+          "url": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1441122456239-401e92b73c65?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-waste-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-waste-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-waste-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1569396327972-6231a5b05ea8?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-waste-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-waste-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Poultry Arhat Software",
+      "slug": "poultry-arhat-software",
+      "pool": "poultry",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1535275226173-7ee8b465f0c1",
+          "url": "https://images.unsplash.com/photo-1535275226173-7ee8b465f0c1?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — poultry farm and flock operations"
+        },
+        "reports": {
+          "unsplashId": "1499673610122-01c7122c5dcb",
+          "url": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1763038311036-6d18805537e5",
+          "url": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1630090374791-c9eb7bab3935",
+          "url": "https://images.unsplash.com/photo-1630090374791-c9eb7bab3935?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — poultry farm and flock operations"
+        },
+        "ledger": {
+          "unsplashId": "1581094289810-adf5d25690e3",
+          "url": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1535275226173-7ee8b465f0c1?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-arhat-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-arhat-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-arhat-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1630090374791-c9eb7bab3935?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-arhat-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/poultry-arhat-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Cloud ERP for Agriculture Business",
+      "slug": "cloud-erp-software-for-agriculture-business",
+      "pool": "agrifood",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1560493676-04071c5f467b",
+          "url": "https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — agriculture and crop management"
+        },
+        "reports": {
+          "unsplashId": "1551288049-bebda4e38f71",
+          "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1608222351212-18fe0ec7b13b",
+          "url": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1625246333195-78d9c38ad449",
+          "url": "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — agriculture and crop management"
+        },
+        "ledger": {
+          "unsplashId": "1460925895917-afdab827c52f",
+          "url": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1560493676-04071c5f467b?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/cloud-erp-software-for-agriculture-business/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/cloud-erp-software-for-agriculture-business/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/cloud-erp-software-for-agriculture-business/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/cloud-erp-software-for-agriculture-business/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/cloud-erp-software-for-agriculture-business/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Dairy Farm Management Software",
+      "slug": "dairy-farm-management-software",
+      "pool": "agrifood",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1563514227147-6d2ff665a6a0",
+          "url": "https://images.unsplash.com/photo-1563514227147-6d2ff665a6a0?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — agriculture and crop management"
+        },
+        "reports": {
+          "unsplashId": "1526628953301-3e589a6a8b74",
+          "url": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1504868584819-f8e8b4b6d7e3",
+          "url": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1499529112087-3cb3b73cec95",
+          "url": "https://images.unsplash.com/photo-1499529112087-3cb3b73cec95?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — agriculture and crop management"
+        },
+        "ledger": {
+          "unsplashId": "1599658880436-c61792e70672",
+          "url": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1563514227147-6d2ff665a6a0?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/dairy-farm-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/dairy-farm-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/dairy-farm-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1499529112087-3cb3b73cec95?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/dairy-farm-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/dairy-farm-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Marble & Granite Factory Software",
+      "slug": "marble-and-granite-factory-software",
+      "pool": "construction",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1599707254554-027aeb4deacd",
+          "url": "https://images.unsplash.com/photo-1599707254554-027aeb4deacd?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — construction site and building project"
+        },
+        "reports": {
+          "unsplashId": "1542744173-05336fcc7ad4",
+          "url": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1580983559367-0dc2f8934365",
+          "url": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1694521787162-5373b598945c",
+          "url": "https://images.unsplash.com/photo-1694521787162-5373b598945c?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — construction site and building project"
+        },
+        "ledger": {
+          "unsplashId": "1613347761493-4060c969cd28",
+          "url": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1599707254554-027aeb4deacd?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/marble-and-granite-factory-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/marble-and-granite-factory-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/marble-and-granite-factory-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1694521787162-5373b598945c?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/marble-and-granite-factory-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/marble-and-granite-factory-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Plastic Pipes & Fitting Industry Software",
+      "slug": "plastic-pipes-fitting-industry-software",
+      "pool": "construction",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1527335988388-b40ee248d80c",
+          "url": "https://images.unsplash.com/photo-1527335988388-b40ee248d80c?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — construction site and building project"
+        },
+        "reports": {
+          "unsplashId": "1745847768367-893e989d3a98",
+          "url": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1518186285589-2f7649de83e0",
+          "url": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1621511075938-f03482369feb",
+          "url": "https://images.unsplash.com/photo-1621511075938-f03482369feb?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — construction site and building project"
+        },
+        "ledger": {
+          "unsplashId": "1613347761513-0f37baebfd20",
+          "url": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1527335988388-b40ee248d80c?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/plastic-pipes-fitting-industry-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/plastic-pipes-fitting-industry-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/plastic-pipes-fitting-industry-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1621511075938-f03482369feb?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/plastic-pipes-fitting-industry-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/plastic-pipes-fitting-industry-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Ceiling & Wall Paneling Store Software",
+      "slug": "ceiling-and-wall-paneling-store-software",
+      "pool": "construction",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1602757115429-b4190ae087be",
+          "url": "https://images.unsplash.com/photo-1602757115429-b4190ae087be?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — construction site and building project"
+        },
+        "reports": {
+          "unsplashId": "1499673610122-01c7122c5dcb",
+          "url": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1763038311036-6d18805537e5",
+          "url": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1609867271967-a82f85c48531",
+          "url": "https://images.unsplash.com/photo-1609867271967-a82f85c48531?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — construction site and building project"
+        },
+        "ledger": {
+          "unsplashId": "1581094289810-adf5d25690e3",
+          "url": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1602757115429-b4190ae087be?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/ceiling-and-wall-paneling-store-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/ceiling-and-wall-paneling-store-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/ceiling-and-wall-paneling-store-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1609867271967-a82f85c48531?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/ceiling-and-wall-paneling-store-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/ceiling-and-wall-paneling-store-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Tiles & Ceramics Store Software",
+      "slug": "tiles-and-ceramics-store-software",
+      "pool": "construction",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1644221150167-fb4fafa7f411",
+          "url": "https://images.unsplash.com/photo-1644221150167-fb4fafa7f411?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — construction site and building project"
+        },
+        "reports": {
+          "unsplashId": "1551288049-bebda4e38f71",
+          "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1608222351212-18fe0ec7b13b",
+          "url": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1664662568348-24b1482b6354",
+          "url": "https://images.unsplash.com/photo-1664662568348-24b1482b6354?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — construction site and building project"
+        },
+        "ledger": {
+          "unsplashId": "1460925895917-afdab827c52f",
+          "url": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1644221150167-fb4fafa7f411?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/tiles-and-ceramics-store-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/tiles-and-ceramics-store-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/tiles-and-ceramics-store-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1664662568348-24b1482b6354?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/tiles-and-ceramics-store-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/tiles-and-ceramics-store-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Hardware & Sanitary Store Software",
+      "slug": "hardware-sanitary-store-software",
+      "pool": "construction",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1655975719898-8f3432eed322",
+          "url": "https://images.unsplash.com/photo-1655975719898-8f3432eed322?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — construction site and building project"
+        },
+        "reports": {
+          "unsplashId": "1526628953301-3e589a6a8b74",
+          "url": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1504868584819-f8e8b4b6d7e3",
+          "url": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1644221150186-5d785a471f44",
+          "url": "https://images.unsplash.com/photo-1644221150186-5d785a471f44?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — construction site and building project"
+        },
+        "ledger": {
+          "unsplashId": "1599658880436-c61792e70672",
+          "url": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1655975719898-8f3432eed322?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/hardware-sanitary-store-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/hardware-sanitary-store-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/hardware-sanitary-store-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1644221150186-5d785a471f44?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/hardware-sanitary-store-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/hardware-sanitary-store-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "ERP for Real Estate Business",
+      "slug": "erp-software-for-real-estate-business",
+      "pool": "property",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1656646424531-cc9041d3e5ca",
+          "url": "https://images.unsplash.com/photo-1656646424531-cc9041d3e5ca?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — commercial real estate and property"
+        },
+        "reports": {
+          "unsplashId": "1542744173-05336fcc7ad4",
+          "url": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1580983559367-0dc2f8934365",
+          "url": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1656646425073-a1ec4a84e0dc",
+          "url": "https://images.unsplash.com/photo-1656646425073-a1ec4a84e0dc?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — commercial real estate and property"
+        },
+        "ledger": {
+          "unsplashId": "1613347761493-4060c969cd28",
+          "url": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1656646424531-cc9041d3e5ca?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/erp-software-for-real-estate-business/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/erp-software-for-real-estate-business/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/erp-software-for-real-estate-business/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1656646425073-a1ec4a84e0dc?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/erp-software-for-real-estate-business/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/erp-software-for-real-estate-business/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "ERP for Construction Business",
+      "slug": "erp-software-for-construction-business",
+      "pool": "construction",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1643308012242-704341800ef3",
+          "url": "https://images.unsplash.com/photo-1643308012242-704341800ef3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — construction site and building project"
+        },
+        "reports": {
+          "unsplashId": "1745847768367-893e989d3a98",
+          "url": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1518186285589-2f7649de83e0",
+          "url": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1694521788304-1d42378498da",
+          "url": "https://images.unsplash.com/photo-1694521788304-1d42378498da?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — construction site and building project"
+        },
+        "ledger": {
+          "unsplashId": "1613347761513-0f37baebfd20",
+          "url": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1643308012242-704341800ef3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/erp-software-for-construction-business/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/erp-software-for-construction-business/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/erp-software-for-construction-business/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1694521788304-1d42378498da?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/erp-software-for-construction-business/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/erp-software-for-construction-business/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Visa & Immigration Consultants Software",
+      "slug": "software-for-visa-immigration-consultants",
+      "pool": "visa",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1581553673739-c4906b5d0de8",
+          "url": "https://images.unsplash.com/photo-1581553673739-c4906b5d0de8?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — business travel and immigration consulting"
+        },
+        "reports": {
+          "unsplashId": "1499673610122-01c7122c5dcb",
+          "url": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1763038311036-6d18805537e5",
+          "url": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1655722725332-9925c96dd627",
+          "url": "https://images.unsplash.com/photo-1655722725332-9925c96dd627?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — business travel and immigration consulting"
+        },
+        "ledger": {
+          "unsplashId": "1581094289810-adf5d25690e3",
+          "url": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1581553673739-c4906b5d0de8?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/software-for-visa-immigration-consultants/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/software-for-visa-immigration-consultants/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/software-for-visa-immigration-consultants/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1655722725332-9925c96dd627?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/software-for-visa-immigration-consultants/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/software-for-visa-immigration-consultants/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Computers & Laptop Business Software",
+      "slug": "computers-laptop-business-software",
+      "pool": "electronics",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1541807084-5c52b6b3adef",
+          "url": "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — electronics retail and inventory"
+        },
+        "reports": {
+          "unsplashId": "1551288049-bebda4e38f71",
+          "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1608222351212-18fe0ec7b13b",
+          "url": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1588872657578-7efd1f1555ed",
+          "url": "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — electronics retail and inventory"
+        },
+        "ledger": {
+          "unsplashId": "1460925895917-afdab827c52f",
+          "url": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/computers-laptop-business-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/computers-laptop-business-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1608222351212-18fe0ec7b13b?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/computers-laptop-business-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/computers-laptop-business-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/computers-laptop-business-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Electronics Management Software",
+      "slug": "electronics-management-software",
+      "pool": "electronics",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1511385348-a52b4a160dc2",
+          "url": "https://images.unsplash.com/photo-1511385348-a52b4a160dc2?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — electronics retail and inventory"
+        },
+        "reports": {
+          "unsplashId": "1526628953301-3e589a6a8b74",
+          "url": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1504868584819-f8e8b4b6d7e3",
+          "url": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1593642702821-c8da6771f0c6",
+          "url": "https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — electronics retail and inventory"
+        },
+        "ledger": {
+          "unsplashId": "1599658880436-c61792e70672",
+          "url": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1511385348-a52b4a160dc2?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/electronics-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/electronics-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/electronics-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/electronics-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1599658880436-c61792e70672?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/electronics-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Electric Store Management Software",
+      "slug": "electric-store-management-software",
+      "pool": "electronics",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1530893609608-32a9af3aa95c",
+          "url": "https://images.unsplash.com/photo-1530893609608-32a9af3aa95c?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — electronics retail and inventory"
+        },
+        "reports": {
+          "unsplashId": "1542744173-05336fcc7ad4",
+          "url": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1580983559367-0dc2f8934365",
+          "url": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1603302576837-37561b2e2302",
+          "url": "https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — electronics retail and inventory"
+        },
+        "ledger": {
+          "unsplashId": "1613347761493-4060c969cd28",
+          "url": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1530893609608-32a9af3aa95c?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/electric-store-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/electric-store-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1580983559367-0dc2f8934365?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/electric-store-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/electric-store-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761493-4060c969cd28?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/electric-store-management-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "Mobile Accessories Business Software",
+      "slug": "mobile-accessories-business-software",
+      "pool": "electronics",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1523398845774-0d176ba6fd41",
+          "url": "https://images.unsplash.com/photo-1523398845774-0d176ba6fd41?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — electronics retail and inventory"
+        },
+        "reports": {
+          "unsplashId": "1745847768367-893e989d3a98",
+          "url": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1518186285589-2f7649de83e0",
+          "url": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1571857089849-f6390447191a",
+          "url": "https://images.unsplash.com/photo-1571857089849-f6390447191a?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — electronics retail and inventory"
+        },
+        "ledger": {
+          "unsplashId": "1613347761513-0f37baebfd20",
+          "url": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1523398845774-0d176ba6fd41?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/mobile-accessories-business-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1745847768367-893e989d3a98?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/mobile-accessories-business-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/mobile-accessories-business-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1571857089849-f6390447191a?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/mobile-accessories-business-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1613347761513-0f37baebfd20?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/mobile-accessories-business-software/ledger.jpg"
+        }
+      }
+    },
+    {
+      "page": "EV Charging Station Management Software",
+      "slug": "ev-charging-station-management-software",
+      "pool": "electronics",
+      "oldImage": "Generic Pexels stock / accounts fallback / mismatched industry photo",
+      "images": {
+        "hero": {
+          "unsplashId": "1552857131-0afaed1953f5",
+          "url": "https://images.unsplash.com/photo-1552857131-0afaed1953f5?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Hero matches page title — electronics retail and inventory"
+        },
+        "reports": {
+          "unsplashId": "1499673610122-01c7122c5dcb",
+          "url": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Financial reports section — SaaS analytics dashboard"
+        },
+        "dashboard": {
+          "unsplashId": "1763038311036-6d18805537e5",
+          "url": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Industries/KPI section — modern ERP dashboard"
+        },
+        "meeting": {
+          "unsplashId": "1658988332863-0461ddfb6341",
+          "url": "https://images.unsplash.com/photo-1658988332863-0461ddfb6341?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Why-choose workflow — electronics retail and inventory"
+        },
+        "ledger": {
+          "unsplashId": "1581094289810-adf5d25690e3",
+          "url": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "reason": "Documents section — business records / ERP management context"
+        }
+      },
+      "downloaded": {
+        "hero": {
+          "selectedUrl": "https://images.unsplash.com/photo-1552857131-0afaed1953f5?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/ev-charging-station-management-software/hero.jpg"
+        },
+        "reports": {
+          "selectedUrl": "https://images.unsplash.com/photo-1499673610122-01c7122c5dcb?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/ev-charging-station-management-software/reports.jpg"
+        },
+        "dashboard": {
+          "selectedUrl": "https://images.unsplash.com/photo-1763038311036-6d18805537e5?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/ev-charging-station-management-software/dashboard.jpg"
+        },
+        "meeting": {
+          "selectedUrl": "https://images.unsplash.com/photo-1658988332863-0461ddfb6341?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/ev-charging-station-management-software/meeting.jpg"
+        },
+        "ledger": {
+          "selectedUrl": "https://images.unsplash.com/photo-1581094289810-adf5d25690e3?auto=format&fit=crop&w=1600&q=85",
+          "dest": "/software-images/ev-charging-station-management-software/ledger.jpg"
+        }
+      }
+    }
+  ]
+}

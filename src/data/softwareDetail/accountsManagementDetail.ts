@@ -44,7 +44,7 @@ function buildAccountsManagementSoftwareDetailEn(): SoftwareDetailPageData {
           'Our cloud-based Accounts Management Software is suitable for various industries and supports scalable financial management for growing businesses.',
         items: [
           { label: 'Retail Businesses', to: '/software/industry/retail-management-software' },
-          { label: 'Hospitality', to: '/software/industry/hospitality-management-software' },
+          { label: 'Hospitality', to: '/software/industry/hotel-management-software' },
           { label: 'Manufacturing', to: '/software/industry/garments-manufacturing-software' },
           { label: 'Professional Services', to: '/software/industry/small-and-medium-business-erp-software' },
           { label: 'Healthcare', to: '/software/industry/pharmacy-business-management-software' },

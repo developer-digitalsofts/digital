@@ -1884,7 +1884,7 @@ const CHICKEN_SUPPLY_TABS: SoftwareTabBlock[] = [
   },
 ]
 
-export function mergePoultryChickenSupplyIndustryPage(data: SoftwareDetailPageData): SoftwareDetailPageData {
+export function mergePoultryArhatIndustryPage(data: SoftwareDetailPageData): SoftwareDetailPageData {
   const pl = data.premiumLayout
   if (!pl) return data
 
@@ -1960,6 +1960,102 @@ export function mergePoultryChickenSupplyIndustryPage(data: SoftwareDetailPageDa
       ...data.demoCta,
       heading: 'Want To Try Our Software Or Need A Quotation?',
       sub: 'Share your email and contact number — we will respond with a tailored walkthrough or quotation for poultry arhat and broiler operations on DigitalManager.',
+    },
+  }
+}
+
+export function mergePoultryChickenSupplyIndustryPage(data: SoftwareDetailPageData): SoftwareDetailPageData {
+  const pl = data.premiumLayout
+  if (!pl) return data
+
+  const premiumLayout: SoftwarePremiumPageConfig = {
+    ...baseIndustryTrim(pl),
+    featuresHeading: 'Chicken Supply Software Features',
+    featuresLead:
+      'Farm procurement, cold-chain dispatch, dealer billing, and accounts — built for poultry chicken supply distributors.',
+    vouchersSectionEyebrow: 'Chicken supply chain',
+    challengesHeading: 'Why supply distributors choose DigitalManager',
+    challengesIntro:
+      'Loading slips, route dispatch, and dealer receivables need the same truth as purchase and inventory—without parallel notebooks.',
+    challengesListLead: '',
+    challengeBullets: [
+      'Farm purchase and loading aligned to dispatch',
+      'Route-wise delivery and dealer billing',
+      'Weight and mortality tracking on purchase',
+      'Feed and medicine inventory control',
+      'Dealer ledger and outstanding balances',
+      'Profitability by route and customer',
+    ],
+    solutionHeading: 'Supply chain on one cloud spine',
+    solutionParagraphs: [
+      'Manage chicken supply from farm purchase through loading, route dispatch, dealer sales, and accounts — with inventory and receivables aligned for poultry distributors.',
+    ],
+    heroAsideCaption: 'Chicken supply chain with purchase, dispatch, dealer sales, and accounts.',
+  }
+
+  return {
+    ...data,
+    metaTitle: 'Chicken Supply Chain Management Software | DigitalManager ERP',
+    metaDescription:
+      'Farm procurement, cold-chain dispatch, dealer billing, and accounts for poultry chicken supply distributors in Pakistan.',
+    premiumLayout,
+    hero: {
+      ...data.hero,
+      headline: 'Chicken Supply Chain Management Software',
+      subhead: 'Procurement. Dispatch. Dealer Billing. One ERP.',
+      intro:
+        'Manage chicken supply from farm purchase through loading, route dispatch, dealer sales, and accounts — with inventory and receivables aligned for poultry distributors.',
+      trust: [...GROCERY_TRUST],
+      ctaPrimary: { label: 'Get Live Demo', to: '/contact#contact-form' },
+      ctaSecondary: data.hero.ctaSecondary,
+    },
+    features: [
+      {
+        icon: 'Truck',
+        title: 'Farm Purchase & Loading',
+        description: 'Purchase orders, farm loading slips, and weight tracking.',
+      },
+      {
+        icon: 'Route',
+        title: 'Route Dispatch',
+        description: 'Delivery routes, vehicle loading, and dealer drop-offs.',
+      },
+      {
+        icon: 'Store',
+        title: 'Dealer Sales & Billing',
+        description: 'Dealer orders, invoicing, returns, and rate management.',
+      },
+      {
+        icon: 'Package',
+        title: 'Inventory Control',
+        description: 'Feed, medicine, and warehouse movements with GRN discipline.',
+      },
+      {
+        icon: 'Landmark',
+        title: 'Accounts & Receivables',
+        description: 'Vouchers, dealer ledger, and outstanding balance tracking.',
+      },
+      {
+        icon: 'BarChart3',
+        title: 'Supply Analytics',
+        description: 'Route profitability, purchase vs sale, and margin reports.',
+      },
+    ],
+    vouchersReports: {
+      heading: 'Chicken supply operations by area',
+      subheading: 'Purchase, dispatch, sales, inventory, and accounts — representative transactions and reports.',
+      tabs: CHICKEN_SUPPLY_TABS,
+    },
+    whyChoose: { ...data.whyChoose, points: [] },
+    realtimeReports: { ...data.realtimeReports, bullets: [] },
+    implementation: [],
+    related: [],
+    seoBlocks: [],
+    faqs: [],
+    demoCta: {
+      ...data.demoCta,
+      heading: 'Want To Try Our Software Or Need A Quotation?',
+      sub: 'Share your email and contact number — we will respond with a tailored walkthrough for your chicken supply chain.',
     },
   }
 }

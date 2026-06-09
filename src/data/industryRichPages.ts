@@ -177,10 +177,9 @@ Manage fuel dispatch, route planning, tanker tracking, inventory movement, and d
     subhead: 'Projects, timesheets, expenses, and client invoicing with utilisation and margin clarity — aligned to the DigitalManager services positioning.',
   },
   'petrol-gas-filling-station-software': {
-    headline: 'Cloud-Based Petrol Depot Management Software for Seamless Fuel Stock & Dispatch Control',
-    subhead: 'Track Tankers. Monitor Stock. Automate Billing.',
-    intro: `Powerful depot management software designed for oil depots and fuel storage facilities.
-Manage inventory, fuel dispatch, tanker movement, purchase operations, and financial accounting from one integrated ERP platform.`,
+    headline: 'Petrol & CNG Filling Station Management Software',
+    subhead: 'Nozzle sales, tank stock, and billing — built for forecourts and gas stations.',
+    intro: `Cloud ERP for petrol and CNG filling stations — manage nozzle sales, tank dips, lubricant inventory, credit customers, shift closing, and accounts from one platform.`,
   },
   'fleet-fuel-management-software': {
     headline: 'Cloud-Based Fleet Fuel Management Software to Maximize Efficiency & Minimize Costs',
@@ -291,9 +290,9 @@ Handle inventory, barcode billing, supplier purchases, sales, stock tracking, cu
     subhead: 'Project-linked retail with stock, dispatch, and receivables on one ERP.',
   },
   'poultry-chicken-supply-management-software': {
-    headline: 'Poultry Arhat Software for Broiler Farm and Chicken Sale Shops in Pakistan',
-    subhead: 'Manage Poultry Trading, Sales, and Inventory Efficiently.',
-    intro: `Digital Manager Poultry Arhat Software helps poultry traders and chicken sale businesses manage purchases, sales, inventory, accounts, and customer records from one centralized cloud-based platform.`,
+    headline: 'Chicken Supply Chain Management Software',
+    subhead: 'Track procurement, cold-chain dispatch, and dealer billing in one ERP.',
+    intro: `Manage chicken supply from farm purchase through loading, route dispatch, dealer sales, and accounts — with inventory and receivables aligned for poultry distributors.`,
   },
   'poultry-waste-management-software': {
     headline: 'Cloud Based Poultry Waste Collection Management Software',

@@ -1,12 +1,21 @@
 import { useMemo, useState } from 'react'
-import { ChevronDown } from 'lucide-react'
+import { Minus, Plus } from 'lucide-react'
 import { useI18n } from '../i18n/I18nProvider'
 import { useCms } from '../cms/CmsContext'
 import { pick } from '../cms/pick'
 import type { Bilingual } from '../cms/types'
 import { ScrollReveal } from './ScrollReveal'
 import { pageShellClass } from '../ui/pageShell'
-import { faqItem, faqPanel, faqTrigger, sectionContentTop, sectionMuted, sectionPad, sectionSubCenter, sectionTitle } from '../ui/saas'
+import {
+  faqItemInteractive,
+  faqPanelModern,
+  faqTriggerModern,
+  sectionContentTop,
+  sectionMuted,
+  sectionPad,
+  sectionSubCenter,
+  sectionTitle,
+} from '../ui/saas'
 
 const faqIndexes = [1, 2, 3, 4, 5, 6] as const
 
@@ -47,86 +56,57 @@ export function FAQSection() {
 
   const [open, setOpen] = useState<number | null>(0)
 
+  const renderFaqRow = (key: string | number, q: string, a: string, i: number) => {
+    const isOpen = open === i
+    return (
+      <div
+        key={key}
+        className={`${faqItemInteractive}${isOpen ? ' border-brand/45' : ''}`}
+        data-open={isOpen ? 'true' : 'false'}
+      >
+        <button
+          type="button"
+          className={faqTriggerModern}
+          aria-expanded={isOpen}
+          onClick={() => setOpen(isOpen ? null : i)}
+        >
+          <span className="pr-4">{q}</span>
+          <span
+            className={`flex size-10 shrink-0 items-center justify-center rounded-lg border transition-[background-color,border-color,transform] duration-300 ${
+              isOpen ? 'border-brand/35 bg-brand/[0.1]' : 'border-slate-200/90 bg-slate-50/80'
+            }`}
+          >
+            {isOpen ? (
+              <Minus className="size-[1.125rem] text-brand" strokeWidth={2} aria-hidden />
+            ) : (
+              <Plus className="size-[1.125rem] text-slate-500" strokeWidth={2} aria-hidden />
+            )}
+          </span>
+        </button>
+        <div
+          className={`grid transition-[grid-template-rows] duration-350 ease-out motion-reduce:duration-0 ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+        >
+          <div className="min-h-0 overflow-hidden">
+            <div className={faqPanelModern}>{a}</div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <section id="faqs" className={`scroll-mt-28 ${sectionMuted} ${sectionPad}`}>
       <div className={pageShellClass}>
-        <div className="mx-auto w-full max-w-[min(100%,40rem)]">
-        <ScrollReveal>
-          <h2 className={sectionTitle}>{title}</h2>
-          <p className={`${sectionSubCenter} mx-auto max-w-xl`}>{sub}</p>
-        </ScrollReveal>
-        <div className={`${sectionContentTop} space-y-2.5`}>
-          {items && items.length > 0
-            ? items.map((row, i) => {
-                const isOpen = open === i
-                return (
-                  <div
-                    key={row.id}
-                    className={faqItem}
-                  >
-                    <button
-                      type="button"
-                      className={faqTrigger}
-                      aria-expanded={isOpen}
-                      onClick={() => setOpen(isOpen ? null : i)}
-                    >
-                      <span className="pr-2">{row.q}</span>
-                      <span
-                        className={`flex size-8 shrink-0 items-center justify-center rounded-full border transition-[background-color,border-color,transform] duration-300 ${
-                          isOpen
-                            ? 'rotate-180 border-brand/25 bg-brand/10'
-                            : 'border-slate-200/80 bg-slate-50'
-                        }`}
-                      >
-                        <ChevronDown className="size-4 text-brand" aria-hidden />
-                      </span>
-                    </button>
-                    <div
-                      className={`grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:duration-0 ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
-                    >
-                      <div className="min-h-0 overflow-hidden">
-                        <div className={faqPanel}>{row.a}</div>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })
-            : faqIndexes.map((n, i) => {
-                const isOpen = open === i
-                const q = t(`faq.q${n}`)
-                return (
-                  <div
-                    key={n}
-                    className={faqItem}
-                  >
-                    <button
-                      type="button"
-                      className={faqTrigger}
-                      aria-expanded={isOpen}
-                      onClick={() => setOpen(isOpen ? null : i)}
-                    >
-                      <span className="pr-2">{q}</span>
-                      <span
-                        className={`flex size-8 shrink-0 items-center justify-center rounded-full border transition-[background-color,border-color,transform] duration-300 ${
-                          isOpen
-                            ? 'rotate-180 border-brand/25 bg-brand/10'
-                            : 'border-slate-200/80 bg-slate-50'
-                        }`}
-                      >
-                        <ChevronDown className="size-4 text-brand" aria-hidden />
-                      </span>
-                    </button>
-                    <div
-                      className={`grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:duration-0 ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
-                    >
-                      <div className="min-h-0 overflow-hidden">
-                        <div className={faqPanel}>{t(`faq.a${n}`)}</div>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
-        </div>
+        <div className="mx-auto w-full max-w-[64rem]">
+          <ScrollReveal>
+            <h2 className={sectionTitle}>{title}</h2>
+            <p className={`${sectionSubCenter} mx-auto max-w-2xl`}>{sub}</p>
+          </ScrollReveal>
+          <div className={`${sectionContentTop} space-y-4 md:space-y-5 lg:space-y-6`}>
+            {items && items.length > 0
+              ? items.map((row, i) => renderFaqRow(row.id, row.q, row.a, i))
+              : faqIndexes.map((n, i) => renderFaqRow(n, t(`faq.q${n}`), t(`faq.a${n}`), i))}
+          </div>
         </div>
       </div>
     </section>
