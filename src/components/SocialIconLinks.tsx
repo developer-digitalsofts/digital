@@ -72,7 +72,7 @@ export function HeaderSocialLinks() {
 }
 
 const footerLinkClass =
-  'rounded-full border border-white/15 bg-white/[0.08] p-2.5 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-[background-color,border-color,transform] duration-200 hover:border-white/30 hover:bg-white/12 hover:text-white motion-safe:hover:scale-105'
+  'rounded-full border border-white/15 bg-white/[0.08] p-2.5 text-white transition-[background-color,border-color] duration-200 hover:border-white/30 hover:bg-white/12 hover:text-white'
 
 export type FooterSocialItem = { id: string; platform: FooterSocialPlatform; href: string }
 

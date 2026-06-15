@@ -61,33 +61,47 @@ export function FAQSection() {
     return (
       <div
         key={key}
-        className={`${faqItemInteractive}${isOpen ? ' border-brand/45' : ''}`}
+        className={`${faqItemInteractive} group/faq relative hover:border-brand/25${
+          isOpen ? ' border-brand/40 bg-white' : ''
+        }`}
         data-open={isOpen ? 'true' : 'false'}
       >
         <button
           type="button"
-          className={faqTriggerModern}
+          className={`${faqTriggerModern}${isOpen ? ' bg-brand/[0.03]' : ''}`}
           aria-expanded={isOpen}
           onClick={() => setOpen(isOpen ? null : i)}
         >
-          <span className="pr-4">{q}</span>
           <span
-            className={`flex size-10 shrink-0 items-center justify-center rounded-lg border transition-[background-color,border-color,transform] duration-300 ${
-              isOpen ? 'border-brand/35 bg-brand/[0.1]' : 'border-slate-200/90 bg-slate-50/80'
+            className={`pr-4 text-[1.0625rem] transition-colors duration-300 sm:text-lg ${
+              isOpen ? 'font-bold text-brand-deep' : 'font-semibold text-slate-900 group-hover/faq:text-slate-800'
+            }`}
+          >
+            {q}
+          </span>
+          <span
+            className={`flex size-11 shrink-0 items-center justify-center rounded-xl border transition-all duration-200 ease-out ${
+              isOpen
+                ? 'border-brand/40 bg-brand text-white'
+                : 'border-[rgba(15,23,42,0.08)] bg-slate-50/90 text-slate-500 group-hover/faq:border-brand/30 group-hover/faq:bg-brand/[0.06] group-hover/faq:text-brand'
             }`}
           >
             {isOpen ? (
-              <Minus className="size-[1.125rem] text-brand" strokeWidth={2} aria-hidden />
+              <Minus className="size-5" strokeWidth={2.5} aria-hidden />
             ) : (
-              <Plus className="size-[1.125rem] text-slate-500" strokeWidth={2} aria-hidden />
+              <Plus className="size-5" strokeWidth={2.5} aria-hidden />
             )}
           </span>
         </button>
         <div
-          className={`grid transition-[grid-template-rows] duration-350 ease-out motion-reduce:duration-0 ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+          className={`grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:duration-0 ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
         >
           <div className="min-h-0 overflow-hidden">
-            <div className={faqPanelModern}>{a}</div>
+            <div
+              className={`${faqPanelModern}${isOpen ? ' border-l-[3px] border-brand/50 bg-white' : ''}`}
+            >
+              {a}
+            </div>
           </div>
         </div>
       </div>
@@ -97,12 +111,12 @@ export function FAQSection() {
   return (
     <section id="faqs" className={`scroll-mt-28 ${sectionMuted} ${sectionPad}`}>
       <div className={pageShellClass}>
-        <div className="mx-auto w-full max-w-[64rem]">
+        <div className="mx-auto w-full max-w-[52rem] lg:max-w-[56rem] xl:max-w-[60rem]">
           <ScrollReveal>
             <h2 className={sectionTitle}>{title}</h2>
-            <p className={`${sectionSubCenter} mx-auto max-w-2xl`}>{sub}</p>
+            <p className={`${sectionSubCenter} mx-auto mt-4 max-w-2xl text-slate-600`}>{sub}</p>
           </ScrollReveal>
-          <div className={`${sectionContentTop} space-y-4 md:space-y-5 lg:space-y-6`}>
+          <div className={`${sectionContentTop} space-y-4 md:space-y-5`}>
             {items && items.length > 0
               ? items.map((row, i) => renderFaqRow(row.id, row.q, row.a, i))
               : faqIndexes.map((n, i) => renderFaqRow(n, t(`faq.q${n}`), t(`faq.a${n}`), i))}

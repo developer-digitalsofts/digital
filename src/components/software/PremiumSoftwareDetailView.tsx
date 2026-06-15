@@ -2,7 +2,7 @@ import { useEffect, useId, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import * as Icons from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import { ChevronLeft, ChevronRight, FileText, MessageCircle, Send } from 'lucide-react'
+import { ChevronLeft, ChevronRight, FileText } from 'lucide-react'
 import { useI18n } from '../../i18n/I18nProvider'
 import type { SoftwareDetailPageData } from '../../data/softwareDetail/types'
 import { getPremiumPhotoPaths } from '../../data/softwareDetail/premiumImagePacks'
@@ -14,9 +14,13 @@ import {
   PremiumTeamMeetingPhoto,
 } from './PremiumSoftwarePhotos'
 import { pageShellClass } from '../../ui/pageShell'
-import { cardDesc, cardInteractive, cardTitle, detailCardStatic, iconBoxLg } from '../../ui/saas'
+import { SoftwareColorIcon, detailCardAccentStyle } from '../SoftwareColorIcon'
+import { detailCardIconAccent, isModuleSlug, softwarePageIconName } from '../../ui/cardIconColors'
+import { cardDesc, cardFlat, cardInteractive, cardTitle, detailCardStatic } from '../../ui/saas'
 import { WHATSAPP_URL } from '../../constants'
 import { CmsLink } from '../CmsLink'
+import { SoftwareDemoCtaSection } from './SoftwareDemoCtaSection'
+import { useDetailPageInquiry } from './useDetailPageInquiry'
 
 function IconByName({ name, className }: { name: string; className?: string }) {
   const Cmp =
@@ -24,8 +28,9 @@ function IconByName({ name, className }: { name: string; className?: string }) {
   return <Cmp className={className} aria-hidden />
 }
 
-const DETAIL_FEATURE_CARD = `${cardInteractive} flex h-full flex-col p-6`
-const DETAIL_PANEL_CARD = detailCardStatic
+const DETAIL_FEATURE_CARD = `${cardFlat} card-accent-hover flex h-full flex-col p-6 transition-[border-color,transform] hover:-translate-y-px`
+const DETAIL_INNER_CARD = `${cardFlat} bg-white`
+const DETAIL_PANEL_CARD = `${detailCardStatic} bg-white`
 
 type Props = {
   detail: SoftwareDetailPageData
@@ -66,14 +71,19 @@ export function PremiumSoftwareDetailView({
   const uid = useId()
   const ChevronFwd = lang === 'ar' ? ChevronLeft : ChevronRight
   const [tab, setTab] = useState(0)
-  const [demoEmail, setDemoEmail] = useState('')
-  const [demoPhone, setDemoPhone] = useState('')
+  const { demoEmail, setDemoEmail, submitStatus, onSubmit: onDemoSubmit } = useDetailPageInquiry(
+    displayName,
+    slug,
+  )
 
   const photoPaths = useMemo(() => getPremiumPhotoPaths(slug), [slug])
+  const heroImageOverride = detail.heroImageUrl?.trim() || undefined
   const productLabel = useMemo(
     () => displayName.replace(/\s+Software$/i, '').replace(/\s+ERP$/i, '').trim() || displayName,
     [displayName],
   )
+  const pageKind = useMemo(() => (isModuleSlug(slug) ? ('module' as const) : ('industry' as const)), [slug])
+  const pageHeroIcon = useMemo(() => softwarePageIconName(slug, pageKind), [slug, pageKind])
 
   useEffect(() => {
     document.title = detail.metaTitle
@@ -95,17 +105,6 @@ export function PremiumSoftwareDetailView({
 
   const tabs = detail.vouchersReports.tabs
   const activeTab = tabs[tab] ?? tabs[0]
-
-  const mailtoDemo = useMemo(() => {
-    const body = [
-      `Request for Demo — ${displayName}`,
-      demoEmail && `Email: ${demoEmail}`,
-      demoPhone && `Contact number: ${demoPhone}`,
-    ]
-      .filter(Boolean)
-      .join('\n')
-    return `mailto:info@digitalmanager.ae?subject=${encodeURIComponent(`Demo — ${displayName}`)}&body=${encodeURIComponent(body)}`
-  }, [demoEmail, demoPhone, displayName])
 
   const chips = cfg.heroChips ?? []
   const isAccountsPage = cfg.layout === 'accounts-management'
@@ -161,6 +160,7 @@ export function PremiumSoftwareDetailView({
 
             <div className="grid gap-9 lg:grid-cols-[minmax(0,1.02fr)_minmax(420px,0.98fr)] lg:items-center lg:gap-12">
               <div>
+                <SoftwareColorIcon icon={pageHeroIcon} slug={slug} kind={pageKind} className="mb-4" />
                 <p className="inline-flex rounded-full border border-brand/15 bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-brand">
                   {detail.hero.eyebrow}
                 </p>
@@ -188,20 +188,23 @@ export function PremiumSoftwareDetailView({
               </div>
 
               <div className="relative mx-auto w-full max-w-xl lg:mx-0">
-                <PremiumHeroPhoto paths={photoPaths} productLabel={productLabel} />
+                <PremiumHeroPhoto paths={photoPaths} productLabel={productLabel} overrideSrc={heroImageOverride} />
               </div>
             </div>
 
             <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {detail.hero.trust.map((stat) => (
+              {detail.hero.trust.map((stat, statIdx) => (
                 <article
                   key={stat.label}
-                  className="rounded-2xl border border-slate-200/90 bg-white p-5 text-center"
+                  className={`card-accent-hover rounded-2xl border border-[rgba(15,23,42,0.12)] bg-white p-5 text-center transition-[border-color,transform] hover:-translate-y-px`}
+                  style={detailCardAccentStyle(statIdx)}
                 >
                   {stat.icon ? (
-                    <div className={`${iconBoxLg} mx-auto mb-3`}>
-                      <IconByName name={stat.icon} className="size-7" />
-                    </div>
+                    <SoftwareColorIcon
+                      icon={stat.icon}
+                      paletteIndex={statIdx}
+                      className="mx-auto mb-3"
+                    />
                   ) : null}
                   <p className="font-heading text-xl font-bold text-slate-950 md:text-2xl">{stat.value}</p>
                   <p className="mt-1 text-xs font-medium leading-snug text-slate-600">{stat.label}</p>
@@ -221,11 +224,9 @@ export function PremiumSoftwareDetailView({
               <p className="mt-3 text-sm leading-relaxed text-slate-600 md:text-base">{cfg.featuresLead}</p>
             </div>
             <div className="mt-8 grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
-              {detail.features.slice(0, 6).map((feature) => (
-                <article key={feature.title} className={DETAIL_FEATURE_CARD}>
-                  <div className={iconBoxLg}>
-                    <IconByName name={feature.icon} className="size-7" />
-                  </div>
+              {detail.features.slice(0, 6).map((feature, featIdx) => (
+                <article key={feature.title} className={DETAIL_FEATURE_CARD} style={detailCardAccentStyle(featIdx)}>
+                  <SoftwareColorIcon icon={feature.icon} paletteIndex={featIdx} />
                   <h3 className={`${cardTitle} mt-5 line-clamp-2`}>{feature.title}</h3>
                   <p className={`${cardDesc} line-clamp-3`}>{feature.description}</p>
                 </article>
@@ -247,9 +248,7 @@ export function PremiumSoftwareDetailView({
             <div className="mt-8 grid gap-4 lg:grid-cols-3">
               <article className={DETAIL_PANEL_CARD}>
                 <div className="flex items-center gap-4">
-                  <span className={iconBoxLg}>
-                    <IconByName name="AlertTriangle" className="size-7" />
-                  </span>
+                  <SoftwareColorIcon icon="AlertTriangle" paletteIndex={0} className="shrink-0" />
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-brand">{ui.problem}</p>
                     <h3 className="font-heading text-lg font-bold text-slate-950">{cfg.challengesHeading}</h3>
@@ -268,9 +267,7 @@ export function PremiumSoftwareDetailView({
 
               <article className={DETAIL_PANEL_CARD}>
                 <div className="flex items-center gap-4">
-                  <span className={iconBoxLg}>
-                    <IconByName name="ReceiptText" className="size-7" />
-                  </span>
+                  <SoftwareColorIcon icon="ReceiptText" paletteIndex={1} className="shrink-0" />
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-brand">{ui.transactions}</p>
                     <h3 className="font-heading text-lg font-bold text-slate-950">{transactionTab.title}</h3>
@@ -280,7 +277,7 @@ export function PremiumSoftwareDetailView({
                   {transactionTab.items.map((item) => (
                     <li
                       key={item.name}
-                      className="flex items-start gap-2.5 rounded-xl border border-slate-100 bg-slate-50/70 px-3 py-2 text-sm font-medium text-slate-800"
+                      className="flex items-start gap-2.5 rounded-2xl border border-[rgba(15,23,42,0.12)] bg-white px-3 py-2 text-sm font-medium text-slate-800"
                     >
                       <FileText className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden />
                       <span>{item.name}</span>
@@ -291,9 +288,7 @@ export function PremiumSoftwareDetailView({
 
               <article className={DETAIL_PANEL_CARD}>
                 <div className="flex items-center gap-4">
-                  <span className={iconBoxLg}>
-                    <IconByName name="BarChart3" className="size-7" />
-                  </span>
+                  <SoftwareColorIcon icon="BarChart3" paletteIndex={2} className="shrink-0" />
                   <div>
                     <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-brand">{ui.reporting}</p>
                     <h3 className="font-heading text-lg font-bold text-slate-950">{reportingTab.title}</h3>
@@ -302,7 +297,7 @@ export function PremiumSoftwareDetailView({
                 <ul className="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2">
                   {reportingTab.items.map((item) => (
                     <li key={item.name}>
-                      <details className="group overflow-hidden rounded-xl border border-slate-100 bg-slate-50/70 transition-[background-color,border-color] hover:border-slate-200 hover:bg-white open:border-brand/25 open:bg-white">
+                      <details className="group overflow-hidden rounded-2xl border border-[rgba(15,23,42,0.12)] bg-white transition-[border-color] hover:border-brand/35 open:border-brand/35">
                         <summary className="flex min-h-[56px] cursor-pointer list-none items-center justify-between gap-3 px-3 py-2.5 text-sm font-semibold leading-snug text-slate-900 [&::-webkit-details-marker]:hidden">
                           <span className="min-w-0 flex-1">{item.name}</span>
                           {item.description ? (
@@ -326,7 +321,7 @@ export function PremiumSoftwareDetailView({
               </article>
             </div>
 
-            <div className="mt-5 rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50/90 via-white to-white p-5 md:p-6">
+            <div className={`mt-5 ${DETAIL_INNER_CARD} p-5 md:p-6`}>
               <div className="grid gap-4 md:grid-cols-[220px_minmax(0,1fr)] md:items-start">
                 <div>
                   <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-emerald-700">{ui.solutionLabel}</p>
@@ -334,7 +329,7 @@ export function PremiumSoftwareDetailView({
                 </div>
                 <div className="grid gap-3 md:grid-cols-2">
                   {cfg.solutionParagraphs.map((para) => (
-                    <p key={para} className="rounded-xl border border-emerald-100/80 bg-white/80 px-4 py-3 text-sm leading-relaxed text-slate-700">
+                    <p key={para} className={`${DETAIL_INNER_CARD} px-4 py-3 text-sm leading-relaxed text-slate-700`}>
                       {para}
                     </p>
                   ))}
@@ -359,11 +354,19 @@ export function PremiumSoftwareDetailView({
                 <div className="self-center">
                   <div className="grid gap-3">
                     {detail.whyChoose.points.map((point, idx) => (
-                      <article key={`${point.title}-${idx}`} className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
-                        <p className="text-[11px] font-bold uppercase tracking-wide text-brand">
-                          {t('softwareDetail.pointLabel')} {idx + 1}
-                        </p>
-                        <h3 className="mt-1 font-heading text-base font-bold text-slate-950">{point.title}</h3>
+                      <article
+                        key={`${point.title}-${idx}`}
+                        className="card-accent-hover rounded-2xl border border-[rgba(15,23,42,0.12)] bg-white p-4 transition-[border-color,transform] hover:-translate-y-px"
+                        style={detailCardAccentStyle(idx)}
+                      >
+                        <span
+                          className="inline-flex size-7 items-center justify-center rounded-full text-xs font-bold text-white"
+                          style={{ backgroundColor: detailCardIconAccent(idx) }}
+                          aria-hidden
+                        >
+                          {idx + 1}
+                        </span>
+                        <h3 className="mt-2 font-heading text-base font-bold text-slate-950">{point.title}</h3>
                         <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{point.body}</p>
                       </article>
                     ))}
@@ -389,9 +392,18 @@ export function PremiumSoftwareDetailView({
                   </h2>
                   <p className="mt-3 text-sm leading-relaxed text-slate-600 md:text-base">{detail.realtimeReports.intro}</p>
                   <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                    {detail.realtimeReports.bullets.map((bullet) => (
-                      <article key={bullet.title} className="rounded-2xl border border-slate-200 bg-white p-4">
-                        <h3 className="font-heading text-sm font-bold text-slate-950">{bullet.title}</h3>
+                    {detail.realtimeReports.bullets.map((bullet, bulletIdx) => (
+                      <article
+                        key={bullet.title}
+                        className="card-accent-hover rounded-2xl border border-[rgba(15,23,42,0.12)] bg-white p-4 transition-[border-color,transform] hover:-translate-y-px"
+                        style={detailCardAccentStyle(bulletIdx)}
+                      >
+                        <span
+                          className="inline-flex size-2 rounded-full"
+                          style={{ backgroundColor: detailCardIconAccent(bulletIdx) }}
+                          aria-hidden
+                        />
+                        <h3 className="mt-2 font-heading text-sm font-bold text-slate-950">{bullet.title}</h3>
                         <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{bullet.text}</p>
                       </article>
                     ))}
@@ -446,11 +458,10 @@ export function PremiumSoftwareDetailView({
                 {detail.implementation.map((step, idx) => (
                   <li
                     key={step.title}
-                    className={`${cardInteractive} p-6`}
+                    className={`${cardFlat} card-accent-hover p-6 transition-[border-color,transform] hover:-translate-y-px`}
+                    style={detailCardAccentStyle(idx)}
                   >
-                    <div className={`${iconBoxLg} mb-5`}>
-                      <IconByName name={step.icon} className="size-7 text-brand" />
-                    </div>
+                    <SoftwareColorIcon icon={step.icon} paletteIndex={idx} className="mb-5" />
                     <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
                       {t('softwareDetail.stepLabel')} {idx + 1}
                     </p>
@@ -463,70 +474,18 @@ export function PremiumSoftwareDetailView({
           </section>
         ) : null}
 
-        <section className="border-b border-slate-200 bg-gradient-to-br from-orange-50 via-amber-50/80 to-white py-10 md:py-14">
-          <div className={pageShellClass}>
-            <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-              <div className="lg:col-span-5">
-                <h2 className="font-heading text-2xl font-bold text-slate-900 md:text-3xl">{detail.demoCta.heading}</h2>
-                <p className="mt-3 text-sm leading-relaxed text-slate-600 md:text-base">{detail.demoCta.sub}</p>
-                <a
-                  href={detail.demoCta.whatsappHref ?? WHATSAPP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand hover:underline"
-                >
-                  <MessageCircle className="size-4" aria-hidden />
-                  {detail.demoCta.whatsappLabel}
-                </a>
-              </div>
-              <div className="lg:col-span-7">
-                <form
-                  className="flex flex-col gap-3 rounded-2xl border border-orange-100/80 bg-white/90 p-5 md:flex-row md:items-end md:gap-4 md:p-6"
-                  onSubmit={(e) => {
-                    e.preventDefault()
-                    window.location.href = mailtoDemo
-                  }}
-                >
-                  <div className="min-w-0 flex-1">
-                    <label className="text-xs font-semibold text-slate-600" htmlFor={`${uid}-email`}>
-                      {t('softwareDetail.emailLabel')}
-                    </label>
-                    <input
-                      id={`${uid}-email`}
-                      type="email"
-                      value={demoEmail}
-                      onChange={(e) => setDemoEmail(e.target.value)}
-                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-brand/30 focus:ring-2"
-                      placeholder={t('softwareDetail.emailPlaceholder')}
-                      autoComplete="email"
-                    />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <label className="text-xs font-semibold text-slate-600" htmlFor={`${uid}-phone`}>
-                      {t('softwareDetail.phoneLabel')}
-                    </label>
-                    <input
-                      id={`${uid}-phone`}
-                      type="tel"
-                      value={demoPhone}
-                      onChange={(e) => setDemoPhone(e.target.value)}
-                      className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-brand/30 focus:ring-2"
-                      placeholder={t('softwareDetail.phonePlaceholder')}
-                      autoComplete="tel"
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-xl bg-brand px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-dark md:min-w-[7rem]"
-                  >
-                    <Send className="size-4" aria-hidden />
-                    {cfg.demoSendButtonLabel}
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
+        <SoftwareDemoCtaSection
+          uid={uid}
+          heading={detail.demoCta.heading}
+          sub={detail.demoCta.sub}
+          whatsappHref={detail.demoCta.whatsappHref ?? WHATSAPP_URL}
+          whatsappLabel={detail.demoCta.whatsappLabel}
+          sendLabel={cfg.demoSendButtonLabel}
+          demoEmail={demoEmail}
+          setDemoEmail={setDemoEmail}
+          onSubmit={onDemoSubmit}
+          submitStatus={submitStatus}
+        />
 
         {detail.seoBlocks.length > 0 ? (
           <section className="border-b border-slate-100 bg-white py-10 md:py-16">
@@ -568,7 +527,7 @@ export function PremiumSoftwareDetailView({
                               const [title, ...rest] = item.split(' — ')
                               const body = rest.join(' — ')
                               return (
-                                <article key={item} className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
+                                <article key={item} className="rounded-2xl border border-[rgba(15,23,42,0.12)] bg-white p-4">
                                   <h4 className="font-heading text-sm font-bold text-slate-950">{title}</h4>
                                   {body ? <p className="mt-1.5 text-sm leading-relaxed text-slate-600">{body}</p> : null}
                                 </article>
@@ -600,7 +559,7 @@ export function PremiumSoftwareDetailView({
                 {detail.faqs.map((faq) => (
                   <details
                     key={faq.q}
-                    className={`${cardInteractive} px-5 py-4 open:border-brand/30 md:px-6 md:py-5`}
+                    className={`${cardInteractive} card-accent-hover px-5 py-4 open:border-brand/35 md:px-6 md:py-5`}
                   >
                     <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-bold text-slate-950 md:text-base [&::-webkit-details-marker]:hidden">
                       <span>{faq.q}</span>
@@ -637,6 +596,7 @@ export function PremiumSoftwareDetailView({
 
           <div className={`${showBreadcrumb ? 'mt-8' : ''} grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-12`}>
             <div>
+              <SoftwareColorIcon icon={pageHeroIcon} slug={slug} kind={pageKind} className="mb-4" />
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand">{detail.hero.eyebrow}</p>
               <h1 className="mt-3 font-heading text-3xl font-bold leading-[1.08] tracking-tight text-slate-900 md:text-4xl lg:text-[2.4rem]">
                 {detail.hero.headline}
@@ -658,7 +618,7 @@ export function PremiumSoftwareDetailView({
               </div>
             </div>
             <div className="relative mx-auto w-full max-w-xl space-y-3 lg:mx-0">
-              <PremiumHeroPhoto paths={photoPaths} productLabel={productLabel} />
+              <PremiumHeroPhoto paths={photoPaths} productLabel={productLabel} overrideSrc={heroImageOverride} />
               {chips.length > 0 ? (
                 <div className="grid grid-cols-3 gap-2">
                   {chips.map((f) => (
@@ -678,18 +638,17 @@ export function PremiumSoftwareDetailView({
           </div>
 
           <div className="mt-10 grid grid-cols-2 gap-3 border-t border-slate-100 pt-8 sm:grid-cols-4">
-            {detail.hero.trust.map((t) => (
+            {detail.hero.trust.map((trustItem, trustIdx) => (
               <div
-                key={t.label}
-                className="flex flex-col items-center gap-2 rounded-xl border border-slate-200/90 bg-white px-3 py-4 text-center "
+                key={trustItem.label}
+                className="card-accent-hover flex flex-col items-center gap-2 rounded-2xl border border-[rgba(15,23,42,0.12)] bg-white px-3 py-4 text-center transition-[border-color,transform] hover:-translate-y-px"
+                style={detailCardAccentStyle(trustIdx)}
               >
-                {t.icon ? (
-                  <div className="flex size-10 items-center justify-center rounded-full bg-brand/10 text-brand">
-                    <IconByName name={t.icon} className="size-5" />
-                  </div>
+                {trustItem.icon ? (
+                  <SoftwareColorIcon icon={trustItem.icon} paletteIndex={trustIdx} />
                 ) : null}
-                <div className="font-heading text-xl font-bold text-slate-900 md:text-2xl">{t.value}</div>
-                <div className="text-xs font-medium leading-snug text-slate-600">{t.label}</div>
+                <div className="font-heading text-xl font-bold text-slate-900 md:text-2xl">{trustItem.value}</div>
+                <div className="text-xs font-medium leading-snug text-slate-600">{trustItem.label}</div>
               </div>
             ))}
           </div>
@@ -701,14 +660,13 @@ export function PremiumSoftwareDetailView({
           <h2 className="font-heading text-2xl font-bold text-slate-900 md:text-3xl">{cfg.featuresHeading}</h2>
           <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-600 md:text-base">{cfg.featuresLead}</p>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {detail.features.slice(0, 6).map((f) => (
+            {detail.features.slice(0, 6).map((f, featIdx) => (
               <article
                 key={f.title}
-                className={`${cardInteractive} flex gap-4 p-6 md:gap-5`}
+                className={`${cardFlat} card-accent-hover flex gap-4 p-6 transition-[border-color,transform] hover:-translate-y-px md:gap-5`}
+                style={detailCardAccentStyle(featIdx)}
               >
-                <div className={`${iconBoxLg} shrink-0`}>
-                  <IconByName name={f.icon} className="size-7 text-brand" />
-                </div>
+                <SoftwareColorIcon icon={f.icon} paletteIndex={featIdx} className="shrink-0" />
                 <div className="min-w-0">
                   <h3 className={`${cardTitle} line-clamp-2`}>{f.title}</h3>
                   <p className={`${cardDesc} line-clamp-3`}>{f.description}</p>
@@ -727,7 +685,7 @@ export function PremiumSoftwareDetailView({
           <h2 className="mt-2 font-heading text-2xl font-bold text-slate-900 md:text-3xl">{detail.vouchersReports.heading}</h2>
           <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-600 md:text-base">{detail.vouchersReports.subheading}</p>
 
-          <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-4  md:p-6">
+          <div className={`mt-8 ${DETAIL_INNER_CARD} p-4 md:p-6`}>
             <div className="flex flex-wrap gap-2 border-b border-slate-100 pb-4">
               {tabs.map((tb, i) => (
                 <button
@@ -783,7 +741,7 @@ export function PremiumSoftwareDetailView({
                 </ol>
               ) : null}
             </div>
-            <div className="rounded-2xl border border-emerald-100 bg-gradient-to-br from-emerald-50/80 to-white p-6 md:p-8">
+            <div className={`${DETAIL_INNER_CARD} p-6 md:p-8`}>
               <h3 className="font-heading text-xl font-bold text-emerald-900">{cfg.solutionHeading}</h3>
               {cfg.solutionParagraphs.map((p, idx) => (
                 <p key={`sol-${idx}`} className="mt-4 text-sm leading-relaxed text-slate-700 md:text-base">
@@ -804,10 +762,18 @@ export function PremiumSoftwareDetailView({
                 <p className="mt-3 text-sm leading-relaxed text-slate-600 md:text-base">{detail.whyChoose.intro}</p>
                 <ul className="mt-8 space-y-4">
                   {detail.whyChoose.points.map((p, i) => (
-                    <li key={`${p.title}-${i}`} className="rounded-2xl border border-slate-200 bg-white p-5 ">
-                      <p className="text-xs font-bold uppercase tracking-wide text-brand">
-                        {t('softwareDetail.pointLabel')} {i + 1}
-                      </p>
+                    <li
+                      key={`${p.title}-${i}`}
+                      className="card-accent-hover rounded-2xl border border-[rgba(15,23,42,0.12)] bg-white p-5 transition-[border-color,transform] hover:-translate-y-px"
+                      style={detailCardAccentStyle(i)}
+                    >
+                      <span
+                        className="inline-flex size-7 items-center justify-center rounded-full text-xs font-bold text-white"
+                        style={{ backgroundColor: detailCardIconAccent(i) }}
+                        aria-hidden
+                      >
+                        {i + 1}
+                      </span>
                       <p className="mt-2 font-heading text-base font-bold text-slate-900">{p.title}</p>
                       <p className="mt-2 text-sm leading-relaxed text-slate-600">{p.body}</p>
                     </li>
@@ -836,8 +802,16 @@ export function PremiumSoftwareDetailView({
                 <p className="mt-4 text-sm font-semibold text-slate-800">{t('softwareDetail.reportBenefits')}</p>
                 <ul className="mt-4 space-y-3">
                   {detail.realtimeReports.bullets.map((b, idx) => (
-                    <li key={`rt-${idx}`} className="flex gap-3 rounded-xl border border-slate-100 bg-slate-50/60 px-4 py-3">
-                      <span className="mt-1 size-2 shrink-0 rounded-full bg-brand" aria-hidden />
+                    <li
+                      key={`rt-${idx}`}
+                      className="card-accent-hover flex gap-3 rounded-2xl border border-[rgba(15,23,42,0.12)] bg-white px-4 py-3 transition-[border-color,transform] hover:-translate-y-px"
+                      style={detailCardAccentStyle(idx)}
+                    >
+                      <span
+                        className="mt-1.5 size-2 shrink-0 rounded-full"
+                        style={{ backgroundColor: detailCardIconAccent(idx) }}
+                        aria-hidden
+                      />
                       <div>
                         <p className="text-sm font-bold text-slate-900">{b.title}</p>
                         <p className="mt-1 text-xs leading-relaxed text-slate-600 md:text-sm">{b.text}</p>
@@ -888,11 +862,10 @@ export function PremiumSoftwareDetailView({
               {detail.implementation.map((step, i) => (
                 <li
                   key={step.title}
-                  className={`${cardInteractive} relative overflow-hidden p-6`}
+                  className={`${cardFlat} card-accent-hover relative overflow-hidden p-6 transition-[border-color,transform] hover:-translate-y-px`}
+                  style={detailCardAccentStyle(i)}
                 >
-                  <div className={`${iconBoxLg} mb-5`}>
-                    <IconByName name={step.icon} className="size-7 text-brand" />
-                  </div>
+                  <SoftwareColorIcon icon={step.icon} paletteIndex={i} className="mb-5" />
                   <p className="text-xs font-bold uppercase tracking-wide text-slate-400">
                     {t('softwareDetail.stepLabel')} {i + 1}
                   </p>
@@ -905,70 +878,18 @@ export function PremiumSoftwareDetailView({
         </section>
       ) : null}
 
-      <section className="border-b border-slate-200 bg-gradient-to-br from-orange-50 via-amber-50/80 to-white py-10 md:py-14">
-        <div className={pageShellClass}>
-          <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
-            <div className="lg:col-span-5">
-              <h2 className="font-heading text-2xl font-bold text-slate-900 md:text-3xl">{detail.demoCta.heading}</h2>
-              <p className="mt-3 text-sm leading-relaxed text-slate-600 md:text-base">{detail.demoCta.sub}</p>
-              <a
-                href={detail.demoCta.whatsappHref ?? WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand hover:underline"
-              >
-                <MessageCircle className="size-4" aria-hidden />
-                {detail.demoCta.whatsappLabel}
-              </a>
-            </div>
-            <div className="lg:col-span-7">
-              <form
-                className="flex flex-col gap-3 rounded-2xl border border-orange-100/80 bg-white/90 p-5  md:flex-row md:items-end md:gap-4 md:p-6"
-                onSubmit={(e) => {
-                  e.preventDefault()
-                  window.location.href = mailtoDemo
-                }}
-              >
-                <div className="min-w-0 flex-1">
-                  <label className="text-xs font-semibold text-slate-600" htmlFor={`${uid}-email`}>
-                    {t('softwareDetail.emailLabel')}
-                  </label>
-                  <input
-                    id={`${uid}-email`}
-                    type="email"
-                    value={demoEmail}
-                    onChange={(e) => setDemoEmail(e.target.value)}
-                    className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-brand/30 focus:ring-2"
-                    placeholder={t('softwareDetail.emailPlaceholder')}
-                    autoComplete="email"
-                  />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <label className="text-xs font-semibold text-slate-600" htmlFor={`${uid}-phone`}>
-                    {t('softwareDetail.phoneLabel')}
-                  </label>
-                  <input
-                    id={`${uid}-phone`}
-                    type="tel"
-                    value={demoPhone}
-                    onChange={(e) => setDemoPhone(e.target.value)}
-                    className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none ring-brand/30 focus:ring-2"
-                    placeholder={t('softwareDetail.phonePlaceholder')}
-                    autoComplete="tel"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-xl bg-brand px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-dark md:min-w-[7rem]"
-                >
-                  <Send className="size-4" aria-hidden />
-                  {cfg.demoSendButtonLabel}
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
+      <SoftwareDemoCtaSection
+        uid={uid}
+        heading={detail.demoCta.heading}
+        sub={detail.demoCta.sub}
+        whatsappHref={detail.demoCta.whatsappHref ?? WHATSAPP_URL}
+        whatsappLabel={detail.demoCta.whatsappLabel}
+        sendLabel={cfg.demoSendButtonLabel}
+        demoEmail={demoEmail}
+        setDemoEmail={setDemoEmail}
+        onSubmit={onDemoSubmit}
+        submitStatus={submitStatus}
+      />
 
       {detail.seoBlocks.length > 0 ? (
         <section className="border-b border-slate-100 bg-white py-10 md:py-16">
@@ -999,7 +920,7 @@ export function PremiumSoftwareDetailView({
                       return (
                         <li
                           key={ii}
-                          className="flex gap-4 rounded-xl border border-slate-100 bg-slate-50/50 px-4 py-3 md:px-5 md:py-4"
+                          className={`flex gap-4 ${DETAIL_INNER_CARD} px-4 py-3 md:px-5 md:py-4`}
                         >
                           <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-brand/15 text-sm font-bold text-brand">
                             {ii + 1}
@@ -1026,7 +947,7 @@ export function PremiumSoftwareDetailView({
             <h2 className="font-heading text-2xl font-bold text-slate-900 md:text-3xl">{cfg.faqSectionHeading}</h2>
             <div className="mt-6 space-y-2">
               {detail.faqs.map((faq, i) => (
-                <details key={i} className="group rounded-2xl border border-slate-200 bg-white px-4 py-3 open:border-slate-300 md:px-5 md:py-4">
+                <details key={i} className={`${DETAIL_INNER_CARD} group px-4 py-3 open:border-brand/35 md:px-5 md:py-4`}>
                   <summary className="cursor-pointer list-none text-sm font-bold text-brand md:text-base [&::-webkit-details-marker]:hidden">
                     <span className="mr-2 text-slate-400 group-open:text-brand">▸</span>
                     {faq.q}

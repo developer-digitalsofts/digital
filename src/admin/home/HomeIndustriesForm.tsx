@@ -1,29 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import type { Bilingual } from '../../cms/types'
 import { useAdminSection } from '../hooks/useAdminSection'
 import { useAdminToast } from '../AdminToastContext'
 import { BilingualInputs } from '../cms/BilingualInputs'
 import { AdminFormActions } from '../cms/AdminFormActions'
 import { ConfirmDialog } from '../cms/ConfirmDialog'
-
-type IndItem = {
-  id: string
-  icon: string
-  category: Bilingual
-  title: Bilingual
-  description: Bilingual
-  href: string
-  sortOrder: number
-  active: boolean
-}
-
-type IndustriesDoc = {
-  title: Bilingual
-  subtitle: Bilingual
-  exploreLabel: Bilingual
-  items: IndItem[]
-  _meta?: Record<string, unknown>
-}
+import {
+  emptyIndustriesDoc,
+  normalizeIndustriesDoc,
+  type IndustriesDoc,
+} from './normalizeModulesIndustries'
 
 function sortItems<T extends { sortOrder?: number }>(xs: T[]) {
   return [...xs].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
@@ -37,11 +22,12 @@ export function HomeIndustriesForm() {
   const [delId, setDelId] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!sec.data) return
-    const d = { ...sec.data, items: sortItems(sec.data.items || []) }
+    if (sec.loading) return
+    const d = normalizeIndustriesDoc(sec.data ?? emptyIndustriesDoc())
+    d.items = sortItems(d.items)
     setLocal(d)
     setBaseline(JSON.stringify(d))
-  }, [sec.data])
+  }, [sec.data, sec.loading])
 
   const dirty = useMemo(() => (local ? JSON.stringify(local) !== baseline : false), [local, baseline])
 
@@ -77,7 +63,15 @@ export function HomeIndustriesForm() {
 
   return (
     <div className="space-y-6">
-      {sec.error ? <p className="text-sm text-red-700">{sec.error}</p> : null}
+      {sec.error ? (
+        <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-950">
+          <p className="font-medium">Could not refresh from server.</p>
+          <p className="mt-1">{sec.error}</p>
+          <button type="button" className="mt-2 text-xs font-semibold text-brand hover:underline" onClick={() => sec.reload()}>
+            Retry
+          </button>
+        </div>
+      ) : null}
       <BilingualInputs labelEn="Title (EN)" labelAr="Title (AR)" value={local.title} onChange={(title) => setLocal({ ...local, title })} />
       <BilingualInputs
         labelEn="Subtitle (EN)"
@@ -124,7 +118,7 @@ export function HomeIndustriesForm() {
       </div>
 
       <div className="space-y-8">
-        {sortItems(local.items).map((it) => (
+        {sortItems(local.items ?? []).map((it) => (
           <div key={it.id} className="rounded-xl border border-slate-200 bg-slate-50/40 p-4">
             <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
               <span className="font-mono text-xs text-slate-500">{it.id}</span>

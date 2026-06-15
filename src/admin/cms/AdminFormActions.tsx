@@ -4,6 +4,7 @@ type Props = {
   onCancel: () => void
   saveLabel?: string
   disableSave?: boolean
+  className?: string
 }
 
 export function AdminFormActions({
@@ -12,9 +13,10 @@ export function AdminFormActions({
   onCancel,
   saveLabel = 'Save Changes',
   disableSave = false,
+  className = '',
 }: Props) {
   return (
-    <div className="flex flex-wrap items-center gap-3 border-t border-slate-200 pt-4">
+    <div className={`flex flex-wrap items-center gap-3 border-t border-slate-200 pt-4 ${className}`.trim()}>
       <button
         type="button"
         onClick={() => void onSave()}

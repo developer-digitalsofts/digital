@@ -2,6 +2,7 @@
 
 interface ImportMetaEnv {
   readonly VITE_API_URL?: string
+  readonly NEXT_PUBLIC_CMS_API_URL?: string
 }
 
 interface ImportMeta {

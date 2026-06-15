@@ -22,10 +22,22 @@ export type DashboardSummary = {
     leadsContacted: number
     leadsClosed: number
     mediaFiles: number
+    detailPagesTotal: number
+    usersTotal: number
     lastUpdatedGlob: string | null
   }
   contentStatus?: ContentStatusRow[]
-  recentLeads: { id: string; name: string; email: string; phone: string; status: string; createdAt: string }[]
+  recentLeads: {
+    id: string
+    name: string
+    email: string
+    phone: string
+    message: string
+    source: string
+    sourcePage: string
+    status: string
+    createdAt: string
+  }[]
   recentActivity: {
     id: string
     action: string
@@ -161,6 +173,8 @@ export function getEmptyDashboard(): DashboardSummary {
       leadsContacted: 0,
       leadsClosed: 0,
       mediaFiles: 0,
+      detailPagesTotal: 0,
+      usersTotal: 0,
       lastUpdatedGlob: null,
     },
     contentStatus: defaultContentStatus(),
@@ -187,6 +201,8 @@ async function loadDashboardFallback(): Promise<DashboardSummary> {
     email,
     pageSections,
     faqsDoc,
+    pagesDoc,
+    usersList,
   ] = await Promise.all([
     tryAdmin<DashLegacy>('/api/admin/dashboard'),
     tryAdmin<DashboardSummary['recentActivity'][number][]>('/api/admin/activity'),
@@ -201,6 +217,8 @@ async function loadDashboardFallback(): Promise<DashboardSummary> {
     tryAdmin<unknown>('/api/admin/data/emailSettings'),
     tryAdmin<{ sections?: unknown[] }>('/api/admin/data/pageSections'),
     tryAdmin<{ items?: { active?: boolean }[] }>('/api/admin/data/faqs'),
+    tryAdmin<{ items?: unknown[] }>('/api/admin/pages'),
+    tryAdmin<{ id: string }[]>('/api/admin/users'),
   ])
 
   const faqItems = faqsDoc?.items || []
@@ -211,12 +229,17 @@ async function loadDashboardFallback(): Promise<DashboardSummary> {
     name: l.name ?? '',
     email: l.email ?? '',
     phone: l.phone ?? '',
+    message: l.message ?? '',
+    source: l.source ?? '',
+    sourcePage: l.sourcePage ?? '',
     status: l.status ?? 'New',
     createdAt: l.createdAt ?? '',
   }))
   const mediaRaw = Array.isArray(mediaList) ? mediaList : []
   const actRaw = Array.isArray(activity) ? activity : []
   const metaObj = meta && typeof meta === 'object' ? meta : {}
+  const pageItems = Array.isArray(pagesDoc?.items) ? pagesDoc!.items! : []
+  const usersRaw = Array.isArray(usersList) ? usersList : []
 
   const d = dash
   const cards = {
@@ -232,6 +255,8 @@ async function loadDashboardFallback(): Promise<DashboardSummary> {
     leadsContacted: normLeads.filter((x) => x.status === 'Contacted').length,
     leadsClosed: normLeads.filter((x) => x.status === 'Closed').length,
     mediaFiles: mediaRaw.length || (d?.mediaFiles ?? 0),
+    detailPagesTotal: pageItems.length,
+    usersTotal: usersRaw.length,
     lastUpdatedGlob: lastUpdatedFromMeta(metaObj),
   }
 
@@ -247,7 +272,7 @@ async function loadDashboardFallback(): Promise<DashboardSummary> {
   return {
     cards,
     contentStatus,
-    recentLeads: normLeads.slice(0, 5),
+    recentLeads: normLeads.slice(0, 8),
     recentActivity: actRaw.slice(0, 12),
     recentSections: Object.entries(metaObj)
       .map(([section, v]) => ({ section, updatedAt: v.updatedAt || '', updatedBy: v.updatedBy || '' }))
@@ -264,29 +289,55 @@ export type DashboardLoadSource = 'summary' | 'alias' | 'fallback' | 'empty'
 export type DashboardLoadResult = {
   data: DashboardSummary
   source: DashboardLoadSource
+  /** Last fetch error when falling back to empty data */
+  apiError?: string
 }
 
 /**
- * Loads dashboard data for `npm run dev:full` (Vite proxy → API).
+ * Loads dashboard data for `npm run dev` (Vite proxy → API).
  * Never throws: falls back through summary → alias → partial stitch → empty shell.
  */
 export async function loadDashboardSummary(): Promise<DashboardLoadResult> {
+  let lastError: string | undefined
+
+  const normalizeSummary = async (data: DashboardSummary): Promise<DashboardSummary> => {
+    data.cards.detailPagesTotal ??= 0
+    data.cards.usersTotal ??= 0
+    data.recentLeads = (data.recentLeads ?? []).map((l) => ({
+      id: l.id,
+      name: l.name ?? '',
+      email: l.email ?? '',
+      phone: l.phone ?? '',
+      message: l.message ?? '',
+      source: l.source ?? '',
+      sourcePage: l.sourcePage ?? '',
+      status: l.status ?? 'New',
+      createdAt: l.createdAt ?? '',
+    }))
+    await enrichDashboardCardsFromModulesIndustries(data.cards)
+    return data
+  }
+
+  const capture = (e: unknown) => {
+    lastError = e instanceof Error ? e.message : 'CMS API unavailable'
+  }
+
   try {
     const data = await adminFetch<DashboardSummary>('/api/admin/summary')
-    await enrichDashboardCardsFromModulesIndustries(data.cards)
-    return { data, source: 'summary' }
-  } catch {
+    return { data: await normalizeSummary(data), source: 'summary' }
+  } catch (e) {
+    capture(e)
     try {
       const data = await adminFetch<DashboardSummary>('/api/admin/cms-summary')
-      await enrichDashboardCardsFromModulesIndustries(data.cards)
-      return { data, source: 'alias' }
-    } catch {
+      return { data: await normalizeSummary(data), source: 'alias' }
+    } catch (e2) {
+      capture(e2)
       try {
         const data = await loadDashboardFallback()
-        await enrichDashboardCardsFromModulesIndustries(data.cards)
-        return { data, source: 'fallback' }
-      } catch {
-        return { data: getEmptyDashboard(), source: 'empty' }
+        return { data: await normalizeSummary(data), source: 'fallback' }
+      } catch (e3) {
+        capture(e3)
+        return { data: getEmptyDashboard(), source: 'empty', apiError: lastError }
       }
     }
   }

@@ -7,6 +7,7 @@ import { ScrollReveal } from './ScrollReveal'
 import { EnterpriseIconCard } from './EnterpriseIconCard'
 import { pageShellClass } from '../ui/pageShell'
 import { sectionContentTop, sectionMuted, sectionPad, sectionSubCenter, sectionTitle } from '../ui/saas'
+import { valueChainCardIconStyle } from '../ui/cardIconColors'
 
 import {
   Activity,
@@ -63,29 +64,35 @@ export function ValueChainSection() {
           <p className={sectionSubCenter}>{sub}</p>
         </ScrollReveal>
         <div
-          className={`${sectionContentTop} grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6`}
+          className={`${sectionContentTop} grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6`}
         >
           {cmsCards.length > 0
-            ? cmsCards.map((c, i) => (
-                <ScrollReveal key={c.id} delayMs={i * 80}>
-                  <EnterpriseIconCard
-                    title={c.title ? pick(c.title, lang) : ''}
-                    description={c.description ? pick(c.description, lang) : ''}
-                    icon={
-                      <LucideByName name={c.icon} strokeWidth={1.75} aria-hidden />
-                    }
-                  />
-                </ScrollReveal>
-              ))
-            : fallbackCards.map((c, i) => (
-                <ScrollReveal key={c.n} delayMs={i * 80}>
-                  <EnterpriseIconCard
-                    title={t(`valueChain.c${c.n}t`)}
-                    description={t(`valueChain.c${c.n}d`)}
-                    icon={<c.icon strokeWidth={1.75} aria-hidden />}
-                  />
-                </ScrollReveal>
-              ))}
+            ? cmsCards.map((c, i) => {
+                const iconStyle = valueChainCardIconStyle(i)
+                return (
+                  <ScrollReveal key={c.id} delayMs={i * 80}>
+                    <EnterpriseIconCard
+                      title={c.title ? pick(c.title, lang) : ''}
+                      description={c.description ? pick(c.description, lang) : ''}
+                      iconAccentColor={iconStyle.accent}
+                      icon={<LucideByName name={c.icon} strokeWidth={2} aria-hidden />}
+                    />
+                  </ScrollReveal>
+                )
+              })
+            : fallbackCards.map((c, i) => {
+                const iconStyle = valueChainCardIconStyle(i)
+                return (
+                  <ScrollReveal key={c.n} delayMs={i * 80}>
+                    <EnterpriseIconCard
+                      title={t(`valueChain.c${c.n}t`)}
+                      description={t(`valueChain.c${c.n}d`)}
+                      iconAccentColor={iconStyle.accent}
+                      icon={<c.icon strokeWidth={2} aria-hidden />}
+                    />
+                  </ScrollReveal>
+                )
+              })}
         </div>
       </div>
     </section>

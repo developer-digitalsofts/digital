@@ -1,7 +1,8 @@
 import type { Bilingual } from '../../cms/types'
+import { normalizeBilingual } from '../home/normalizeHomeData'
 
 type Props = {
-  value: Bilingual
+  value?: Bilingual
   onChange: (next: Bilingual) => void
   labelEn: string
   labelAr: string
@@ -10,6 +11,7 @@ type Props = {
 }
 
 export function BilingualInputs({ value, onChange, labelEn, labelAr, multiline, rows = 4 }: Props) {
+  const safe = normalizeBilingual(value)
   const Field = multiline ? 'textarea' : 'input'
   return (
     <div className="grid gap-4 sm:grid-cols-2">
@@ -17,8 +19,8 @@ export function BilingualInputs({ value, onChange, labelEn, labelAr, multiline, 
         <span className="mb-1 block font-semibold text-slate-800">{labelEn}</span>
         <Field
           className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none ring-brand/30 focus:ring-2"
-          value={value.en}
-          onChange={(e) => onChange({ ...value, en: e.target.value })}
+          value={safe.en}
+          onChange={(e) => onChange({ ...safe, en: e.target.value })}
           rows={multiline ? rows : undefined}
         />
       </label>
@@ -27,8 +29,8 @@ export function BilingualInputs({ value, onChange, labelEn, labelAr, multiline, 
         <Field
           className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none ring-brand/30 focus:ring-2"
           dir="rtl"
-          value={value.ar}
-          onChange={(e) => onChange({ ...value, ar: e.target.value })}
+          value={safe.ar}
+          onChange={(e) => onChange({ ...safe, ar: e.target.value })}
           rows={multiline ? rows : undefined}
         />
       </label>

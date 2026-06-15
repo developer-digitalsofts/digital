@@ -78,6 +78,8 @@ export type SoftwareDetailPageData = {
   accounts?: SoftwarePremiumPageConfig
   /** All other module & industry mega-menu pages use this for the premium template. */
   premiumLayout?: SoftwarePremiumPageConfig
+  /** CMS override — replaces default premium hero photo when set. */
+  heroImageUrl?: string
   hero: {
     eyebrow: string
     headline: string

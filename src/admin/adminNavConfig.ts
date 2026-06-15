@@ -1,101 +1,101 @@
 import type { LucideIcon } from 'lucide-react'
 import {
-  FileText,
+  FileStack,
+  Home,
   ImageIcon,
+  Layers,
   LayoutDashboard,
-  Megaphone,
-  PanelTop,
-  Settings,
+  LogOut,
+  MessageSquare,
+  PanelBottom,
+  Phone,
+  Sparkles,
+  UserCircle,
+  Users,
 } from 'lucide-react'
+import {
+  ADMIN_DETAIL_PAGES_PATH,
+  ADMIN_ERP_MODULES_PATH,
+  ADMIN_HOME_EDITOR_PATH,
+  ADMIN_INDUSTRIES_PATH,
+} from './home/adminHomeEditorTabs'
 
-export type NavChild = { to: string; label: string; end?: boolean }
-
-export type NavGroup = {
+export type AdminNavItem = {
   id: string
+  to: string
   label: string
   icon: LucideIcon
-  children: NavChild[]
+  end?: boolean
 }
 
-export const ADMIN_NAV_GROUPS: NavGroup[] = [
-  {
-    id: 'dashboard',
-    label: 'Dashboard',
-    icon: LayoutDashboard,
-    children: [{ to: '/admin', label: 'Dashboard', end: true }],
-  },
-  {
-    id: 'pages',
-    label: 'Pages',
-    icon: FileText,
-    children: [
-      { to: '/admin/pages', label: 'All Pages', end: true },
-      { to: '/admin/pages/new', label: 'Add New Page' },
-      { to: '/admin/pages/home', label: 'Home Page Sections' },
-    ],
-  },
-  {
-    id: 'layout',
-    label: 'Layout',
-    icon: PanelTop,
-    children: [
-      { to: '/admin/layout/header', label: 'Header' },
-      { to: '/admin/layout/footer', label: 'Footer' },
-      { to: '/admin/layout/navigation', label: 'Navigation' },
-    ],
-  },
-  {
-    id: 'media',
-    label: 'Media & Enquiries',
-    icon: ImageIcon,
-    children: [
-      { to: '/admin/media', label: 'Media Library' },
-      { to: '/admin/leads', label: 'Leads' },
-    ],
-  },
-  {
-    id: 'marketing',
-    label: 'Marketing',
-    icon: Megaphone,
-    children: [
-      { to: '/admin/seo', label: 'SEO' },
-      { to: '/admin/whatsapp', label: 'WhatsApp' },
-      { to: '/admin/email-settings', label: 'Email Settings' },
-    ],
-  },
-  {
-    id: 'settings',
-    label: 'Settings',
-    icon: Settings,
-    children: [
-      { to: '/admin/site-settings', label: 'Site Settings' },
-      { to: '/admin/backup', label: 'Backup / Restore' },
-      { to: '/admin/activity', label: 'Activity Log' },
-      { to: '/admin/profile', label: 'Profile' },
-      { to: '/admin/change-password', label: 'Password' },
-    ],
-  },
+export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
+  { id: 'dashboard', to: '/admin', label: 'Dashboard', icon: LayoutDashboard, end: true },
+  { id: 'homepage', to: ADMIN_HOME_EDITOR_PATH, label: 'Homepage', icon: Home },
+  { id: 'modules', to: ADMIN_ERP_MODULES_PATH, label: 'ERP Modules', icon: Layers },
+  { id: 'industries', to: ADMIN_INDUSTRIES_PATH, label: 'Industries', icon: Sparkles },
+  { id: 'detail-pages', to: ADMIN_DETAIL_PAGES_PATH, label: 'Detail Pages', icon: FileStack, end: true },
+  { id: 'inquiries', to: '/admin/leads', label: 'Contact Inquiries', icon: MessageSquare },
+  { id: 'media', to: '/admin/media', label: 'Media / Images', icon: ImageIcon },
+  { id: 'contact', to: '/admin/email-settings', label: 'Contact Details', icon: Phone },
+  { id: 'footer', to: '/admin/layout/footer', label: 'Footer Settings', icon: PanelBottom },
+  { id: 'users', to: '/admin/users', label: 'Users / Access', icon: Users },
+  { id: 'profile', to: '/admin/profile', label: 'Admin Profile', icon: UserCircle },
 ]
 
-export function getAdminPageTitle(pathname: string): string {
-  if (pathname === '/admin/pages/new') return 'Add New Page'
-  if (pathname.startsWith('/admin/pages/') && pathname.endsWith('/edit')) return 'Edit Page'
-  if (pathname === '/admin/pages' || pathname === '/admin/pages/') return 'All Pages'
-  if (pathname.startsWith('/admin/pages/home')) return 'Home Page Sections'
-  if (pathname.startsWith('/admin/layout/footer')) return 'Footer'
-  if (pathname.startsWith('/admin/layout/header')) return 'Header'
-  if (pathname.startsWith('/admin/layout/navigation')) return 'Navigation'
-  const flat: { prefix: string; label: string; end?: boolean }[] = []
-  for (const g of ADMIN_NAV_GROUPS) {
-    for (const c of g.children) {
-      flat.push({ prefix: c.to, label: c.label, end: c.end })
-    }
-  }
-  flat.sort((a, b) => b.prefix.length - a.prefix.length)
-  for (const row of flat) {
-    if (row.end ? pathname === row.prefix : pathname === row.prefix || pathname.startsWith(`${row.prefix}/`)) {
-      return row.label
-    }
-  }
-  return 'CMS'
+export const ADMIN_LOGOUT_ITEM = { label: 'Logout', icon: LogOut }
+
+export function isPathMatch(pathname: string, path: string, mode: 'exact' | 'nested' = 'exact'): boolean {
+  const norm = pathname.replace(/\/$/, '') || '/'
+  const target = path.replace(/\/$/, '') || '/'
+  if (mode === 'exact') return norm === target
+  return norm === target || norm.startsWith(`${target}/`)
 }
+
+export function isAdminNavActive(pathname: string, _search: string, item: AdminNavItem): boolean {
+  if (item.to === ADMIN_HOME_EDITOR_PATH) {
+    return pathname === ADMIN_HOME_EDITOR_PATH
+  }
+  if (item.to === ADMIN_ERP_MODULES_PATH) {
+    return pathname === ADMIN_ERP_MODULES_PATH
+  }
+  if (item.to === ADMIN_INDUSTRIES_PATH) {
+    return pathname === ADMIN_INDUSTRIES_PATH
+  }
+
+  if (item.end) return isPathMatch(pathname, item.to, 'exact')
+  return isPathMatch(pathname, item.to, 'nested')
+}
+
+export function getAdminPageTitle(pathname: string, search = ''): string {
+  if (pathname === ADMIN_ERP_MODULES_PATH) return 'ERP Modules'
+  if (pathname === ADMIN_INDUSTRIES_PATH) return 'Industries'
+  if (pathname === ADMIN_HOME_EDITOR_PATH) return 'Homepage'
+  if (pathname === ADMIN_DETAIL_PAGES_PATH || pathname === '/admin/pages' || pathname === '/admin/pages/') return 'Detail Pages'
+  if (pathname === '/admin/pages/new') return 'Add Custom Page'
+  if (pathname.startsWith('/admin/pages/detail/') && pathname.endsWith('/edit')) return 'Edit Detail Page'
+  if (pathname === '/admin/pages/detail/new') return 'Add Detail Page'
+  if (pathname.startsWith('/admin/pages/') && pathname.endsWith('/edit')) return 'Edit Page'
+
+  for (const item of ADMIN_NAV_ITEMS) {
+    if (isAdminNavActive(pathname, search, item)) return item.label
+  }
+
+  const legacy: Record<string, string> = {
+    '/admin/site-settings': 'Site Settings',
+    '/admin/seo': 'SEO',
+    '/admin/whatsapp': 'WhatsApp',
+    '/admin/backup': 'Backup / Restore',
+    '/admin/activity': 'Activity Log',
+    '/admin/change-password': 'Change Password',
+    '/admin/layout/header': 'Header',
+  }
+  for (const [prefix, label] of Object.entries(legacy)) {
+    if (pathname === prefix || pathname.startsWith(`${prefix}/`)) return label
+  }
+  return 'Admin'
+}
+
+/** @deprecated grouped nav — kept for any legacy imports */
+export type NavChild = { to: string; label: string; end?: boolean }
+export type NavGroup = { id: string; label: string; icon: LucideIcon; children: NavChild[] }
+export const ADMIN_NAV_GROUPS: NavGroup[] = []

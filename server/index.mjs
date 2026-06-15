@@ -9,6 +9,14 @@ import multer from 'multer'
 import { nanoid } from 'nanoid'
 import nodemailer from 'nodemailer'
 import { loadEnv } from './loadEnv.mjs'
+import {
+  allowAdminBootstrap,
+  authSecretOrDevFallback,
+  envConfigSummary,
+  isAuthSecretConfigured,
+  isProduction,
+  resolveSmtpConfig,
+} from './envConfig.mjs'
 
 loadEnv()
 
@@ -19,11 +27,11 @@ const UPLOADS_DIR = path.join(ROOT, 'uploads')
 const DIST_DIR = path.join(ROOT, '..', 'dist')
 
 const PORT = Number(process.env.PORT) || 3040
-const JWT_SECRET = process.env.JWT_SECRET || 'dev-only-change-me-in-production'
+const JWT_SECRET = authSecretOrDevFallback()
 const SERVE_STATIC = process.env.SERVE_STATIC === 'true'
 
-if (process.env.NODE_ENV === 'production' && JWT_SECRET === 'dev-only-change-me-in-production') {
-  console.warn('[security] JWT_SECRET is not set — admin tokens are not safe for production')
+if (isProduction() && !isAuthSecretConfigured()) {
+  console.warn('[security] AUTH_SECRET / JWT_SECRET is not set — admin auth is not safe for production')
 }
 
 const DATA_FILES = {
@@ -62,11 +70,14 @@ const MEDIA_INDEX_FILE = 'mediaIndex.json'
 const USERS_FILE = 'users.json'
 const LEADS_FILE = 'leads.json'
 const PAGES_FILE = 'pages.json'
+const SOFTWARE_DETAILS_FILE = 'softwareDetails.json'
 
 const PAGE_TYPES = new Set(['home', 'about', 'services', 'projects', 'blog', 'contact', 'residential', 'custom'])
 const PAGE_STATUSES = new Set(['published', 'draft'])
 const PAGE_LANG_MODES = new Set(['en', 'ar', 'both'])
 const RESERVED_PAGE_SLUGS = new Set(['api', 'uploads', 'admin'])
+const SOFTWARE_KINDS = new Set(['module', 'industry'])
+const ACCENT_COLORS = new Set(['orange', 'green', 'blue', 'purple', 'teal'])
 
 const LEAD_STATUSES = new Set(['New', 'Contacted', 'Closed'])
 const MAX_ACTIVITY = 500
@@ -248,6 +259,7 @@ async function ensureBootstrapFiles() {
     _meta: defaultDataMeta(),
   }))
   await ensureDataFile(ACTIVITY_FILE, () => [])
+  await ensureDataFile(SOFTWARE_DETAILS_FILE, () => ({ items: [], _meta: defaultDataMeta() }))
 }
 
 async function readPagesStore() {
@@ -320,6 +332,138 @@ async function persistPagesStore(store, user, description) {
   })
 }
 
+async function readSoftwareDetailsStore() {
+  const raw = await safeReadJson(SOFTWARE_DETAILS_FILE, null)
+  if (!raw || typeof raw !== 'object' || !Array.isArray(raw.items)) {
+    return { _meta: {}, items: [] }
+  }
+  return raw
+}
+
+function coerceStringArray(v) {
+  if (!Array.isArray(v)) return []
+  return v.map((x) => (typeof x === 'string' ? x : String(x ?? ''))).filter((s) => s.trim())
+}
+
+function coerceBilingualStringArrays(raw) {
+  const o = raw && typeof raw === 'object' ? raw : {}
+  return { en: coerceStringArray(o.en), ar: coerceStringArray(o.ar) }
+}
+
+function coerceFeatureList(raw) {
+  if (!Array.isArray(raw)) return []
+  return raw.map((row) => {
+    const o = row && typeof row === 'object' ? row : {}
+    return {
+      icon: typeof o.icon === 'string' ? o.icon : 'Sparkles',
+      title: coerceBilingual(o.title),
+      description: coerceBilingual(o.description),
+    }
+  })
+}
+
+function coerceFaqList(raw) {
+  if (!Array.isArray(raw)) return []
+  return raw.map((row) => {
+    const o = row && typeof row === 'object' ? row : {}
+    return { q: coerceBilingual(o.q), a: coerceBilingual(o.a) }
+  })
+}
+
+function coerceCapabilityList(raw) {
+  if (!Array.isArray(raw)) return []
+  return raw.map((row) => {
+    const o = row && typeof row === 'object' ? row : {}
+    return { title: coerceBilingual(o.title), body: coerceBilingual(o.body) }
+  })
+}
+
+function coerceWorkflowList(raw) {
+  if (!Array.isArray(raw)) return []
+  return raw.map((row) => {
+    const o = row && typeof row === 'object' ? row : {}
+    return { step: coerceBilingual(o.step), detail: coerceBilingual(o.detail) }
+  })
+}
+
+function normalizeSoftwareDetailFromBody(body, prev) {
+  const now = new Date().toISOString()
+  const base = prev || {}
+  const kind = SOFTWARE_KINDS.has(body.kind) ? body.kind : base.kind || 'module'
+  const slug = normalizeSlugInput(body.slug ?? base.slug)
+  const heroRaw = body.hero && typeof body.hero === 'object' ? body.hero : {}
+  const ctaPrimaryRaw = heroRaw.ctaPrimary && typeof heroRaw.ctaPrimary === 'object' ? heroRaw.ctaPrimary : {}
+  const ctaSecondaryRaw = heroRaw.ctaSecondary && typeof heroRaw.ctaSecondary === 'object' ? heroRaw.ctaSecondary : {}
+  const demoRaw = body.demoCta && typeof body.demoCta === 'object' ? body.demoCta : {}
+
+  return {
+    id: base.id,
+    kind,
+    slug,
+    active: typeof body.active === 'boolean' ? body.active : base.active ?? true,
+    sortOrder:
+      typeof body.sortOrder === 'number' && Number.isFinite(body.sortOrder) ? body.sortOrder : base.sortOrder ?? 0,
+    icon: typeof body.icon === 'string' && body.icon.trim() ? body.icon.trim() : base.icon || 'Box',
+    accentColor: ACCENT_COLORS.has(body.accentColor) ? body.accentColor : base.accentColor || 'orange',
+    heroImageUrl: typeof body.heroImageUrl === 'string' ? body.heroImageUrl : base.heroImageUrl || '',
+    label: coerceBilingual(body.label ?? base.label),
+    shortDescription: coerceBilingual(body.shortDescription ?? base.shortDescription),
+    metaTitle: coerceBilingual(body.metaTitle ?? base.metaTitle),
+    metaDescription: coerceBilingual(body.metaDescription ?? base.metaDescription),
+    hero: {
+      eyebrow: coerceBilingual(heroRaw.eyebrow ?? base.hero?.eyebrow),
+      headline: coerceBilingual(heroRaw.headline ?? base.hero?.headline),
+      subhead: coerceBilingual(heroRaw.subhead ?? base.hero?.subhead),
+      intro: coerceBilingual(heroRaw.intro ?? base.hero?.intro),
+      ctaPrimary: {
+        label: coerceBilingual(ctaPrimaryRaw.label ?? base.hero?.ctaPrimary?.label),
+        href:
+          typeof ctaPrimaryRaw.href === 'string' && ctaPrimaryRaw.href.trim()
+            ? ctaPrimaryRaw.href.trim()
+            : base.hero?.ctaPrimary?.href || '/contact',
+      },
+      ctaSecondary: {
+        label: coerceBilingual(ctaSecondaryRaw.label ?? base.hero?.ctaSecondary?.label),
+        href:
+          typeof ctaSecondaryRaw.href === 'string' && ctaSecondaryRaw.href.trim()
+            ? ctaSecondaryRaw.href.trim()
+            : base.hero?.ctaSecondary?.href || '/#modules',
+      },
+    },
+    highlights: coerceBilingualStringArrays(body.highlights ?? base.highlights),
+    capabilities: coerceCapabilityList(body.capabilities ?? base.capabilities),
+    workflows: coerceWorkflowList(body.workflows ?? base.workflows),
+    outcomes: coerceBilingualStringArrays(body.outcomes ?? base.outcomes),
+    features: coerceFeatureList(body.features ?? base.features),
+    faqs: coerceFaqList(body.faqs ?? base.faqs),
+    demoCta: {
+      heading: coerceBilingual(demoRaw.heading ?? base.demoCta?.heading),
+      sub: coerceBilingual(demoRaw.sub ?? base.demoCta?.sub),
+    },
+    isCustom: typeof body.isCustom === 'boolean' ? body.isCustom : base.isCustom ?? false,
+    createdAt: base.createdAt || now,
+    updatedAt: now,
+  }
+}
+
+async function persistSoftwareDetailsStore(store, user, description) {
+  const prevMeta = typeof store._meta === 'object' && store._meta ? store._meta : {}
+  store._meta = {
+    ...prevMeta,
+    createdAt: prevMeta.createdAt || new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    updatedBy: user.email,
+  }
+  await writeJsonFile(SOFTWARE_DETAILS_FILE, store)
+  await appendActivity({
+    action: 'save',
+    section: 'softwareDetails',
+    description,
+    adminEmail: user.email,
+    adminName: user.name || '',
+  })
+}
+
 function authMiddleware(req, res, next) {
   const h = req.headers.authorization
   const token = h?.startsWith('Bearer ') ? h.slice(7) : null
@@ -333,6 +477,90 @@ function authMiddleware(req, res, next) {
   } catch {
     res.status(401).json({ error: 'Invalid or expired token' })
   }
+}
+
+function normalizeAdminRole(role) {
+  const r = String(role ?? 'Admin').trim().toLowerCase()
+  if (r === 'super admin' || r === 'superadmin') return 'Super Admin'
+  if (r === 'editor') return 'Editor'
+  return 'Admin'
+}
+
+function isSuperAdminRole(role) {
+  return normalizeAdminRole(role) === 'Super Admin'
+}
+
+function superAdminMiddleware(req, res, next) {
+  if (!isSuperAdminRole(req.user?.role)) {
+    res.status(403).json({ error: 'Super Admin access required' })
+    return
+  }
+  next()
+}
+
+function normalizeUserStatus(status) {
+  return status === 'Inactive' ? 'Inactive' : 'Active'
+}
+
+function sanitizeUserResponse(u) {
+  return {
+    id: u.id,
+    email: u.email,
+    name: u.name || '',
+    role: normalizeAdminRole(u.role),
+    status: normalizeUserStatus(u.status),
+    profileImageUrl: u.profileImageUrl || '',
+  }
+}
+
+function validatePasswordPair(newPassword, confirmPassword, res) {
+  if (typeof newPassword !== 'string' || typeof confirmPassword !== 'string') {
+    res.status(400).json({ error: 'Password fields required' })
+    return false
+  }
+  if (newPassword.length < 8) {
+    res.status(400).json({ error: 'New password must be at least 8 characters' })
+    return false
+  }
+  if (newPassword !== confirmPassword) {
+    res.status(400).json({ error: 'Passwords do not match' })
+    return false
+  }
+  return true
+}
+
+async function handleProfileChangePassword(req, res) {
+  const { currentPassword, newPassword, confirmPassword } = req.body ?? {}
+  if (typeof currentPassword !== 'string' || typeof newPassword !== 'string' || typeof confirmPassword !== 'string') {
+    res.status(400).json({ error: 'All fields required' })
+    return
+  }
+  if (!currentPassword.trim()) {
+    res.status(400).json({ error: 'Current password is required' })
+    return
+  }
+  if (!validatePasswordPair(newPassword, confirmPassword, res)) return
+
+  const users = await readUsers()
+  const idx = users.findIndex((x) => x.id === req.user.sub || x.email === req.user.email)
+  if (idx === -1) {
+    res.status(404).json({ error: 'User not found' })
+    return
+  }
+  if (!(await bcrypt.compare(currentPassword, users[idx].passwordHash))) {
+    res.status(400).json({ error: 'Current password is incorrect' })
+    return
+  }
+  users[idx] = { ...users[idx], passwordHash: await bcrypt.hash(newPassword, 10) }
+  await writeUsers(users)
+  await appendActivity({
+    action: 'password_changed',
+    section: 'admin',
+    description: 'Password changed',
+    adminEmail: req.user.email,
+    adminName: users[idx].name || '',
+  })
+  res.json({ ok: true, message: 'Password updated successfully' })
 }
 
 function dataFileForKey(key) {
@@ -350,27 +578,34 @@ function dataFileForKey(key) {
 
 async function trySendLeadEmail(lead, settings) {
   if (!settings?.enableEmailNotification) return
-  const to = (settings.receiverEmail || '').trim()
-  if (!to) return
+  const smtp = resolveSmtpConfig()
+  const to = (settings.receiverEmail || smtp.receiverEmail || '').trim()
+  if (!to) {
+    console.warn('[lead email] skipped — set receiver email in admin or CONTACT_RECEIVER_EMAIL')
+    return
+  }
   const subj = (settings.emailSubject || 'New lead').replace(/\{\{(\w+)\}\}/g, (_, k) => String(lead[k] ?? ''))
   let body = settings.emailTemplateBody || ''
-  for (const k of ['name', 'email', 'phone', 'topic', 'company', 'message', 'sourcePage']) {
+  for (const k of ['name', 'email', 'phone', 'topic', 'company', 'message', 'sourcePage', 'source']) {
     body = body.split(`{{${k}}}`).join(String(lead[k] ?? ''))
   }
-  const from = (settings.fromEmail || 'noreply@localhost').trim()
+  const from = (settings.fromEmail || smtp.fromEmail || 'noreply@localhost').trim()
   const replyTo = settings.replyToField === 'customer' ? lead.email : from
+  if (!smtp.host) {
+    console.warn('[lead email] skipped — SMTP_HOST is not configured')
+    return
+  }
+  if (!smtp.ok) {
+    console.warn(`[lead email] skipped — missing SMTP env: ${smtp.missing.join(', ')}`)
+    return
+  }
   try {
-    const transport = process.env.SMTP_HOST
-      ? nodemailer.createTransport({
-          host: process.env.SMTP_HOST,
-          port: Number(process.env.SMTP_PORT || 587),
-          secure: process.env.SMTP_SECURE === 'true',
-          auth:
-            process.env.SMTP_USER && process.env.SMTP_PASS
-              ? { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
-              : undefined,
-        })
-      : nodemailer.createTransport({ jsonTransport: true })
+    const transport = nodemailer.createTransport({
+      host: smtp.host,
+      port: smtp.port,
+      secure: smtp.secure,
+      auth: { user: smtp.user, pass: smtp.pass },
+    })
     await transport.sendMail({
       from: `"${settings.fromName || 'Site'}" <${from}>`,
       to,
@@ -443,7 +678,7 @@ function registerMediaUploadRoute(routePath) {
 app.use('/uploads', express.static(UPLOADS_DIR))
 
 app.get('/api/health', (_req, res) => {
-  res.json({ ok: true, time: new Date().toISOString() })
+  res.json({ ok: true, time: new Date().toISOString(), env: envConfigSummary() })
 })
 
 app.get('/api/homepage', async (_req, res) => {
@@ -508,14 +743,16 @@ const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 app.post('/api/leads', async (req, res) => {
   try {
-    const { name, email, phone, message, topic, company, sourcePage } = req.body ?? {}
+    const { name, email, phone, message, topic, company, sourcePage, source } = req.body ?? {}
     const emailStr = typeof email === 'string' ? email.trim() : ''
     const phoneStr = typeof phone === 'string' ? phone.trim() : ''
+    const sourceStr = typeof source === 'string' ? source.trim() : ''
+    const isDetailPageRequest = sourceStr === 'Detail Page Request'
     if (!emailRe.test(emailStr)) {
       res.status(400).json({ error: 'Valid email is required' })
       return
     }
-    if (!phoneStr || phoneStr.length < 6) {
+    if (!isDetailPageRequest && (!phoneStr || phoneStr.length < 6)) {
       res.status(400).json({ error: 'Phone is required' })
       return
     }
@@ -529,6 +766,7 @@ app.post('/api/leads', async (req, res) => {
       message: typeof message === 'string' ? message.trim() : '',
       topic: typeof topic === 'string' ? topic.trim() : '',
       company: typeof company === 'string' ? company.trim() : '',
+      source: sourceStr,
       sourcePage: typeof sourcePage === 'string' ? sourcePage.trim().slice(0, 500) : '',
       status: 'New',
       internalNote: '',
@@ -548,6 +786,10 @@ app.post('/api/leads', async (req, res) => {
 
 app.post('/api/admin/auth/login', async (req, res) => {
   try {
+    if (isProduction() && !isAuthSecretConfigured()) {
+      res.status(503).json({ error: 'Server misconfigured: AUTH_SECRET (or JWT_SECRET) is not set' })
+      return
+    }
     const { email, password, rememberMe } = req.body ?? {}
     if (typeof email !== 'string' || typeof password !== 'string') {
       res.status(400).json({ error: 'Email and password required' })
@@ -557,6 +799,10 @@ app.post('/api/admin/auth/login', async (req, res) => {
     const user = users.find((u) => u.email.toLowerCase() === email.trim().toLowerCase())
     if (!user || !(await bcrypt.compare(password, user.passwordHash))) {
       res.status(401).json({ error: 'Invalid credentials' })
+      return
+    }
+    if (user.status && user.status !== 'Active') {
+      res.status(403).json({ error: 'Account is not active' })
       return
     }
     const expiresIn = rememberMe === true ? '30d' : '7d'
@@ -612,12 +858,156 @@ app.get('/api/admin/me', authMiddleware, async (req, res) => {
         email: u.email,
         name: u.name || '',
         profileImageUrl: u.profileImageUrl || '',
-        role: u.role,
+        role: normalizeAdminRole(u.role),
       },
     })
   } catch (e) {
     console.error(e)
     res.status(500).json({ error: 'Failed' })
+  }
+})
+
+app.get('/api/admin/users', authMiddleware, superAdminMiddleware, async (_req, res) => {
+  try {
+    const users = await readUsers()
+    res.json(users.map((u) => sanitizeUserResponse(u)))
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Failed to load users' })
+  }
+})
+
+app.post('/api/admin/users', authMiddleware, superAdminMiddleware, async (req, res) => {
+  try {
+    const { email, name, password, confirmPassword, role } = req.body ?? {}
+    if (typeof email !== 'string' || !email.trim().includes('@')) {
+      res.status(400).json({ error: 'Valid email is required' })
+      return
+    }
+    if (!validatePasswordPair(password, confirmPassword, res)) return
+
+    const users = await readUsers()
+    const emailNorm = email.trim().toLowerCase()
+    if (users.some((u) => String(u.email).toLowerCase() === emailNorm)) {
+      res.status(400).json({ error: 'Email already in use' })
+      return
+    }
+
+    const row = {
+      id: nanoid(12),
+      email: email.trim(),
+      name: typeof name === 'string' ? name.trim().slice(0, 120) : '',
+      profileImageUrl: '',
+      passwordHash: await bcrypt.hash(password, 10),
+      role: normalizeAdminRole(role),
+      status: 'Active',
+    }
+    users.push(row)
+    await writeUsers(users)
+    await appendActivity({
+      action: 'user_created',
+      section: 'admin',
+      description: `Created user ${row.email}`,
+      adminEmail: req.user.email,
+      adminName: req.user.name || '',
+    })
+    res.status(201).json({ ok: true, user: sanitizeUserResponse(row) })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Failed to create user' })
+  }
+})
+
+app.patch('/api/admin/users/:id', authMiddleware, superAdminMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params
+    const { name, email, role, status } = req.body ?? {}
+    const users = await readUsers()
+    const idx = users.findIndex((u) => u.id === id)
+    if (idx === -1) {
+      res.status(404).json({ error: 'User not found' })
+      return
+    }
+
+    const target = users[idx]
+    const nextRole = role !== undefined ? normalizeAdminRole(role) : normalizeAdminRole(target.role)
+    const nextStatus = status !== undefined ? normalizeUserStatus(status) : normalizeUserStatus(target.status)
+
+    if (target.id === req.user.sub && nextStatus === 'Inactive') {
+      res.status(400).json({ error: 'You cannot deactivate your own account' })
+      return
+    }
+    if (target.id === req.user.sub && !isSuperAdminRole(nextRole)) {
+      res.status(400).json({ error: 'You cannot change your own role' })
+      return
+    }
+
+    if (isSuperAdminRole(target.role) && !isSuperAdminRole(nextRole)) {
+      const otherSupers = users.filter((u) => u.id !== id && isSuperAdminRole(u.role) && normalizeUserStatus(u.status) === 'Active')
+      if (otherSupers.length === 0) {
+        res.status(400).json({ error: 'At least one active Super Admin is required' })
+        return
+      }
+    }
+
+    if (typeof email === 'string') {
+      const emailNorm = email.trim().toLowerCase()
+      if (!emailNorm.includes('@')) {
+        res.status(400).json({ error: 'Valid email is required' })
+        return
+      }
+      if (users.some((u) => u.id !== id && String(u.email).toLowerCase() === emailNorm)) {
+        res.status(400).json({ error: 'Email already in use' })
+        return
+      }
+      target.email = email.trim()
+    }
+
+    if (typeof name === 'string') target.name = name.trim().slice(0, 120)
+    target.role = nextRole
+    target.status = nextStatus
+    users[idx] = target
+    await writeUsers(users)
+    await appendActivity({
+      action: 'user_updated',
+      section: 'admin',
+      description: `Updated user ${target.email}`,
+      adminEmail: req.user.email,
+      adminName: req.user.name || '',
+    })
+    res.json({ ok: true, user: sanitizeUserResponse(target) })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Failed to update user' })
+  }
+})
+
+app.post('/api/admin/users/:id/reset-password', authMiddleware, superAdminMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params
+    const { newPassword, confirmPassword } = req.body ?? {}
+    if (!validatePasswordPair(newPassword, confirmPassword, res)) return
+
+    const users = await readUsers()
+    const idx = users.findIndex((u) => u.id === id)
+    if (idx === -1) {
+      res.status(404).json({ error: 'User not found' })
+      return
+    }
+
+    users[idx] = { ...users[idx], passwordHash: await bcrypt.hash(newPassword, 10) }
+    await writeUsers(users)
+    await appendActivity({
+      action: 'password_reset',
+      section: 'admin',
+      description: `Reset password for ${users[idx].email}`,
+      adminEmail: req.user.email,
+      adminName: req.user.name || '',
+    })
+    res.json({ ok: true, message: 'Password reset successfully' })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Failed to reset password' })
   }
 })
 
@@ -652,42 +1042,19 @@ app.patch('/api/admin/me/profile', authMiddleware, async (req, res) => {
 
 app.post('/api/admin/me/change-password', authMiddleware, async (req, res) => {
   try {
-    const { currentPassword, newPassword, confirmPassword } = req.body ?? {}
-    if (typeof currentPassword !== 'string' || typeof newPassword !== 'string' || typeof confirmPassword !== 'string') {
-      res.status(400).json({ error: 'All fields required' })
-      return
-    }
-    if (newPassword.length < 8) {
-      res.status(400).json({ error: 'New password must be at least 8 characters' })
-      return
-    }
-    if (newPassword !== confirmPassword) {
-      res.status(400).json({ error: 'Passwords do not match' })
-      return
-    }
-    const users = await readUsers()
-    const idx = users.findIndex((x) => x.id === req.user.sub || x.email === req.user.email)
-    if (idx === -1) {
-      res.status(404).json({ error: 'Not found' })
-      return
-    }
-    if (!(await bcrypt.compare(currentPassword, users[idx].passwordHash))) {
-      res.status(400).json({ error: 'Current password is incorrect' })
-      return
-    }
-    users[idx] = { ...users[idx], passwordHash: await bcrypt.hash(newPassword, 10) }
-    await writeUsers(users)
-    await appendActivity({
-      action: 'password_changed',
-      section: 'admin',
-      description: 'Password changed',
-      adminEmail: req.user.email,
-      adminName: users[idx].name || '',
-    })
-    res.json({ ok: true })
+    await handleProfileChangePassword(req, res)
   } catch (e) {
     console.error(e)
-    res.status(500).json({ error: 'Failed' })
+    if (!res.headersSent) res.status(500).json({ error: 'Failed' })
+  }
+})
+
+app.post('/api/admin/profile/change-password', authMiddleware, async (req, res) => {
+  try {
+    await handleProfileChangePassword(req, res)
+  } catch (e) {
+    console.error(e)
+    if (!res.headersSent) res.status(500).json({ error: 'Failed' })
   }
 })
 
@@ -713,6 +1080,42 @@ function buildContentStatusPanel(header, hero, footer, seo, wa, email) {
     { id: 'whatsapp', label: 'WhatsApp Active', badge: waOn ? 'active' : 'inactive' },
     { id: 'contact', label: 'Contact Form Ready', badge: formReady ? 'complete' : 'missing' },
   ]
+}
+
+/** Safe empty dashboard payload — always valid JSON with zero counts. */
+function emptyAdminDashboardResponse(healthOverrides = {}) {
+  return {
+    success: true,
+    cards: {
+      sectionsTotal: 0,
+      erpModulesTotal: 0,
+      erpModulesActive: 0,
+      industriesTotal: 0,
+      industriesActive: 0,
+      faqsTotal: 0,
+      faqsActive: 0,
+      leadsTotal: 0,
+      leadsNew: 0,
+      leadsContacted: 0,
+      leadsClosed: 0,
+      mediaFiles: 0,
+      detailPagesTotal: 0,
+      usersTotal: 0,
+      lastUpdatedGlob: null,
+    },
+    contentStatus: buildContentStatusPanel({}, {}, {}, {}, {}, {}),
+    recentLeads: [],
+    recentActivity: [],
+    recentSections: [],
+    recentMedia: [],
+    health: {
+      api: true,
+      dataFiles: false,
+      mediaUploads: false,
+      frontend: true,
+      ...healthOverrides,
+    },
+  }
 }
 
 async function sendAdminSummary(_req, res) {
@@ -744,6 +1147,8 @@ async function sendAdminSummary(_req, res) {
       wa,
       email,
       pageSections,
+      pagesDoc,
+      users,
     ] = await Promise.all([
       readJsonFile('modules.json'),
       readJsonFile('industries.json'),
@@ -759,6 +1164,8 @@ async function sendAdminSummary(_req, res) {
       safeReadJson('whatsappSettings.json', {}),
       safeReadJson('emailSettings.json', {}),
       safeReadJson('pageSections.json', { sections: [] }),
+      safeReadJson('pages.json', { items: [] }),
+      readUsers(),
     ])
     const modItems = modules.items || []
     const indItems = industries.items || []
@@ -770,10 +1177,13 @@ async function sendAdminSummary(_req, res) {
       .filter(Boolean)
       .sort()
       .pop()
+    const pageItems = Array.isArray(pagesDoc.items) ? pagesDoc.items : []
+    const userRows = Array.isArray(users) ? users : []
     const sectionsArr = Array.isArray(pageSections.sections) ? pageSections.sections : []
     const sectionsTotal = sectionsArr.length
     const contentStatus = buildContentStatusPanel(header, hero, footer, seo, wa, email)
     res.json({
+      success: true,
       cards: {
         sectionsTotal,
         erpModulesTotal: modItems.length,
@@ -787,14 +1197,19 @@ async function sendAdminSummary(_req, res) {
         leadsContacted: normLeads.filter((l) => l.status === 'Contacted').length,
         leadsClosed: normLeads.filter((l) => l.status === 'Closed').length,
         mediaFiles: mediaIdx.items?.length ?? 0,
+        detailPagesTotal: pageItems.length,
+        usersTotal: userRows.length,
         lastUpdatedGlob: lastUpdated || null,
       },
       contentStatus,
-      recentLeads: normLeads.slice(0, 5).map((l) => ({
+      recentLeads: normLeads.slice(0, 8).map((l) => ({
         id: l.id,
         name: l.name,
         email: l.email,
         phone: l.phone,
+        message: l.message,
+        source: l.source ?? '',
+        sourcePage: l.sourcePage,
         status: l.status,
         createdAt: l.createdAt,
       })),
@@ -813,8 +1228,8 @@ async function sendAdminSummary(_req, res) {
       },
     })
   } catch (e) {
-    console.error(e)
-    res.status(500).json({ error: 'Summary failed' })
+    console.error('Admin summary error:', e)
+    res.status(200).json(emptyAdminDashboardResponse())
   }
 }
 
@@ -1033,6 +1448,26 @@ app.put('/api/admin/email', authMiddleware, async (req, res) => {
       res.status(400).json({ error: 'JSON object body required' })
       return
     }
+    if (body.enableEmailNotification === true) {
+      const smtp = resolveSmtpConfig()
+      const receiver = (body.receiverEmail || smtp.receiverEmail || '').trim()
+      if (!receiver) {
+        res.status(400).json({
+          error: 'Receiver email is required. Set it in admin email settings or CONTACT_RECEIVER_EMAIL in .env.local',
+        })
+        return
+      }
+      if (!smtp.host) {
+        res.status(400).json({ error: 'SMTP is not configured. Set SMTP_HOST (and related vars) in .env.local' })
+        return
+      }
+      if (!smtp.ok) {
+        res.status(400).json({
+          error: `SMTP is incomplete. Missing: ${smtp.missing.join(', ')}`,
+        })
+        return
+      }
+    }
     const merged = { ...body }
     const prevMeta = typeof body._meta === 'object' && body._meta ? body._meta : {}
     merged._meta = {
@@ -1181,6 +1616,124 @@ app.delete('/api/admin/pages/:id', authMiddleware, async (req, res) => {
   }
 })
 
+app.get('/api/software-detail/:kind/:slug', async (req, res) => {
+  try {
+    const kind = req.params.kind
+    const slug = normalizeSlugInput(req.params.slug)
+    if (!SOFTWARE_KINDS.has(kind) || !isValidPageSlug(slug)) {
+      res.status(400).json({ error: 'Invalid kind or slug' })
+      return
+    }
+    const store = await readSoftwareDetailsStore()
+    const row = store.items.find((p) => p.kind === kind && p.slug.toLowerCase() === slug.toLowerCase())
+    if (!row || row.active === false) {
+      res.status(404).json({ error: 'Not found' })
+      return
+    }
+    res.json({ page: row })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Failed to read software detail page' })
+  }
+})
+
+app.get('/api/admin/software-details', authMiddleware, async (_req, res) => {
+  try {
+    const store = await readSoftwareDetailsStore()
+    const items = [...store.items].sort((a, b) => String(b.updatedAt || '').localeCompare(String(a.updatedAt || '')))
+    res.json({ items })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Failed to read software detail pages' })
+  }
+})
+
+app.get('/api/admin/software-details/:kind/:slug', authMiddleware, async (req, res) => {
+  try {
+    const kind = req.params.kind
+    const slug = normalizeSlugInput(req.params.slug)
+    if (!SOFTWARE_KINDS.has(kind) || !slug) {
+      res.status(400).json({ error: 'Invalid kind or slug' })
+      return
+    }
+    const store = await readSoftwareDetailsStore()
+    const page = store.items.find((p) => p.kind === kind && p.slug.toLowerCase() === slug.toLowerCase())
+    if (!page) {
+      res.status(404).json({ error: 'Page not found' })
+      return
+    }
+    res.json({ page })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Failed to read software detail page' })
+  }
+})
+
+app.put('/api/admin/software-details/:kind/:slug', authMiddleware, async (req, res) => {
+  try {
+    const kind = req.params.kind
+    const slugParam = normalizeSlugInput(req.params.slug)
+    const body = req.body
+    if (!SOFTWARE_KINDS.has(kind)) {
+      res.status(400).json({ error: 'Invalid kind' })
+      return
+    }
+    if (!body || typeof body !== 'object' || Array.isArray(body)) {
+      res.status(400).json({ error: 'JSON object body required' })
+      return
+    }
+    const slug = normalizeSlugInput(body.slug || slugParam)
+    if (!isValidPageSlug(slug)) {
+      res.status(400).json({ error: 'Invalid slug. Use lowercase letters, numbers, and single hyphens only.' })
+      return
+    }
+    const store = await readSoftwareDetailsStore()
+    const idx = store.items.findIndex((p) => p.kind === kind && p.slug.toLowerCase() === slugParam.toLowerCase())
+    const prev = idx >= 0 ? store.items[idx] : null
+    if (store.items.some((p, i) => i !== idx && p.kind === kind && p.slug.toLowerCase() === slug.toLowerCase())) {
+      res.status(409).json({ error: 'A page with this slug already exists for this type' })
+      return
+    }
+    const row = normalizeSoftwareDetailFromBody({ ...body, kind, slug }, prev)
+    row.id = prev?.id || nanoid(12)
+    if (idx >= 0) store.items[idx] = row
+    else store.items.push(row)
+    await persistSoftwareDetailsStore(store, req.user, `${prev ? 'Updated' : 'Created'} ${kind} page ${slug}`)
+    res.json({ ok: true, page: row })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Save failed' })
+  }
+})
+
+app.delete('/api/admin/software-details/:kind/:slug', authMiddleware, async (req, res) => {
+  try {
+    const kind = req.params.kind
+    const slug = normalizeSlugInput(req.params.slug)
+    if (!SOFTWARE_KINDS.has(kind) || !slug) {
+      res.status(400).json({ error: 'Invalid kind or slug' })
+      return
+    }
+    const store = await readSoftwareDetailsStore()
+    const idx = store.items.findIndex((p) => p.kind === kind && p.slug.toLowerCase() === slug.toLowerCase())
+    if (idx === -1) {
+      res.status(404).json({ error: 'Page not found' })
+      return
+    }
+    const removed = store.items[idx]
+    if (!removed.isCustom) {
+      res.status(400).json({ error: 'Built-in pages cannot be deleted. Set inactive or clear CMS overrides instead.' })
+      return
+    }
+    store.items.splice(idx, 1)
+    await persistSoftwareDetailsStore(store, req.user, `Deleted custom ${kind} page ${slug}`)
+    res.json({ ok: true })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Delete failed' })
+  }
+})
+
 function filterLeads(leads, { q, status, from, to }) {
   let out = leads.map(normalizeLead)
   if (status && LEAD_STATUSES.has(status)) out = out.filter((l) => l.status === status)
@@ -1213,7 +1766,18 @@ app.get('/api/admin/leads', authMiddleware, async (req, res) => {
     res.json(filterLeads(leads, { q, status, from, to }))
   } catch (e) {
     console.error(e)
-    res.status(500).json({ error: 'Failed to read leads' })
+    res.status(200).json([])
+  }
+})
+
+app.get('/api/admin/inquiries', authMiddleware, async (req, res) => {
+  try {
+    const leads = (await readLeads()).map(normalizeLead)
+    const { q, status, from, to } = req.query
+    res.json(filterLeads(leads, { q, status, from, to }))
+  } catch (e) {
+    console.error(e)
+    res.status(200).json([])
   }
 })
 
@@ -1360,4 +1924,13 @@ if (SERVE_STATIC) {
 app.listen(PORT, () => {
   console.log(`CMS API http://localhost:${PORT}`)
   if (SERVE_STATIC) console.log(`Serving frontend from ${DIST_DIR}`)
+}).on('error', (err) => {
+  if (err && err.code === 'EADDRINUSE') {
+    console.error(`\nPort ${PORT} is already in use (EADDRINUSE).`)
+    console.error('Stop the other process using this port, or start the API on another port:')
+    console.error('  PowerShell: $env:PORT=3041; npm run dev:api')
+    console.error('  Or:         npm run dev:api:3041\n')
+    process.exit(1)
+  }
+  throw err
 })

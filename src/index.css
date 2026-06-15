@@ -167,29 +167,89 @@ html[dir='rtl'] .text-start {
 }
 
 .hero-mockup-stage::before {
-  content: '';
-  position: absolute;
-  inset: -8% -6%;
-  z-index: 0;
-  border-radius: 1.25rem;
-  background:
-    radial-gradient(ellipse 70% 55% at 50% 45%, rgba(244, 124, 77, 0.14), transparent 68%),
-    radial-gradient(ellipse 90% 70% at 50% 100%, rgba(148, 163, 184, 0.12), transparent 72%);
-  pointer-events: none;
-}
-
-.hero-mockup-float {
-  position: relative;
-  z-index: 1;
-  animation: float-dashboard 6.5s ease-in-out infinite;
-  will-change: transform;
+  display: none;
 }
 
 .hero-mockup-frame {
-  border: 1px solid rgba(226, 232, 240, 0.95);
-  border-radius: 1rem;
+  position: relative;
+  z-index: 1;
+  border: 1px solid rgba(15, 23, 42, 0.22);
+  border-radius: 0.875rem;
   background: #ffffff;
-  box-shadow: none;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04),
+    0 8px 28px rgba(15, 23, 42, 0.07);
+}
+
+.workflow-story-panel {
+  background: linear-gradient(135deg, #141d38 0%, #1a2744 52%, #141d38 100%);
+}
+
+.about-premium-image {
+  position: relative;
+}
+
+.about-premium-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 62%, rgba(20, 29, 56, 0.08) 100%);
+}
+
+.cta-banner--gradient-only .cta-banner__overlay {
+  background:
+    linear-gradient(
+      165deg,
+      #0c1222 0%,
+      #141d38 28%,
+      #1a2744 52%,
+      #141d38 78%,
+      #0f172a 100%
+    );
+}
+
+.cta-banner--gradient-only::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255, 122, 69, 0.06), transparent 60%);
+}
+
+.cta-banner--gradient-only .cta-banner__bg {
+  display: none;
+}
+
+/* Homepage bottom CTA — same flat navy as footer */
+.cta-banner--final {
+  background-color: var(--color-brand-deep);
+}
+
+.cta-banner--final .cta-banner__overlay {
+  background: var(--color-brand-deep);
+}
+
+.cta-banner--final .cta-banner__pattern {
+  display: none;
+}
+
+.cta-banner--final::before {
+  display: none;
+}
+
+.cta-banner--final .cta-banner__title {
+  text-shadow: none;
+}
+
+.cta-banner--final .cta-banner__body {
+  text-shadow: none;
+}
+
+.cta-banner--final .cta-banner__trust {
+  text-shadow: none;
 }
 
 .cta-glass-panel {
@@ -221,6 +281,44 @@ html[dir='rtl'] .text-start {
     rgba(10, 10, 12, 0.68) 45%,
     rgba(10, 10, 12, 0.58) 100%
   );
+}
+
+.cta-banner--overlay-premium .cta-banner__overlay {
+  background: linear-gradient(
+    125deg,
+    rgba(4, 8, 18, 0.94) 0%,
+    rgba(8, 14, 28, 0.9) 42%,
+    rgba(6, 10, 22, 0.85) 100%
+  );
+}
+
+.cta-banner--overlay-navy .cta-banner__overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.36) 0%,
+    rgba(15, 23, 42, 0.52) 42%,
+    rgba(15, 23, 42, 0.6) 100%
+  );
+}
+
+.cta-banner__title {
+  letter-spacing: -0.03em;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+}
+
+.cta-banner__body {
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.32);
+}
+
+.cta-banner__trust {
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.25);
+}
+
+.cta-banner__glow {
+  z-index: 1;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 100%, rgba(255, 122, 69, 0.14), transparent 68%),
+    radial-gradient(ellipse 45% 40% at 85% 20%, rgba(37, 99, 235, 0.08), transparent 65%);
 }
 
 .cta-banner--overlay-45 .cta-banner__overlay {
@@ -321,6 +419,26 @@ html[dir='rtl'] .text-start {
 }
 
 /* —— Premium surfaces —— */
+.card-accent-hover:hover {
+  border-color: color-mix(in srgb, var(--card-accent, #ff7448) 58%, rgba(15, 23, 42, 0.12));
+}
+
+.card-icon-badge {
+  box-shadow: none;
+}
+
+.card-icon-badge__glyph {
+  color: #ffffff;
+}
+
+.card-icon-badge__glyph svg {
+  width: 100%;
+  height: 100%;
+  color: #ffffff;
+  stroke: currentColor;
+  flex-shrink: 0;
+}
+
 .glass-panel {
   border: 1px solid rgba(255, 255, 255, 0.65);
   background: rgba(255, 255, 255, 0.72);
@@ -330,10 +448,10 @@ html[dir='rtl'] .text-start {
 
 .hero-grid-bg {
   background-image:
-    linear-gradient(rgba(15, 23, 42, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 75% 65% at 50% 35%, black 15%, transparent 72%);
+    linear-gradient(rgba(15, 23, 42, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.028) 1px, transparent 1px);
+  background-size: 52px 52px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 10%, transparent 78%);
 }
 
 .gradient-border-wrap {

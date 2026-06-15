@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { PremiumPhotoPaths } from '../../data/softwareDetail/premiumImagePacks'
 import { PREMIUM_IMAGE_FALLBACK } from '../../data/softwareDetail/premiumImagePacks'
+import { resolvePublicMediaUrl } from '../../cms/publicMediaUrl'
 
 type FrameProps = {
   src: string
@@ -44,12 +45,14 @@ type PhotoProps = {
   paths: PremiumPhotoPaths
   productLabel: string
   className?: string
+  overrideSrc?: string
 }
 
-export function PremiumHeroPhoto({ paths, productLabel, className }: PhotoProps) {
+export function PremiumHeroPhoto({ paths, productLabel, className, overrideSrc }: PhotoProps) {
+  const resolvedOverride = overrideSrc?.trim() ? resolvePublicMediaUrl(overrideSrc) : ''
   return (
     <PremiumPhotoFrame
-      src={paths.heroTeam}
+      src={resolvedOverride || paths.heroTeam}
       alt={`${productLabel} — industry ERP operations`}
       aspectClass="aspect-[5/4] min-h-[220px] sm:min-h-[260px] md:aspect-[16/11] md:min-h-[280px] lg:max-h-[440px]"
       priority

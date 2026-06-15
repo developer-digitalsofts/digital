@@ -1,11 +1,10 @@
 import type { ReactNode } from 'react'
-import * as Icons from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
 import { BarChart3, ChevronRight } from 'lucide-react'
 import {
   getIndustryErpTheme,
   type IndustryVisualVariant,
 } from '../../data/softwareDetail/industryErpThemes'
+import { SoftwareColorIcon } from '../SoftwareColorIcon'
 
 type Props = {
   categoryId: string
@@ -15,32 +14,35 @@ type Props = {
   className?: string
 }
 
-function IconByName({ name, className }: { name: string; className?: string }) {
-  const Cmp = (Icons as unknown as Record<string, LucideIcon | undefined>)[name] ?? Icons.Circle
-  return <Cmp className={className} aria-hidden />
-}
-
 function Shell({
   theme,
   productLabel,
+  categoryId,
+  slug,
   children,
   className = '',
 }: {
   theme: ReturnType<typeof getIndustryErpTheme>
   productLabel: string
+  categoryId: string
+  slug?: string
   children: ReactNode
   className?: string
 }) {
   return (
     <figure
-      className={`overflow-hidden rounded-xl border border-slate-200/90 bg-white shadow-[0_4px_14px_rgba(15,23,42,0.04)] ${className}`}
+      className={`overflow-hidden rounded-xl border border-[rgba(15,23,42,0.08)] bg-white ${className}`}
       aria-label={`${productLabel} — ${theme.moduleLabel} preview`}
     >
       <div className="flex items-center justify-between border-b border-slate-200/80 bg-gradient-to-r from-slate-50/90 to-white px-3 py-2.5">
         <div className="flex items-center gap-2.5">
-          <div className="flex size-8 items-center justify-center rounded-lg border border-brand/15 bg-brand/[0.08] text-brand">
-            <IconByName name={theme.primaryIcon} className="size-4" />
-          </div>
+          <SoftwareColorIcon
+            icon={theme.primaryIcon}
+            slug={slug}
+            categoryId={categoryId}
+            kind="industry"
+            size="sm"
+          />
           <div>
             <p className="text-[10px] font-bold uppercase tracking-wide text-brand">{theme.moduleLabel}</p>
             <p className="text-xs font-semibold text-slate-700">DigitalManager ERP</p>
@@ -63,7 +65,7 @@ function DashboardBody({ theme, compact = false }: { theme: ReturnType<typeof ge
     <div className={`flex flex-col ${compact ? 'min-h-[220px]' : 'min-h-[280px] sm:min-h-[320px]'}`}>
       <div className="grid grid-cols-3 gap-2 border-b border-slate-200/80 bg-slate-50/40 p-2.5">
         {theme.heroKpis.map((k) => (
-          <div key={k.label} className="rounded-lg border border-slate-200/80 bg-white p-2 shadow-sm">
+          <div key={k.label} className="rounded-lg border border-[rgba(15,23,42,0.08)] bg-white p-2">
             <p className="text-[9px] font-medium uppercase tracking-wide text-slate-500">{k.label}</p>
             <p className="mt-0.5 truncate text-sm font-bold text-slate-900">{k.value}</p>
             <span className="mt-1 inline-block rounded-full border border-emerald-200/80 bg-emerald-50 px-1.5 py-0.5 text-[9px] font-semibold text-emerald-700">
@@ -163,7 +165,7 @@ export function IndustryErpVisual({ categoryId, slug, productLabel, variant, cla
 
   if (variant === 'hero' || variant === 'dashboard') {
     return (
-      <Shell theme={theme} productLabel={productLabel} className={className}>
+      <Shell theme={theme} productLabel={productLabel} categoryId={categoryId} slug={slug} className={className}>
         <DashboardBody theme={theme} compact={variant === 'dashboard'} />
       </Shell>
     )
@@ -171,7 +173,7 @@ export function IndustryErpVisual({ categoryId, slug, productLabel, variant, cla
 
   if (variant === 'workflow') {
     return (
-      <Shell theme={theme} productLabel={productLabel} className={className}>
+      <Shell theme={theme} productLabel={productLabel} categoryId={categoryId} slug={slug} className={className}>
         <WorkflowBody theme={theme} />
       </Shell>
     )
@@ -179,7 +181,7 @@ export function IndustryErpVisual({ categoryId, slug, productLabel, variant, cla
 
   if (variant === 'reports') {
     return (
-      <Shell theme={theme} productLabel={productLabel} className={className}>
+      <Shell theme={theme} productLabel={productLabel} categoryId={categoryId} slug={slug} className={className}>
         <ListBody
           title={theme.reportTitle}
           cols={['Report', 'Value', 'Status']}
@@ -194,7 +196,7 @@ export function IndustryErpVisual({ categoryId, slug, productLabel, variant, cla
   }
 
   return (
-    <Shell theme={theme} productLabel={productLabel} className={className}>
+    <Shell theme={theme} productLabel={productLabel} categoryId={categoryId} slug={slug} className={className}>
       <ListBody
         title={theme.documentTitle}
         cols={['Document', 'Detail', 'Status']}

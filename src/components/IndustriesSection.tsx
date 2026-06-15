@@ -9,6 +9,7 @@ import { LucideByName } from '../utils/lucideFromName'
 import { pageShellClass } from '../ui/pageShell'
 import { ScrollReveal } from './ScrollReveal'
 import { PremiumFeatureCard } from './PremiumFeatureCard'
+import { industryCardIconStyle, softwareIconAccent } from '../ui/cardIconColors'
 import { btnSecondary, sectionContentTop, sectionPad, sectionSubCenter, sectionTitle } from '../ui/saas'
 
 const INITIAL_VISIBLE = 6
@@ -49,25 +50,36 @@ export function IndustriesSection() {
 
   const allCards = useMemo(() => {
     if (cmsItems.length > 0) {
-      return cmsItems.map((item) => ({
-        key: item.id,
-        title: item.title ? pick(item.title, lang) : '',
-        description: item.description ? pick(item.description, lang) : '',
-        to: item.href?.trim() || '/',
-        eyebrow: item.category ? pick(item.category, lang) : undefined,
-        useCmsLink: true as const,
-        icon: <LucideByName name={item.icon} strokeWidth={1.75} />,
-      }))
+      return cmsItems.map((item, index) => {
+        const hrefSlug = item.href?.match(/\/software\/(?:industry\/)?([^/?#]+)/)?.[1]
+        const iconStyle = {
+          accent: softwareIconAccent({ slug: hrefSlug, kind: 'industry', index }),
+        }
+        return {
+          key: item.id,
+          title: item.title ? pick(item.title, lang) : '',
+          description: item.description ? pick(item.description, lang) : '',
+          to: item.href?.trim() || '/',
+          eyebrow: item.category ? pick(item.category, lang) : undefined,
+          useCmsLink: true as const,
+          iconStyle,
+          icon: <LucideByName name={item.icon} strokeWidth={2} />,
+        }
+      })
     }
-    return industryProgrammeCards.map((item) => ({
-      key: item.cardKey,
-      title: t(`industryBlock.card.${item.cardKey}.title`),
-      description: t(`industryBlock.card.${item.cardKey}.desc`),
-      to: item.exploreTo,
-      eyebrow: t(`industryBlock.card.${item.cardKey}.cat`),
-      useCmsLink: false as const,
-      icon: <item.icon strokeWidth={1.75} aria-hidden />,
-    }))
+    return industryProgrammeCards.map((item, index) => {
+      const iconStyle = industryCardIconStyle(item.cardKey, index)
+      return {
+        key: item.cardKey,
+        title: t(`industryBlock.card.${item.cardKey}.title`),
+        description: t(`industryBlock.card.${item.cardKey}.desc`),
+        to: item.exploreTo,
+        eyebrow: t(`industryBlock.card.${item.cardKey}.cat`),
+        useCmsLink: false as const,
+        iconStyle,
+        icon: <item.icon strokeWidth={2} aria-hidden />,
+      }
+    })
   }, [cmsItems, lang, t])
 
   const hasMore = allCards.length > INITIAL_VISIBLE
@@ -76,40 +88,36 @@ export function IndustriesSection() {
   return (
     <section
       id="industries"
-      className={`relative scroll-mt-28 overflow-hidden border-y border-slate-200/50 bg-gradient-to-b from-slate-50/50 via-white to-white ${sectionPad}`}
+      className={`relative scroll-mt-28 overflow-hidden border-y border-slate-200/50 bg-white ${sectionPad}`}
     >
-      <div
-        className="pointer-events-none absolute right-0 top-0 h-48 w-[min(480px,70%)] rounded-full bg-brand/[0.03] blur-3xl"
-        aria-hidden
-      />
-
       <div className={`${pageShellClass} relative`}>
         <ScrollReveal className="mx-auto max-w-4xl text-center">
           <h2 className={sectionTitle}>{title}</h2>
-          <p className={sectionSubCenter}>{sub}</p>
+          <p className={`${sectionSubCenter} mt-3 max-w-2xl`}>{sub}</p>
         </ScrollReveal>
 
         <div
-          className={`${sectionContentTop} grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6`}
+          className={`${sectionContentTop} grid auto-rows-fr gap-6 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-7`}
         >
           {visibleCards.map((item, i) => (
             <ScrollReveal key={item.key} delayMs={i * 60}>
               <PremiumFeatureCard
+                variant="industry"
                 title={item.title}
                 description={item.description}
                 exploreLabel={explore}
                 to={item.to}
                 eyebrow={item.eyebrow}
                 useCmsLink={item.useCmsLink}
+                iconAccentColor={item.iconStyle.accent}
                 icon={item.icon}
-                variant="industry"
               />
             </ScrollReveal>
           ))}
         </div>
 
         {hasMore ? (
-          <div className="mt-8 flex justify-center">
+          <div className="mt-10 flex justify-center">
             <button
               type="button"
               className={`${btnSecondary} gap-2`}

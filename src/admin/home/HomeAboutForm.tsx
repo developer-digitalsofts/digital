@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { Bilingual } from '../../cms/types'
+import { emptyBilingual, normalizeBilingual } from './normalizeHomeData'
 import { useAdminSection } from '../hooks/useAdminSection'
 import { useAdminToast } from '../AdminToastContext'
 import { BilingualInputs } from '../cms/BilingualInputs'
@@ -30,6 +31,47 @@ function sortCards(xs: AboutCard[]) {
   return [...xs].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
 }
 
+function normalizeAboutDoc(raw: unknown): AboutDoc {
+  const o = raw && typeof raw === 'object' ? (raw as Record<string, unknown>) : {}
+  const paragraphs = Array.isArray(o.paragraphs)
+    ? o.paragraphs.map((p) => {
+        const row = p && typeof p === 'object' ? (p as Record<string, unknown>) : {}
+        return { en: typeof row.en === 'string' ? row.en : '', ar: typeof row.ar === 'string' ? row.ar : '' }
+      })
+    : []
+  const cards = Array.isArray(o.cards)
+    ? o.cards.map((c) => {
+        const row = c && typeof c === 'object' ? (c as Record<string, unknown>) : {}
+        return {
+          id: typeof row.id === 'string' && row.id ? row.id : `ac-${Math.random().toString(36).slice(2, 10)}`,
+          icon: typeof row.icon === 'string' && row.icon ? row.icon : 'Star',
+          title: normalizeBilingual(row.title),
+          description: normalizeBilingual(row.description),
+          sortOrder: typeof row.sortOrder === 'number' && Number.isFinite(row.sortOrder) ? row.sortOrder : 0,
+          active: row.active !== false,
+        }
+      })
+    : []
+  return {
+    eyebrow: normalizeBilingual(o.eyebrow),
+    title: normalizeBilingual(o.title),
+    highlightsLabel: normalizeBilingual(o.highlightsLabel),
+    paragraphs,
+    cards: sortCards(cards),
+    _meta: o._meta && typeof o._meta === 'object' ? (o._meta as Record<string, unknown>) : undefined,
+  }
+}
+
+function emptyAboutDoc(): AboutDoc {
+  return {
+    eyebrow: emptyBilingual(),
+    title: emptyBilingual(),
+    highlightsLabel: emptyBilingual(),
+    paragraphs: [],
+    cards: [],
+  }
+}
+
 export function HomeAboutForm() {
   const toast = useAdminToast()
   const sec = useAdminSection<AboutDoc>('about')
@@ -39,11 +81,11 @@ export function HomeAboutForm() {
   const [delPara, setDelPara] = useState<number | null>(null)
 
   useEffect(() => {
-    if (!sec.data) return
-    const d = { ...sec.data, paragraphs: sec.data.paragraphs || [], cards: sortCards(sec.data.cards || []) }
+    if (sec.loading) return
+    const d = normalizeAboutDoc(sec.data ?? emptyAboutDoc())
     setLocal(d)
     setBaseline(JSON.stringify(d))
-  }, [sec.data])
+  }, [sec.data, sec.loading])
 
   const dirty = useMemo(() => (local ? JSON.stringify(local) !== baseline : false), [local, baseline])
 
@@ -79,7 +121,15 @@ export function HomeAboutForm() {
 
   return (
     <div className="space-y-8">
-      {sec.error ? <p className="text-sm text-red-700">{sec.error}</p> : null}
+      {sec.error ? (
+        <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-950">
+          <p className="font-medium">Could not refresh from server.</p>
+          <p className="mt-1">{sec.error}</p>
+          <button type="button" className="mt-2 text-xs font-semibold text-brand hover:underline" onClick={() => sec.reload()}>
+            Retry
+          </button>
+        </div>
+      ) : null}
       <BilingualInputs labelEn="Eyebrow (EN)" labelAr="Eyebrow (AR)" value={local.eyebrow} onChange={(eyebrow) => setLocal({ ...local, eyebrow })} />
       <BilingualInputs labelEn="Title (EN)" labelAr="Title (AR)" value={local.title} onChange={(title) => setLocal({ ...local, title })} />
       <BilingualInputs

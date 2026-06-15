@@ -22,6 +22,8 @@ import { AdminHeaderEditor } from './admin/layout/AdminHeaderEditor'
 import { AdminFooterEditor } from './admin/layout/AdminFooterEditor'
 import { AdminPagesList } from './admin/AdminPagesList'
 import { AdminPageForm } from './admin/AdminPageForm'
+import { AdminSoftwareDetailForm } from './admin/AdminSoftwareDetailForm'
+import { AdminUsers } from './admin/AdminUsers'
 
 export default function App() {
   return (
@@ -33,10 +35,15 @@ export default function App() {
 
           <Route path="home" element={<Navigate to="/admin/pages/home" replace />} />
 
-          <Route path="pages" element={<AdminPagesList />} />
+          <Route path="pages/home" element={<AdminHomePageEditor />} />
+          <Route path="erp-modules" element={<AdminHomePageEditor />} />
+          <Route path="industries" element={<AdminHomePageEditor />} />
+          <Route path="detail-pages" element={<AdminPagesList />} />
+          <Route path="pages" element={<Navigate to="/admin/detail-pages" replace />} />
+          <Route path="pages/detail/new" element={<AdminSoftwareDetailForm mode="new" />} />
+          <Route path="pages/detail/:kind/:slug/edit" element={<AdminSoftwareDetailForm mode="edit" />} />
           <Route path="pages/new" element={<AdminPageForm mode="new" />} />
           <Route path="pages/:id/edit" element={<AdminPageForm mode="edit" />} />
-          <Route path="pages/home" element={<AdminHomePageEditor />} />
 
           <Route path="layout/header" element={<AdminHeaderEditor />} />
           <Route path="layout/footer" element={<AdminFooterEditor />} />
@@ -50,22 +57,23 @@ export default function App() {
           <Route path="media" element={<AdminMedia />} />
           <Route path="backup" element={<AdminBackup />} />
           <Route path="activity" element={<AdminActivity />} />
+          <Route path="users" element={<AdminUsers />} />
           <Route path="profile" element={<AdminProfile />} />
           <Route path="change-password" element={<AdminChangePassword />} />
 
           {/* Legacy URLs → new grouped routes */}
           <Route path="header" element={<Navigate to="/admin/layout/header" replace />} />
           <Route path="footer" element={<Navigate to="/admin/layout/footer" replace />} />
-          <Route path="page-sections" element={<Navigate to="/admin/pages/home?tab=visibility" replace />} />
-          <Route path="hero" element={<Navigate to="/admin/pages/home?tab=hero" replace />} />
-          <Route path="stats" element={<Navigate to="/admin/pages/home?tab=stats" replace />} />
-          <Route path="about" element={<Navigate to="/admin/pages/home?tab=about" replace />} />
-          <Route path="valueChain" element={<Navigate to="/admin/pages/home?tab=features" replace />} />
-          <Route path="modules" element={<Navigate to="/admin/pages/home?tab=modules" replace />} />
-          <Route path="workflow" element={<Navigate to="/admin/pages/home?tab=workflow" replace />} />
-          <Route path="industries" element={<Navigate to="/admin/pages/home?tab=industries" replace />} />
-          <Route path="faqs" element={<Navigate to="/admin/pages/home?tab=faqs" replace />} />
-          <Route path="cta" element={<Navigate to="/admin/pages/home?tab=cta" replace />} />
+          <Route path="page-sections" element={<Navigate to="/admin/pages/home?panel=visibility" replace />} />
+          <Route path="hero" element={<Navigate to="/admin/pages/home?panel=hero" replace />} />
+          <Route path="stats" element={<Navigate to="/admin/pages/home?panel=stats" replace />} />
+          <Route path="about" element={<Navigate to="/admin/pages/home?panel=about" replace />} />
+          <Route path="valueChain" element={<Navigate to="/admin/pages/home?panel=features" replace />} />
+          <Route path="modules" element={<Navigate to="/admin/erp-modules" replace />} />
+          <Route path="workflow" element={<Navigate to="/admin/erp-modules?panel=workflow" replace />} />
+          <Route path="industries" element={<Navigate to="/admin/industries" replace />} />
+          <Route path="faqs" element={<Navigate to="/admin/pages/home?panel=faqs" replace />} />
+          <Route path="cta" element={<Navigate to="/admin/pages/home?panel=cta" replace />} />
           <Route path="layout/top-bar" element={<Navigate to="/admin/layout/header" replace />} />
         </Route>
       </Route>

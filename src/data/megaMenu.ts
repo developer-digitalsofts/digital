@@ -23,6 +23,7 @@ import {
   Wheat,
 } from 'lucide-react'
 import { slugify, softwarePath } from '../utils/slug'
+import { industryIconBgClass, moduleIconBgClass } from '../ui/megaMenuColors'
 
 /** `labelEn` is the canonical English name (used for EN UI + search); Arabic uses i18n by slug. */
 export type MegaLink = { labelEn: string; slug: string; to: string }
@@ -50,62 +51,66 @@ const ind = (labelEn: string, slug?: string): MegaLink => {
   return { labelEn, slug: resolved, to: softwarePath('industry', resolved) }
 }
 
-/** Mega + mobile nav — soft tile, strong orange glyph */
-export const megaMenuBrandIcon =
-  'border border-[#ffd8cc] bg-[#fff3ed] text-[#ea6a45] [&_svg]:text-[#ea6a45]'
+const industryCat = (
+  id: string,
+  titleEn: string,
+  icon: LucideIcon,
+  links: MegaLink[],
+): IndustryCategory => ({
+  id,
+  titleEn,
+  icon,
+  iconWrap: industryIconBgClass(id),
+  links,
+})
 
 /** Software by module — exactly 8 links (flat `/software/...` routes). */
 export const moduleMegaItems: ModuleMegaItem[] = [
   {
     ...mod('Accounts Management Software', 'accounts-management-software', '/software/accounts-management-software'),
     icon: Landmark,
-    iconWrap: megaMenuBrandIcon,
+    iconWrap: moduleIconBgClass('accounts-management-software'),
   },
   {
     ...mod('Production Management Software', 'production-management-software', '/software/production-management-software'),
     icon: Factory,
-    iconWrap: megaMenuBrandIcon,
+    iconWrap: moduleIconBgClass('production-management-software'),
   },
   {
     ...mod('Point of Sale Management Software', 'point-of-sale-management-software', '/software/point-of-sale-software'),
     icon: TabletSmartphone,
-    iconWrap: megaMenuBrandIcon,
+    iconWrap: moduleIconBgClass('point-of-sale-management-software'),
   },
   {
     ...mod('FBR (POS) Integration Software', 'fbr-pos-integration-software', '/software/fbr-pos-integration-software'),
     icon: FileText,
-    iconWrap: megaMenuBrandIcon,
+    iconWrap: moduleIconBgClass('fbr-pos-integration-software'),
   },
   {
     ...mod('Inventory Management Software', 'inventory-management-software', '/software/inventory-management-software'),
     icon: Package,
-    iconWrap: megaMenuBrandIcon,
+    iconWrap: moduleIconBgClass('inventory-management-software'),
   },
   {
     ...mod('Payroll Management Software', 'payroll-management-software', '/software/payroll-management-software'),
     icon: Banknote,
-    iconWrap: megaMenuBrandIcon,
+    iconWrap: moduleIconBgClass('payroll-management-software'),
   },
   {
     ...mod('Integration System', 'integration-system', '/software/sms-integration-system'),
     icon: Cpu,
-    iconWrap: megaMenuBrandIcon,
+    iconWrap: moduleIconBgClass('integration-system'),
   },
   {
     ...mod('CRM Software', 'crm-software', '/software/crm-software'),
     icon: Users,
-    iconWrap: megaMenuBrandIcon,
+    iconWrap: moduleIconBgClass('crm-software'),
   },
 ]
 
 /** “Software by industries” — approved categories only (accordion), Oil & Gas default open. */
 export const industryCategories: IndustryCategory[] = [
-  {
-    id: 'oil-gas',
-    titleEn: 'Oil & Gas',
-    icon: Fuel,
-    iconWrap: megaMenuBrandIcon,
-    links: [
+  industryCat('oil-gas', 'Oil & Gas', Fuel, [
       ind('Petrol Pump Software'),
       ind('Petrol & Gas Filling Station Software'),
       ind('LPG Business Software'),
@@ -114,140 +119,72 @@ export const industryCategories: IndustryCategory[] = [
       ind('Fleet Fuel Management Software'),
       ind('Petrol Depot Management Software', 'petrol-depot-management-software'),
       ind('Fuel Tank Lorry Management Software', 'fuel-tank-lorry-management-software'),
-    ],
-  },
-  {
-    id: 'textile',
-    titleEn: 'Textile',
-    icon: Store,
-    iconWrap: megaMenuBrandIcon,
-    links: [
+  ]),
+  industryCat('textile', 'Textile', Store, [
       ind('Cloud ERP Software for Textile Industries'),
       ind('Knitting & Dyeing Industry Software'),
       ind('Fabric Store Management Software'),
-    ],
-  },
-  {
-    id: 'manufacturing',
-    titleEn: 'Manufacturing',
-    icon: Factory,
-    iconWrap: megaMenuBrandIcon,
-    links: [ind('Garments Manufacturing Software'), ind('Candy and Confectionery Manufacturing Software')],
-  },
-  {
-    id: 'retail',
-    titleEn: 'Retail Industry',
-    icon: ShoppingBag,
-    iconWrap: megaMenuBrandIcon,
-    links: [
+  ]),
+  industryCat('manufacturing', 'Manufacturing', Factory, [
+    ind('Garments Manufacturing Software'),
+    ind('Candy and Confectionery Manufacturing Software'),
+  ]),
+  industryCat('retail', 'Retail Industry', ShoppingBag, [
       ind('Retail Management Software'),
       ind('Luggage & Bags Store Software'),
       ind('Toy Shop Management Software'),
       ind('Crockery Store Management Software'),
       ind('Grocery Store Management Software'),
-    ],
-  },
-  {
-    id: 'smb',
-    titleEn: 'Small & Medium Businesses',
-    icon: Briefcase,
-    iconWrap: megaMenuBrandIcon,
-    links: [
+  ]),
+  industryCat('smb', 'Small & Medium Businesses', Briefcase, [
       ind('Cloud ERP Software For Services Business'),
       ind('Small & Medium Businesses Software', 'small-and-medium-business-erp-software'),
       ind('Installment Management Software'),
-    ],
-  },
-  {
-    id: 'medical',
-    titleEn: 'Medical',
-    icon: HeartPulse,
-    iconWrap: megaMenuBrandIcon,
-    links: [
+  ]),
+  industryCat('medical', 'Medical', HeartPulse, [
       ind('Pharmacy Business Management Software'),
       ind('Homeopathic Business Management Software'),
-    ],
-  },
-  {
-    id: 'hospitality',
-    titleEn: 'Hospitality',
-    icon: Hotel,
-    iconWrap: megaMenuBrandIcon,
-    links: [ind('Hotel Management Software'), ind('Tuc Shop Management Software')],
-  },
-  {
-    id: 'logistics',
-    titleEn: 'Logistics & Transportation',
-    icon: Truck,
-    iconWrap: megaMenuBrandIcon,
-    links: [
+  ]),
+  industryCat('hospitality', 'Hospitality', Hotel, [
+    ind('Hotel Management Software'),
+    ind('Tuc Shop Management Software'),
+  ]),
+  industryCat('logistics', 'Logistics & Transportation', Truck, [
       ind('Logistics & Transportation Software'),
       ind('Motor Market Management Software'),
       ind('Auto Parts Business Software'),
-    ],
-  },
-  {
-    id: 'poultry',
-    titleEn: 'Poultry Business',
-    icon: Bird,
-    iconWrap: megaMenuBrandIcon,
-    links: [
+  ]),
+  industryCat('poultry', 'Poultry Business', Bird, [
       ind('Poultry Control Shed Management Software'),
       ind('Poultry Chicken Supply Management Software'),
       ind('Poultry Waste Management Software'),
       ind('Poultry Arhat Software'),
-    ],
-  },
-  {
-    id: 'agriculture',
-    titleEn: 'Agriculture Business',
-    icon: Wheat,
-    iconWrap: megaMenuBrandIcon,
-    links: [ind('Cloud ERP Software for Agriculture Business'), ind('Dairy Farm Management Software')],
-  },
-  {
-    id: 'construction',
-    titleEn: 'Construction',
-    icon: HardHat,
-    iconWrap: megaMenuBrandIcon,
-    links: [
+  ]),
+  industryCat('agriculture', 'Agriculture Business', Wheat, [
+    ind('Cloud ERP Software for Agriculture Business'),
+    ind('Dairy Farm Management Software'),
+  ]),
+  industryCat('construction', 'Construction', HardHat, [
       ind('Marble and Granite Factory Software'),
       ind('Plastic Pipes & Fitting Industry Software'),
       ind('Ceiling and Wall Paneling Software', 'ceiling-and-wall-paneling-store-software'),
       ind('Tiles and Ceramics Store Software'),
       ind('Hardware & Sanitary Store Software'),
-    ],
-  },
-  {
-    id: 'real-estate',
-    titleEn: 'Real Estate',
-    icon: Building2,
-    iconWrap: megaMenuBrandIcon,
-    links: [
+  ]),
+  industryCat('real-estate', 'Real Estate', Building2, [
       ind('ERP Software for Real Estate Business'),
       ind('ERP Software for Construction Business'),
-    ],
-  },
-  {
-    id: 'visa',
-    titleEn: 'Visa Consultancy',
-    icon: Plane,
-    iconWrap: megaMenuBrandIcon,
-    links: [ind('Software for Visa & Immigration Consultants')],
-  },
-  {
-    id: 'electronics',
-    titleEn: 'Electronics',
-    icon: Laptop,
-    iconWrap: megaMenuBrandIcon,
-    links: [
+  ]),
+  industryCat('visa', 'Visa Consultancy', Plane, [
+    ind('Software for Visa & Immigration Consultants'),
+  ]),
+  industryCat('electronics', 'Electronics', Laptop, [
       ind('Computers & Laptop Business Software'),
       ind('Electronics Management Software'),
       ind('Electric Store Business Software', 'electric-store-management-software'),
       ind('Mobile Accessories Business Software'),
       ind('Vehicle Charging Station Software', 'ev-charging-station-management-software'),
-    ],
-  },
+  ]),
 ]
 
 /** Legacy export shape for any old imports — flattened module links. */

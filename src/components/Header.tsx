@@ -217,7 +217,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
 
       <div
         ref={headerShellRef}
-        className={scrolled ? headerShellScrolled : headerShellDefault}
+        className={`relative ${scrolled ? headerShellScrolled : headerShellDefault}`}
       >
         <div className={pageShellClass}>
           <div className="flex min-h-[58px] items-center justify-between gap-2.5 py-2 sm:min-h-[62px] sm:gap-3 lg:min-h-[64px] lg:py-2.5">
@@ -433,23 +433,28 @@ export function Header({ onOpenSearch }: HeaderProps) {
               </button>
             </div>
           </div>
-
-          {navStyle !== 'simple' && mega === 'module' && (
-            <div id="nav-mega-modules-panel" role="region" aria-labelledby="nav-mega-modules-trigger" className="hidden lg:block">
-              <MegaMenuModulesPanel key={`mega-mod-${lang}`} onPick={closeMega} />
-            </div>
-          )}
-          {navStyle !== 'simple' && mega === 'industry' && (
-            <div
-              id="nav-mega-industries-panel"
-              role="region"
-              aria-labelledby="nav-mega-industries-trigger"
-              className="hidden max-h-[min(54vh,440px)] overflow-y-auto lg:block"
-            >
-              <MegaMenuIndustriesPanel key={`mega-ind-${lang}`} onPick={closeMega} />
-            </div>
-          )}
         </div>
+
+        {navStyle !== 'simple' && mega === 'module' && (
+          <div
+            id="nav-mega-modules-panel"
+            role="region"
+            aria-labelledby="nav-mega-modules-trigger"
+            className="pointer-events-none absolute left-1/2 top-full z-50 hidden -translate-x-1/2 bg-transparent pt-2 pb-3 lg:block"
+          >
+            <MegaMenuModulesPanel key={`mega-mod-${lang}`} onPick={closeMega} />
+          </div>
+        )}
+        {navStyle !== 'simple' && mega === 'industry' && (
+          <div
+            id="nav-mega-industries-panel"
+            role="region"
+            aria-labelledby="nav-mega-industries-trigger"
+            className="pointer-events-none absolute left-1/2 top-full z-50 hidden -translate-x-1/2 bg-transparent pt-2 pb-3 lg:block"
+          >
+            <MegaMenuIndustriesPanel key={`mega-ind-${lang}`} onPick={closeMega} />
+          </div>
+        )}
 
         {mobileOpen && (
           <div className="animate-fade-up max-h-[min(70dvh,520px)] overflow-y-auto overscroll-contain border-t border-slate-100 bg-white px-3 py-3 motion-reduce:animate-none lg:hidden">
@@ -505,18 +510,18 @@ export function Header({ onOpenSearch }: HeaderProps) {
                         </span>
                       </button>
                       {mobileModulesOpen && (
-                        <ul className="max-h-[50vh] space-y-1 overflow-y-auto border-t border-slate-100 bg-slate-50/60 p-2">
+                        <ul className="max-h-[50vh] divide-y divide-slate-100 overflow-y-auto border-t border-slate-100 bg-white">
                           {moduleMegaItems.map((item) => (
                             <li key={item.slug}>
                               <Link
                                 to={item.to}
-                                className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold text-[#0f172a] hover:bg-slate-100 hover:text-brand"
+                                className="group flex items-center gap-3 px-3 py-3 text-sm font-bold text-slate-800 transition-colors hover:bg-[#fff7f3] hover:text-brand"
                                 onClick={closeMobile}
                               >
                                 <span
-                                  className={`flex size-9 shrink-0 items-center justify-center rounded-full ${item.iconWrap}`}
+                                  className={`flex size-9 shrink-0 items-center justify-center rounded-full shadow-sm transition-transform group-hover:scale-110 ${item.iconWrap}`}
                                 >
-                                  <item.icon className="size-4 text-[#ea6a45]" strokeWidth={2} aria-hidden />
+                                  <item.icon className="size-4 text-white" strokeWidth={2.25} aria-hidden />
                                 </span>
                                 <span className="min-w-0 flex-1 text-start">
                                   {megaModuleLabel(lang, item.slug, item.labelEn)}
@@ -543,22 +548,22 @@ export function Header({ onOpenSearch }: HeaderProps) {
                         </span>
                       </button>
                       {mobileIndustriesOpen && (
-                        <div className="max-h-[50vh] space-y-1.5 overflow-y-auto border-t border-slate-100 bg-slate-50/60 p-1.5">
+                        <div className="max-h-[50vh] divide-y divide-slate-100 overflow-y-auto border-t border-slate-100 bg-white">
                           {industryCategories.map((cat) => (
-                            <div key={cat.id} className="overflow-hidden rounded-lg border border-slate-100 bg-white">
+                            <div key={cat.id}>
                               <button
                                 type="button"
-                                className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm font-bold text-[#0f172a]"
+                                className="group flex w-full items-center gap-3 px-3 py-3 text-left text-sm font-bold text-slate-800 transition-colors hover:bg-[#fff7f3]"
                                 onClick={() =>
                                   setMobileIndustryCat((prev) => (prev === cat.id ? null : cat.id))
                                 }
                               >
                                 <span
-                                  className={`flex size-8 shrink-0 items-center justify-center rounded-full ${cat.iconWrap}`}
+                                  className={`flex size-8 shrink-0 items-center justify-center rounded-full shadow-sm transition-transform group-hover:scale-110 ${cat.iconWrap}`}
                                 >
-                                  <cat.icon className="size-4 text-[#ea6a45]" strokeWidth={2} aria-hidden />
+                                  <cat.icon className="size-3.5 text-white" strokeWidth={2.25} aria-hidden />
                                 </span>
-                                <span className="min-w-0 flex-1 text-start">
+                                <span className="min-w-0 flex-1 text-start group-hover:text-brand">
                                   {megaIndustryCatTitle(lang, cat.id, industryCategoryTitleEn(cat.id))}
                                 </span>
                                 <span
@@ -569,12 +574,12 @@ export function Header({ onOpenSearch }: HeaderProps) {
                                 </span>
                               </button>
                               {mobileIndustryCat === cat.id && (
-                                <ul className="border-t border-slate-100 py-1">
+                                <ul className="divide-y divide-slate-100 border-t border-slate-100 bg-slate-50/50">
                                   {cat.links.map((link) => (
                                     <li key={link.slug}>
                                       <Link
                                         to={link.to}
-                                        className="flex items-center justify-between px-4 py-2 text-[13px] font-medium text-slate-700 hover:bg-orange-50/80 hover:text-brand"
+                                        className="flex items-center justify-between px-4 py-2.5 ps-12 text-[13px] font-medium text-slate-700 transition-colors hover:bg-[#fff7f3] hover:text-brand"
                                         onClick={closeMobile}
                                       >
                                         {megaIndustryLabel(lang, link.slug, link.labelEn)}

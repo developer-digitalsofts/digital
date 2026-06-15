@@ -1,5 +1,6 @@
 import { Fragment, useMemo } from 'react'
 import { HeroSection } from '../components/HeroSection'
+import { TrustStatsSection } from '../components/TrustStatsSection'
 import { AboutSection } from '../components/AboutSection'
 import { ValueChainSection } from '../components/ValueChainSection'
 import { ModulesSection } from '../components/ModulesSection'
@@ -12,6 +13,7 @@ import { isSectionVisible, parsePageSections } from '../cms/pageSections'
 
 const MAIN_SET = new Set([
   'hero',
+  'stats',
   'about',
   'valueChain',
   'modules',
@@ -30,6 +32,8 @@ export function HomePage() {
     switch (id) {
       case 'hero':
         return <HeroSection />
+      case 'stats':
+        return <TrustStatsSection />
       case 'about':
         return <AboutSection />
       case 'valueChain':

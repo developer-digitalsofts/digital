@@ -1,8 +1,9 @@
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
 import { CmsLink } from './CmsLink'
-import { cardDesc, cardEyebrow, cardEyebrowIndustry, cardFooter, cardTitle, linkAccent } from '../ui/saas'
+import { ColorIconBadge } from './ColorIconBadge'
+import { cardDesc, cardEyebrowIndustry, cardBorderStrong, linkAccent } from '../ui/saas'
 
 export type PremiumFeatureCardProps = {
   title: string
@@ -13,19 +14,8 @@ export type PremiumFeatureCardProps = {
   eyebrow?: string
   useCmsLink?: boolean
   variant?: 'module' | 'industry'
+  iconAccentColor?: string
 }
-
-const cardShellModule =
-  'group/premium relative flex h-full min-h-[15.5rem] flex-col rounded-2xl border border-slate-200/90 bg-white p-6 transition-[border-color,transform] duration-300 ease-out hover:-translate-y-[3px] hover:border-brand focus-within:-translate-y-[3px] focus-within:border-brand motion-reduce:transition-colors motion-reduce:hover:translate-y-0 sm:p-7'
-
-const cardShellIndustry =
-  'group/premium relative flex h-full min-h-[16.5rem] flex-col rounded-2xl border border-slate-200/85 bg-slate-50/40 p-6 transition-[border-color,transform,background-color] duration-300 ease-out hover:-translate-y-[3px] hover:border-brand hover:bg-white focus-within:-translate-y-[3px] focus-within:border-brand motion-reduce:transition-colors motion-reduce:hover:translate-y-0 sm:min-h-[17rem] sm:p-7'
-
-const iconShellModule =
-  'flex size-[3.75rem] shrink-0 items-center justify-center rounded-xl border border-slate-200/90 bg-slate-50/90 text-brand transition-colors duration-300 group-hover/premium:border-brand/35 group-hover/premium:bg-brand/[0.08] [&_svg]:size-8 [&_svg]:shrink-0 [&_svg]:text-brand'
-
-const iconShellIndustry =
-  'flex size-16 shrink-0 items-center justify-center rounded-2xl border border-slate-200/90 bg-white text-brand transition-colors duration-300 group-hover/premium:border-brand/35 group-hover/premium:bg-brand/[0.08] [&_svg]:size-8 [&_svg]:shrink-0 [&_svg]:text-brand'
 
 function exploreText(label: string) {
   return label.replace(/\s*[→←]\s*$/u, '').trim() || label
@@ -40,38 +30,62 @@ export function PremiumFeatureCard({
   eyebrow,
   useCmsLink = false,
   variant = 'module',
+  iconAccentColor,
 }: PremiumFeatureCardProps) {
   const LinkEl = useCmsLink ? CmsLink : Link
   const linkLabel = exploreText(exploreLabel)
-  const isIndustry = variant === 'industry'
+  const accentStyle = iconAccentColor
+    ? ({ '--card-accent': iconAccentColor } as CSSProperties)
+    : undefined
+
+  const isModule = variant === 'module'
+
+  const cardShell = isModule
+    ? `card-accent-hover group/premium relative flex h-full min-h-[16.5rem] flex-col overflow-hidden rounded-xl border ${cardBorderStrong} bg-white p-6 transition-[border-color,transform] duration-200 hover:-translate-y-px hover:border-brand/40 motion-reduce:hover:translate-y-0 sm:min-h-[17rem] sm:p-7`
+    : `card-accent-hover group/premium relative flex h-full min-h-[17rem] flex-col overflow-hidden rounded-xl border ${cardBorderStrong} bg-white p-6 transition-[border-color,transform] duration-200 hover:-translate-y-px hover:border-brand/40 motion-reduce:hover:translate-y-0 sm:min-h-[17.5rem] sm:p-7`
 
   return (
-    <article className={isIndustry ? cardShellIndustry : cardShellModule}>
-      <div className="flex items-start justify-between gap-3">
-        <div className={isIndustry ? iconShellIndustry : iconShellModule} aria-hidden>
-          {icon}
-        </div>
-        {eyebrow ? (
-          <span className={isIndustry ? cardEyebrowIndustry : cardEyebrow}>{eyebrow}</span>
+    <article className={cardShell} style={accentStyle}>
+      <div className="relative flex items-start gap-4">
+        {iconAccentColor ? (
+          <ColorIconBadge accentColor={iconAccentColor} size={isModule ? 'lg' : 'lg'}>
+            {icon}
+          </ColorIconBadge>
+        ) : (
+          <div
+            className="flex size-[55px] shrink-0 items-center justify-center rounded-full border border-[rgba(15,23,42,0.12)] bg-white text-brand [&_svg]:size-[26px] [&_svg]:shrink-0"
+            aria-hidden
+          >
+            {icon}
+          </div>
+        )}
+        {!isModule && eyebrow ? (
+          <span className={`${cardEyebrowIndustry} ms-auto max-w-[9.5rem] text-right leading-tight`}>
+            {eyebrow}
+          </span>
         ) : null}
       </div>
 
-      <div className="mt-7 flex flex-1 flex-col">
+      <div className="relative mt-5 flex flex-1 flex-col sm:mt-6">
         <h3
-          className={`${cardTitle} line-clamp-2 ${isIndustry ? 'text-lg font-bold sm:text-xl' : 'text-lg font-bold'}`}
+          className={`font-heading font-bold leading-snug tracking-tight text-slate-900 line-clamp-2 ${
+            isModule ? 'text-[1.25rem] sm:text-[1.375rem]' : 'text-[1.25rem] sm:text-[1.375rem]'
+          }`}
         >
           {title}
         </h3>
-        <p className={`${cardDesc} mt-3 line-clamp-2`}>{description}</p>
+        <p className={`${cardDesc} mt-3.5 line-clamp-3 text-[0.9375rem] leading-[1.64] text-slate-600 sm:mt-4`}>
+          {description}
+        </p>
 
-        <div className={`${cardFooter} mt-auto pt-5`}>
+        <div className="mt-auto border-t border-slate-100 pt-5 sm:pt-6">
           <LinkEl
             to={to}
-            className={`${linkAccent} gap-2 font-semibold group-hover/premium:gap-2.5`}
+            className={`${linkAccent} gap-2 text-[0.9375rem] font-semibold group-hover/premium:gap-2.5`}
           >
             <span>{linkLabel}</span>
             <ArrowUpRight
-              className="size-[1.125rem] shrink-0 transition-transform duration-300 group-hover/premium:translate-x-0.5 group-hover/premium:-translate-y-0.5"
+              className="size-[1.0625rem] shrink-0 transition-transform duration-300 group-hover/premium:translate-x-0.5 group-hover/premium:-translate-y-0.5"
               aria-hidden
             />
           </LinkEl>

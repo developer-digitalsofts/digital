@@ -1,1 +1,47 @@
-[]
+[
+  {
+    "id": "fTiifaT84uBb",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-06-15T04:09:54.949Z"
+  },
+  {
+    "id": "6Uj6nNo-TqlZ",
+    "action": "media_deleted",
+    "section": "media",
+    "description": "_x31kYXvXb.png",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-06-13T12:22:32.887Z"
+  },
+  {
+    "id": "L4aLuhh-R3ub",
+    "action": "media_upload",
+    "section": "media",
+    "description": "cIjpneMiFa.jpeg",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-06-13T12:22:19.492Z"
+  },
+  {
+    "id": "FJ5KgDBnBfhu",
+    "action": "media_upload",
+    "section": "media",
+    "description": "_x31kYXvXb.png",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-06-13T11:29:31.223Z"
+  },
+  {
+    "id": "iTw62RWxItpi",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-06-13T11:27:10.610Z"
+  }
+]

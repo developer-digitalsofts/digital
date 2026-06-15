@@ -4,6 +4,7 @@ import { adminFetch } from './adminApi'
 import { useAdminToast } from './AdminToastContext'
 import { BilingualInputs } from './cms/BilingualInputs'
 import { AdminFormActions } from './cms/AdminFormActions'
+import { AdminLayoutMediaField } from './layout/AdminLayoutMediaField'
 import { emptyPageDraft, PAGE_TYPE_OPTIONS, type CmsPageRecord } from '../cms/pagesTypes'
 
 type Mode = 'new' | 'edit'
@@ -113,7 +114,7 @@ export function AdminPageForm({ mode }: { mode: Mode }) {
           <h1 className="text-2xl font-bold text-slate-900">{mode === 'new' ? 'Add New Page' : 'Edit Page'}</h1>
           <p className="mt-1 text-sm text-slate-600">Fill in the fields below. Slug becomes the public URL path.</p>
         </div>
-        <Link to="/admin/pages" className="text-sm font-semibold text-brand hover:underline">
+        <Link to="/admin/detail-pages" className="text-sm font-semibold text-brand hover:underline">
           ← All pages
         </Link>
       </div>
@@ -251,15 +252,11 @@ export function AdminPageForm({ mode }: { mode: Mode }) {
           onChange={(content) => setForm((f) => ({ ...f, content }))}
         />
 
-        <label className="block text-sm">
-          <span className="font-semibold text-slate-800">Featured image URL (optional)</span>
-          <input
-            className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none ring-brand/30 focus:ring-2"
-            value={form.featuredImageUrl}
-            onChange={(e) => setForm((f) => ({ ...f, featuredImageUrl: e.target.value }))}
-            placeholder="/uploads/… or https://…"
-          />
-        </label>
+        <AdminLayoutMediaField
+          label="Featured image (optional)"
+          value={form.featuredImageUrl}
+          onChange={(featuredImageUrl) => setForm((f) => ({ ...f, featuredImageUrl }))}
+        />
 
         <AdminFormActions saving={saving} onSave={save} onCancel={cancel} disableSave={mode === 'edit' && !dirty} />
       </div>

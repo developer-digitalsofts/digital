@@ -1,32 +1,18 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import type { Bilingual } from '../../cms/types'
+import { ChevronDown, Plus } from 'lucide-react'
 import { useAdminSection } from '../hooks/useAdminSection'
 import { useAdminToast } from '../AdminToastContext'
 import { BilingualInputs } from '../cms/BilingualInputs'
 import { AdminFormActions } from '../cms/AdminFormActions'
 import { ConfirmDialog } from '../cms/ConfirmDialog'
+import { HomeModuleCard, type ModItem, type ModuleTab } from './HomeModuleCard'
+import {
+  emptyModulesDoc,
+  normalizeModulesDoc,
+  type ModulesDoc,
+} from './normalizeModulesIndustries'
 
-type ModItem = {
-  id: string
-  icon: string
-  badge: Bilingual
-  title: Bilingual
-  description: Bilingual
-  href: string
-  sortOrder: number
-  active: boolean
-}
-
-type ModulesDoc = {
-  pill: Bilingual
-  title: Bilingual
-  subtitle: Bilingual
-  exploreLabel: Bilingual
-  items: ModItem[]
-  _meta?: Record<string, unknown>
-}
-
-function sortItems<T extends { sortOrder?: number }>(xs: T[]) {
+function sortItems(xs: ModItem[]) {
   return [...xs].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
 }
 
@@ -36,19 +22,24 @@ export function HomeModulesForm() {
   const [local, setLocal] = useState<ModulesDoc | null>(null)
   const [baseline, setBaseline] = useState('')
   const [delId, setDelId] = useState<string | null>(null)
+  const [expandedId, setExpandedId] = useState<string | null>(null)
+  const [expandedTab, setExpandedTab] = useState<ModuleTab>('en')
+  const [sectionIntroOpen, setSectionIntroOpen] = useState(false)
 
   useEffect(() => {
-    if (!sec.data) return
-    const d = { ...sec.data, items: sortItems(sec.data.items || []) }
+    if (sec.loading) return
+    const d = normalizeModulesDoc(sec.data ?? emptyModulesDoc())
+    d.items = sortItems(d.items)
     setLocal(d)
     setBaseline(JSON.stringify(d))
-  }, [sec.data])
+  }, [sec.data, sec.loading])
 
   const dirty = useMemo(() => (local ? JSON.stringify(local) !== baseline : false), [local, baseline])
 
   const cancel = useCallback(() => {
     try {
       setLocal(JSON.parse(baseline) as ModulesDoc)
+      setExpandedId(null)
       toast.push('Changes reverted', 'info')
     } catch {
       /* */
@@ -67,6 +58,42 @@ export function HomeModulesForm() {
     }
   }
 
+  const updateItem = (id: string, next: ModItem) => {
+    setLocal((prev) =>
+      prev ? { ...prev, items: prev.items.map((x) => (x.id === id ? next : x)) } : prev,
+    )
+  }
+
+  const addModule = () => {
+    const id = `m-${crypto.randomUUID().slice(0, 10)}`
+    setLocal((prev) => {
+      if (!prev) return prev
+      return {
+        ...prev,
+        items: [
+          ...prev.items,
+          {
+            id,
+            icon: 'Box',
+            badge: { en: '', ar: '' },
+            title: { en: '', ar: '' },
+            description: { en: '', ar: '' },
+            href: '/software/module/',
+            sortOrder: prev.items.length,
+            active: true,
+          },
+        ],
+      }
+    })
+    setExpandedId(id)
+    setExpandedTab('en')
+  }
+
+  const toggleExpand = (id: string) => {
+    setExpandedId((current) => (current === id ? null : id))
+    setExpandedTab('en')
+  }
+
   if (sec.loading || !local) {
     return (
       <div className="flex items-center gap-2 py-8 text-sm text-slate-600">
@@ -76,223 +103,109 @@ export function HomeModulesForm() {
     )
   }
 
+  const sorted = sortItems(local.items ?? [])
+
   return (
-    <div className="space-y-6">
-      {sec.error ? <p className="text-sm text-red-700">{sec.error}</p> : null}
-      <BilingualInputs labelEn="Pill (EN)" labelAr="Pill (AR)" value={local.pill} onChange={(pill) => setLocal({ ...local, pill })} />
-      <BilingualInputs labelEn="Title (EN)" labelAr="Title (AR)" value={local.title} onChange={(title) => setLocal({ ...local, title })} />
-      <BilingualInputs
-        labelEn="Subtitle (EN)"
-        labelAr="Subtitle (AR)"
-        multiline
-        rows={3}
-        value={local.subtitle}
-        onChange={(subtitle) => setLocal({ ...local, subtitle })}
-      />
-      <BilingualInputs
-        labelEn="Explore label (EN)"
-        labelAr="Explore label (AR)"
-        value={local.exploreLabel}
-        onChange={(exploreLabel) => setLocal({ ...local, exploreLabel })}
-      />
-
-      <div className="flex items-center justify-between">
-        <h3 className="text-sm font-bold text-slate-900">ERP modules</h3>
-        <button
-          type="button"
-          className="text-xs font-bold uppercase tracking-wide text-brand hover:underline"
-          onClick={() => {
-            const id = `m-${crypto.randomUUID().slice(0, 10)}`
-            setLocal({
-              ...local,
-              items: [
-                ...local.items,
-                {
-                  id,
-                  icon: 'Box',
-                  badge: { en: '', ar: '' },
-                  title: { en: '', ar: '' },
-                  description: { en: '', ar: '' },
-                  href: '/software/module/',
-                  sortOrder: local.items.length,
-                  active: true,
-                },
-              ],
-            })
-          }}
-        >
-          + Add module
-        </button>
-      </div>
-
-      <div className="space-y-8">
-        {sortItems(local.items).map((it) => (
-          <div key={it.id} className="rounded-xl border border-slate-200 bg-slate-50/40 p-4">
-            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-              <span className="font-mono text-xs text-slate-500">{it.id}</span>
-              <div className="flex items-center gap-3 text-xs">
-                <label className="flex items-center gap-1 font-semibold text-slate-700">
-                  <input
-                    type="checkbox"
-                    checked={it.active !== false}
-                    onChange={(e) =>
-                      setLocal({
-                        ...local,
-                        items: local.items.map((x) => (x.id === it.id ? { ...x, active: e.target.checked } : x)),
-                      })
-                    }
-                  />
-                  Active
-                </label>
-                <label className="flex items-center gap-1 text-slate-700">
-                  Sort
-                  <input
-                    type="number"
-                    className="w-14 rounded border border-slate-200 px-1 py-0.5"
-                    value={it.sortOrder}
-                    onChange={(e) =>
-                      setLocal({
-                        ...local,
-                        items: local.items.map((x) =>
-                          x.id === it.id ? { ...x, sortOrder: Number(e.target.value) || 0 } : x,
-                        ),
-                      })
-                    }
-                  />
-                </label>
-                <button type="button" className="font-semibold text-red-600 hover:underline" onClick={() => setDelId(it.id)}>
-                  Delete
-                </button>
-              </div>
-            </div>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <label className="text-xs font-semibold text-slate-800">
-                Icon (Lucide name)
-                <input
-                  className="mt-1 w-full rounded-lg border border-slate-200 px-2 py-1.5 font-mono text-sm"
-                  value={it.icon}
-                  onChange={(e) =>
-                    setLocal({ ...local, items: local.items.map((x) => (x.id === it.id ? { ...x, icon: e.target.value } : x)) })
-                  }
-                />
-              </label>
-              <label className="text-xs font-semibold text-slate-800">
-                Link (href)
-                <input
-                  className="mt-1 w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm"
-                  value={it.href}
-                  onChange={(e) =>
-                    setLocal({ ...local, items: local.items.map((x) => (x.id === it.id ? { ...x, href: e.target.value } : x)) })
-                  }
-                />
-              </label>
-            </div>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              <label className="text-xs">
-                <span className="font-semibold text-slate-800">Badge EN</span>
-                <input
-                  className="mt-1 w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm"
-                  value={it.badge.en}
-                  onChange={(e) =>
-                    setLocal({
-                      ...local,
-                      items: local.items.map((x) =>
-                        x.id === it.id ? { ...x, badge: { ...x.badge, en: e.target.value } } : x,
-                      ),
-                    })
-                  }
-                />
-              </label>
-              <label className="text-xs">
-                <span className="font-semibold text-slate-800">Badge AR</span>
-                <input
-                  className="mt-1 w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm"
-                  dir="rtl"
-                  value={it.badge.ar}
-                  onChange={(e) =>
-                    setLocal({
-                      ...local,
-                      items: local.items.map((x) =>
-                        x.id === it.id ? { ...x, badge: { ...x.badge, ar: e.target.value } } : x,
-                      ),
-                    })
-                  }
-                />
-              </label>
-            </div>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              <label className="text-xs">
-                <span className="font-semibold text-slate-800">Title EN</span>
-                <input
-                  className="mt-1 w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm"
-                  value={it.title.en}
-                  onChange={(e) =>
-                    setLocal({
-                      ...local,
-                      items: local.items.map((x) =>
-                        x.id === it.id ? { ...x, title: { ...x.title, en: e.target.value } } : x,
-                      ),
-                    })
-                  }
-                />
-              </label>
-              <label className="text-xs">
-                <span className="font-semibold text-slate-800">Title AR</span>
-                <input
-                  className="mt-1 w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm"
-                  dir="rtl"
-                  value={it.title.ar}
-                  onChange={(e) =>
-                    setLocal({
-                      ...local,
-                      items: local.items.map((x) =>
-                        x.id === it.id ? { ...x, title: { ...x.title, ar: e.target.value } } : x,
-                      ),
-                    })
-                  }
-                />
-              </label>
-            </div>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              <label className="text-xs">
-                <span className="font-semibold text-slate-800">Description EN</span>
-                <textarea
-                  rows={3}
-                  className="mt-1 w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm"
-                  value={it.description.en}
-                  onChange={(e) =>
-                    setLocal({
-                      ...local,
-                      items: local.items.map((x) =>
-                        x.id === it.id ? { ...x, description: { ...x.description, en: e.target.value } } : x,
-                      ),
-                    })
-                  }
-                />
-              </label>
-              <label className="text-xs">
-                <span className="font-semibold text-slate-800">Description AR</span>
-                <textarea
-                  rows={3}
-                  className="mt-1 w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm"
-                  dir="rtl"
-                  value={it.description.ar}
-                  onChange={(e) =>
-                    setLocal({
-                      ...local,
-                      items: local.items.map((x) =>
-                        x.id === it.id ? { ...x, description: { ...x.description, ar: e.target.value } } : x,
-                      ),
-                    })
-                  }
-                />
-              </label>
-            </div>
+    <>
+      <div className="space-y-4 pb-28">
+        {sec.error ? (
+          <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-950">
+            <p className="font-medium">Could not refresh from server.</p>
+            <p className="mt-1">{sec.error}</p>
+            <button type="button" className="mt-2 text-xs font-semibold text-brand hover:underline" onClick={() => sec.reload()}>
+              Retry
+            </button>
           </div>
-        ))}
+        ) : null}
+
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h3 className="text-base font-bold text-slate-900">ERP modules</h3>
+            <p className="mt-0.5 text-sm text-slate-600">
+              {sorted.length} module{sorted.length === 1 ? '' : 's'} · collapsed by default · click <strong>Edit</strong> to
+              open fields
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={addModule}
+            className="inline-flex shrink-0 items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-dark"
+          >
+            <Plus className="size-4" aria-hidden />
+            Add Module
+          </button>
+        </div>
+
+        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+          <button
+            type="button"
+            onClick={() => setSectionIntroOpen((v) => !v)}
+            className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left hover:bg-slate-50"
+          >
+            <span>
+              <span className="text-sm font-bold text-slate-900">Section intro text</span>
+              <span className="mt-0.5 block text-xs text-slate-500">Pill, title, subtitle & explore label for the modules block</span>
+            </span>
+            <ChevronDown
+              className={`size-5 shrink-0 text-slate-500 transition-transform ${sectionIntroOpen ? 'rotate-180' : ''}`}
+              aria-hidden
+            />
+          </button>
+          {sectionIntroOpen ? (
+            <div className="space-y-4 border-t border-slate-100 px-4 py-4">
+              <BilingualInputs labelEn="Pill (EN)" labelAr="Pill (AR)" value={local.pill} onChange={(pill) => setLocal({ ...local, pill })} />
+              <BilingualInputs labelEn="Title (EN)" labelAr="Title (AR)" value={local.title} onChange={(title) => setLocal({ ...local, title })} />
+              <BilingualInputs
+                labelEn="Subtitle (EN)"
+                labelAr="Subtitle (AR)"
+                multiline
+                rows={3}
+                value={local.subtitle}
+                onChange={(subtitle) => setLocal({ ...local, subtitle })}
+              />
+              <BilingualInputs
+                labelEn="Explore label (EN)"
+                labelAr="Explore label (AR)"
+                value={local.exploreLabel}
+                onChange={(exploreLabel) => setLocal({ ...local, exploreLabel })}
+              />
+            </div>
+          ) : null}
+        </div>
+
+        {sorted.length === 0 ? (
+          <p className="rounded-xl border border-dashed border-slate-200 bg-slate-50 py-10 text-center text-sm text-slate-500">
+            No modules yet. Click <strong>Add Module</strong> to create one.
+          </p>
+        ) : (
+          <div className="space-y-2">
+            {sorted.map((it) => (
+              <HomeModuleCard
+                key={it.id}
+                item={it}
+                expanded={expandedId === it.id}
+                tab={expandedId === it.id ? expandedTab : 'en'}
+                onTabChange={setExpandedTab}
+                onToggleExpand={() => toggleExpand(it.id)}
+                onChange={(next) => updateItem(it.id, next)}
+                onDelete={() => setDelId(it.id)}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
-      <AdminFormActions saving={sec.saving} onSave={save} onCancel={cancel} disableSave={!dirty} />
+      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200 bg-white/95 px-4 py-3 shadow-[0_-4px_20px_rgba(15,23,42,0.06)] backdrop-blur-sm md:left-[15.5rem]">
+        <div className="mx-auto max-w-5xl">
+          <AdminFormActions
+            saving={sec.saving}
+            onSave={save}
+            onCancel={cancel}
+            disableSave={!dirty}
+            className="border-t-0 pt-0"
+          />
+        </div>
+      </div>
 
       <ConfirmDialog
         open={!!delId}
@@ -303,9 +216,10 @@ export function HomeModulesForm() {
         onConfirm={() => {
           if (!delId) return
           setLocal((l) => (l ? { ...l, items: l.items.filter((x) => x.id !== delId) } : l))
+          if (expandedId === delId) setExpandedId(null)
           setDelId(null)
         }}
       />
-    </div>
+    </>
   )
 }

@@ -1,5 +1,7 @@
 export function apiBase(): string {
-  const v = import.meta.env.VITE_API_URL
+  const v =
+    import.meta.env.VITE_API_URL ||
+    import.meta.env.NEXT_PUBLIC_CMS_API_URL
   if (typeof v === 'string' && v.trim()) return v.replace(/\/$/, '')
   return ''
 }

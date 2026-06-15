@@ -6,7 +6,7 @@ import { pick } from '../cms/pick'
 import type { Bilingual } from '../cms/types'
 import { CmsLink } from './CmsLink'
 import { CTA_BANNER_IMAGES, HomeCtaBanner, resolveCtaBackgroundUrl } from './HomeCtaBanner'
-import { btnCtaLg, btnOnDarkLg } from '../ui/saas'
+import { btnPrimary } from '../ui/saas'
 
 type CtaCms = {
   title?: Bilingual
@@ -18,6 +18,9 @@ type CtaCms = {
   whatsapp?: { label?: Bilingual; href?: string }
 }
 
+const ctaBtnBase =
+  'inline-flex min-h-[42px] w-full items-center justify-center rounded-lg px-5 py-2.5 text-[0.9375rem] font-semibold transition-[background-color,border-color,color] duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 sm:px-6'
+
 export function CTASection() {
   const { t, lang } = useI18n()
   const { data } = useCms()
@@ -25,6 +28,7 @@ export function CTASection() {
 
   const title = c?.title ? pick(c.title, lang) : t('cta.title')
   const body = c?.paragraph ? pick(c.paragraph, lang) : c?.sub ? pick(c.sub, lang) : t('cta.sub')
+  const trustLine = t('cta.trustLine')
   const p1 = c?.primary?.label ? pick(c.primary.label, lang) : t('cta.demo')
   const p1h = c?.primary?.href?.trim() || '/contact'
   const p2 = c?.secondary?.label ? pick(c.secondary.label, lang) : t('cta.expert')
@@ -33,27 +37,33 @@ export function CTASection() {
   const waHref = c?.whatsapp?.href?.trim() || WHATSAPP_URL
   const backgroundUrl = resolveCtaBackgroundUrl(c?.background, CTA_BANNER_IMAGES.final)
 
+  const ctaBtnPrimary = `${btnPrimary} ${ctaBtnBase}`
+  const ctaBtnOutline = `${ctaBtnBase} border-2 border-white bg-transparent text-white hover:bg-white/10 focus-visible:outline-white`
+  const ctaBtnWhatsApp = `${ctaBtnBase} gap-2 border border-[#25D366] bg-[#25D366] text-white hover:border-[#20bd5a] hover:bg-[#20bd5a] focus-visible:outline-white`
+
   return (
     <HomeCtaBanner
       id="final-cta"
       backgroundUrl={backgroundUrl}
       title={title}
       body={body}
-      overlay="40"
+      trustLine={trustLine}
+      variant="final"
+      trustAfterActions
     >
-      <CmsLink to={p1h} className={btnCtaLg}>
+      <CmsLink to={p1h} className={ctaBtnPrimary}>
         {p1}
       </CmsLink>
-      <CmsLink to={p2h} className={btnOnDarkLg}>
+      <CmsLink to={p2h} className={ctaBtnOutline}>
         {p2}
       </CmsLink>
       <a
         href={waHref}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-lg border border-white/30 bg-white/10 px-7 py-3 text-[0.9375rem] font-semibold text-white backdrop-blur-[2px] transition-[border-color,background-color,transform] duration-200 hover:-translate-y-0.5 hover:border-[#25D366]/60 hover:bg-emerald-500/15 motion-reduce:hover:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        className={ctaBtnWhatsApp}
       >
-        <WhatsAppIcon className="size-5" />
+        <WhatsAppIcon className="size-[1.125rem] shrink-0" />
         {wa}
       </a>
     </HomeCtaBanner>

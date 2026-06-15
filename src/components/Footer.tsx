@@ -59,12 +59,14 @@ function sortFooterLinks(rows: FooterLink[] | undefined) {
 /**
  * Footer logo: icon keeps brand colors, wordmark reads white on navy.
  * Single aspect-ratio box + aligned layers (digitalmanager.svg viewBox 274×62).
+ * `dir="ltr"` keeps identical rendering inside RTL pages (Arabic).
  */
 function FooterBrandLogo({ src }: { src: string }) {
   return (
     <Link
       to="/"
-      className="relative inline-block aspect-[274/62] h-12 max-w-[min(300px,85vw)] shrink-0 transition-opacity duration-200 hover:opacity-90 sm:h-[3.25rem] md:h-14"
+      dir="ltr"
+      className="relative inline-block aspect-[274/62] h-12 max-w-[min(300px,85vw)] shrink-0 bg-transparent transition-opacity duration-200 hover:opacity-90 sm:h-[3.25rem] md:h-14"
       aria-label="DigitalManager"
     >
       <img
@@ -72,7 +74,7 @@ function FooterBrandLogo({ src }: { src: string }) {
         alt=""
         width={274}
         height={62}
-        className="pointer-events-none absolute inset-0 size-full object-contain object-left rtl:object-right [clip-path:inset(0_80.73%_0_0)] rtl:[clip-path:inset(0_0_0_80.73%)]"
+        className="pointer-events-none absolute inset-0 size-full object-contain object-left [clip-path:inset(0_80.73%_0_0)]"
         loading="lazy"
         decoding="async"
         aria-hidden
@@ -82,7 +84,7 @@ function FooterBrandLogo({ src }: { src: string }) {
         alt=""
         width={274}
         height={62}
-        className="pointer-events-none absolute inset-0 size-full object-contain object-left brightness-0 invert rtl:object-right [clip-path:inset(16.13%_0_17.74%_24.09%)] rtl:[clip-path:inset(16.13%_24.09%_17.74%_0)]"
+        className="pointer-events-none absolute inset-0 size-full object-contain object-left brightness-0 invert [clip-path:inset(16.13%_0_17.74%_24.09%)]"
         loading="lazy"
         decoding="async"
         aria-hidden
