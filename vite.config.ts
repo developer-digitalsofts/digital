@@ -31,7 +31,7 @@ export default defineConfig(({ mode }) => {
       host: '0.0.0.0',
       port: Number(env.VITE_PREVIEW_PORT || 3010),
       strictPort: false,
-      allowedHosts: ['n133beijjmpnunnf4xb5faqn.s0226.digitalsofts.com'],
+      allowedHosts: ['digitalmanager.ae'],
       proxy: {
         '/api': { target: apiTarget, changeOrigin: true },
         '/uploads': { target: apiTarget, changeOrigin: true },
