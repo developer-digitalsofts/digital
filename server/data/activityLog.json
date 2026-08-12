@@ -1,5 +1,1076 @@
 [
   {
+    "id": "aAdBrRB2Zov1",
+    "action": "delete",
+    "section": "pages",
+    "description": "Deleted page regression-test-1786528076480",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:57.000Z"
+  },
+  {
+    "id": "uIeSwbQciwsL",
+    "action": "save",
+    "section": "pages",
+    "description": "Deleted section EQBGX0o-WR on page regression-test-1786528076480",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.983Z"
+  },
+  {
+    "id": "DqTNfeLX1bC8",
+    "action": "save",
+    "section": "pages",
+    "description": "Published page regression-test-1786528076480",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.965Z"
+  },
+  {
+    "id": "pVf8M0poyc8m",
+    "action": "save",
+    "section": "pages",
+    "description": "Reordered sections on page regression-test-1786528076480",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.946Z"
+  },
+  {
+    "id": "aPG5KDGMJg-O",
+    "action": "save",
+    "section": "pages",
+    "description": "Updated section EQBGX0o-WR on page regression-test-1786528076480",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.931Z"
+  },
+  {
+    "id": "csah0eyOFuuW",
+    "action": "save",
+    "section": "pages",
+    "description": "Added cta section to page regression-test-1786528076480",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.915Z"
+  },
+  {
+    "id": "4kXA7_Lmsk73",
+    "action": "save",
+    "section": "pages",
+    "description": "Published page regression-test-1786528076480",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.897Z"
+  },
+  {
+    "id": "yXQEjl4adwPV",
+    "action": "save",
+    "section": "pages",
+    "description": "Saved draft page regression-test-1786528076480",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.880Z"
+  },
+  {
+    "id": "vExHLTFYg0gt",
+    "action": "save",
+    "section": "pages",
+    "description": "Updated section EQBGX0o-WR on page regression-test-1786528076480",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.863Z"
+  },
+  {
+    "id": "6_sgbmguJ2Lp",
+    "action": "save",
+    "section": "pages",
+    "description": "Added richText section to page regression-test-1786528076480",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.847Z"
+  },
+  {
+    "id": "ITi4sWP-rjjg",
+    "action": "save",
+    "section": "pages",
+    "description": "Published page regression-test-1786528076480",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.809Z"
+  },
+  {
+    "id": "9iUZekooFVhf",
+    "action": "save",
+    "section": "pages",
+    "description": "Created draft page regression-test-1786528076480",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.774Z"
+  },
+  {
+    "id": "BxnIyMmJY1Tl",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.759Z"
+  },
+  {
+    "id": "nJWPXhHegQ1C",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.740Z"
+  },
+  {
+    "id": "z_tNjqM-9kBt",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.704Z"
+  },
+  {
+    "id": "Xrf5LgUyJ_Gb",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.669Z"
+  },
+  {
+    "id": "JVigFhbT2DsE",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.627Z"
+  },
+  {
+    "id": "JOTrdLESt_yI",
+    "action": "delete",
+    "section": "pages",
+    "description": "Deleted page cms-test-1786528076295",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.393Z"
+  },
+  {
+    "id": "P1Mieh-NbZXw",
+    "action": "save",
+    "section": "pages",
+    "description": "Published page cms-test-1786528076295",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.362Z"
+  },
+  {
+    "id": "Jr9kdk-F1n-R",
+    "action": "save",
+    "section": "pages",
+    "description": "Published page cms-test-1786528076295",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.323Z"
+  },
+  {
+    "id": "TMwpIfMaQhaI",
+    "action": "save",
+    "section": "pages",
+    "description": "Created draft page cms-test-1786528076295",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.303Z"
+  },
+  {
+    "id": "SuyuRQyxNEo2",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.289Z"
+  },
+  {
+    "id": "fphxNn-Zyvo3",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.268Z"
+  },
+  {
+    "id": "cWucP71kYy6F",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.233Z"
+  },
+  {
+    "id": "a1qGt7_-jJZN",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.198Z"
+  },
+  {
+    "id": "y2IdiSjojY_Y",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:47:56.173Z"
+  },
+  {
+    "id": "bA2Lk0q4Awaf",
+    "action": "delete",
+    "section": "pages",
+    "description": "Deleted page cms-test-1786527214160",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:34.277Z"
+  },
+  {
+    "id": "0-ORx7D7-GJz",
+    "action": "save",
+    "section": "pages",
+    "description": "Published page cms-test-1786527214160",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:34.243Z"
+  },
+  {
+    "id": "TOCF9oQIPk4D",
+    "action": "save",
+    "section": "pages",
+    "description": "Published page cms-test-1786527214160",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:34.195Z"
+  },
+  {
+    "id": "wBOToDs7Awah",
+    "action": "save",
+    "section": "pages",
+    "description": "Created draft page cms-test-1786527214160",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:34.176Z"
+  },
+  {
+    "id": "oGXqThFL3y-K",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:34.159Z"
+  },
+  {
+    "id": "W--D_Re1HEDM",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:34.136Z"
+  },
+  {
+    "id": "Hb9q6JZWoBAd",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:34.096Z"
+  },
+  {
+    "id": "SjDEMyKmftKv",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:34.058Z"
+  },
+  {
+    "id": "jrBc65bZCLXM",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:34.032Z"
+  },
+  {
+    "id": "2_g6Tl-AyC1W",
+    "action": "delete",
+    "section": "pages",
+    "description": "Deleted page regression-test-1786527196797",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:17.544Z"
+  },
+  {
+    "id": "pZWieRztRZUP",
+    "action": "save",
+    "section": "pages",
+    "description": "Deleted section LaVHrG8WEQ on page regression-test-1786527196797",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:17.518Z"
+  },
+  {
+    "id": "EmVjkdob61FN",
+    "action": "save",
+    "section": "pages",
+    "description": "Published page regression-test-1786527196797",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:17.494Z"
+  },
+  {
+    "id": "PI5MIVu5Rtc2",
+    "action": "save",
+    "section": "pages",
+    "description": "Reordered sections on page regression-test-1786527196797",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:17.464Z"
+  },
+  {
+    "id": "Yuz32rbOi_D9",
+    "action": "save",
+    "section": "pages",
+    "description": "Updated section LaVHrG8WEQ on page regression-test-1786527196797",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:17.430Z"
+  },
+  {
+    "id": "KkPJ0UWPKDHE",
+    "action": "save",
+    "section": "pages",
+    "description": "Added cta section to page regression-test-1786527196797",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:17.400Z"
+  },
+  {
+    "id": "Ttb-OKCsoNNT",
+    "action": "save",
+    "section": "pages",
+    "description": "Published page regression-test-1786527196797",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:17.363Z"
+  },
+  {
+    "id": "RcoimhW6Fx4o",
+    "action": "save",
+    "section": "pages",
+    "description": "Saved draft page regression-test-1786527196797",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:17.335Z"
+  },
+  {
+    "id": "w9wLmb76NFXu",
+    "action": "save",
+    "section": "pages",
+    "description": "Updated section LaVHrG8WEQ on page regression-test-1786527196797",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:17.316Z"
+  },
+  {
+    "id": "F0g1qmFvo_jB",
+    "action": "save",
+    "section": "pages",
+    "description": "Added richText section to page regression-test-1786527196797",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:17.298Z"
+  },
+  {
+    "id": "VBNmfWo8v7Oe",
+    "action": "save",
+    "section": "pages",
+    "description": "Published page regression-test-1786527196797",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:17.253Z"
+  },
+  {
+    "id": "P-Jab7mpnXVf",
+    "action": "save",
+    "section": "pages",
+    "description": "Created draft page regression-test-1786527196797",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:17.211Z"
+  },
+  {
+    "id": "ANawMZkG542r",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:17.192Z"
+  },
+  {
+    "id": "V9ErLsc6pLNv",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:17.169Z"
+  },
+  {
+    "id": "gz_p7h15Gr6B",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:17.123Z"
+  },
+  {
+    "id": "os-CwVMuZuce",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:17.082Z"
+  },
+  {
+    "id": "YkCX6rzlvOQG",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:33:17.019Z"
+  },
+  {
+    "id": "1RR_b32I1BVQ",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:32:15.443Z"
+  },
+  {
+    "id": "yjXygKE4C2L7",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:32:15.420Z"
+  },
+  {
+    "id": "qUdOGKvibaqV",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:32:15.381Z"
+  },
+  {
+    "id": "RPAq5SDrHzX4",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:32:15.338Z"
+  },
+  {
+    "id": "GcwM8C_Ruw5i",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:32:15.285Z"
+  },
+  {
+    "id": "_dHKrP60RMhv",
+    "action": "delete",
+    "section": "pages",
+    "description": "Deleted page regression-test-1786527067815",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:31:08.281Z"
+  },
+  {
+    "id": "q3P3z3Z-_Fqc",
+    "action": "save",
+    "section": "pages",
+    "description": "Published page regression-test-1786527067815",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:31:08.226Z"
+  },
+  {
+    "id": "ZV5c0W1fblwB",
+    "action": "save",
+    "section": "pages",
+    "description": "Created draft page regression-test-1786527067815",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:31:08.179Z"
+  },
+  {
+    "id": "Rr6eZvVcB1YZ",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:31:08.163Z"
+  },
+  {
+    "id": "vCubLDCJ0kbC",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:31:08.141Z"
+  },
+  {
+    "id": "OgA17za16Hu9",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:31:08.100Z"
+  },
+  {
+    "id": "NmUVd7mZvLm5",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:31:08.058Z"
+  },
+  {
+    "id": "n1AnyDNMPmmM",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:31:08.008Z"
+  },
+  {
+    "id": "CdjrgM7hFyJI",
+    "action": "delete",
+    "section": "pages",
+    "description": "Deleted page a",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:25:39.001Z"
+  },
+  {
+    "id": "f1fH8dZFKH3C",
+    "action": "save",
+    "section": "pages",
+    "description": "Published page a",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:25:10.560Z"
+  },
+  {
+    "id": "WAwOeq1tfXjC",
+    "action": "media_upload",
+    "section": "media",
+    "description": "X-cw6cz1hW.jpeg",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:25:08.698Z"
+  },
+  {
+    "id": "ENZZY5eN4RO5",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:03:36.068Z"
+  },
+  {
+    "id": "DfDTNgoNUvJa",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:03:36.047Z"
+  },
+  {
+    "id": "6QzOr9eETlIf",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:03:36.001Z"
+  },
+  {
+    "id": "FOpQUgyWdvua",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:03:35.955Z"
+  },
+  {
+    "id": "NRVtgGMaBNal",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T09:03:35.930Z"
+  },
+  {
+    "id": "fQ6N4ZUOCgHs",
+    "action": "publish",
+    "section": "pageSections",
+    "description": "Published pageSections",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:59:43.923Z"
+  },
+  {
+    "id": "LEp1jR_v0CXE",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:59:43.906Z"
+  },
+  {
+    "id": "lW4z4iWkiijw",
+    "action": "save",
+    "section": "pageSections",
+    "description": "Saved draft pageSections",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:59:43.879Z"
+  },
+  {
+    "id": "XWgytvE8QQ5I",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:59:43.849Z"
+  },
+  {
+    "id": "9iclZAXMAbp2",
+    "action": "media_upload",
+    "section": "media",
+    "description": "oHhTcja9-9.png",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:55:42.140Z"
+  },
+  {
+    "id": "hvCOJM3EksUL",
+    "action": "publish",
+    "section": "pageSections",
+    "description": "Published pageSections",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:45:21.755Z"
+  },
+  {
+    "id": "fq7Jkb-zwbSE",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:45:21.741Z"
+  },
+  {
+    "id": "NIttAKR7tRzP",
+    "action": "save",
+    "section": "pageSections",
+    "description": "Saved draft pageSections",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:45:21.718Z"
+  },
+  {
+    "id": "-WcrbUkD5ZQE",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:45:21.696Z"
+  },
+  {
+    "id": "n1KrSIjHe-V7",
+    "action": "publish",
+    "section": "pageSections",
+    "description": "Published pageSections",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:45:09.745Z"
+  },
+  {
+    "id": "Fyzob4cV8_Ou",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:45:09.731Z"
+  },
+  {
+    "id": "KRG-MirQo7j3",
+    "action": "save",
+    "section": "pageSections",
+    "description": "Saved draft pageSections",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:45:09.710Z"
+  },
+  {
+    "id": "JYl8kIYU6aXn",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:45:09.685Z"
+  },
+  {
+    "id": "3HQ8o9Y9hESN",
+    "action": "publish",
+    "section": "pageSections",
+    "description": "Published pageSections",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:43:55.735Z"
+  },
+  {
+    "id": "vggVdAoQlSWy",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:43:55.720Z"
+  },
+  {
+    "id": "dd3-853ezJAE",
+    "action": "save",
+    "section": "pageSections",
+    "description": "Saved draft pageSections",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:43:55.698Z"
+  },
+  {
+    "id": "OqNj2RhMrIR4",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:43:55.674Z"
+  },
+  {
+    "id": "dlCNp8slzefV",
+    "action": "publish",
+    "section": "pageSections",
+    "description": "Published pageSections",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:43:35.589Z"
+  },
+  {
+    "id": "TneukHm0MesI",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:43:35.573Z"
+  },
+  {
+    "id": "EPGd1UZMoz6b",
+    "action": "save",
+    "section": "pageSections",
+    "description": "Saved draft pageSections",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:43:35.550Z"
+  },
+  {
+    "id": "lZcWWA7Ofc2_",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:43:35.523Z"
+  },
+  {
+    "id": "ipRdzTCOIeOB",
+    "action": "publish",
+    "section": "pageSections",
+    "description": "Published pageSections",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:42:56.662Z"
+  },
+  {
+    "id": "Qo8t4tvbuaHs",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:42:56.648Z"
+  },
+  {
+    "id": "JGKxzVpX3zTz",
+    "action": "save",
+    "section": "pageSections",
+    "description": "Saved draft pageSections",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:42:56.628Z"
+  },
+  {
+    "id": "d9KxYctjAUTj",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:42:56.603Z"
+  },
+  {
+    "id": "Ygl3dmxCjkq0",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:42:44.391Z"
+  },
+  {
+    "id": "cG8C29ijSMOi",
+    "action": "delete",
+    "section": "pages",
+    "description": "Deleted page cms-test-1786520389810",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:39:49.932Z"
+  },
+  {
+    "id": "Sb9vBMKUtXtM",
+    "action": "save",
+    "section": "pages",
+    "description": "Published page cms-test-1786520389810",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:39:49.890Z"
+  },
+  {
+    "id": "8p7TkBrVqMQk",
+    "action": "save",
+    "section": "pages",
+    "description": "Published page cms-test-1786520389810",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:39:49.842Z"
+  },
+  {
+    "id": "-9NeQzjTnhBp",
+    "action": "save",
+    "section": "pages",
+    "description": "Created draft page cms-test-1786520389810",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:39:49.822Z"
+  },
+  {
+    "id": "jnMcMYV_E7xy",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:39:49.807Z"
+  },
+  {
+    "id": "T12AOV7xTUyF",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:39:49.788Z"
+  },
+  {
+    "id": "V7CI0wB9YymY",
+    "action": "publish",
+    "section": "hero",
+    "description": "Published hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:39:49.744Z"
+  },
+  {
+    "id": "nolyeML7p2xm",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved draft hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:39:49.697Z"
+  },
+  {
+    "id": "CB4drVhBEX8j",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:39:49.673Z"
+  },
+  {
+    "id": "3Dcgy-JxZnLd",
+    "action": "save",
+    "section": "pageSections",
+    "description": "Saved pageSections",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:24:27.599Z"
+  },
+  {
+    "id": "q0FBKPpT8iOE",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:24:27.582Z"
+  },
+  {
+    "id": "cgSg7s1XF7TZ",
+    "action": "save",
+    "section": "pageSections",
+    "description": "Saved pageSections",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:23:55.896Z"
+  },
+  {
+    "id": "bTCiM4pHrfbb",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:23:55.878Z"
+  },
+  {
+    "id": "befsAbQhz-aU",
+    "action": "save",
+    "section": "pageSections",
+    "description": "Saved pageSections",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:19:46.488Z"
+  },
+  {
+    "id": "80FpdhFuG7Xx",
+    "action": "save",
+    "section": "hero",
+    "description": "Saved hero",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:19:46.472Z"
+  },
+  {
+    "id": "bJ3BEmq5LIa9",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:17:50.601Z"
+  },
+  {
+    "id": "BPVRH1B4HSH9",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-12T07:14:30.200Z"
+  },
+  {
+    "id": "8I7lArOG-WiT",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-06-15T07:26:18.687Z"
+  },
+  {
+    "id": "7ctVyd6kS4vp",
+    "action": "logout",
+    "section": "auth",
+    "description": "Admin signed out",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-06-15T07:24:04.564Z"
+  },
+  {
+    "id": "kp6IeTL0UfEE",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-06-15T07:00:18.450Z"
+  },
+  {
     "id": "fTiifaT84uBb",
     "action": "login",
     "section": "auth",
