@@ -186,7 +186,27 @@ export function HomeStatsForm() {
         </table>
       </div>
 
-      <AdminFormActions saving={sec.saving} onSave={save} onCancel={cancel} disableSave={!dirty} />
+      <AdminFormActions
+        saving={sec.saving}
+        publishing={sec.publishing}
+        onSave={save}
+        onPublish={async () => {
+          await save()
+          await sec.publish()
+          toast.push('Published successfully', 'success')
+        }}
+        onCancel={cancel}
+        disableSave={!dirty}
+        statusLabel={
+          sec.publishStatus
+            ? `${sec.publishStatus.status}${
+                sec.publishStatus.lastPublishedAt
+                  ? ` · Last published ${new Date(sec.publishStatus.lastPublishedAt).toLocaleString()}`
+                  : ''
+              }`
+            : null
+        }
+      />
 
       <ConfirmDialog
         open={!!delId}

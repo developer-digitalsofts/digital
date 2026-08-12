@@ -1,1 +1,17 @@
-{}
+{
+  "hero": {
+    "createdAt": "2026-08-12T07:19:46.468Z",
+    "updatedAt": "2026-08-12T09:33:34.128Z",
+    "updatedBy": "admin@admin.com"
+  },
+  "pageSections": {
+    "createdAt": "2026-08-12T07:19:46.486Z",
+    "updatedAt": "2026-08-12T07:59:43.871Z",
+    "updatedBy": "admin@admin.com"
+  },
+  "pages": {
+    "createdAt": "2026-08-12T07:39:49.819Z",
+    "updatedAt": "2026-08-12T09:33:34.273Z",
+    "updatedBy": "admin@admin.com"
+  }
+}

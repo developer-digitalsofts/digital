@@ -17,6 +17,7 @@ type AboutCms = {
   title?: Bilingual
   paragraphs?: Bilingual[]
   imageUrl?: string
+  trustItems?: { id: string; label?: Bilingual; sortOrder?: number; active?: boolean }[]
 }
 
 export function AboutSection() {
@@ -36,6 +37,9 @@ export function AboutSection() {
   const eyebrow = about?.eyebrow ? pick(about.eyebrow, lang) : t('about.eyebrow')
   const title = about?.title ? pick(about.title, lang) : t('about.title')
   const p1 = about?.paragraphs?.[0] ? pick(about.paragraphs[0], lang) : t('about.p1')
+  const trustItems = (about?.trustItems || [])
+    .filter((x) => x.active !== false)
+    .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
 
   return (
     <section
@@ -53,19 +57,33 @@ export function AboutSection() {
             <p className="mt-5 text-base leading-[1.68] text-slate-600 lg:max-w-[34rem]">{p1}</p>
 
             <ul className="mt-6 grid gap-3 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-3.5">
-              {trustKeys.map((key) => (
-                <li key={key} className="flex items-start gap-2.5 text-left">
-                  <span
-                    className="mt-0.5 flex size-[18px] shrink-0 items-center justify-center rounded-full bg-brand text-white"
-                    aria-hidden
-                  >
-                    <Check className="size-3" strokeWidth={3} />
-                  </span>
-                  <span className="text-sm font-medium leading-snug text-slate-700">
-                    {t(`about.trust.${key}`)}
-                  </span>
-                </li>
-              ))}
+              {trustItems.length > 0
+                ? trustItems.map((item) => (
+                    <li key={item.id} className="flex items-start gap-2.5 text-left">
+                      <span
+                        className="mt-0.5 flex size-[18px] shrink-0 items-center justify-center rounded-full bg-brand text-white"
+                        aria-hidden
+                      >
+                        <Check className="size-3" strokeWidth={3} />
+                      </span>
+                      <span className="text-sm font-medium leading-snug text-slate-700">
+                        {item.label ? pick(item.label, lang) : ''}
+                      </span>
+                    </li>
+                  ))
+                : trustKeys.map((key) => (
+                    <li key={key} className="flex items-start gap-2.5 text-left">
+                      <span
+                        className="mt-0.5 flex size-[18px] shrink-0 items-center justify-center rounded-full bg-brand text-white"
+                        aria-hidden
+                      >
+                        <Check className="size-3" strokeWidth={3} />
+                      </span>
+                      <span className="text-sm font-medium leading-snug text-slate-700">
+                        {t(`about.trust.${key}`)}
+                      </span>
+                    </li>
+                  ))}
             </ul>
           </div>
 

@@ -1,0 +1,41 @@
+{
+  "websiteName": {
+    "en": "DigitalManager",
+    "ar": "ديجيتال مانجر"
+  },
+  "websiteTagline": {
+    "en": "Cloud ERP for modern businesses",
+    "ar": "ERP سحابي للأعمال الحديثة"
+  },
+  "logoUrl": "/digitalmanager.svg",
+  "faviconUrl": "/digitalmanager-favicon.png",
+  "primaryEmail": "info@digitalmanager.ae",
+  "salesEmail": "info@digitalmanager.ae",
+  "supportEmail": "info@digitalmanager.ae",
+  "phoneDisplay": "+971 6 536 6786",
+  "phoneHref": "tel:+97165366786",
+  "whatsappNumber": "971581174911",
+  "officeAddress": {
+    "en": "607, Al Rahma 1, Al Wahda St, Sharjah, UAE",
+    "ar": "٦٠٧، الرحمة ١، شارع الوحدة، الشارقة، الإمارات"
+  },
+  "workingHours": {
+    "en": "Sat - Thu : 10.00 am - 9.00 pm",
+    "ar": "السبت–الخميس: ١٠ ص – ٩ م"
+  },
+  "googleMapLink": "",
+  "facebookUrl": "https://www.facebook.com/Digitalsoftsltd",
+  "linkedinUrl": "https://www.linkedin.com/company/digitalsofts/",
+  "instagramUrl": "",
+  "youtubeUrl": "",
+  "tiktokUrl": "",
+  "copyrightText": {
+    "en": "© DigitalManager. All rights reserved.",
+    "ar": "© ديجيتال مانجر. جميع الحقوق محفوظة."
+  },
+  "_meta": {
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z",
+    "updatedBy": ""
+  }
+}

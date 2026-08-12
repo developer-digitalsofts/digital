@@ -123,13 +123,28 @@ export function Header({ onOpenSearch }: HeaderProps) {
   const brandName = header?.branding?.siteName
   const brandTagline = header?.branding?.tagline
   const simpleNavLinks = useMemo(() => {
-    const raw = header?.navLinks
-    if (!Array.isArray(raw) || raw.length === 0) return []
-    return [...raw]
+    const fromHeader = Array.isArray(header?.navLinks) ? header.navLinks : []
+    const fromPages = Array.isArray(data?.navigation?.headerLinks)
+      ? data!.navigation!.headerLinks!.filter((l) => l.source === 'cms-page' || !header?.navLinks?.some((h) => h.id === l.id))
+      : []
+    const merged = [...fromHeader]
+    for (const link of fromPages) {
+      if (!merged.some((m) => m.id === link.id || m.href === link.href)) merged.push(link as CmsHeaderNavLink)
+    }
+    return merged
       .filter((l): l is CmsHeaderNavLink => Boolean(l && typeof l === 'object' && typeof l.id === 'string'))
       .filter((l) => l.active !== false)
       .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
-  }, [header?.navLinks])
+  }, [header?.navLinks, data?.navigation?.headerLinks])
+
+  const cmsPageHeaderLinks = useMemo(() => {
+    const rows = data?.navigation?.headerLinks
+    if (!Array.isArray(rows)) return []
+    return rows
+      .filter((l) => l && (l as { source?: string }).source === 'cms-page')
+      .filter((l) => l.active !== false)
+      .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+  }, [data?.navigation?.headerLinks])
   const showLangSwitcher = header?.showLangSwitcher !== false
   const getInTouch = header?.getInTouch
   const showGetInTouch =
@@ -326,6 +341,17 @@ export function Header({ onOpenSearch }: HeaderProps) {
                       {navContact}
                     </NavLink>
                   </li>
+                  {cmsPageHeaderLinks.map((item) => (
+                    <li key={item.id}>
+                      <CmsLink
+                        to={item.href}
+                        onClick={closeMega}
+                        className={`${navLinkBase} ${(item as { highlightAsCta?: boolean }).highlightAsCta ? 'text-brand' : ''}`}
+                      >
+                        {pick(item.label, lang)}
+                      </CmsLink>
+                    </li>
+                  ))}
                 </ul>
               )}
             </nav>
@@ -601,6 +627,16 @@ export function Header({ onOpenSearch }: HeaderProps) {
                     >
                       {navContact}
                     </NavLink>
+                    {cmsPageHeaderLinks.map((item) => (
+                      <CmsLink
+                        key={item.id}
+                        to={item.href}
+                        className="block rounded-lg px-3 py-2.5 text-sm font-bold uppercase tracking-wide text-[#0f172a] hover:bg-slate-100"
+                        onClick={closeMobile}
+                      >
+                        {pick(item.label, lang)}
+                      </CmsLink>
+                    ))}
                   </>
                 )}
             </nav>

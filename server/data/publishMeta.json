@@ -1,0 +1,80 @@
+{
+  "hero": {
+    "lastSavedAt": "2026-08-12T09:33:34.131Z",
+    "lastPublishedAt": "2026-08-12T09:33:34.155Z",
+    "lastPublishedBy": "admin@admin.com",
+    "hasUnpublishedChanges": false,
+    "migratedAt": "2026-08-12T08:31:16.124Z",
+    "lastSavedBy": "admin@admin.com"
+  },
+  "stats": {
+    "lastSavedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedBy": "migrate-original-homepage",
+    "hasUnpublishedChanges": false,
+    "migratedAt": "2026-08-12T08:31:16.124Z"
+  },
+  "about": {
+    "lastSavedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedBy": "migrate-original-homepage",
+    "hasUnpublishedChanges": false,
+    "migratedAt": "2026-08-12T08:31:16.124Z"
+  },
+  "valueChain": {
+    "lastSavedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedBy": "migrate-original-homepage",
+    "hasUnpublishedChanges": false,
+    "migratedAt": "2026-08-12T08:31:16.124Z"
+  },
+  "modules": {
+    "lastSavedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedBy": "migrate-original-homepage",
+    "hasUnpublishedChanges": false,
+    "migratedAt": "2026-08-12T08:31:16.124Z"
+  },
+  "workflow": {
+    "lastSavedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedBy": "migrate-original-homepage",
+    "hasUnpublishedChanges": false,
+    "migratedAt": "2026-08-12T08:31:16.124Z"
+  },
+  "industries": {
+    "lastSavedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedBy": "migrate-original-homepage",
+    "hasUnpublishedChanges": false,
+    "migratedAt": "2026-08-12T08:31:16.124Z"
+  },
+  "faqs": {
+    "lastSavedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedBy": "migrate-original-homepage",
+    "hasUnpublishedChanges": false,
+    "migratedAt": "2026-08-12T08:31:16.124Z"
+  },
+  "cta": {
+    "lastSavedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedBy": "migrate-original-homepage",
+    "hasUnpublishedChanges": false,
+    "migratedAt": "2026-08-12T08:31:16.124Z"
+  },
+  "footer": {
+    "lastSavedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedBy": "migrate-original-homepage",
+    "hasUnpublishedChanges": false,
+    "migratedAt": "2026-08-12T08:31:16.124Z"
+  },
+  "pageSections": {
+    "lastSavedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedAt": "2026-08-12T08:31:16.124Z",
+    "lastPublishedBy": "migrate-original-homepage",
+    "hasUnpublishedChanges": false,
+    "migratedAt": "2026-08-12T08:31:16.124Z"
+  }
+}

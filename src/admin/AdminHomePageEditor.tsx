@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useMemo, useState, type MouseEvent, type ReactNode } from 'react'
 import { useLocation, useSearchParams } from 'react-router-dom'
+import { Plus } from 'lucide-react'
 import { AdminJsonEditor } from './AdminJsonEditor'
+import { HomeSectionLibraryModal } from './home/HomeSectionLibraryModal'
 import { HomeHeroForm } from './home/HomeHeroForm'
 import { HomeStatsForm } from './home/HomeStatsForm'
 import { HomeAboutForm } from './home/HomeAboutForm'
@@ -135,6 +137,7 @@ export function AdminHomePageEditor() {
     readInitialTab(context, searchParams, location.state as LocationPanelState | null),
   )
   const [showDevJson, setShowDevJson] = useState(readDevJsonFlag)
+  const [sectionLibraryOpen, setSectionLibraryOpen] = useState(false)
 
   useEffect(() => {
     setShowDevJson(readDevJsonFlag())
@@ -167,18 +170,28 @@ export function AdminHomePageEditor() {
           <strong className="font-semibold text-slate-800">Visibility</strong> tab to show or hide sections.
         </p>
         {context === 'homepage' ? (
-          <label className="mt-4 flex cursor-pointer items-center gap-2 text-sm font-semibold text-slate-800">
-            <input
-              type="checkbox"
-              checked={showDevJson}
-              onChange={(e) => {
-                const v = e.target.checked
-                setShowDevJson(v)
-                writeDevJsonFlag(v)
-              }}
-            />
-            Advanced: show raw JSON editor (developer)
-          </label>
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setSectionLibraryOpen(true)}
+              className="inline-flex items-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand-dark"
+            >
+              <Plus className="size-4" />
+              Add New Section
+            </button>
+            <label className="flex cursor-pointer items-center gap-2 text-sm font-semibold text-slate-800">
+              <input
+                type="checkbox"
+                checked={showDevJson}
+                onChange={(e) => {
+                  const v = e.target.checked
+                  setShowDevJson(v)
+                  writeDevJsonFlag(v)
+                }}
+              />
+              Advanced: show raw JSON editor (developer)
+            </label>
+          </div>
         ) : null}
       </header>
 
@@ -200,6 +213,7 @@ export function AdminHomePageEditor() {
           ) : null}
         </div>
       </div>
+      <HomeSectionLibraryModal open={sectionLibraryOpen} onClose={() => setSectionLibraryOpen(false)} />
     </div>
   )
 }

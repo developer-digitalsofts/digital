@@ -8,6 +8,11 @@ export type CmsHeaderNavLink = {
   sortOrder: number
   /** When false, link is hidden on the site. Default: true */
   active?: boolean
+  openInNewTab?: boolean
+  highlightAsCta?: boolean
+  showDesktop?: boolean
+  showMobile?: boolean
+  source?: string
 }
 
 export type CmsHeader = {
@@ -69,4 +74,19 @@ export type HomepagePayload = {
   siteSettings?: Record<string, unknown>
   whatsappSettings?: Record<string, unknown>
   pageSections?: { sections?: { id: string; name?: string; visible?: boolean; sortOrder?: number }[] }
+  navigation?: {
+    headerLinks?: CmsHeaderNavLink[]
+    footerColumns?: Record<string, FooterNavLink[]>
+    pages?: { id: string; slug: string; title?: Bilingual; headerEnabled?: boolean; footerEnabled?: boolean }[]
+  }
+}
+
+export type FooterNavLink = {
+  id: string
+  label?: Bilingual
+  href: string
+  sortOrder?: number
+  openInNewTab?: boolean
+  active?: boolean
+  source?: string
 }

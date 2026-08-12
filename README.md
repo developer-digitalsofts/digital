@@ -150,6 +150,17 @@ Set environment variables in your host’s secret store (production):
 
 Leave `VITE_API_URL` empty for same-origin Coolify deploys so the SPA calls `/api/...` on the same host.
 
+### Persistent CMS storage (Coolify)
+
+Mount persistent volumes so CMS edits survive redeploys:
+
+| Path | Purpose |
+| ---- | ------- |
+| `server/data` | Draft + published JSON content |
+| `server/uploads` | Uploaded media (`/uploads/...`) |
+
+Do **not** reset these folders on each deploy. Default JSON is created only when a file is missing — existing production content is never overwritten on startup.
+
 ## JSON CMS limitations (important)
 
 - **No built-in multi-user locking:** two editors saving at the same time can overwrite each other’s last write.

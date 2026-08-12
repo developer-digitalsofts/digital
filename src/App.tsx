@@ -22,6 +22,7 @@ import { AdminHeaderEditor } from './admin/layout/AdminHeaderEditor'
 import { AdminFooterEditor } from './admin/layout/AdminFooterEditor'
 import { AdminPagesList } from './admin/AdminPagesList'
 import { AdminPageForm } from './admin/AdminPageForm'
+import { PageSectionsManager } from './admin/pages/PageSectionsManager'
 import { AdminSoftwareDetailForm } from './admin/AdminSoftwareDetailForm'
 import { AdminUsers } from './admin/AdminUsers'
 
@@ -38,11 +39,13 @@ export default function App() {
           <Route path="pages/home" element={<AdminHomePageEditor />} />
           <Route path="erp-modules" element={<AdminHomePageEditor />} />
           <Route path="industries" element={<AdminHomePageEditor />} />
-          <Route path="detail-pages" element={<AdminPagesList />} />
-          <Route path="pages" element={<Navigate to="/admin/detail-pages" replace />} />
+          <Route path="pages-list" element={<AdminPagesList />} />
+          <Route path="detail-pages" element={<Navigate to="/admin/pages-list" replace />} />
+          <Route path="pages" element={<Navigate to="/admin/pages-list" replace />} />
           <Route path="pages/detail/new" element={<AdminSoftwareDetailForm mode="new" />} />
           <Route path="pages/detail/:kind/:slug/edit" element={<AdminSoftwareDetailForm mode="edit" />} />
           <Route path="pages/new" element={<AdminPageForm mode="new" />} />
+          <Route path="pages/:id/sections" element={<PageSectionsManager />} />
           <Route path="pages/:id/edit" element={<AdminPageForm mode="edit" />} />
 
           <Route path="layout/header" element={<AdminHeaderEditor />} />

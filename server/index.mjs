@@ -18,6 +18,17 @@ import {
   isProduction,
   resolveSmtpConfig,
 } from './envConfig.mjs'
+import { createPublishStore } from './publishStore.mjs'
+import {
+  buildTemplateSections,
+  createSection,
+  getSystemPage,
+  isSystemPageId,
+  normalizeSections,
+  PAGE_TEMPLATES,
+  SECTION_TYPES,
+  SYSTEM_PAGES,
+} from './pageSections.mjs'
 
 loadEnv()
 
@@ -90,7 +101,7 @@ const SOFTWARE_DETAILS_FILE = 'softwareDetails.json'
 const PAGE_TYPES = new Set(['home', 'about', 'services', 'projects', 'blog', 'contact', 'residential', 'custom'])
 const PAGE_STATUSES = new Set(['published', 'draft'])
 const PAGE_LANG_MODES = new Set(['en', 'ar', 'both'])
-const RESERVED_PAGE_SLUGS = new Set(['api', 'uploads', 'admin'])
+const RESERVED_PAGE_SLUGS = new Set(['api', 'uploads', 'admin', 'contact', 'software'])
 const SOFTWARE_KINDS = new Set(['module', 'industry'])
 const ACCENT_COLORS = new Set(['orange', 'green', 'blue', 'purple', 'teal'])
 
@@ -110,6 +121,7 @@ async function readJsonFile(relPath) {
 
 async function writeJsonFile(relPath, data) {
   const p = path.join(DATA_DIR, relPath)
+  await fs.mkdir(path.dirname(p), { recursive: true })
   const tmp = `${p}.${nanoid(6)}.tmp`
   await fs.writeFile(tmp, JSON.stringify(data, null, 2), 'utf8')
   await fs.rename(tmp, p)
@@ -120,6 +132,311 @@ async function safeReadJson(relPath, fallback = null) {
     return await readJsonFile(relPath)
   } catch {
     return fallback
+  }
+}
+
+const publishStore = createPublishStore({
+  dataDir: DATA_DIR,
+  writeJsonFile,
+  safeReadJson,
+  readJsonFile,
+})
+
+const PUBLIC_CACHE_HEADERS = {
+  'Cache-Control': 'no-cache, no-store, must-revalidate',
+  Pragma: 'no-cache',
+  Expires: '0',
+}
+
+function sendPublicJson(res, payload, status = 200) {
+  res.set(PUBLIC_CACHE_HEADERS)
+  res.status(status).json(payload)
+}
+
+function dataFileForKey(key) {
+  if (DATA_FILES[key]) return DATA_FILES[key]
+  if (EXTRA_HOMEPAGE_FILES[key]) return EXTRA_HOMEPAGE_FILES[key]
+  if (key === 'pages') return PAGES_FILE
+  if (key === 'mediaIndex') return MEDIA_INDEX_FILE
+  return null
+}
+
+const PUBLISHABLE_KEYS = new Set([
+  ...Object.keys(DATA_FILES),
+  ...Object.keys(EXTRA_HOMEPAGE_FILES),
+])
+
+async function loadPublishedHomepagePayload() {
+  const out = {}
+  for (const [key, file] of Object.entries(DATA_FILES)) {
+    const doc = await publishStore.readPublished(file)
+    out[key] = publishStore.stripMeta(doc) ?? {}
+  }
+  for (const [key, file] of Object.entries(EXTRA_HOMEPAGE_FILES)) {
+    const doc = await publishStore.readPublished(file)
+    out[key] = publishStore.stripMeta(doc) ?? {}
+  }
+  out.navigation = await buildPublishedNavigation(out)
+  return out
+}
+
+function defaultPageSeo() {
+  return {
+    title: { en: '', ar: '' },
+    description: { en: '', ar: '' },
+    socialImage: '',
+    canonicalUrl: '',
+    noIndex: false,
+  }
+}
+
+function coercePageSeo(raw, prev) {
+  const base = prev && typeof prev === 'object' ? prev : defaultPageSeo()
+  const o = raw && typeof raw === 'object' ? raw : {}
+  return {
+    title: coerceBilingual(o.title ?? base.title),
+    description: coerceBilingual(o.description ?? base.description),
+    socialImage: typeof o.socialImage === 'string' ? o.socialImage : base.socialImage || '',
+    canonicalUrl: typeof o.canonicalUrl === 'string' ? o.canonicalUrl : base.canonicalUrl || '',
+    noIndex: o.noIndex === true,
+  }
+}
+
+function syncNavigationFromLegacy(page) {
+  const nav = page.navigation && typeof page.navigation === 'object'
+    ? page.navigation
+    : { header: defaultHeaderNav(), footer: defaultFooterNav() }
+  if (page.headerNav) nav.header = { ...defaultHeaderNav(), ...page.headerNav }
+  if (page.footerNav) nav.footer = { ...defaultFooterNav(), ...page.footerNav }
+  page.headerNav = nav.header
+  page.footerNav = nav.footer
+  page.navigation = nav
+  page.showInMenu = nav.header.enabled === true
+  return page
+}
+
+function findCustomPageById(store, id) {
+  const idx = store.items.findIndex((p) => p.id === id)
+  if (idx === -1) return { idx: -1, page: null }
+  return { idx, page: store.items[idx] }
+}
+
+function adminPageListItem(page) {
+  syncNavigationFromLegacy(page)
+  return {
+    ...page,
+    editorialStatus: pageEditorialStatus(page),
+    headerEnabled: page.headerNav?.enabled === true,
+    footerEnabled: page.footerNav?.enabled === true,
+  }
+}
+
+function systemPageListRows() {
+  return SYSTEM_PAGES.map((sp) => ({
+    id: sp.id,
+    slug: sp.slug,
+    title: sp.title,
+    pageType: sp.pageType,
+    template: sp.template,
+    kind: 'system',
+    status: 'published',
+    language: 'both',
+    sortOrder: 0,
+    showInMenu: false,
+    headerNav: defaultHeaderNav(),
+    footerNav: defaultFooterNav(),
+    navigation: { header: defaultHeaderNav(), footer: defaultFooterNav() },
+    sections: [],
+    editorialStatus: 'Published',
+    headerEnabled: false,
+    footerEnabled: false,
+    updatedAt: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
+    publicPath: sp.publicPath,
+    manageSections: sp.id === 'sys-home',
+    editable: true,
+  }))
+}
+
+async function publishPageRow(row, user) {
+  const now = new Date().toISOString()
+  syncNavigationFromLegacy(row)
+  row.publishedContent = buildPublishedContentFromDraft(row, now)
+  row.publishedSections = normalizeSections(row.sections)
+  row.lastPublishedAt = now
+  row.status = 'published'
+  const store = await readPagesStore()
+  const idx = store.items.findIndex((p) => p.id === row.id)
+  if (idx >= 0) store.items[idx] = row
+  await persistPagesStore(store, user, `Published page ${row.slug || row.id}`)
+  return row
+}
+
+function defaultHeaderNav() {
+  return {
+    enabled: false,
+    label: { en: '', ar: '' },
+    sortOrder: 0,
+    parentId: '',
+    openInNewTab: false,
+    highlightAsCta: false,
+    showDesktop: true,
+    showMobile: true,
+  }
+}
+
+function defaultFooterNav() {
+  return {
+    enabled: false,
+    label: { en: '', ar: '' },
+    column: 'company',
+    sortOrder: 0,
+    openInNewTab: false,
+  }
+}
+
+function defaultHeroCta() {
+  return {
+    enabled: false,
+    label: { en: '', ar: '' },
+    variant: 'primary',
+    sortOrder: 0,
+  }
+}
+
+function coerceHeaderNav(raw, fallbackLabel) {
+  const o = raw && typeof raw === 'object' ? raw : {}
+  const label = coerceBilingual(o.label ?? fallbackLabel)
+  return {
+    enabled: typeof o.enabled === 'boolean' ? o.enabled : false,
+    label,
+    sortOrder: typeof o.sortOrder === 'number' && Number.isFinite(o.sortOrder) ? o.sortOrder : 0,
+    parentId: typeof o.parentId === 'string' ? o.parentId : '',
+    openInNewTab: o.openInNewTab === true,
+    highlightAsCta: o.highlightAsCta === true,
+    showDesktop: o.showDesktop !== false,
+    showMobile: o.showMobile !== false,
+  }
+}
+
+function coerceFooterNav(raw, fallbackLabel) {
+  const o = raw && typeof raw === 'object' ? raw : {}
+  const cols = new Set(['product', 'industries', 'company', 'contact'])
+  return {
+    enabled: typeof o.enabled === 'boolean' ? o.enabled : false,
+    label: coerceBilingual(o.label ?? fallbackLabel),
+    column: cols.has(o.column) ? o.column : 'company',
+    sortOrder: typeof o.sortOrder === 'number' && Number.isFinite(o.sortOrder) ? o.sortOrder : 0,
+    openInNewTab: o.openInNewTab === true,
+  }
+}
+
+function coerceHeroCta(raw) {
+  const o = raw && typeof raw === 'object' ? raw : {}
+  return {
+    enabled: o.enabled === true,
+    label: coerceBilingual(o.label),
+    variant: o.variant === 'secondary' ? 'secondary' : 'primary',
+    sortOrder: typeof o.sortOrder === 'number' && Number.isFinite(o.sortOrder) ? o.sortOrder : 0,
+  }
+}
+
+function pagePublicView(page) {
+  if (!page) return null
+  const pub = page.publishedContent && typeof page.publishedContent === 'object' ? page.publishedContent : null
+  if (!pub) return null
+  const pubSections = normalizeSections(
+    page.publishedSections?.length ? page.publishedSections : pub.sections || [],
+  )
+  const seo = pub.seo && typeof pub.seo === 'object' ? pub.seo : defaultPageSeo()
+  return {
+    id: page.id,
+    slug: pub.slug || page.slug,
+    pageType: pub.pageType || page.pageType,
+    template: pub.template || page.template || 'blank',
+    status: 'published',
+    language: pub.language || page.language,
+    sortOrder: pub.sortOrder ?? page.sortOrder ?? 0,
+    showInMenu: pub.headerNav?.enabled === true || pub.showInMenu === true,
+    metaTitle: seo.title?.en || seo.title?.ar ? seo.title : pub.metaTitle || page.metaTitle,
+    metaDescription: seo.description?.en || seo.description?.ar ? seo.description : pub.metaDescription || page.metaDescription,
+    seo,
+    title: pub.title || page.title,
+    heading: pub.heading || page.heading,
+    shortDescription: pub.shortDescription || page.shortDescription,
+    content: pub.content || page.content,
+    featuredImageUrl: pub.featuredImageUrl || '',
+    headerNav: pub.headerNav || defaultHeaderNav(),
+    footerNav: pub.footerNav || defaultFooterNav(),
+    heroCta: pub.heroCta || defaultHeroCta(),
+    sections: pubSections.filter((s) => s.visible !== false),
+    createdAt: page.createdAt,
+    updatedAt: pub.publishedAt || page.updatedAt,
+    publishedAt: pub.publishedAt || null,
+  }
+}
+
+async function buildPublishedNavigation(homepage) {
+  const store = await readPagesStore()
+  const publishedPages = store.items
+    .map(pagePublicView)
+    .filter(Boolean)
+    .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+
+  const headerFromPages = publishedPages
+    .filter((p) => p.headerNav?.enabled)
+    .map((p) => ({
+      id: `page-${p.id}`,
+      pageId: p.id,
+      label: p.headerNav.label?.en || p.headerNav.label?.ar ? p.headerNav.label : p.title,
+      href: `/${p.slug}`,
+      sortOrder: p.headerNav.sortOrder ?? p.sortOrder ?? 0,
+      openInNewTab: p.headerNav.openInNewTab === true,
+      highlightAsCta: p.headerNav.highlightAsCta === true,
+      showDesktop: p.headerNav.showDesktop !== false,
+      showMobile: p.headerNav.showMobile !== false,
+      active: true,
+      source: 'cms-page',
+    }))
+
+  const headerFromConfig = Array.isArray(homepage?.header?.navLinks)
+    ? homepage.header.navLinks.filter((l) => l && l.active !== false)
+    : []
+
+  const headerLinks = [...headerFromConfig, ...headerFromPages].sort(
+    (a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0),
+  )
+
+  const footerColumns = { product: [], industries: [], company: [], contact: [] }
+  for (const p of publishedPages) {
+    if (!p.footerNav?.enabled) continue
+    const col = p.footerNav.column || 'company'
+    if (!footerColumns[col]) continue
+    footerColumns[col].push({
+      id: `page-${p.id}`,
+      pageId: p.id,
+      label: p.footerNav.label?.en || p.footerNav.label?.ar ? p.footerNav.label : p.title,
+      href: `/${p.slug}`,
+      sortOrder: p.footerNav.sortOrder ?? p.sortOrder ?? 0,
+      openInNewTab: p.footerNav.openInNewTab === true,
+      active: true,
+      source: 'cms-page',
+    })
+  }
+  for (const col of Object.keys(footerColumns)) {
+    footerColumns[col].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+  }
+
+  return {
+    headerLinks,
+    footerColumns,
+    pages: publishedPages.map((p) => ({
+      id: p.id,
+      slug: p.slug,
+      title: p.title,
+      headerEnabled: p.headerNav?.enabled === true,
+      footerEnabled: p.footerNav?.enabled === true,
+    })),
   }
 }
 
@@ -210,6 +527,8 @@ async function ensureDataFile(relPath, factory) {
 
 async function ensureBootstrapFiles() {
   await fs.mkdir(UPLOADS_DIR, { recursive: true })
+  await publishStore.ensurePublishedDir()
+  await ensureDataFile(publishStore.PUBLISH_META_FILE, () => ({}))
   await ensureDataFile(MEDIA_INDEX_FILE, () => ({ items: [], _meta: defaultDataMeta() }))
   await ensureDataFile('whatsappSettings.json', () => ({
     show: true,
@@ -308,24 +627,99 @@ function normalizePageFromBody(body, prev) {
   const now = new Date().toISOString()
   const slug = normalizeSlugInput(body.slug)
   const base = prev || {}
+  const title = coerceBilingual(body.title ?? base.title)
+  const seo = coercePageSeo(body.seo, base.seo)
+  const headerNav = coerceHeaderNav(
+    body.headerNav ?? body.navigation?.header ?? base.headerNav ?? base.navigation?.header,
+    body.headerNav?.label ?? title,
+  )
+  if (typeof body.showInMenu === 'boolean' && body.headerNav === undefined && body.navigation?.header === undefined) {
+    headerNav.enabled = body.showInMenu
+  }
+  const footerNav = coerceFooterNav(
+    body.footerNav ?? body.navigation?.footer ?? base.footerNav ?? base.navigation?.footer,
+    title,
+  )
+  const heroCta = coerceHeroCta(body.heroCta ?? base.heroCta)
+  const template = PAGE_TEMPLATES.has(body.template) ? body.template : base.template || 'blank'
+  const sections =
+    body.sections !== undefined ? normalizeSections(body.sections) : normalizeSections(base.sections || [])
+  const metaTitle = coerceBilingual(body.metaTitle ?? seo.title ?? base.metaTitle)
+  const metaDescription = coerceBilingual(body.metaDescription ?? seo.description ?? base.metaDescription)
   return {
     id: base.id,
     slug,
     pageType: PAGE_TYPES.has(body.pageType) ? body.pageType : base.pageType || 'custom',
+    template,
+    kind: base.kind || 'custom',
     status: PAGE_STATUSES.has(body.status) ? body.status : base.status || 'draft',
     language: PAGE_LANG_MODES.has(body.language) ? body.language : base.language || 'both',
     sortOrder: typeof body.sortOrder === 'number' && Number.isFinite(body.sortOrder) ? body.sortOrder : base.sortOrder ?? 0,
-    showInMenu: typeof body.showInMenu === 'boolean' ? body.showInMenu : base.showInMenu ?? false,
-    metaTitle: coerceBilingual(body.metaTitle ?? base.metaTitle),
-    metaDescription: coerceBilingual(body.metaDescription ?? base.metaDescription),
-    title: coerceBilingual(body.title ?? base.title),
+    showInMenu: headerNav.enabled,
+    metaTitle,
+    metaDescription,
+    seo,
+    title,
     heading: coerceBilingual(body.heading ?? base.heading),
     shortDescription: coerceBilingual(body.shortDescription ?? base.shortDescription),
     content: coerceBilingual(body.content ?? base.content),
     featuredImageUrl: typeof body.featuredImageUrl === 'string' ? body.featuredImageUrl : base.featuredImageUrl || '',
+    navigation: { header: headerNav, footer: footerNav },
+    headerNav,
+    footerNav,
+    heroCta,
+    sections,
+    publishedContent: base.publishedContent ?? null,
+    publishedSections: base.publishedSections ?? null,
+    lastPublishedAt: base.lastPublishedAt || null,
     createdAt: base.createdAt || now,
     updatedAt: now,
   }
+}
+
+function buildPublishedContentFromDraft(page, now = new Date().toISOString()) {
+  syncNavigationFromLegacy(page)
+  const seo = coercePageSeo(page.seo, null)
+  return {
+    slug: page.slug,
+    pageType: page.pageType,
+    template: page.template || 'blank',
+    language: page.language,
+    sortOrder: page.sortOrder,
+    showInMenu: page.showInMenu,
+    metaTitle: page.metaTitle,
+    metaDescription: page.metaDescription,
+    seo,
+    title: page.title,
+    heading: page.heading,
+    shortDescription: page.shortDescription,
+    content: page.content,
+    featuredImageUrl: page.featuredImageUrl || '',
+    headerNav: page.headerNav || defaultHeaderNav(),
+    footerNav: page.footerNav || defaultFooterNav(),
+    heroCta: page.heroCta || defaultHeroCta(),
+    sections: normalizeSections(page.sections),
+    publishedAt: now,
+  }
+}
+
+function pageEditorialStatus(page) {
+  if (!page?.publishedContent) return 'Draft'
+  const pub = page.publishedContent
+  const draftSections = normalizeSections(page.sections || [])
+  const pubSections = normalizeSections(page.publishedSections || pub.sections || [])
+  const changed =
+    pub.slug !== page.slug ||
+    JSON.stringify(pub.title) !== JSON.stringify(page.title) ||
+    JSON.stringify(pub.content) !== JSON.stringify(page.content) ||
+    JSON.stringify(pub.headerNav) !== JSON.stringify(page.headerNav) ||
+    JSON.stringify(pub.footerNav) !== JSON.stringify(page.footerNav) ||
+    JSON.stringify(pub.seo) !== JSON.stringify(page.seo) ||
+    JSON.stringify(draftSections) !== JSON.stringify(pubSections) ||
+    (pub.featuredImageUrl || '') !== (page.featuredImageUrl || '')
+  if (page.status === 'draft' && page.publishedContent) return 'Unpublished Changes'
+  if (page.status !== 'published') return changed ? 'Unpublished Changes' : 'Draft'
+  return changed ? 'Unpublished Changes' : 'Published'
 }
 
 async function persistPagesStore(store, user, description) {
@@ -578,19 +972,6 @@ async function handleProfileChangePassword(req, res) {
   res.json({ ok: true, message: 'Password updated successfully' })
 }
 
-function dataFileForKey(key) {
-  if (DATA_FILES[key]) return DATA_FILES[key]
-  const map = {
-    siteSettings: 'siteSettings.json',
-    whatsappSettings: 'whatsappSettings.json',
-    emailSettings: 'emailSettings.json',
-    pageSections: 'pageSections.json',
-    mediaIndex: 'mediaIndex.json',
-    pages: PAGES_FILE,
-  }
-  return map[key] || null
-}
-
 async function trySendLeadEmail(lead, settings) {
   if (!settings?.enableEmailNotification) return
   const smtp = resolveSmtpConfig()
@@ -698,24 +1079,76 @@ app.get('/api/health', (_req, res) => {
 
 app.get('/api/homepage', async (_req, res) => {
   try {
-    const entries = await Promise.all(
-      Object.entries(DATA_FILES).map(async ([key, file]) => [key, await readJsonFile(file)]),
-    )
-    const out = Object.fromEntries(entries)
-    for (const [key, file] of Object.entries(EXTRA_HOMEPAGE_FILES)) {
-      out[key] = (await safeReadJson(file)) ?? {}
-    }
-    for (const k of Object.keys(out)) {
-      const v = out[k]
-      if (v && typeof v === 'object' && !Array.isArray(v) && '_meta' in v) {
-        const { _meta: _m, ...rest } = v
-        out[k] = rest
-      }
-    }
-    res.json(out)
+    const out = await loadPublishedHomepagePayload()
+    sendPublicJson(res, out)
   } catch (e) {
     console.error(e)
     res.status(500).json({ error: 'Failed to load homepage data' })
+  }
+})
+
+app.get('/api/public/site', async (_req, res) => {
+  try {
+    const out = await loadPublishedHomepagePayload()
+    sendPublicJson(res, out)
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Failed to load site' })
+  }
+})
+
+app.get('/api/public/homepage', async (_req, res) => {
+  try {
+    const out = await loadPublishedHomepagePayload()
+    sendPublicJson(res, out)
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Failed to load homepage data' })
+  }
+})
+
+app.get('/api/public/navigation', async (_req, res) => {
+  try {
+    const home = await loadPublishedHomepagePayload()
+    sendPublicJson(res, home.navigation || { headerLinks: [], footerColumns: {}, pages: [] })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Failed to load navigation' })
+  }
+})
+
+app.get('/api/public/pages', async (_req, res) => {
+  try {
+    const store = await readPagesStore()
+    const items = store.items.map(pagePublicView).filter(Boolean)
+    sendPublicJson(res, { items })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Failed to load pages' })
+  }
+})
+
+app.get('/api/public/pages/:slug', async (req, res) => {
+  try {
+    const slug = normalizeSlugInput(req.params.slug)
+    if (!slug || !isValidPageSlug(slug)) {
+      sendPublicJson(res, { error: 'Not found' }, 404)
+      return
+    }
+    const store = await readPagesStore()
+    const item = store.items.find((p) => {
+      const view = pagePublicView(p)
+      return view && view.slug.toLowerCase() === slug.toLowerCase()
+    })
+    const view = pagePublicView(item)
+    if (!view) {
+      sendPublicJson(res, { error: 'Not found' }, 404)
+      return
+    }
+    sendPublicJson(res, { page: view })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Failed to load page' })
   }
 })
 
@@ -723,16 +1156,32 @@ app.get('/api/page/:slug', async (req, res) => {
   try {
     const slug = normalizeSlugInput(req.params.slug)
     if (!slug || !isValidPageSlug(slug)) {
-      res.status(404).json({ error: 'Not found' })
+      sendPublicJson(res, { error: 'Not found' }, 404)
       return
     }
     const store = await readPagesStore()
-    const item = store.items.find((p) => p.slug.toLowerCase() === slug.toLowerCase() && p.status === 'published')
-    if (!item) {
-      res.status(404).json({ error: 'Not found' })
+    // Prefer publishedContent snapshot; fall back to legacy status===published rows
+    let view = null
+    for (const p of store.items) {
+      const pub = pagePublicView(p)
+      if (pub && pub.slug.toLowerCase() === slug.toLowerCase()) {
+        view = pub
+        break
+      }
+      if (
+        !p.publishedContent &&
+        p.status === 'published' &&
+        p.slug.toLowerCase() === slug.toLowerCase()
+      ) {
+        view = { ...p, publishedAt: p.updatedAt }
+        break
+      }
+    }
+    if (!view) {
+      sendPublicJson(res, { error: 'Not found' }, 404)
       return
     }
-    res.json({ page: item })
+    sendPublicJson(res, { page: view })
   } catch (e) {
     console.error(e)
     res.status(500).json({ error: 'Failed to load page' })
@@ -742,12 +1191,17 @@ app.get('/api/page/:slug', async (req, res) => {
 app.get('/api/site-settings', async (_req, res) => {
   try {
     const [header, seo, footer, siteSettings] = await Promise.all([
-      readJsonFile('header.json'),
-      readJsonFile('seo.json'),
-      readJsonFile('footer.json'),
-      safeReadJson('siteSettings.json', {}),
+      publishStore.readPublished('header.json'),
+      publishStore.readPublished('seo.json'),
+      publishStore.readPublished('footer.json'),
+      publishStore.readPublished('siteSettings.json'),
     ])
-    res.json({ header, seo, footer, siteSettings })
+    sendPublicJson(res, {
+      header: publishStore.stripMeta(header) ?? {},
+      seo: publishStore.stripMeta(seo) ?? {},
+      footer: publishStore.stripMeta(footer) ?? {},
+      siteSettings: publishStore.stripMeta(siteSettings) ?? {},
+    })
   } catch (e) {
     console.error(e)
     res.status(500).json({ error: 'Failed to load site settings' })
@@ -1346,8 +1800,9 @@ app.put('/api/admin/data/:key', authMiddleware, async (req, res) => {
       res.status(404).json({ error: 'Unknown resource' })
       return
     }
-    const merged = { ...body }
-    const prevMeta = typeof body._meta === 'object' && body._meta ? body._meta : {}
+    const prev = (await safeReadJson(file, {})) || {}
+    const merged = { ...prev, ...body }
+    const prevMeta = typeof merged._meta === 'object' && merged._meta ? merged._meta : {}
     merged._meta = {
       ...prevMeta,
       createdAt: prevMeta.createdAt || new Date().toISOString(),
@@ -1356,17 +1811,87 @@ app.put('/api/admin/data/:key', authMiddleware, async (req, res) => {
     }
     await writeJsonFile(file, merged)
     await touchContentMeta(key, req.user.email)
+    if (PUBLISHABLE_KEYS.has(key)) {
+      await publishStore.markDraftSaved(key, req.user.email)
+    }
     await appendActivity({
       action: 'save',
       section: key,
-      description: `Saved ${key}`,
+      description: `Saved draft ${key}`,
       adminEmail: req.user.email,
       adminName: req.user.name || '',
     })
-    res.json({ ok: true })
+    const publishStatus = PUBLISHABLE_KEYS.has(key)
+      ? await publishStore.getSectionStatus(key, file)
+      : null
+    res.json({ ok: true, ...(publishStatus ? { publishStatus } : {}) })
   } catch (e) {
     console.error(e)
     res.status(500).json({ error: 'Save failed' })
+  }
+})
+
+app.get('/api/admin/publish-status/:key', authMiddleware, async (req, res) => {
+  const { key } = req.params
+  const file = dataFileForKey(key)
+  if (!file || !PUBLISHABLE_KEYS.has(key)) {
+    res.status(404).json({ error: 'Unknown resource' })
+    return
+  }
+  try {
+    res.json(await publishStore.getSectionStatus(key, file))
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Status failed' })
+  }
+})
+
+app.post('/api/admin/publish/:key', authMiddleware, async (req, res) => {
+  const { key } = req.params
+  const file = dataFileForKey(key)
+  if (!file || !PUBLISHABLE_KEYS.has(key)) {
+    res.status(404).json({ error: 'Unknown resource' })
+    return
+  }
+  try {
+    const result = await publishStore.publishFile(file, key, req.user.email)
+    await appendActivity({
+      action: 'publish',
+      section: key,
+      description: `Published ${key}`,
+      adminEmail: req.user.email,
+      adminName: req.user.name || '',
+    })
+    res.json({ ok: true, key, publishStatus: result.status })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Publish failed' })
+  }
+})
+
+app.post('/api/admin/publish', authMiddleware, async (req, res) => {
+  try {
+    const keys = Array.isArray(req.body?.keys) && req.body.keys.length
+      ? req.body.keys.filter((k) => PUBLISHABLE_KEYS.has(k))
+      : [...PUBLISHABLE_KEYS]
+    const results = {}
+    for (const key of keys) {
+      const file = dataFileForKey(key)
+      if (!file) continue
+      const result = await publishStore.publishFile(file, key, req.user.email)
+      results[key] = result.status
+    }
+    await appendActivity({
+      action: 'publish',
+      section: 'site',
+      description: `Published ${keys.join(', ')}`,
+      adminEmail: req.user.email,
+      adminName: req.user.name || '',
+    })
+    res.json({ ok: true, results })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Publish failed' })
   }
 })
 
@@ -1510,7 +2035,10 @@ app.put('/api/admin/email', authMiddleware, async (req, res) => {
 app.get('/api/admin/pages', authMiddleware, async (_req, res) => {
   try {
     const store = await readPagesStore()
-    const items = [...store.items].sort((a, b) => String(b.updatedAt || '').localeCompare(String(a.updatedAt || '')))
+    const custom = [...store.items]
+      .sort((a, b) => String(b.updatedAt || '').localeCompare(String(a.updatedAt || '')))
+      .map(adminPageListItem)
+    const items = [...systemPageListRows(), ...custom]
     res.json({ items })
   } catch (e) {
     console.error(e)
@@ -1520,13 +2048,20 @@ app.get('/api/admin/pages', authMiddleware, async (_req, res) => {
 
 app.get('/api/admin/pages/:id', authMiddleware, async (req, res) => {
   try {
+    const { id } = req.params
+    if (isSystemPageId(id)) {
+      const sp = getSystemPage(id)
+      const row = systemPageListRows().find((p) => p.id === id)
+      res.json({ page: { ...row, editorialStatus: 'Published', system: sp } })
+      return
+    }
     const store = await readPagesStore()
-    const page = store.items.find((p) => p.id === req.params.id)
+    const page = store.items.find((p) => p.id === id)
     if (!page) {
       res.status(404).json({ error: 'Page not found' })
       return
     }
-    res.json({ page })
+    res.json({ page: adminPageListItem(page) })
   } catch (e) {
     console.error(e)
     res.status(500).json({ error: 'Failed to read page' })
@@ -1551,23 +2086,46 @@ app.post('/api/admin/pages', authMiddleware, async (req, res) => {
       return
     }
     const id = nanoid(12)
-    const row = normalizePageFromBody({ ...body, slug }, { id })
+    const doPublish = body.action === 'publish' || body.publish === true || body.status === 'published'
+    const template = PAGE_TEMPLATES.has(body.template) ? body.template : 'blank'
+    const initialSections = Array.isArray(body.sections)
+      ? normalizeSections(body.sections)
+      : buildTemplateSections(template)
+    const row = normalizePageFromBody(
+      { ...body, slug, template, sections: initialSections, status: doPublish ? 'published' : 'draft' },
+      { id },
+    )
     row.id = id
+    if (doPublish) {
+      const now = new Date().toISOString()
+      row.publishedContent = buildPublishedContentFromDraft(row, now)
+      row.publishedSections = normalizeSections(row.sections)
+      row.lastPublishedAt = now
+      row.status = 'published'
+    } else {
+      row.publishedContent = null
+      row.publishedSections = null
+      row.status = 'draft'
+    }
     store.items.push(row)
-    await persistPagesStore(store, req.user, `Created page ${slug}`)
-    res.status(201).json({ ok: true, page: row })
+    await persistPagesStore(store, req.user, doPublish ? `Published page ${slug}` : `Created draft page ${slug}`)
+    res.status(201).json({ ok: true, page: { ...row, editorialStatus: pageEditorialStatus(row) } })
   } catch (e) {
     console.error(e)
     res.status(500).json({ error: 'Create failed' })
   }
 })
 
-app.put('/api/admin/pages/:id', authMiddleware, async (req, res) => {
+async function updateAdminPage(req, res) {
   try {
     const { id } = req.params
     const body = req.body
     if (!body || typeof body !== 'object' || Array.isArray(body)) {
       res.status(400).json({ error: 'JSON object body required' })
+      return
+    }
+    if (isSystemPageId(id)) {
+      res.status(400).json({ error: 'System pages use dedicated editors' })
       return
     }
     const store = await readPagesStore()
@@ -1577,7 +2135,7 @@ app.put('/api/admin/pages/:id', authMiddleware, async (req, res) => {
       return
     }
     const prev = store.items[idx]
-    const slug = normalizeSlugInput(body.slug)
+    const slug = normalizeSlugInput(body.slug ?? prev.slug)
     if (!isValidPageSlug(slug)) {
       res.status(400).json({ error: 'Invalid slug' })
       return
@@ -1586,14 +2144,276 @@ app.put('/api/admin/pages/:id', authMiddleware, async (req, res) => {
       res.status(409).json({ error: 'Another page already uses this slug' })
       return
     }
+    const doPublish = body.action === 'publish' || body.publish === true
+    const doUnpublish = body.action === 'unpublish' || body.unpublish === true
     const row = normalizePageFromBody({ ...body, slug }, prev)
     row.id = prev.id
+    row.publishedContent = prev.publishedContent ?? null
+    row.publishedSections = prev.publishedSections ?? null
+    row.lastPublishedAt = prev.lastPublishedAt || null
+
+    if (doUnpublish) {
+      row.publishedContent = null
+      row.publishedSections = null
+      row.lastPublishedAt = null
+      row.status = 'draft'
+    } else if (doPublish) {
+      const now = new Date().toISOString()
+      row.publishedContent = buildPublishedContentFromDraft(row, now)
+      row.publishedSections = normalizeSections(row.sections)
+      row.lastPublishedAt = now
+      row.status = 'published'
+    } else {
+      row.status = row.publishedContent ? 'published' : 'draft'
+    }
+
     store.items[idx] = row
-    await persistPagesStore(store, req.user, `Updated page ${slug}`)
-    res.json({ ok: true, page: row })
+    const desc = doPublish
+      ? `Published page ${slug}`
+      : doUnpublish
+        ? `Unpublished page ${slug}`
+        : `Saved draft page ${slug}`
+    await persistPagesStore(store, req.user, desc)
+    res.json({ ok: true, page: adminPageListItem(row) })
   } catch (e) {
     console.error(e)
     res.status(500).json({ error: 'Update failed' })
+  }
+}
+
+app.put('/api/admin/pages/:id', authMiddleware, updateAdminPage)
+app.patch('/api/admin/pages/:id', authMiddleware, updateAdminPage)
+
+async function loadCustomPageOr404(req, res) {
+  if (isSystemPageId(req.params.id)) {
+    res.status(400).json({ error: 'System pages use dedicated editors' })
+    return null
+  }
+  const store = await readPagesStore()
+  const idx = store.items.findIndex((p) => p.id === req.params.id)
+  if (idx === -1) {
+    res.status(404).json({ error: 'Page not found' })
+    return null
+  }
+  return { store, idx, page: store.items[idx] }
+}
+
+app.post('/api/admin/pages/:id/publish', authMiddleware, async (req, res) => {
+  try {
+    const ctx = await loadCustomPageOr404(req, res)
+    if (!ctx) return
+    const { store, idx } = ctx
+    let row = normalizePageFromBody(req.body && typeof req.body === 'object' ? req.body : {}, ctx.page)
+    row.id = ctx.page.id
+    row.publishedContent = ctx.page.publishedContent
+    row.publishedSections = ctx.page.publishedSections
+    row = await publishPageRow(row, req.user)
+    store.items[idx] = row
+    res.json({ ok: true, page: adminPageListItem(row) })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Publish failed' })
+  }
+})
+
+app.post('/api/admin/pages/:id/unpublish', authMiddleware, async (req, res) => {
+  try {
+    const ctx = await loadCustomPageOr404(req, res)
+    if (!ctx) return
+    const { store, idx, page } = ctx
+    page.publishedContent = null
+    page.publishedSections = null
+    page.lastPublishedAt = null
+    page.status = 'draft'
+    page.updatedAt = new Date().toISOString()
+    store.items[idx] = page
+    await persistPagesStore(store, req.user, `Unpublished page ${page.slug || page.id}`)
+    res.json({ ok: true, page: adminPageListItem(page) })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Unpublish failed' })
+  }
+})
+
+app.post('/api/admin/pages/:id/duplicate', authMiddleware, async (req, res) => {
+  try {
+    const ctx = await loadCustomPageOr404(req, res)
+    if (!ctx) return
+    const { store, page } = ctx
+    const baseSlug = `${page.slug}-copy`
+    let slug = baseSlug
+    let n = 2
+    while (store.items.some((p) => p.slug.toLowerCase() === slug.toLowerCase())) {
+      slug = `${baseSlug}-${n}`
+      n += 1
+    }
+    const id = nanoid(12)
+    const now = new Date().toISOString()
+    const copy = {
+      ...JSON.parse(JSON.stringify(page)),
+      id,
+      slug,
+      title: {
+        en: page.title?.en ? `${page.title.en} (Copy)` : '',
+        ar: page.title?.ar ? `${page.title.ar} (Copy)` : '',
+      },
+      status: 'draft',
+      publishedContent: null,
+      publishedSections: null,
+      lastPublishedAt: null,
+      sections: normalizeSections(page.sections).map((s) => ({
+        ...s,
+        id: nanoid(10),
+        content: JSON.parse(JSON.stringify(s.content || {})),
+      })),
+      createdAt: now,
+      updatedAt: now,
+    }
+    store.items.push(copy)
+    await persistPagesStore(store, req.user, `Duplicated page ${page.slug} → ${slug}`)
+    res.status(201).json({ ok: true, page: adminPageListItem(copy) })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Duplicate failed' })
+  }
+})
+
+app.post('/api/admin/pages/:id/sections', authMiddleware, async (req, res) => {
+  try {
+    const ctx = await loadCustomPageOr404(req, res)
+    if (!ctx) return
+    const { store, idx, page } = ctx
+    const type = req.body?.type
+    if (!SECTION_TYPES.has(type)) {
+      res.status(400).json({ error: 'Invalid section type' })
+      return
+    }
+    const sections = normalizeSections(page.sections)
+    const nextOrder = sections.length ? Math.max(...sections.map((s) => s.order)) + 1 : 1
+    const section = createSection(type, nextOrder)
+    page.sections = [...sections, section]
+    page.updatedAt = new Date().toISOString()
+    store.items[idx] = page
+    await persistPagesStore(store, req.user, `Added ${type} section to page ${page.slug}`)
+    res.status(201).json({ ok: true, section, page: adminPageListItem(page) })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Add section failed' })
+  }
+})
+
+app.patch('/api/admin/pages/:id/sections/:sectionId', authMiddleware, async (req, res) => {
+  try {
+    const ctx = await loadCustomPageOr404(req, res)
+    if (!ctx) return
+    const { store, idx, page } = ctx
+    const { sectionId } = req.params
+    const body = req.body && typeof req.body === 'object' ? req.body : {}
+    const sections = normalizeSections(page.sections)
+    const sIdx = sections.findIndex((s) => s.id === sectionId)
+    if (sIdx === -1) {
+      res.status(404).json({ error: 'Section not found' })
+      return
+    }
+    const prev = sections[sIdx]
+    const next = {
+      ...prev,
+      ...body,
+      id: prev.id,
+      type: SECTION_TYPES.has(body.type) ? body.type : prev.type,
+      content:
+        body.content && typeof body.content === 'object'
+          ? { ...(prev.content || {}), ...body.content }
+          : prev.content,
+    }
+    sections[sIdx] = next
+    page.sections = normalizeSections(sections)
+    page.updatedAt = new Date().toISOString()
+    store.items[idx] = page
+    await persistPagesStore(store, req.user, `Updated section ${sectionId} on page ${page.slug}`)
+    res.json({ ok: true, section: next, page: adminPageListItem(page) })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Update section failed' })
+  }
+})
+
+app.post('/api/admin/pages/:id/sections/reorder', authMiddleware, async (req, res) => {
+  try {
+    const ctx = await loadCustomPageOr404(req, res)
+    if (!ctx) return
+    const { store, idx, page } = ctx
+    const order = req.body?.order
+    if (!Array.isArray(order)) {
+      res.status(400).json({ error: 'order array required' })
+      return
+    }
+    const map = new Map(normalizeSections(page.sections).map((s) => [s.id, s]))
+    const reordered = order
+      .filter((id) => typeof id === 'string' && map.has(id))
+      .map((id, i) => ({ ...map.get(id), order: i + 1 }))
+    for (const s of map.values()) {
+      if (!reordered.some((r) => r.id === s.id)) reordered.push({ ...s, order: reordered.length + 1 })
+    }
+    page.sections = normalizeSections(reordered)
+    page.updatedAt = new Date().toISOString()
+    store.items[idx] = page
+    await persistPagesStore(store, req.user, `Reordered sections on page ${page.slug}`)
+    res.json({ ok: true, sections: page.sections, page: adminPageListItem(page) })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Reorder failed' })
+  }
+})
+
+app.post('/api/admin/pages/:id/sections/:sectionId/duplicate', authMiddleware, async (req, res) => {
+  try {
+    const ctx = await loadCustomPageOr404(req, res)
+    if (!ctx) return
+    const { store, idx, page } = ctx
+    const { sectionId } = req.params
+    const sections = normalizeSections(page.sections)
+    const src = sections.find((s) => s.id === sectionId)
+    if (!src) {
+      res.status(404).json({ error: 'Section not found' })
+      return
+    }
+    const nextOrder = sections.length ? Math.max(...sections.map((s) => s.order)) + 1 : 1
+    const copy = {
+      ...JSON.parse(JSON.stringify(src)),
+      id: nanoid(10),
+      order: nextOrder,
+    }
+    page.sections = normalizeSections([...sections, copy])
+    page.updatedAt = new Date().toISOString()
+    store.items[idx] = page
+    await persistPagesStore(store, req.user, `Duplicated section ${sectionId} on page ${page.slug}`)
+    res.status(201).json({ ok: true, section: copy, page: adminPageListItem(page) })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Duplicate section failed' })
+  }
+})
+
+app.delete('/api/admin/pages/:id/sections/:sectionId', authMiddleware, async (req, res) => {
+  try {
+    const ctx = await loadCustomPageOr404(req, res)
+    if (!ctx) return
+    const { store, idx, page } = ctx
+    const { sectionId } = req.params
+    const before = normalizeSections(page.sections)
+    if (!before.some((s) => s.id === sectionId)) {
+      res.status(404).json({ error: 'Section not found' })
+      return
+    }
+    page.sections = normalizeSections(before.filter((s) => s.id !== sectionId))
+    page.updatedAt = new Date().toISOString()
+    store.items[idx] = page
+    await persistPagesStore(store, req.user, `Deleted section ${sectionId} on page ${page.slug}`)
+    res.json({ ok: true, page: adminPageListItem(page) })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Delete section failed' })
   }
 })
 

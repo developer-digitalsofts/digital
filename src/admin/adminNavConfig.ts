@@ -1,6 +1,7 @@
 import type { LucideIcon } from 'lucide-react'
 import {
   FileStack,
+  FileText,
   Home,
   ImageIcon,
   Layers,
@@ -28,9 +29,12 @@ export type AdminNavItem = {
   end?: boolean
 }
 
+export const ADMIN_PAGES_PATH = '/admin/pages-list'
+
 export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
   { id: 'dashboard', to: '/admin', label: 'Dashboard', icon: LayoutDashboard, end: true },
   { id: 'homepage', to: ADMIN_HOME_EDITOR_PATH, label: 'Homepage', icon: Home },
+  { id: 'pages', to: ADMIN_PAGES_PATH, label: 'Pages', icon: FileText },
   { id: 'modules', to: ADMIN_ERP_MODULES_PATH, label: 'ERP Modules', icon: Layers },
   { id: 'industries', to: ADMIN_INDUSTRIES_PATH, label: 'Industries', icon: Sparkles },
   { id: 'detail-pages', to: ADMIN_DETAIL_PAGES_PATH, label: 'Detail Pages', icon: FileStack, end: true },
@@ -70,8 +74,9 @@ export function getAdminPageTitle(pathname: string, search = ''): string {
   if (pathname === ADMIN_ERP_MODULES_PATH) return 'ERP Modules'
   if (pathname === ADMIN_INDUSTRIES_PATH) return 'Industries'
   if (pathname === ADMIN_HOME_EDITOR_PATH) return 'Homepage'
-  if (pathname === ADMIN_DETAIL_PAGES_PATH || pathname === '/admin/pages' || pathname === '/admin/pages/') return 'Detail Pages'
-  if (pathname === '/admin/pages/new') return 'Add Custom Page'
+  if (pathname === ADMIN_PAGES_PATH || pathname === ADMIN_DETAIL_PAGES_PATH) return 'Pages'
+  if (pathname === '/admin/pages/new') return 'Add New Page'
+  if (pathname.startsWith('/admin/pages/') && pathname.endsWith('/sections')) return 'Manage Sections'
   if (pathname.startsWith('/admin/pages/detail/') && pathname.endsWith('/edit')) return 'Edit Detail Page'
   if (pathname === '/admin/pages/detail/new') return 'Add Detail Page'
   if (pathname.startsWith('/admin/pages/') && pathname.endsWith('/edit')) return 'Edit Page'

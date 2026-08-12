@@ -30,6 +30,7 @@ const fallbackCards = [
 type VcCard = {
   id: string
   icon?: string
+  accentColor?: string
   title?: Bilingual
   description?: Bilingual
   sortOrder?: number
@@ -69,12 +70,13 @@ export function ValueChainSection() {
           {cmsCards.length > 0
             ? cmsCards.map((c, i) => {
                 const iconStyle = valueChainCardIconStyle(i)
+                const accent = c.accentColor?.trim() || iconStyle.accent
                 return (
                   <ScrollReveal key={c.id} delayMs={i * 80}>
                     <EnterpriseIconCard
                       title={c.title ? pick(c.title, lang) : ''}
                       description={c.description ? pick(c.description, lang) : ''}
-                      iconAccentColor={iconStyle.accent}
+                      iconAccentColor={accent}
                       icon={<LucideByName name={c.icon} strokeWidth={2} aria-hidden />}
                     />
                   </ScrollReveal>

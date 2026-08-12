@@ -56,6 +56,14 @@ function sortFooterLinks(rows: FooterLink[] | undefined) {
     .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
 }
 
+function mergeFooterRows(base: FooterLink[], extra: FooterLink[]) {
+  const out = [...base]
+  for (const row of extra) {
+    if (!out.some((x) => x.id === row.id || x.href === row.href)) out.push(row)
+  }
+  return out.sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+}
+
 /**
  * Footer logo: icon keeps brand colors, wordmark reads white on navy.
  * Single aspect-ratio box + aligned layers (digitalmanager.svg viewBox 274×62).
@@ -116,9 +124,21 @@ export function Footer() {
   const termsLabel = f?.terms?.label ? pick(f.terms.label, lang) : t('footer.terms')
   const termsHref = f?.terms?.href ?? '#'
 
-  const productRows = useMemo(() => sortFooterLinks(f?.productLinks), [f?.productLinks])
-  const industryRows = useMemo(() => sortFooterLinks(f?.industryLinks), [f?.industryLinks])
-  const companyRows = useMemo(() => sortFooterLinks(f?.companyLinks), [f?.companyLinks])
+  const productRows = useMemo(() => {
+    const base = sortFooterLinks(f?.productLinks)
+    const extra = sortFooterLinks(data?.navigation?.footerColumns?.product as FooterLink[] | undefined)
+    return mergeFooterRows(base, extra)
+  }, [f?.productLinks, data?.navigation?.footerColumns?.product])
+  const industryRows = useMemo(() => {
+    const base = sortFooterLinks(f?.industryLinks)
+    const extra = sortFooterLinks(data?.navigation?.footerColumns?.industries as FooterLink[] | undefined)
+    return mergeFooterRows(base, extra)
+  }, [f?.industryLinks, data?.navigation?.footerColumns?.industries])
+  const companyRows = useMemo(() => {
+    const base = sortFooterLinks(f?.companyLinks)
+    const extra = sortFooterLinks(data?.navigation?.footerColumns?.company as FooterLink[] | undefined)
+    return mergeFooterRows(base, extra)
+  }, [f?.companyLinks, data?.navigation?.footerColumns?.company])
 
   const copyrightText = useMemo(() => {
     const year = new Date().getFullYear()

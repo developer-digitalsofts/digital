@@ -3,12 +3,26 @@ import { useParams } from 'react-router-dom'
 import { useI18n } from '../i18n/I18nProvider'
 import { pick } from '../cms/pick'
 import { fetchJson } from '../cms/api'
+import { resolvePublicMediaUrl } from '../cms/publicMediaUrl'
 import type { CmsPageRecord } from '../cms/pagesTypes'
+import type { PageSectionRecord } from '../cms/sectionCatalog'
+import { CmsPageSectionRenderer } from '../components/CmsPageSectionRenderer'
+
+type PublicPage = CmsPageRecord & {
+  sections?: PageSectionRecord[]
+  seo?: {
+    title?: { en?: string; ar?: string }
+    description?: { en?: string; ar?: string }
+    socialImage?: string
+    canonicalUrl?: string
+    noIndex?: boolean
+  }
+}
 
 export function CmsPage() {
   const { slug = '' } = useParams<{ slug: string }>()
   const { lang } = useI18n()
-  const [page, setPage] = useState<CmsPageRecord | null>(null)
+  const [page, setPage] = useState<PublicPage | null>(null)
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
 
@@ -16,7 +30,10 @@ export function CmsPage() {
     let cancelled = false
     setLoading(true)
     setNotFound(false)
-    fetchJson<{ page: CmsPageRecord }>(`/api/page/${encodeURIComponent(slug)}`)
+    fetchJson<{ page: PublicPage }>(`/api/public/pages/${encodeURIComponent(slug)}`, {
+      cache: 'no-store',
+      headers: { 'Cache-Control': 'no-cache' },
+    })
       .then((r) => {
         if (!cancelled) setPage(r.page)
       })
@@ -36,8 +53,24 @@ export function CmsPage() {
 
   useEffect(() => {
     if (!page) return
-    const t = pick(page.metaTitle, lang) || pick(page.title, lang) || page.slug
+    const seoTitle = page.seo?.title ? pick(page.seo.title, lang) : pick(page.metaTitle, lang)
+    const t = seoTitle || pick(page.title, lang) || page.slug
     document.title = t
+
+    const desc = page.seo?.description ? pick(page.seo.description, lang) : pick(page.metaDescription, lang)
+    const meta = document.querySelector('meta[name="description"]')
+    if (meta && desc) meta.setAttribute('content', desc)
+
+    if (page.seo?.noIndex) {
+      let robots = document.querySelector('meta[name="robots"]')
+      if (!robots) {
+        robots = document.createElement('meta')
+        robots.setAttribute('name', 'robots')
+        document.head.appendChild(robots)
+      }
+      robots.setAttribute('content', 'noindex,nofollow')
+    }
+
     return () => {
       document.title = ''
     }
@@ -45,7 +78,7 @@ export function CmsPage() {
 
   if (loading) {
     return (
-      <div className="mx-auto flex max-w-3xl items-center gap-2 px-4 py-14 text-slate-600">
+      <div className="mx-auto flex min-h-[40vh] max-w-3xl items-center gap-2 px-4 py-14 text-slate-600">
         <span className="size-5 animate-spin rounded-full border-2 border-brand border-t-transparent" aria-hidden />
         Loading…
       </div>
@@ -61,18 +94,23 @@ export function CmsPage() {
     )
   }
 
+  if (page.sections && page.sections.length > 0) {
+    return <CmsPageSectionRenderer sections={page.sections} />
+  }
+
   const heading = pick(page.heading, lang) || pick(page.title, lang)
   const shortDesc = pick(page.shortDescription, lang)
   const body = pick(page.content, lang)
   const metaDesc = pick(page.metaDescription, lang)
+  const imageSrc = resolvePublicMediaUrl(page.featuredImageUrl)
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-8">
-      {page.featuredImageUrl ? (
+      {imageSrc ? (
         <img
-          src={page.featuredImageUrl.startsWith('http') ? page.featuredImageUrl : page.featuredImageUrl}
+          src={imageSrc}
           alt=""
-          className="mb-6 w-full max-h-80 rounded-lg border border-slate-200 object-cover"
+          className="mb-6 max-h-80 w-full rounded-lg border border-slate-200 object-cover"
         />
       ) : null}
       <header>

@@ -12,7 +12,8 @@ type Wf = {
   title?: Bilingual
   paragraph?: Bilingual
   sub?: Bilingual
-  cta?: Bilingual
+  body?: Bilingual
+  cta?: Bilingual | { label?: Bilingual; href?: string }
   ctaHref?: string
 }
 
@@ -22,10 +23,15 @@ export function WorkflowCTASection() {
   const wf = data?.workflow as Wf | undefined
 
   const title = wf?.title ? pick(wf.title, lang) : t('workflow.title')
-  const bodyB = wf?.sub ?? wf?.paragraph
+  const bodyB = wf?.body ?? wf?.sub ?? wf?.paragraph
   const body = bodyB ? pick(bodyB, lang) : t('workflow.sub')
-  const cta = wf?.cta ? pick(wf.cta, lang) : t('workflow.cta')
-  const href = wf?.ctaHref?.trim() || '/contact#contact-form'
+  const ctaObj = wf?.cta && typeof wf.cta === 'object' && 'label' in wf.cta ? wf.cta : null
+  const cta = ctaObj?.label
+    ? pick(ctaObj.label, lang)
+    : wf?.cta && typeof wf.cta === 'object' && 'en' in wf.cta
+      ? pick(wf.cta as Bilingual, lang)
+      : t('workflow.cta')
+  const href = ctaObj?.href?.trim() || wf?.ctaHref?.trim() || '/contact#contact-form'
 
   return (
     <section id="workflow" className={`scroll-mt-28 ${sectionWhite} ${sectionPad}`}>

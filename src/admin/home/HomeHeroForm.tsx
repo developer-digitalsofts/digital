@@ -81,7 +81,18 @@ export function HomeHeroForm() {
       await hero.save({ ...local, badges: sortBadges(local.badges) } as HeroDoc & Record<string, unknown>)
       await pageSec.save(nextSections as PageSectionsDoc & Record<string, unknown>)
       setBaseline(JSON.stringify({ hero: { ...local, badges: sortBadges(local.badges) }, heroVisible }))
-      toast.push('Saved successfully', 'success')
+      toast.push('Draft saved', 'success')
+    } catch {
+      /* toast in hook */
+    }
+  }
+
+  const publish = async () => {
+    await save()
+    try {
+      await hero.publish()
+      await pageSec.publish()
+      toast.push('Published successfully', 'success')
     } catch {
       /* toast in hook */
     }
@@ -274,7 +285,19 @@ export function HomeHeroForm() {
         </div>
       </div>
 
-      <AdminFormActions saving={hero.saving || pageSec.saving} onSave={save} onCancel={cancel} disableSave={!dirty} />
+      <AdminFormActions
+        saving={hero.saving || pageSec.saving}
+        publishing={hero.publishing || pageSec.publishing}
+        onSave={save}
+        onPublish={publish}
+        onCancel={cancel}
+        disableSave={!dirty}
+        statusLabel={
+          hero.publishStatus
+            ? `${hero.publishStatus.status}${hero.publishStatus.lastPublishedAt ? ` · Last published ${new Date(hero.publishStatus.lastPublishedAt).toLocaleString()}` : ''}`
+            : null
+        }
+      />
 
       <ConfirmDialog
         open={!!deleteBadgeId}

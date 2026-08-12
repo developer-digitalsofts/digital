@@ -20,6 +20,7 @@ import {
 type ModItem = {
   id: string
   icon?: string
+  accentColor?: string
   badge?: Bilingual
   title?: Bilingual
   description?: Bilingual
@@ -71,6 +72,7 @@ export function ModulesSection() {
             ? cmsItems.map((m, i) => {
                 const to = m.href?.trim() || '/'
                 const iconStyle = moduleCardIconStyle(to, i)
+                const accent = m.accentColor?.trim() || iconStyle.accent
                 return (
                   <ScrollReveal key={m.id} delayMs={i * 70}>
                     <PremiumFeatureCard
@@ -80,7 +82,7 @@ export function ModulesSection() {
                       exploreLabel={explore}
                       to={to}
                       useCmsLink
-                      iconAccentColor={iconStyle.accent}
+                      iconAccentColor={accent}
                       icon={<LucideByName name={m.icon} strokeWidth={2} />}
                     />
                   </ScrollReveal>

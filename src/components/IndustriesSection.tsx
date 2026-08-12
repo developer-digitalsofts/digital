@@ -17,6 +17,8 @@ const INITIAL_VISIBLE = 6
 type IndItem = {
   id: string
   icon?: string
+  accentColor?: string
+  cardKey?: string
   category?: Bilingual
   title?: Bilingual
   description?: Bilingual
@@ -52,9 +54,9 @@ export function IndustriesSection() {
     if (cmsItems.length > 0) {
       return cmsItems.map((item, index) => {
         const hrefSlug = item.href?.match(/\/software\/(?:industry\/)?([^/?#]+)/)?.[1]
-        const iconStyle = {
-          accent: softwareIconAccent({ slug: hrefSlug, kind: 'industry', index }),
-        }
+        const accent =
+          item.accentColor?.trim() ||
+          softwareIconAccent({ slug: hrefSlug, cardKey: item.cardKey, kind: 'industry', index })
         return {
           key: item.id,
           title: item.title ? pick(item.title, lang) : '',
@@ -62,7 +64,7 @@ export function IndustriesSection() {
           to: item.href?.trim() || '/',
           eyebrow: item.category ? pick(item.category, lang) : undefined,
           useCmsLink: true as const,
-          iconStyle,
+          iconStyle: { accent },
           icon: <LucideByName name={item.icon} strokeWidth={2} />,
         }
       })

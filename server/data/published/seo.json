@@ -1,0 +1,40 @@
+{
+  "pageTitle": {
+    "en": "DigitalManager — Cloud ERP Platform",
+    "ar": "ديجيتال مانجر — منصة ERP سحابية"
+  },
+  "metaDescription": {
+    "en": "Digital Manager — modern cloud ERP for accounts, inventory, POS, payroll, and operations.",
+    "ar": "ديجيتال مانجر — ERP سحابي حديث للحسابات والمخزون ونقاط البيع والرواتب والعمليات."
+  },
+  "metaKeywords": {
+    "en": "ERP, cloud ERP, inventory, POS, payroll, UAE, DigitalManager",
+    "ar": "ERP, مخزون, نقطة بيع, رواتب, الإمارات, ديجيتال مانجر"
+  },
+  "ogImage": "/digitalmanager-favicon.png",
+  "canonicalUrl": "",
+  "ogTitle": {
+    "en": "",
+    "ar": ""
+  },
+  "ogDescription": {
+    "en": "",
+    "ar": ""
+  },
+  "twitterTitle": {
+    "en": "",
+    "ar": ""
+  },
+  "twitterDescription": {
+    "en": "",
+    "ar": ""
+  },
+  "twitterImage": "",
+  "robotsIndex": "index",
+  "robotsFollow": "follow",
+  "_meta": {
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z",
+    "updatedBy": ""
+  }
+}

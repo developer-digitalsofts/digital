@@ -82,6 +82,7 @@ export function AdminHeaderEditor() {
   const [baseline, setBaseline] = useState('')
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [publishing, setPublishing] = useState(false)
   const [err, setErr] = useState<string | null>(null)
   const [delNavId, setDelNavId] = useState<string | null>(null)
   const [jsonOpen, setJsonOpen] = useState(false)
@@ -123,7 +124,7 @@ export function AdminHeaderEditor() {
         method: 'PUT',
         body: JSON.stringify(local),
       })
-      toast.push('Saved successfully', 'success')
+      toast.push('Draft saved', 'success')
       await reload()
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : 'Save failed'
@@ -131,6 +132,21 @@ export function AdminHeaderEditor() {
       toast.push(msg, 'error')
     } finally {
       setSaving(false)
+    }
+  }
+
+  const publish = async () => {
+    await save()
+    setPublishing(true)
+    try {
+      await adminFetch('/api/admin/publish/header', { method: 'POST', body: '{}' })
+      toast.push('Published successfully', 'success')
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : 'Publish failed'
+      setErr(msg)
+      toast.push(msg, 'error')
+    } finally {
+      setPublishing(false)
     }
   }
 
@@ -504,7 +520,14 @@ export function AdminHeaderEditor() {
         </div>
       </section>
 
-      <AdminFormActions saving={saving} onSave={save} onCancel={cancel} disableSave={!dirty} />
+      <AdminFormActions
+        saving={saving}
+        publishing={publishing}
+        onSave={save}
+        onPublish={publish}
+        onCancel={cancel}
+        disableSave={!dirty}
+      />
 
       <details
         className="rounded-2xl border border-amber-200/80 bg-amber-50/40 px-4 py-3 text-sm"
