@@ -1,5 +1,5 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { fetchJson } from './api'
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { fetchHomepage } from './api'
 import type { HomepagePayload } from './types'
 
 type CmsState = {
@@ -16,6 +16,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [tick, setTick] = useState(0)
+  const lastFetchAt = useRef(0)
 
   const reload = useCallback(() => setTick((n) => n + 1), [])
 
@@ -23,17 +24,16 @@ export function CmsProvider({ children }: { children: ReactNode }) {
     let cancelled = false
     setLoading(true)
     setError(null)
-    fetchJson<HomepagePayload>('/api/homepage', {
-      headers: { 'Cache-Control': 'no-cache', Pragma: 'no-cache' },
-      cache: 'no-store',
-    })
+    fetchHomepage<HomepagePayload>()
       .then((payload) => {
-        if (!cancelled) setData(payload)
+        if (!cancelled) {
+          setData(payload)
+          lastFetchAt.current = Date.now()
+        }
       })
       .catch((e: unknown) => {
         if (!cancelled) {
           setError(e instanceof Error ? e.message : 'Failed to load site content')
-          // Keep prior data if any; otherwise leave null so components use safe i18n fallbacks
         }
       })
       .finally(() => {
@@ -44,10 +44,12 @@ export function CmsProvider({ children }: { children: ReactNode }) {
     }
   }, [tick])
 
-  // Refetch when tab becomes visible again (after CMS publish in another tab)
+  // Refetch when tab visible — debounced to avoid hammering API
   useEffect(() => {
     const onVis = () => {
-      if (document.visibilityState === 'visible') reload()
+      if (document.visibilityState !== 'visible') return
+      if (Date.now() - lastFetchAt.current < 30_000) return
+      reload()
     }
     document.addEventListener('visibilitychange', onVis)
     return () => document.removeEventListener('visibilitychange', onVis)

@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useI18n } from '../i18n/I18nProvider'
 import { pick } from '../cms/pick'
-import { fetchJson } from '../cms/api'
+import { ApiError, fetchJson } from '../cms/api'
 import { resolvePublicMediaUrl } from '../cms/publicMediaUrl'
 import type { CmsPageRecord } from '../cms/pagesTypes'
 import type { PageSectionRecord } from '../cms/sectionCatalog'
@@ -19,37 +19,54 @@ type PublicPage = CmsPageRecord & {
   }
 }
 
+type LoadState = 'loading' | 'ready' | 'not-found' | 'error'
+
 export function CmsPage() {
   const { slug = '' } = useParams<{ slug: string }>()
   const { lang } = useI18n()
   const [page, setPage] = useState<PublicPage | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [notFound, setNotFound] = useState(false)
+  const [state, setState] = useState<LoadState>('loading')
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const [retryKey, setRetryKey] = useState(0)
+
+  const retry = useCallback(() => setRetryKey((k) => k + 1), [])
 
   useEffect(() => {
     let cancelled = false
-    setLoading(true)
-    setNotFound(false)
+    const controller = new AbortController()
+    setState('loading')
+    setErrorMsg(null)
+    setPage(null)
+
     fetchJson<{ page: PublicPage }>(`/api/public/pages/${encodeURIComponent(slug)}`, {
+      signal: controller.signal,
       cache: 'no-store',
       headers: { 'Cache-Control': 'no-cache' },
     })
       .then((r) => {
-        if (!cancelled) setPage(r.page)
+        if (cancelled) return
+        setPage(r.page)
+        setState('ready')
       })
-      .catch(() => {
-        if (!cancelled) {
-          setPage(null)
-          setNotFound(true)
+      .catch((e: unknown) => {
+        if (cancelled) return
+        if (e instanceof ApiError && e.status === 404) {
+          setState('not-found')
+          return
         }
+        setState('error')
+        setErrorMsg(
+          e instanceof ApiError && e.isTimeout
+            ? 'This page took too long to load. Please try again.'
+            : 'Unable to load this page right now. Please try again.',
+        )
       })
-      .finally(() => {
-        if (!cancelled) setLoading(false)
-      })
+
     return () => {
       cancelled = true
+      controller.abort()
     }
-  }, [slug])
+  }, [slug, retryKey])
 
   useEffect(() => {
     if (!page) return
@@ -76,7 +93,7 @@ export function CmsPage() {
     }
   }, [page, lang])
 
-  if (loading) {
+  if (state === 'loading') {
     return (
       <div className="mx-auto flex min-h-[40vh] max-w-3xl items-center gap-2 px-4 py-14 text-slate-600">
         <span className="size-5 animate-spin rounded-full border-2 border-brand border-t-transparent" aria-hidden />
@@ -85,7 +102,23 @@ export function CmsPage() {
     )
   }
 
-  if (notFound || !page) {
+  if (state === 'error') {
+    return (
+      <div className="mx-auto max-w-3xl px-4 py-14 text-center">
+        <h1 className="text-2xl font-bold text-slate-900">Could not load page</h1>
+        <p className="mt-2 text-slate-600">{errorMsg}</p>
+        <button
+          type="button"
+          onClick={retry}
+          className="mt-6 rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-dark"
+        >
+          Try again
+        </button>
+      </div>
+    )
+  }
+
+  if (state === 'not-found' || !page) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-14 text-center">
         <h1 className="text-2xl font-bold text-slate-900">Page not found</h1>

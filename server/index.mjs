@@ -38,7 +38,8 @@ const DATA_DIR = path.join(ROOT, 'data')
 const UPLOADS_DIR = path.join(ROOT, 'uploads')
 const DIST_DIR = path.join(ROOT, '..', 'dist')
 
-const PORT = Number(process.env.PORT) || 3040
+const PORT = Number(process.env.PORT) || 3000
+const HOST = process.env.HOST || '0.0.0.0'
 const JWT_SECRET = authSecretOrDevFallback()
 const DIST_INDEX = path.join(DIST_DIR, 'index.html')
 const distReady = existsSync(DIST_INDEX)
@@ -110,6 +111,7 @@ const MAX_ACTIVITY = 500
 const IMAGE_MIMES = new Set(['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml', 'image/x-icon', 'image/vnd.microsoft.icon'])
 
 const app = express()
+app.set('trust proxy', 1)
 app.use(cors({ origin: true, credentials: true }))
 app.use(express.json({ limit: '8mb' }))
 
@@ -1333,6 +1335,31 @@ app.get('/api/admin/me', authMiddleware, async (req, res) => {
   } catch (e) {
     console.error(e)
     res.status(500).json({ error: 'Failed' })
+  }
+})
+
+/** Session check — same user payload as GET /api/admin/me */
+app.get('/api/admin/auth/session', authMiddleware, async (req, res) => {
+  try {
+    const users = await readUsers()
+    const u = users.find((x) => x.id === req.user.sub || x.email === req.user.email)
+    if (!u) {
+      res.status(401).json({ error: 'Session invalid' })
+      return
+    }
+    res.json({
+      ok: true,
+      user: {
+        id: u.id,
+        email: u.email,
+        name: u.name || '',
+        profileImageUrl: u.profileImageUrl || '',
+        role: normalizeAdminRole(u.role),
+      },
+    })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Session check failed' })
   }
 })
 
@@ -2744,13 +2771,14 @@ app.post('/api/admin/backup/import', authMiddleware, async (req, res) => {
   }
 })
 
-app.use((err, _req, res, _next) => {
-  console.error(err)
-  res.status(500).json({ error: 'Server error' })
+// Unmatched /api/* → JSON 404 (never SPA index.html)
+app.use('/api', (_req, res) => {
+  res.status(404).json({ error: 'API route not found' })
 })
 
 if (SERVE_STATIC) {
   app.use(express.static(DIST_DIR))
+  // SPA fallback — never for /api or /uploads
   app.get(/^(?!\/api|\/uploads).*/, (_req, res) => {
     res.sendFile(DIST_INDEX)
   })
@@ -2760,13 +2788,18 @@ if (SERVE_STATIC) {
       'Cannot GET /\n\n' +
         'This process is the Express CMS API only. ' +
         'For single-process hosting, run `npm run build` then start with NODE_ENV=production ' +
-        '(or SERVE_STATIC=true) from the repo root so ../dist is served.\n',
+        '(or SERVE_STATIC=true) from the repo root so ../dist exists after build.\n',
     )
   })
 }
 
-app.listen(PORT, () => {
-  console.log(`CMS API http://localhost:${PORT}`)
+app.use((err, _req, res, _next) => {
+  console.error(err)
+  if (!res.headersSent) res.status(500).json({ error: 'Server error' })
+})
+
+app.listen(PORT, HOST, () => {
+  console.log(`CMS API listening on http://${HOST}:${PORT}`)
   if (SERVE_STATIC) console.log(`Serving frontend from ${DIST_DIR}`)
   else if (isProduction()) {
     console.warn('[static] Frontend not served — set SERVE_STATIC=true or ensure dist/ exists after build')

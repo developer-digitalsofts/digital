@@ -166,7 +166,7 @@ export function AdminDashboard() {
     <div className="mx-auto max-w-6xl space-y-8 pb-8">
       {apiOffline ? (
         <div className="rounded-xl border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-950">
-          <p className="font-semibold">CMS API was not fully reachable — showing available data (zeros if empty).</p>
+          <p className="font-semibold">CMS service is temporarily unavailable.</p>
           <p className="mt-1">{apiError || ADMIN_API_OFFLINE_HINT}</p>
         </div>
       ) : null}

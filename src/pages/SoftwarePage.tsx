@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { PremiumSoftwareDetailView } from '../components/software/PremiumSoftwareDetailView'
 import { SoftwareDetailView } from '../components/software/SoftwareDetailView'
 import { applyCmsToDetailPage, applyCmsToRichPage } from '../cms/applySoftwareDetailCms'
-import { apiBase } from '../cms/api'
+import { fetchJson } from '../cms/api'
 import type { SoftwareDetailCmsRecord } from '../cms/softwareDetailTypes'
 import { buildAccountsManagementSoftwareDetail } from '../data/softwareDetail/accountsManagementDetail'
 import { buildSoftwareDetailPageData } from '../data/softwareDetail/expandDetailPage'
@@ -47,14 +47,17 @@ export function SoftwarePage() {
 
   useEffect(() => {
     let cancelled = false
+    const controller = new AbortController()
     setCmsReady(false)
     if (!routeKind || !routeSlug) {
       setCmsRecord(null)
       setCmsReady(true)
       return
     }
-    fetch(`${apiBase()}/api/software-detail/${routeKind}/${encodeURIComponent(routeSlug)}`)
-      .then(async (res) => (res.ok ? ((await res.json()) as { page?: SoftwareDetailCmsRecord }) : null))
+    fetchJson<{ page?: SoftwareDetailCmsRecord }>(
+      `/api/software-detail/${routeKind}/${encodeURIComponent(routeSlug)}`,
+      { signal: controller.signal },
+    )
       .then((data) => {
         if (!cancelled) {
           setCmsRecord(data?.page ?? null)
@@ -69,6 +72,7 @@ export function SoftwarePage() {
       })
     return () => {
       cancelled = true
+      controller.abort()
     }
   }, [routeKind, routeSlug])
 

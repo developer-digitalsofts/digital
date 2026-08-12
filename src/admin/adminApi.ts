@@ -1,13 +1,25 @@
-import { apiBase } from '../cms/api'
+import {
+  apiBase,
+  apiUrl,
+  ApiError,
+  fetchWithTimeout,
+} from '../cms/api'
+
+export { API_TIMEOUT_MS } from '../cms/api'
 
 const TOKEN_KEY = 'dm_admin_token'
 
-/** Shown when the response is HTML (e.g. Vite 404) or non-JSON noise. */
-export const ADMIN_API_GENERIC_ERROR =
-  'Data could not be loaded. Please refresh or check API server.'
-
-export const ADMIN_API_OFFLINE_HINT =
+const ADMIN_API_OFFLINE_DEV =
   'CMS API is not reachable. Run npm run dev (starts frontend + API together) or npm run dev:api in a second terminal.'
+
+/** Shown in production when the API is down or returns HTML. */
+export const ADMIN_API_OFFLINE_HINT = import.meta.env.PROD
+  ? 'CMS service is temporarily unavailable. Please try again.'
+  : ADMIN_API_OFFLINE_DEV
+
+export const ADMIN_API_GENERIC_ERROR = import.meta.env.PROD
+  ? 'CMS service is temporarily unavailable. Please try again.'
+  : 'Data could not be loaded. Please refresh or check API server.'
 
 export function getAdminToken(): string | null {
   return localStorage.getItem(TOKEN_KEY)
@@ -27,6 +39,7 @@ export function friendlyAdminApiMessage(raw: string, status?: number): string {
   if (/cannot\s+(get|post|put|patch|delete)\s+/i.test(t.slice(0, 400))) return ADMIN_API_OFFLINE_HINT
   if (/<!doctype html/i.test(t) || /<html[\s>]/i.test(t)) return ADMIN_API_OFFLINE_HINT
   if (t.length > 400 && /<body/i.test(t)) return ADMIN_API_OFFLINE_HINT
+  if (/request timed out/i.test(t) || /network request failed/i.test(t)) return ADMIN_API_OFFLINE_HINT
   try {
     const j = JSON.parse(t) as { error?: string; message?: string; success?: boolean }
     if (j && typeof j.message === 'string' && j.message.trim()) return j.message.trim()
@@ -47,8 +60,25 @@ export async function readErrorMessage(res: Response): Promise<string> {
   return friendlyAdminApiMessage(text, res.status)
 }
 
+async function parseAdminJson<T>(res: Response): Promise<T> {
+  const ct = res.headers.get('content-type') || ''
+  const text = await res.text()
+  const trimmed = text.trim()
+  if (/<!doctype html/i.test(trimmed) || /<html[\s>]/i.test(trimmed)) {
+    throw new Error(ADMIN_API_OFFLINE_HINT)
+  }
+  if (ct.includes('application/json') || trimmed.startsWith('{') || trimmed.startsWith('[')) {
+    try {
+      return JSON.parse(trimmed) as T
+    } catch {
+      throw new Error(ADMIN_API_OFFLINE_HINT)
+    }
+  }
+  throw new Error(ADMIN_API_OFFLINE_HINT)
+}
+
 export async function adminFetch<T = unknown>(path: string, init?: RequestInit): Promise<T> {
-  const url = `${apiBase()}${path.startsWith('/') ? path : `/${path}`}`
+  const url = apiUrl(path)
   const headers = new Headers(init?.headers)
   const tok = getAdminToken()
   if (tok) headers.set('Authorization', `Bearer ${tok}`)
@@ -58,8 +88,9 @@ export async function adminFetch<T = unknown>(path: string, init?: RequestInit):
 
   let res: Response
   try {
-    res = await fetch(url, { ...init, headers })
-  } catch {
+    res = await fetchWithTimeout(url, { ...init, headers })
+  } catch (e) {
+    if (e instanceof ApiError) throw new Error(ADMIN_API_OFFLINE_HINT)
     throw new Error(ADMIN_API_OFFLINE_HINT)
   }
 
@@ -75,29 +106,18 @@ export async function adminFetch<T = unknown>(path: string, init?: RequestInit):
     throw new Error(await readErrorMessage(res))
   }
   if (res.status === 204) return undefined as T
-  const ct = res.headers.get('content-type') || ''
-  if (ct.includes('application/json')) return res.json() as Promise<T>
-  const text = await res.text()
-  const trimmed = text.trim()
-  if (trimmed.startsWith('{') || trimmed.startsWith('[')) {
-    try {
-      return JSON.parse(trimmed) as T
-    } catch {
-      throw new Error(ADMIN_API_OFFLINE_HINT)
-    }
-  }
-  throw new Error(ADMIN_API_OFFLINE_HINT)
+  return parseAdminJson<T>(res)
 }
 
 export async function adminDownloadBlob(path: string): Promise<Blob> {
-  const url = `${apiBase()}${path.startsWith('/') ? path : `/${path}`}`
+  const url = apiUrl(path)
   const headers = new Headers()
   const tok = getAdminToken()
   if (tok) headers.set('Authorization', `Bearer ${tok}`)
 
   let res: Response
   try {
-    res = await fetch(url, { headers })
+    res = await fetchWithTimeout(url, { headers })
   } catch {
     throw new Error(ADMIN_API_OFFLINE_HINT)
   }
@@ -113,3 +133,6 @@ export async function adminDownloadBlob(path: string): Promise<Blob> {
   if (ct.includes('text/html')) throw new Error(ADMIN_API_OFFLINE_HINT)
   return res.blob()
 }
+
+/** @deprecated use apiUrl — kept for uploads that need absolute base */
+export { apiBase }
