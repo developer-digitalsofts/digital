@@ -104,34 +104,51 @@ You can also copy the `server/data` folder manually for a cold backup.
 
 ## Production build
 
-**Frontend:**
+This is a **Vite + Express** app (not Next.js). Coolify must use the **repository root** as the base directory.
+
+**Single-process (recommended for Coolify):**
+
+```bash
+npm run build   # creates dist/
+npm start       # Express serves /api/* and the SPA from dist/
+```
+
+| Coolify setting | Value |
+| --------------- | ----- |
+| Base directory | `/` (repo root — **not** `server/`) |
+| Build command | `npm run build` (or leave empty; `nixpacks.toml` already defines it) |
+| Start command | `npm start` |
+| `NODE_ENV` | `production` |
+| `PORT` | set by Coolify (Express listens on it) |
+| `AUTH_SECRET` | required — long random string |
+
+With `NODE_ENV=production`, Express automatically serves `dist/` when `dist/index.html` exists (same-origin `/`, `/admin`, `/api/*`). Override with `SERVE_STATIC=false` for an API-only process.
+
+If you see **`Cannot GET /`**, the container is running Express without a built `dist/`, or the base directory is wrong (`server/` instead of repo root).
+
+**Split hosting (optional):**
 
 ```bash
 npm run build
+# Serve dist/ as static files (nginx, S3, etc.) with SPA fallback to index.html
+npm --prefix server start   # API only
 ```
 
-Output: `dist/`. Serve `dist/` as static files (nginx, S3 + CloudFront, Azure Static Web Apps, etc.). Configure your host so that **client-side routes** (e.g. `/contact`, `/admin/...`) fall back to `index.html`.
-
-**Backend:**
-
-```bash
-npm --prefix server start
-```
-
-Set environment variables in `.env.local` (local) or your host’s secret store (production):
+Set environment variables in your host’s secret store (production):
 
 | Variable | Purpose |
 | -------- | ------- |
 | `AUTH_SECRET` / `JWT_SECRET` | **Required in production** — signing key for admin JWTs |
 | `DATABASE_URL` | Optional — for Prisma/SQLite if you add a database layer |
 | `ALLOW_ADMIN_BOOTSTRAP` | Allow `npm run db:seed:admin` (default `true`; set `false` in production) |
-| `PORT` | API port (default **3040**) |
-| `NEXT_PUBLIC_CMS_API_URL` / `VITE_API_URL` | Public CMS API origin when frontend and API are on different hosts |
+| `PORT` | API port (default **3040**; Coolify usually injects this) |
+| `SERVE_STATIC` | Optional override (`true` / `false`); auto-on in production when `dist/` exists |
+| `NEXT_PUBLIC_CMS_API_URL` / `VITE_API_URL` | Public CMS API origin when frontend and API are on different hosts (set at **build** time) |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS` | SMTP transport for lead/contact emails |
 | `SMTP_FROM_EMAIL` | Default sender address (falls back to `SMTP_USER`) |
 | `CONTACT_RECEIVER_EMAIL` | Default lead notification recipient |
 
-Point `VITE_API_URL` at your public API origin when the frontend is **not** served on the same host as the API (see `src/cms/api.ts`).
+Leave `VITE_API_URL` empty for same-origin Coolify deploys so the SPA calls `/api/...` on the same host.
 
 ## JSON CMS limitations (important)
 
@@ -150,6 +167,7 @@ Point `VITE_API_URL` at your public API origin when the frontend is **not** serv
 | `npm run dev:4001` | Frontend on port 4001 + API    |
 | `npm run dev:full` | Alias for `npm run dev`        |
 | `npm run build` | Typecheck + production frontend build |
+| `npm run start` | Production: Express API + SPA from `dist/` |
 | `npm run db:seed:admin` | Create default local admin (`admin@admin.com`) |
 
 ---

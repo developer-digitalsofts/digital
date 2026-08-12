@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import { existsSync } from 'fs'
 import fs from 'fs/promises'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -28,10 +29,24 @@ const DIST_DIR = path.join(ROOT, '..', 'dist')
 
 const PORT = Number(process.env.PORT) || 3040
 const JWT_SECRET = authSecretOrDevFallback()
-const SERVE_STATIC = process.env.SERVE_STATIC === 'true'
+const DIST_INDEX = path.join(DIST_DIR, 'index.html')
+const distReady = existsSync(DIST_INDEX)
+// Coolify/Nixpacks often start only the Express process. Serve the Vite build
+// automatically in production when dist/ exists (override with SERVE_STATIC=false).
+const serveStaticEnv = (process.env.SERVE_STATIC || '').trim().toLowerCase()
+const SERVE_STATIC =
+  serveStaticEnv === 'true' ||
+  (serveStaticEnv !== 'false' && isProduction() && distReady)
 
 if (isProduction() && !isAuthSecretConfigured()) {
   console.warn('[security] AUTH_SECRET / JWT_SECRET is not set — admin auth is not safe for production')
+}
+
+if (isProduction() && !distReady) {
+  console.warn(
+    `[static] ${DIST_INDEX} not found — GET / will return "Cannot GET /". ` +
+      'Build the frontend (`npm run build`) and keep the Coolify base directory at the repo root.',
+  )
 }
 
 const DATA_FILES = {
@@ -1917,13 +1932,25 @@ app.use((err, _req, res, _next) => {
 if (SERVE_STATIC) {
   app.use(express.static(DIST_DIR))
   app.get(/^(?!\/api|\/uploads).*/, (_req, res) => {
-    res.sendFile(path.join(DIST_DIR, 'index.html'))
+    res.sendFile(DIST_INDEX)
+  })
+} else {
+  app.get('/', (_req, res) => {
+    res.status(404).type('text').send(
+      'Cannot GET /\n\n' +
+        'This process is the Express CMS API only. ' +
+        'For single-process hosting, run `npm run build` then start with NODE_ENV=production ' +
+        '(or SERVE_STATIC=true) from the repo root so ../dist is served.\n',
+    )
   })
 }
 
 app.listen(PORT, () => {
   console.log(`CMS API http://localhost:${PORT}`)
   if (SERVE_STATIC) console.log(`Serving frontend from ${DIST_DIR}`)
+  else if (isProduction()) {
+    console.warn('[static] Frontend not served — set SERVE_STATIC=true or ensure dist/ exists after build')
+  }
 }).on('error', (err) => {
   if (err && err.code === 'EADDRINUSE') {
     console.error(`\nPort ${PORT} is already in use (EADDRINUSE).`)

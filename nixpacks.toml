@@ -1,0 +1,19 @@
+# Coolify / Nixpacks — single-process Vite SPA + Express CMS API
+# Base directory must be the repository root (not server/).
+
+[variables]
+NODE_ENV = "production"
+SERVE_STATIC = "true"
+
+[phases.setup]
+nixPkgs = ["nodejs_22"]
+
+[phases.install]
+# Keep devDependencies so `vite build` works even when NODE_ENV=production.
+cmds = ["npm install --include=dev"]
+
+[phases.build]
+cmds = ["npm run build"]
+
+[start]
+cmd = "npm start"

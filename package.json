@@ -19,6 +19,7 @@
     "dev:full:3041": "concurrently -k \"cross-env VITE_DEV_API_PORT=3041 npm run dev:web\" \"cross-env PORT=3041 npm --prefix server run dev\"",
     "dev:full": "npm run dev",
     "build": "tsc -b && vite build",
+    "start": "npm --prefix server run start",
     "start:api": "npm --prefix server run start",
     "preview": "vite preview",
     "preview:full": "concurrently -k \"npm run preview\" \"npm run start:api\"",
