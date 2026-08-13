@@ -9,17 +9,25 @@ export default defineConfig(({ mode }) => {
   const devPort = Number(env.VITE_DEV_PORT || 5280)
   const apiTarget = `http://127.0.0.1:${apiPort}`
   const cmsApiUrl = (env.VITE_API_URL || env.NEXT_PUBLIC_CMS_API_URL || '').trim()
+  // Production browser builds must use same-origin relative /api (Coolify single-host).
+  // Do not bake localhost or absolute domains (breaks www vs apex, causes CORS/network errors).
+  const isProdBuild = mode === 'production'
   const safeCmsApiUrl =
-    mode === 'production' && /localhost|127\.0\.0\.1/i.test(cmsApiUrl) ? '' : cmsApiUrl
+    isProdBuild || /localhost|127\.0\.0\.1/i.test(cmsApiUrl) ? '' : cmsApiUrl
 
   return {
     envPrefix: ['VITE_', 'NEXT_PUBLIC_'],
     plugins: [react(), tailwindcss()],
-    define: safeCmsApiUrl
+    define: isProdBuild
       ? {
-          'import.meta.env.VITE_API_URL': JSON.stringify(safeCmsApiUrl.replace(/\/$/, '')),
+          'import.meta.env.VITE_API_URL': JSON.stringify(''),
+          'import.meta.env.NEXT_PUBLIC_CMS_API_URL': JSON.stringify(''),
         }
-      : undefined,
+      : safeCmsApiUrl
+        ? {
+            'import.meta.env.VITE_API_URL': JSON.stringify(safeCmsApiUrl.replace(/\/$/, '')),
+          }
+        : undefined,
     server: {
       host: '127.0.0.1',
       port: devPort,

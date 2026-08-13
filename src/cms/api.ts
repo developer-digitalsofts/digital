@@ -23,14 +23,26 @@ function isLocalhostUrl(url: string): boolean {
 /**
  * Base URL for API requests. Empty string = same-origin relative paths (/api/...).
  * Never returns localhost in production browser builds (avoids baked-in dev env vars).
+ * Ignores cross-host baked URLs (e.g. apex API URL while on www) — use relative /api.
  */
 export function apiBase(): string {
   const v = import.meta.env.VITE_API_URL || import.meta.env.NEXT_PUBLIC_CMS_API_URL
   if (typeof v !== 'string' || !v.trim()) return ''
   const base = v.trim().replace(/\/$/, '')
-  if (import.meta.env.PROD && typeof window !== 'undefined' && isLocalhostUrl(base)) {
-    console.warn('[api] Ignoring localhost API URL in production — using same-origin /api')
-    return ''
+  if (import.meta.env.PROD && typeof window !== 'undefined') {
+    if (isLocalhostUrl(base)) {
+      console.warn('[api] Ignoring localhost API URL in production — using same-origin /api')
+      return ''
+    }
+    try {
+      const configured = new URL(base)
+      if (configured.host !== window.location.host) {
+        console.warn('[api] Ignoring cross-host API URL in production — using same-origin /api')
+        return ''
+      }
+    } catch {
+      return ''
+    }
   }
   return base
 }

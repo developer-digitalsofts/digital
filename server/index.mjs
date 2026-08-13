@@ -487,7 +487,10 @@ async function buildPublishedNavigation(homepage) {
 }
 
 async function readUsers() {
-  return readJsonFile(USERS_FILE)
+  return readJsonCached({
+    readFile: readJsonFile,
+    relPath: USERS_FILE,
+  })
 }
 
 async function writeUsers(users) {
@@ -1387,18 +1390,22 @@ app.post('/api/admin/auth/login', async (req, res) => {
       JWT_SECRET,
       { expiresIn },
     )
-    await appendActivity({
+    res.json({
+      token,
+      user: { id: user.id, email: user.email, role: user.role, name: user.name || '' },
+    })
+    appendActivity({
       action: 'login',
       section: 'auth',
       description: 'Admin signed in',
       adminEmail: user.email,
       adminName: user.name || '',
-    })
-    res.json({
-      token,
-      user: { id: user.id, email: user.email, role: user.role, name: user.name || '' },
-    })
+    }).catch((e) => console.error('[login activity]', e))
   } catch (e) {
+    if (isStorageTimeoutError(e)) {
+      res.status(503).json({ error: 'Auth storage temporarily unavailable' })
+      return
+    }
     console.error(e)
     res.status(500).json({ error: 'Login failed' })
   }
