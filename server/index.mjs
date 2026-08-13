@@ -113,6 +113,20 @@ const SOFTWARE_KINDS = new Set(['module', 'industry'])
 const ACCENT_COLORS = new Set(['orange', 'green', 'blue', 'purple', 'teal'])
 
 const LEAD_STATUSES = new Set(['New', 'Contacted', 'Closed'])
+const DEMO_REQUEST_STATUSES = new Set([
+  'New',
+  'Contacted',
+  'Demo Scheduled',
+  'Follow-up',
+  'Converted',
+  'Not Interested',
+  'Closed',
+])
+const DEMO_DUPLICATE_WINDOW_MS = 5 * 60 * 1000
+const LEAD_RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000
+const LEAD_RATE_LIMIT_MAX = 12
+const leadSubmitBuckets = new Map()
+const recentDemoFingerprints = new Map()
 const MAX_ACTIVITY = 500
 const IMAGE_MIMES = new Set(['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml', 'image/x-icon', 'image/vnd.microsoft.icon'])
 
@@ -507,11 +521,139 @@ async function writeLeads(leads) {
 
 function normalizeLead(row) {
   if (!row || typeof row !== 'object') return row
+  const status = typeof row.status === 'string' ? row.status : 'New'
   return {
     ...row,
     internalNote: row.internalNote ?? '',
     sourcePage: row.sourcePage ?? '',
+    source: row.source ?? '',
+    company: row.company ?? '',
+    productService: row.productService ?? '',
+    assignedTo: row.assignedTo ?? '',
+    followUpAt: row.followUpAt ?? '',
     updatedAt: row.updatedAt || row.createdAt || new Date().toISOString(),
+    status: isDemoRequest(row)
+      ? DEMO_REQUEST_STATUSES.has(status)
+        ? status
+        : status === 'Closed'
+          ? 'Closed'
+          : 'New'
+      : LEAD_STATUSES.has(status)
+        ? status
+        : 'New',
+  }
+}
+
+function isDemoRequest(row) {
+  if (!row || typeof row !== 'object') return false
+  const topic = String(row.topic || '').trim().toLowerCase()
+  const sourcePage = String(row.sourcePage || '').toLowerCase()
+  const source = String(row.source || '').toLowerCase()
+  return (
+    topic === 'demo' ||
+    sourcePage.includes('header-get-demo') ||
+    sourcePage.includes('get-demo') ||
+    source.includes('get demo')
+  )
+}
+
+function clientIp(req) {
+  const fwd = req.headers['x-forwarded-for']
+  if (typeof fwd === 'string' && fwd.trim()) return fwd.split(',')[0].trim()
+  return req.ip || 'unknown'
+}
+
+function pruneLeadProtectionMaps(now = Date.now()) {
+  for (const [k, v] of leadSubmitBuckets) {
+    if (!v || now >= v.resetAt) leadSubmitBuckets.delete(k)
+  }
+  for (const [k, at] of recentDemoFingerprints) {
+    if (now - at > DEMO_DUPLICATE_WINDOW_MS) recentDemoFingerprints.delete(k)
+  }
+}
+
+function checkLeadRateLimit(req) {
+  pruneLeadProtectionMaps()
+  const ip = clientIp(req)
+  const now = Date.now()
+  const bucket = leadSubmitBuckets.get(ip) || { count: 0, resetAt: now + LEAD_RATE_LIMIT_WINDOW_MS }
+  if (now >= bucket.resetAt) {
+    bucket.count = 0
+    bucket.resetAt = now + LEAD_RATE_LIMIT_WINDOW_MS
+  }
+  bucket.count += 1
+  leadSubmitBuckets.set(ip, bucket)
+  return bucket.count <= LEAD_RATE_LIMIT_MAX
+}
+
+function demoSubmissionFingerprint(phone, email, topic) {
+  const digits = String(phone || '').replace(/\D/g, '')
+  return `${String(topic || '').trim().toLowerCase()}|${digits}|${String(email || '').trim().toLowerCase()}`
+}
+
+function isDuplicateDemoSubmission(phone, email, topic) {
+  pruneLeadProtectionMaps()
+  const key = demoSubmissionFingerprint(phone, email, topic)
+  const prev = recentDemoFingerprints.get(key)
+  return prev != null && Date.now() - prev < DEMO_DUPLICATE_WINDOW_MS
+}
+
+function markDemoSubmission(phone, email, topic) {
+  recentDemoFingerprints.set(demoSubmissionFingerprint(phone, email, topic), Date.now())
+}
+
+function demoRequestsFromLeads(leads) {
+  return leads.map(normalizeLead).filter(isDemoRequest)
+}
+
+function filterDemoRequests(leads, { q, status, from, to, page = 1, pageSize = 20 }) {
+  let out = demoRequestsFromLeads(leads)
+  if (status && DEMO_REQUEST_STATUSES.has(status)) out = out.filter((l) => l.status === status)
+  if (q && String(q).trim()) {
+    const s = String(q).toLowerCase()
+    out = out.filter(
+      (l) =>
+        (l.name && l.name.toLowerCase().includes(s)) ||
+        (l.email && l.email.toLowerCase().includes(s)) ||
+        (l.phone && l.phone.includes(s)) ||
+        (l.company && l.company.toLowerCase().includes(s)) ||
+        (l.message && l.message.toLowerCase().includes(s)) ||
+        (l.productService && l.productService.toLowerCase().includes(s)),
+    )
+  }
+  if (from) {
+    const t = new Date(from).getTime()
+    out = out.filter((l) => new Date(l.createdAt).getTime() >= t)
+  }
+  if (to) {
+    const t = new Date(to).getTime() + 86400000
+    out = out.filter((l) => new Date(l.createdAt).getTime() < t)
+  }
+  out.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+  const total = out.length
+  const p = Math.max(1, Number(page) || 1)
+  const size = Math.min(100, Math.max(1, Number(pageSize) || 20))
+  const start = (p - 1) * size
+  return { items: out.slice(start, start + size), total, page: p, pageSize: size }
+}
+
+function demoRequestStats(leads) {
+  const demos = demoRequestsFromLeads(leads)
+  const todayStart = new Date()
+  todayStart.setHours(0, 0, 0, 0)
+  const todayEnd = todayStart.getTime() + 86400000
+  const followUpsDueToday = demos.filter((l) => {
+    if (!l.followUpAt) return false
+    const t = new Date(l.followUpAt).getTime()
+    return t >= todayStart.getTime() && t < todayEnd
+  }).length
+  return {
+    new: demos.filter((l) => l.status === 'New').length,
+    contacted: demos.filter((l) => l.status === 'Contacted').length,
+    demoScheduled: demos.filter((l) => l.status === 'Demo Scheduled').length,
+    converted: demos.filter((l) => l.status === 'Converted').length,
+    followUpsDueToday,
+    total: demos.length,
   }
 }
 
@@ -1318,17 +1460,31 @@ const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 app.post('/api/leads', async (req, res) => {
   try {
-    const { name, email, phone, message, topic, company, sourcePage, source } = req.body ?? {}
+    if (!checkLeadRateLimit(req)) {
+      res.status(429).json({ error: 'Too many submissions. Please wait a few minutes and try again.' })
+      return
+    }
+    const { name, email, phone, message, topic, company, sourcePage, source, productService } = req.body ?? {}
     const emailStr = typeof email === 'string' ? email.trim() : ''
     const phoneStr = typeof phone === 'string' ? phone.trim() : ''
     const sourceStr = typeof source === 'string' ? source.trim() : ''
+    const topicStr = typeof topic === 'string' ? topic.trim() : ''
     const isDetailPageRequest = sourceStr === 'Detail Page Request'
+    const isDemo = topicStr.toLowerCase() === 'demo' || sourceStr.toLowerCase().includes('get demo')
     if (!emailRe.test(emailStr)) {
       res.status(400).json({ error: 'Valid email is required' })
       return
     }
     if (!isDetailPageRequest && (!phoneStr || phoneStr.length < 6)) {
       res.status(400).json({ error: 'Phone is required' })
+      return
+    }
+    if (isDemo && typeof name === 'string' && !name.trim()) {
+      res.status(400).json({ error: 'Name is required' })
+      return
+    }
+    if (isDemo && isDuplicateDemoSubmission(phoneStr, emailStr, topicStr)) {
+      res.status(409).json({ error: 'A demo request with this phone number was just submitted. Please wait a few minutes.' })
       return
     }
     const leads = (await readLeads()).map(normalizeLead)
@@ -1339,17 +1495,21 @@ app.post('/api/leads', async (req, res) => {
       email: emailStr,
       phone: phoneStr,
       message: typeof message === 'string' ? message.trim() : '',
-      topic: typeof topic === 'string' ? topic.trim() : '',
+      topic: topicStr,
       company: typeof company === 'string' ? company.trim() : '',
+      productService: typeof productService === 'string' ? productService.trim() : '',
       source: sourceStr,
       sourcePage: typeof sourcePage === 'string' ? sourcePage.trim().slice(0, 500) : '',
       status: 'New',
       internalNote: '',
+      assignedTo: '',
+      followUpAt: '',
       createdAt: now,
       updatedAt: now,
     })
     leads.unshift(row)
     await writeLeads(leads)
+    if (isDemo) markDemoSubmission(phoneStr, emailStr, topicStr)
     const emailSettings = await safeReadJson('emailSettings.json', {})
     trySendLeadEmail(row, emailSettings).catch(() => {})
     res.status(201).json({ ok: true, id: row.id })
@@ -1706,6 +1866,14 @@ function emptyAdminDashboardResponse(healthOverrides = {}) {
       leadsNew: 0,
       leadsContacted: 0,
       leadsClosed: 0,
+      demoRequests: {
+        new: 0,
+        contacted: 0,
+        demoScheduled: 0,
+        converted: 0,
+        followUpsDueToday: 0,
+        total: 0,
+      },
       mediaFiles: 0,
       detailPagesTotal: 0,
       usersTotal: 0,
@@ -1800,10 +1968,11 @@ async function sendAdminSummary(_req, res) {
         industriesActive: countActive(indItems),
         faqsTotal: faqItems.length,
         faqsActive: countActive(faqItems),
-        leadsTotal: normLeads.length,
-        leadsNew: normLeads.filter((l) => l.status === 'New').length,
-        leadsContacted: normLeads.filter((l) => l.status === 'Contacted').length,
-        leadsClosed: normLeads.filter((l) => l.status === 'Closed').length,
+        leadsTotal: normLeads.filter((l) => !isDemoRequest(l)).length,
+        leadsNew: normLeads.filter((l) => !isDemoRequest(l) && l.status === 'New').length,
+        leadsContacted: normLeads.filter((l) => !isDemoRequest(l) && l.status === 'Contacted').length,
+        leadsClosed: normLeads.filter((l) => !isDemoRequest(l) && l.status === 'Closed').length,
+        demoRequests: demoRequestStats(normLeads),
         mediaFiles: mediaIdx.items?.length ?? 0,
         detailPagesTotal: pageItems.length,
         usersTotal: userRows.length,
@@ -1859,16 +2028,18 @@ app.get('/api/admin/dashboard', authMiddleware, async (_req, res) => {
     const faqItems = items(faqs.items)
     const countActive = (arr) => arr.filter((x) => x.active !== false).length
     const normLeads = leads.map(normalizeLead)
+    const contactLeads = normLeads.filter((l) => !isDemoRequest(l))
     res.json({
       erpModules: countActive(modItems),
       erpModulesTotal: modItems.length,
       industrySolutions: countActive(indItems),
       industrySolutionsTotal: indItems.length,
       faqs: countActive(faqItems),
-      leads: normLeads.length,
-      newLeads: normLeads.filter((l) => l.status === 'New').length,
-      contactedLeads: normLeads.filter((l) => l.status === 'Contacted').length,
-      closedLeads: normLeads.filter((l) => l.status === 'Closed').length,
+      leads: contactLeads.length,
+      newLeads: contactLeads.filter((l) => l.status === 'New').length,
+      contactedLeads: contactLeads.filter((l) => l.status === 'Contacted').length,
+      closedLeads: contactLeads.filter((l) => l.status === 'Closed').length,
+      demoRequests: demoRequestStats(normLeads),
       mediaFiles: mediaIdx.items?.length ?? 0,
       ctaSections: 2,
     })
@@ -2718,7 +2889,7 @@ app.delete('/api/admin/software-details/:kind/:slug', authMiddleware, async (req
 })
 
 function filterLeads(leads, { q, status, from, to }) {
-  let out = leads.map(normalizeLead)
+  let out = leads.map(normalizeLead).filter((l) => !isDemoRequest(l))
   if (status && LEAD_STATUSES.has(status)) out = out.filter((l) => l.status === status)
   if (q && String(q).trim()) {
     const s = String(q).toLowerCase()
@@ -2766,7 +2937,7 @@ app.get('/api/admin/inquiries', authMiddleware, async (req, res) => {
 
 app.get('/api/admin/leads/export', authMiddleware, async (_req, res) => {
   try {
-    const leads = (await readLeads()).map(normalizeLead)
+    const leads = (await readLeads()).map(normalizeLead).filter((l) => !isDemoRequest(l))
     const cols = ['id', 'name', 'email', 'phone', 'topic', 'company', 'message', 'status', 'sourcePage', 'internalNote', 'createdAt', 'updatedAt']
     const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`
     const lines = [cols.join(',')]
@@ -2830,6 +3001,150 @@ app.delete('/api/admin/leads/:id', authMiddleware, async (req, res) => {
       adminEmail: req.user.email,
       adminName: req.user.name || '',
     })
+    res.json({ ok: true })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Delete failed' })
+  }
+})
+
+app.get('/api/admin/demo-requests/stats', authMiddleware, async (_req, res) => {
+  try {
+    const leads = (await readLeads()).map(normalizeLead)
+    res.json(demoRequestStats(leads))
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Failed to load demo request stats' })
+  }
+})
+
+app.get('/api/admin/demo-requests/export', authMiddleware, async (req, res) => {
+  try {
+    const leads = (await readLeads()).map(normalizeLead)
+    const { q, status, from, to } = req.query
+    const { items } = filterDemoRequests(leads, {
+      q,
+      status,
+      from,
+      to,
+      page: 1,
+      pageSize: 100000,
+    })
+    const cols = [
+      'id',
+      'createdAt',
+      'name',
+      'company',
+      'email',
+      'phone',
+      'productService',
+      'message',
+      'sourcePage',
+      'status',
+      'assignedTo',
+      'followUpAt',
+      'internalNote',
+      'updatedAt',
+    ]
+    const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`
+    const lines = [cols.join(',')]
+    for (const l of items) {
+      lines.push(cols.map((c) => esc(l[c])).join(','))
+    }
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8')
+    res.setHeader('Content-Disposition', 'attachment; filename="demo-requests.csv"')
+    res.send('\uFEFF' + lines.join('\n'))
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Export failed' })
+  }
+})
+
+app.get('/api/admin/demo-requests', authMiddleware, async (req, res) => {
+  try {
+    const leads = (await readLeads()).map(normalizeLead)
+    const { q, status, from, to, page, pageSize } = req.query
+    res.json(filterDemoRequests(leads, { q, status, from, to, page, pageSize }))
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Failed to load demo requests' })
+  }
+})
+
+app.get('/api/admin/demo-requests/:id', authMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params
+    const leads = (await readLeads()).map(normalizeLead)
+    const row = demoRequestsFromLeads(leads).find((l) => l.id === id)
+    if (!row) {
+      res.status(404).json({ error: 'Demo request not found' })
+      return
+    }
+    res.json({ item: row })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ error: 'Failed to load demo request' })
+  }
+})
+
+app.patch('/api/admin/demo-requests/:id', authMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params
+    const { status, internalNote, followUpAt, assignedTo } = req.body ?? {}
+    const leads = (await readLeads()).map(normalizeLead)
+    const idx = leads.findIndex((l) => l.id === id)
+    if (idx === -1 || !isDemoRequest(leads[idx])) {
+      res.status(404).json({ error: 'Demo request not found' })
+      return
+    }
+    const next = { ...leads[idx] }
+    if (typeof status === 'string' && DEMO_REQUEST_STATUSES.has(status)) next.status = status
+    if (typeof internalNote === 'string') next.internalNote = internalNote.slice(0, 5000)
+    if (typeof assignedTo === 'string') next.assignedTo = assignedTo.slice(0, 200)
+    if (followUpAt === null || followUpAt === '') next.followUpAt = ''
+    else if (typeof followUpAt === 'string') {
+      const t = new Date(followUpAt)
+      if (!Number.isNaN(t.getTime())) next.followUpAt = t.toISOString()
+    }
+    next.updatedAt = new Date().toISOString()
+    leads[idx] = normalizeLead(next)
+    await writeLeads(leads)
+    appendActivity({
+      action: 'demo_request_updated',
+      section: 'demo-requests',
+      description: `Demo request ${id} updated`,
+      adminEmail: req.user.email,
+      adminName: req.user.name || '',
+    }).catch((e) => console.error('[demo activity]', e))
+    res.json(leads[idx])
+  } catch (e) {
+    if (isStorageTimeoutError(e)) {
+      res.status(503).json({ error: 'Storage temporarily unavailable' })
+      return
+    }
+    console.error(e)
+    res.status(500).json({ error: 'Update failed' })
+  }
+})
+
+app.delete('/api/admin/demo-requests/:id', authMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params
+    let leads = (await readLeads()).map(normalizeLead)
+    const target = leads.find((l) => l.id === id)
+    if (!target || !isDemoRequest(target)) {
+      res.status(404).json({ error: 'Demo request not found' })
+      return
+    }
+    leads = leads.filter((l) => l.id !== id)
+    await writeLeads(leads)
+    appendActivity({
+      action: 'demo_request_deleted',
+      section: 'demo-requests',
+      description: `Demo request ${id} deleted`,
+      adminEmail: req.user.email,
+      adminName: req.user.name || '',
+    }).catch((e) => console.error('[demo activity]', e))
     res.json({ ok: true })
   } catch (e) {
     console.error(e)

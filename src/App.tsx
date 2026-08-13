@@ -11,6 +11,7 @@ import { AdminSiteSettingsPage } from './admin/AdminSiteSettingsPage'
 import { AdminWhatsAppPage } from './admin/AdminWhatsAppPage'
 import { AdminEmailSettingsPage } from './admin/AdminEmailSettingsPage'
 import { AdminLeads } from './admin/AdminLeads'
+import { AdminDemoRequests } from './admin/AdminDemoRequests'
 import { AdminMedia } from './admin/AdminMedia'
 import { AdminSeo } from './admin/AdminSeo'
 import { AdminProfile } from './admin/AdminProfile'
@@ -56,6 +57,7 @@ export default function App() {
           <Route path="seo" element={<AdminSeo />} />
           <Route path="whatsapp" element={<AdminWhatsAppPage />} />
           <Route path="email-settings" element={<AdminEmailSettingsPage />} />
+          <Route path="demo-requests" element={<AdminDemoRequests />} />
           <Route path="leads" element={<AdminLeads />} />
           <Route path="media" element={<AdminMedia />} />
           <Route path="backup" element={<AdminBackup />} />

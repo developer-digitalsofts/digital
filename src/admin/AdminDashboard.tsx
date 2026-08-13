@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   ArrowRight,
+  CalendarDays,
   FileStack,
   Home,
   ImageIcon,
@@ -200,6 +201,34 @@ export function AdminDashboard() {
                   <s.icon className="size-5" strokeWidth={1.75} aria-hidden />
                 </span>
               </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section aria-labelledby="dash-demo-requests" className="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <h2 id="dash-demo-requests" className="text-sm font-bold uppercase tracking-wide text-slate-500">
+            Demo requests
+          </h2>
+          <Link to="/admin/demo-requests" className="text-sm font-semibold text-brand hover:underline">
+            Manage all
+          </Link>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          {[
+            { label: 'New', value: data.cards.demoRequests?.new ?? 0 },
+            { label: 'Contacted', value: data.cards.demoRequests?.contacted ?? 0 },
+            { label: 'Demo scheduled', value: data.cards.demoRequests?.demoScheduled ?? 0 },
+            { label: 'Converted', value: data.cards.demoRequests?.converted ?? 0 },
+            { label: 'Follow-ups due today', value: data.cards.demoRequests?.followUpsDueToday ?? 0 },
+          ].map((s) => (
+            <div key={s.label} className="rounded-lg border border-slate-100 bg-slate-50/80 p-3">
+              <p className="text-[11px] font-bold uppercase tracking-wide text-slate-500">{s.label}</p>
+              <p className="mt-1 flex items-center gap-2 text-2xl font-bold tabular-nums text-slate-900">
+                <CalendarDays className="size-4 text-brand" aria-hidden />
+                {s.value}
+              </p>
             </div>
           ))}
         </div>

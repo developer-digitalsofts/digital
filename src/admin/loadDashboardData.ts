@@ -21,6 +21,14 @@ export type DashboardSummary = {
     leadsNew: number
     leadsContacted: number
     leadsClosed: number
+    demoRequests: {
+      new: number
+      contacted: number
+      demoScheduled: number
+      converted: number
+      followUpsDueToday: number
+      total: number
+    }
     mediaFiles: number
     detailPagesTotal: number
     usersTotal: number
@@ -170,9 +178,17 @@ export function getEmptyDashboard(): DashboardSummary {
       faqsActive: 0,
       leadsTotal: 0,
       leadsNew: 0,
-      leadsContacted: 0,
-      leadsClosed: 0,
-      mediaFiles: 0,
+    leadsContacted: 0,
+    leadsClosed: 0,
+    demoRequests: {
+      new: 0,
+      contacted: 0,
+      demoScheduled: 0,
+      converted: 0,
+      followUpsDueToday: 0,
+      total: 0,
+    },
+    mediaFiles: 0,
       detailPagesTotal: 0,
       usersTotal: 0,
       lastUpdatedGlob: null,
@@ -203,6 +219,7 @@ async function loadDashboardFallback(): Promise<DashboardSummary> {
     faqsDoc,
     pagesDoc,
     usersList,
+    demoStats,
   ] = await Promise.all([
     tryAdmin<DashLegacy>('/api/admin/dashboard'),
     tryAdmin<DashboardSummary['recentActivity'][number][]>('/api/admin/activity'),
@@ -219,6 +236,14 @@ async function loadDashboardFallback(): Promise<DashboardSummary> {
     tryAdmin<{ items?: { active?: boolean }[] }>('/api/admin/data/faqs'),
     tryAdmin<{ items?: unknown[] }>('/api/admin/pages'),
     tryAdmin<{ id: string }[]>('/api/admin/users'),
+    tryAdmin<{
+      new: number
+      contacted: number
+      demoScheduled: number
+      converted: number
+      followUpsDueToday: number
+      total: number
+    }>('/api/admin/demo-requests/stats'),
   ])
 
   const faqItems = faqsDoc?.items || []
@@ -254,6 +279,14 @@ async function loadDashboardFallback(): Promise<DashboardSummary> {
     leadsNew: normLeads.filter((x) => x.status === 'New').length,
     leadsContacted: normLeads.filter((x) => x.status === 'Contacted').length,
     leadsClosed: normLeads.filter((x) => x.status === 'Closed').length,
+    demoRequests: demoStats ?? {
+      new: 0,
+      contacted: 0,
+      demoScheduled: 0,
+      converted: 0,
+      followUpsDueToday: 0,
+      total: 0,
+    },
     mediaFiles: mediaRaw.length || (d?.mediaFiles ?? 0),
     detailPagesTotal: pageItems.length,
     usersTotal: usersRaw.length,
@@ -303,6 +336,14 @@ export async function loadDashboardSummary(): Promise<DashboardLoadResult> {
   const normalizeSummary = async (data: DashboardSummary): Promise<DashboardSummary> => {
     data.cards.detailPagesTotal ??= 0
     data.cards.usersTotal ??= 0
+    data.cards.demoRequests ??= {
+      new: 0,
+      contacted: 0,
+      demoScheduled: 0,
+      converted: 0,
+      followUpsDueToday: 0,
+      total: 0,
+    }
     data.recentLeads = (data.recentLeads ?? []).map((l) => ({
       id: l.id,
       name: l.name ?? '',

@@ -23,12 +23,14 @@ export function GetDemoModal({ open, onClose }: Props) {
   const [phone, setPhone] = useState('')
   const [businessType, setBusinessType] = useState('')
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
   const resetForm = useCallback(() => {
     setName('')
     setPhone('')
     setBusinessType('')
     setStatus('idle')
+    setErrorMsg(null)
   }, [])
 
   const handleClose = useCallback(() => {
@@ -57,10 +59,12 @@ export function GetDemoModal({ open, onClose }: Props) {
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
       if (!name.trim() || phone.trim().length < 6 || !businessType.trim()) {
+        setErrorMsg('Please fill in all fields with a valid phone number.')
         setStatus('error')
         return
       }
       setStatus('submitting')
+      setErrorMsg(null)
       try {
         const digits = phone.replace(/\D/g, '')
         const res = await fetchWithTimeout(`${apiBase()}/api/leads`, {
@@ -71,17 +75,27 @@ export function GetDemoModal({ open, onClose }: Props) {
             phone: phone.trim(),
             company: businessType.trim(),
             topic: 'demo',
+            source: 'Get Demo Modal',
             message: `Header demo request — business type: ${businessType.trim()}`,
             email: `demo+${digits || Date.now()}@digitalmanager.ae`,
             sourcePage: `header-get-demo:${location.pathname}${location.search}`.slice(0, 500),
           }),
         })
         if (!res.ok) {
+          let message = 'Could not submit your request. Please try again in a moment.'
+          try {
+            const data = (await res.json()) as { error?: string }
+            if (data?.error?.trim()) message = data.error.trim()
+          } catch {
+            /* use default */
+          }
+          setErrorMsg(message)
           setStatus('error')
           return
         }
         setStatus('success')
       } catch {
+        setErrorMsg('Network error — please check your connection and try again.')
         setStatus('error')
       }
     },
@@ -182,9 +196,9 @@ export function GetDemoModal({ open, onClose }: Props) {
                 />
               </div>
 
-              {status === 'error' ? (
+              {status === 'error' && errorMsg ? (
                 <p className="text-sm font-medium text-red-600" role="alert">
-                  Please fill in all fields with a valid phone number.
+                  {errorMsg}
                 </p>
               ) : null}
 
