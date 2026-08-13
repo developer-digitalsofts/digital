@@ -20,6 +20,12 @@ import {
 } from './envConfig.mjs'
 import { createPublishStore } from './publishStore.mjs'
 import {
+  clearJsonCache,
+  invalidateJsonCache,
+  jsonCacheStats,
+  readJsonCached,
+} from './jsonCache.mjs'
+import {
   buildTemplateSections,
   createSection,
   getSystemPage,
@@ -115,6 +121,21 @@ app.set('trust proxy', 1)
 app.use(cors({ origin: true, credentials: true }))
 app.use(express.json({ limit: '8mb' }))
 
+let bootstrapReady = false
+let bootstrapError = null
+const serverStartedAt = Date.now()
+
+app.use((req, res, next) => {
+  if (!req.path.startsWith('/api')) return next()
+  const t0 = Date.now()
+  res.on('finish', () => {
+    const ms = Date.now() - t0
+    if (ms >= 2000) console.warn(`[api] slow ${req.method} ${req.path} ${res.statusCode} ${ms}ms`)
+    else if (process.env.LOG_API_TIMING === 'true') console.log(`[api] ${req.method} ${req.path} ${res.statusCode} ${ms}ms`)
+  })
+  next()
+})
+
 async function readJsonFile(relPath) {
   const p = path.join(DATA_DIR, relPath)
   const raw = await fs.readFile(p, 'utf8')
@@ -127,11 +148,17 @@ async function writeJsonFile(relPath, data) {
   const tmp = `${p}.${nanoid(6)}.tmp`
   await fs.writeFile(tmp, JSON.stringify(data, null, 2), 'utf8')
   await fs.rename(tmp, p)
+  invalidateJsonCache(relPath)
+  invalidateJsonCache(`published/${relPath}`)
 }
 
 async function safeReadJson(relPath, fallback = null) {
   try {
-    return await readJsonFile(relPath)
+    return await readJsonCached({
+      readFile: readJsonFile,
+      relPath,
+      fallback: undefined,
+    })
   } catch {
     return fallback
   }
@@ -168,18 +195,35 @@ const PUBLISHABLE_KEYS = new Set([
   ...Object.keys(EXTRA_HOMEPAGE_FILES),
 ])
 
+let homepagePayloadCache = null
+let homepagePayloadCacheAt = 0
+const HOMEPAGE_PAYLOAD_CACHE_MS = 60_000
+
 async function loadPublishedHomepagePayload() {
+  if (homepagePayloadCache && Date.now() - homepagePayloadCacheAt < HOMEPAGE_PAYLOAD_CACHE_MS) {
+    return homepagePayloadCache
+  }
+  const t0 = Date.now()
+  const entries = [
+    ...Object.entries(DATA_FILES),
+    ...Object.entries(EXTRA_HOMEPAGE_FILES),
+  ]
+  const docs = await Promise.all(entries.map(([, file]) => publishStore.readPublished(file)))
   const out = {}
-  for (const [key, file] of Object.entries(DATA_FILES)) {
-    const doc = await publishStore.readPublished(file)
-    out[key] = publishStore.stripMeta(doc) ?? {}
-  }
-  for (const [key, file] of Object.entries(EXTRA_HOMEPAGE_FILES)) {
-    const doc = await publishStore.readPublished(file)
-    out[key] = publishStore.stripMeta(doc) ?? {}
-  }
+  entries.forEach(([key], i) => {
+    out[key] = publishStore.stripMeta(docs[i]) ?? {}
+  })
   out.navigation = await buildPublishedNavigation(out)
+  homepagePayloadCache = out
+  homepagePayloadCacheAt = Date.now()
+  const ms = Date.now() - t0
+  if (ms >= 1000) console.warn(`[homepage] loaded published payload in ${ms}ms`)
   return out
+}
+
+function clearHomepagePayloadCache() {
+  homepagePayloadCache = null
+  homepagePayloadCacheAt = 0
 }
 
 function defaultPageSeo() {
@@ -733,6 +777,7 @@ async function persistPagesStore(store, user, description) {
     updatedBy: user.email,
   }
   await writeJsonFile(PAGES_FILE, store)
+  clearHomepagePayloadCache()
   await touchContentMeta('pages', user.email)
   await appendActivity({
     action: 'save',
@@ -1003,6 +1048,9 @@ async function trySendLeadEmail(lead, settings) {
       port: smtp.port,
       secure: smtp.secure,
       auth: { user: smtp.user, pass: smtp.pass },
+      connectionTimeout: 5000,
+      greetingTimeout: 5000,
+      socketTimeout: 8000,
     })
     await transport.sendMail({
       from: `"${settings.fromName || 'Site'}" <${from}>`,
@@ -1017,8 +1065,6 @@ async function trySendLeadEmail(lead, settings) {
     console.error('[lead email]', e.message || e)
   }
 }
-
-await ensureBootstrapFiles()
 
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => cb(null, UPLOADS_DIR),
@@ -1075,15 +1121,70 @@ function registerMediaUploadRoute(routePath) {
 
 app.use('/uploads', express.static(UPLOADS_DIR))
 
-app.get('/api/health', (_req, res) => {
-  res.json({ ok: true, time: new Date().toISOString(), env: envConfigSummary() })
+app.use('/api', (req, res, next) => {
+  if (req.path === '/health') return next()
+  if (!bootstrapReady) {
+    res.status(503).json({
+      error: bootstrapError || 'CMS storage is initializing — please retry shortly',
+    })
+    return
+  }
+  next()
 })
+
+app.get('/api/health', async (_req, res) => {
+  const t0 = Date.now()
+  let dataDirReadable = false
+  let dataDirMs = null
+  try {
+    await Promise.race([
+      fs.access(DATA_DIR),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('DATA_DIR_TIMEOUT')), 3000)),
+    ])
+    dataDirReadable = true
+    dataDirMs = Date.now() - t0
+  } catch (e) {
+    dataDirMs = Date.now() - t0
+    console.warn('[health] data dir check failed:', e instanceof Error ? e.message : e)
+  }
+  const assetsDir = path.join(DIST_DIR, 'assets')
+  let distAssets = 0
+  try {
+    const names = await fs.readdir(assetsDir)
+    distAssets = names.length
+  } catch {
+    distAssets = -1
+  }
+  const ok = bootstrapReady && dataDirReadable
+  res.status(ok ? 200 : 503).json({
+    ok,
+    bootstrapReady,
+    bootstrapError,
+    dataDirReadable,
+    dataDirCheckMs: dataDirMs,
+    distAssets,
+    serveStatic: SERVE_STATIC,
+    uptimeSec: Math.floor((Date.now() - serverStartedAt) / 1000),
+    time: new Date().toISOString(),
+    cache: jsonCacheStats(),
+    env: envConfigSummary(),
+  })
+})
+
+function isStorageTimeoutError(e) {
+  const msg = e instanceof Error ? e.message : String(e)
+  return msg.includes('_TIMEOUT') || msg.includes('DATA_DIR')
+}
 
 app.get('/api/homepage', async (_req, res) => {
   try {
     const out = await loadPublishedHomepagePayload()
     sendPublicJson(res, out)
   } catch (e) {
+    if (isStorageTimeoutError(e)) {
+      res.status(503).json({ error: 'Content storage temporarily unavailable' })
+      return
+    }
     console.error(e)
     res.status(500).json({ error: 'Failed to load homepage data' })
   }
@@ -1250,6 +1351,10 @@ app.post('/api/leads', async (req, res) => {
     trySendLeadEmail(row, emailSettings).catch(() => {})
     res.status(201).json({ ok: true, id: row.id })
   } catch (e) {
+    if (isStorageTimeoutError(e)) {
+      res.status(503).json({ error: 'Could not save lead — storage temporarily unavailable' })
+      return
+    }
     console.error(e)
     res.status(500).json({ error: 'Could not save lead' })
   }
@@ -1882,6 +1987,7 @@ app.post('/api/admin/publish/:key', authMiddleware, async (req, res) => {
   }
   try {
     const result = await publishStore.publishFile(file, key, req.user.email)
+    clearHomepagePayloadCache()
     await appendActivity({
       action: 'publish',
       section: key,
@@ -1908,6 +2014,7 @@ app.post('/api/admin/publish', authMiddleware, async (req, res) => {
       const result = await publishStore.publishFile(file, key, req.user.email)
       results[key] = result.status
     }
+    clearHomepagePayloadCache()
     await appendActivity({
       action: 'publish',
       section: 'site',
@@ -2479,6 +2586,7 @@ app.delete('/api/admin/pages/:id', authMiddleware, async (req, res) => {
 })
 
 app.get('/api/software-detail/:kind/:slug', async (req, res) => {
+  const t0 = Date.now()
   try {
     const kind = req.params.kind
     const slug = normalizeSlugInput(req.params.slug)
@@ -2494,6 +2602,12 @@ app.get('/api/software-detail/:kind/:slug', async (req, res) => {
     }
     res.json({ page: row })
   } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e)
+    if (msg.includes('_TIMEOUT') || msg.includes('DATA_DIR')) {
+      console.error('[software-detail] storage timeout', req.params, `${Date.now() - t0}ms`)
+      res.status(503).json({ error: 'Content storage temporarily unavailable' })
+      return
+    }
     console.error(e)
     res.status(500).json({ error: 'Failed to read software detail page' })
   }
@@ -2800,10 +2914,23 @@ app.use((err, _req, res, _next) => {
 
 app.listen(PORT, HOST, () => {
   console.log(`CMS API listening on http://${HOST}:${PORT}`)
-  if (SERVE_STATIC) console.log(`Serving frontend from ${DIST_DIR}`)
-  else if (isProduction()) {
+  if (SERVE_STATIC) {
+    console.log(`Serving frontend from ${DIST_DIR}`)
+    fs.readdir(path.join(DIST_DIR, 'assets'))
+      .then((names) => console.log(`[static] dist/assets contains ${names.length} file(s)`))
+      .catch(() => console.warn('[static] dist/assets missing — run npm run build before deploy'))
+  } else if (isProduction()) {
     console.warn('[static] Frontend not served — set SERVE_STATIC=true or ensure dist/ exists after build')
   }
+  ensureBootstrapFiles()
+    .then(() => {
+      bootstrapReady = true
+      console.log('[bootstrap] data files ready')
+    })
+    .catch((e) => {
+      bootstrapError = e instanceof Error ? e.message : String(e)
+      console.error('[bootstrap] failed:', bootstrapError)
+    })
 }).on('error', (err) => {
   if (err && err.code === 'EADDRINUSE') {
     console.error(`\nPort ${PORT} is already in use (EADDRINUSE).`)

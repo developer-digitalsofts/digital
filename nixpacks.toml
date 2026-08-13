@@ -13,7 +13,7 @@ nixPkgs = ["nodejs_22"]
 cmds = ["npm install --include=dev"]
 
 [phases.build]
-cmds = ["npm run build"]
+cmds = ["npm run build", "test -d dist/assets && test -f dist/index.html || (echo 'ERROR: dist/assets missing after build' && exit 1)"]
 
 [start]
 cmd = "npm start"

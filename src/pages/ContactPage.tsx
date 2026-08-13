@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { WHATSAPP_URL } from '../constants'
 import { WhatsAppIcon } from '../components/WhatsAppIcon'
 import { useI18n } from '../i18n/I18nProvider'
-import { apiBase } from '../cms/api'
+import { apiBase, fetchWithTimeout } from '../cms/api'
 import { pageShellClass } from '../ui/pageShell'
 import { sectionPad } from '../ui/saas'
 
@@ -36,7 +36,7 @@ export function ContactPage() {
       }
       setStatus('submitting')
       try {
-        const res = await fetch(`${apiBase()}/api/leads`, {
+        const res = await fetchWithTimeout(`${apiBase()}/api/leads`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

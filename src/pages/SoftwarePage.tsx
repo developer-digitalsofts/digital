@@ -39,36 +39,36 @@ export function SoftwarePage() {
   const params = useParams<{ flatSlug?: string; kind?: string; slug?: string }>()
   const { lang, t } = useI18n()
   const [cmsRecord, setCmsRecord] = useState<SoftwareDetailCmsRecord | null>(null)
-  const [cmsReady, setCmsReady] = useState(false)
+  const [cmsFetchDone, setCmsFetchDone] = useState(false)
 
   const routeKind: 'module' | 'industry' | undefined =
     params.flatSlug ? 'module' : params.kind === 'module' || params.kind === 'industry' ? params.kind : undefined
   const routeSlug = params.flatSlug ?? params.slug
 
+  const staticMenuItem = routeSlug
+    ? params.flatSlug
+      ? findSoftwareBySlug(params.flatSlug, 'module')
+      : findSoftwareBySlug(params.slug, routeKind)
+    : undefined
+
   useEffect(() => {
     let cancelled = false
     const controller = new AbortController()
-    setCmsReady(false)
-    if (!routeKind || !routeSlug) {
-      setCmsRecord(null)
-      setCmsReady(true)
-      return
-    }
+    setCmsFetchDone(!routeKind || !routeSlug)
+    setCmsRecord(null)
+    if (!routeKind || !routeSlug) return
     fetchJson<{ page?: SoftwareDetailCmsRecord }>(
       `/api/software-detail/${routeKind}/${encodeURIComponent(routeSlug)}`,
       { signal: controller.signal },
     )
       .then((data) => {
-        if (!cancelled) {
-          setCmsRecord(data?.page ?? null)
-          setCmsReady(true)
-        }
+        if (!cancelled) setCmsRecord(data?.page ?? null)
       })
       .catch(() => {
-        if (!cancelled) {
-          setCmsRecord(null)
-          setCmsReady(true)
-        }
+        if (!cancelled) setCmsRecord(null)
+      })
+      .finally(() => {
+        if (!cancelled) setCmsFetchDone(true)
       })
     return () => {
       cancelled = true
@@ -76,11 +76,7 @@ export function SoftwarePage() {
     }
   }, [routeKind, routeSlug])
 
-  const menuItem = routeSlug
-    ? params.flatSlug
-      ? findSoftwareBySlug(params.flatSlug, 'module')
-      : findSoftwareBySlug(params.slug, routeKind)
-    : undefined
+  const menuItem = staticMenuItem
 
   const customCms = cmsRecord?.isCustom && cmsRecord.active !== false ? cmsRecord : null
 
@@ -148,7 +144,7 @@ export function SoftwarePage() {
     return built
   }, [canonicalSlug, treatAsModule, isModule, displayName, rich, lang, cmsRecord])
 
-  if (!cmsReady) {
+  if (!staticMenuItem && !cmsFetchDone) {
     return (
       <main className="flex min-h-[40vh] items-center justify-center text-sm text-slate-600">
         <span className="size-5 animate-spin rounded-full border-2 border-brand border-t-transparent" aria-hidden />

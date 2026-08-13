@@ -90,7 +90,9 @@ export async function adminFetch<T = unknown>(path: string, init?: RequestInit):
   try {
     res = await fetchWithTimeout(url, { ...init, headers })
   } catch (e) {
-    if (e instanceof ApiError) throw new Error(ADMIN_API_OFFLINE_HINT)
+    if (e instanceof ApiError) {
+      throw new Error(e.isTimeout ? 'Request timed out — CMS service is slow or unavailable.' : e.message || ADMIN_API_OFFLINE_HINT)
+    }
     throw new Error(ADMIN_API_OFFLINE_HINT)
   }
 

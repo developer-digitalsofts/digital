@@ -1,4 +1,4 @@
-import { apiBase } from '../cms/api'
+import { apiBase, fetchWithTimeout } from '../cms/api'
 
 export const DETAIL_PAGE_INQUIRY_SOURCE = 'Detail Page Request'
 
@@ -33,7 +33,7 @@ export async function submitDetailPageInquiry(opts: {
     submittedAt,
   })
 
-  const res = await fetch(`${apiBase()}/api/leads`, {
+  const res = await fetchWithTimeout(`${apiBase()}/api/leads`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

@@ -3,7 +3,7 @@ import { X } from 'lucide-react'
 import { useLocation } from 'react-router-dom'
 import { WHATSAPP_URL } from '../constants'
 import { WhatsAppIcon } from './WhatsAppIcon'
-import { apiBase } from '../cms/api'
+import { apiBase, fetchWithTimeout } from '../cms/api'
 import { btnPrimary, btnSecondary } from '../ui/saas'
 
 type Props = {
@@ -63,7 +63,7 @@ export function GetDemoModal({ open, onClose }: Props) {
       setStatus('submitting')
       try {
         const digits = phone.replace(/\D/g, '')
-        const res = await fetch(`${apiBase()}/api/leads`, {
+        const res = await fetchWithTimeout(`${apiBase()}/api/leads`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
