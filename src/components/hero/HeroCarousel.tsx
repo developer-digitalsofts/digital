@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { HeroCarouselSlide, HeroCmsPayload } from '../../types/heroCarousel'
 import { useHeroCarousel, useSwipe } from '../../hooks/useHeroCarousel'
-import { resolveAutoplayMs } from './defaultHeroSlides'
+import { DEFAULT_HERO_SLIDES, resolveAutoplayMs } from './defaultHeroSlides'
 import { HeroCarouselDeck } from './HeroCarouselDeck'
 import { HeroSlidePanel } from './HeroSlidePanel'
 import './dm-hero.css'
@@ -23,8 +23,19 @@ export function HeroCarousel({ hero, slides, loading, cmsLoaded, cmsError }: Pro
 
   const regionRef = useRef<HTMLDivElement>(null)
 
+  const displaySlides = useMemo(
+    () => (slides.length > 0 ? slides : DEFAULT_HERO_SLIDES),
+    [slides],
+  )
+
+  useEffect(() => {
+    if (slides.length === 0 && cmsLoaded) {
+      console.warn('[hero] CMS payload had no valid slides — keeping bundled fallback hero')
+    }
+  }, [slides.length, cmsLoaded])
+
   const { index, reducedMotion, autoplayEpoch, next, prev, select } = useHeroCarousel({
-    slideCount: slides.length,
+    slideCount: displaySlides.length,
     autoplayEnabled,
     durationMs,
     paused: hoverPaused,
@@ -32,7 +43,7 @@ export function HeroCarousel({ hero, slides, loading, cmsLoaded, cmsError }: Pro
 
   const swipe = useSwipe(next, prev)
 
-  const activeSlide = slides[index]
+  const activeSlide = displaySlides[index] ?? displaySlides[0]
 
   useEffect(() => {
     setAnimKey((k) => k + 1)
@@ -51,7 +62,7 @@ export function HeroCarousel({ hero, slides, loading, cmsLoaded, cmsError }: Pro
     [next, prev],
   )
 
-  if (loading && !cmsLoaded) {
+  if (loading && !cmsLoaded && displaySlides.length === 0) {
     return (
       <section id="home" className="dm-hero" aria-busy="true" aria-label="Loading hero">
         <div className="dm-hero__container dm-hero__inner">
@@ -63,19 +74,9 @@ export function HeroCarousel({ hero, slides, loading, cmsLoaded, cmsError }: Pro
     )
   }
 
-  if (cmsError && !cmsLoaded) {
-    return (
-      <section id="home" className="dm-hero" aria-label="Hero unavailable">
-        {import.meta.env.DEV ? (
-          <p className="mx-auto max-w-3xl px-4 py-8 text-sm text-red-700" role="alert">
-            CMS hero failed to load: {cmsError}
-          </p>
-        ) : null}
-      </section>
-    )
+  if (cmsError && !cmsLoaded && import.meta.env.DEV) {
+    console.warn('[hero] CMS fetch failed — rendering bundled fallback slides', cmsError)
   }
-
-  if (!activeSlide) return null
 
   return (
     <section
@@ -104,7 +105,7 @@ export function HeroCarousel({ hero, slides, loading, cmsLoaded, cmsError }: Pro
             <HeroSlidePanel
               slide={activeSlide}
               slideIndex={index}
-              slideCount={slides.length}
+              slideCount={displaySlides.length}
               animKey={animKey}
               reducedMotion={reducedMotion}
               hero={hero}
@@ -114,7 +115,7 @@ export function HeroCarousel({ hero, slides, loading, cmsLoaded, cmsError }: Pro
 
         <div className="dm-hero__carousel">
           <HeroCarouselDeck
-            slides={slides}
+            slides={displaySlides}
             activeIndex={index}
             animKey={animKey}
             reducedMotion={reducedMotion}

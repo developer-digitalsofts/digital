@@ -3322,6 +3322,8 @@ app.use((err, _req, res, _next) => {
 
 app.listen(PORT, HOST, () => {
   console.log(`CMS API listening on http://${HOST}:${PORT}`)
+  console.info('CMS storage directory:', DATA_DIR)
+  console.info('CMS published directory:', path.join(DATA_DIR, 'published'))
   if (SERVE_STATIC) {
     console.log(`Serving frontend from ${DIST_DIR}`)
     fs.readdir(path.join(DIST_DIR, 'assets'))

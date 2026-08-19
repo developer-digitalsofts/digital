@@ -1,6 +1,7 @@
 import type { HeroCarouselSlide, HeroCmsPayload } from '../../types/heroCarousel'
 import { pick } from '../../cms/pick'
 import type { Lang } from '../../i18n/messages'
+import { filterValidHeroSlides, hasValidHeroSlides, isValidHeroSlide } from './heroSlideValidation'
 
 export const DEFAULT_AUTOPLAY_MS = 5000
 
@@ -135,27 +136,48 @@ export type ResolveHeroSlidesOptions = {
   cmsLoaded?: boolean
 }
 
+function normalizeSlideId(slide: HeroCarouselSlide, index: number): HeroCarouselSlide {
+  const id =
+    typeof slide.id === 'string' && slide.id.trim()
+      ? slide.id.trim()
+      : typeof slide.moduleType === 'string' && slide.moduleType
+        ? `slide-${slide.moduleType}`
+        : `slide-fallback-${index}`
+  return slide.id === id ? slide : { ...slide, id }
+}
+
+function sortVisibleSlides(raw: HeroCarouselSlide[]): HeroCarouselSlide[] {
+  return [...raw]
+    .filter((s) => isValidHeroSlide(s))
+    .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+    .map(normalizeSlideId)
+}
+
+/** Never return an empty slide list — production CMS gaps must not erase the bundled hero. */
 export function resolveHeroSlides(
   hero: HeroCmsPayload | undefined,
   options: ResolveHeroSlidesOptions = {},
 ): HeroCarouselSlide[] {
   const cmsLoaded = options.cmsLoaded === true
-  const raw = hero?.slides
 
   if (hero?.carouselEnabled === false) {
-    return [legacyHeroToSlide(hero)]
+    const legacy = legacyHeroToSlide(hero)
+    return isValidHeroSlide(legacy) ? [legacy] : DEFAULT_HERO_SLIDES
   }
 
-  if (Array.isArray(raw) && raw.length > 0) {
-    const filtered = [...raw]
-      .filter((s) => s && s.visible !== false)
-      .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
-    if (filtered.length > 0) return filtered
+  if (hasValidHeroSlides(hero)) {
+    const fromCms = sortVisibleSlides(hero!.slides as HeroCarouselSlide[])
+    if (fromCms.length > 0) return fromCms
   }
 
-  if (cmsLoaded) {
-    if (hero) return [legacyHeroToSlide(hero)]
-    return []
+  if (Array.isArray(hero?.slides) && hero.slides.length > 0) {
+    const filtered = filterValidHeroSlides(hero.slides as HeroCarouselSlide[])
+    if (filtered.length > 0) return sortVisibleSlides(filtered)
+  }
+
+  if (cmsLoaded && hero) {
+    const legacy = legacyHeroToSlide(hero)
+    if (isValidHeroSlide(legacy)) return [legacy]
   }
 
   return DEFAULT_HERO_SLIDES
