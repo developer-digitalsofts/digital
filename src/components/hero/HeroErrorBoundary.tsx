@@ -24,7 +24,7 @@ export class HeroErrorBoundary extends Component<Props, State> {
     if (this.state.error) {
       return (
         <HeroCarousel
-          slides={DEFAULT_HERO_SLIDES}
+          slides={[DEFAULT_HERO_SLIDES[0]]}
           cmsLoaded={false}
           loading={false}
         />

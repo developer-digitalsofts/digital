@@ -58,7 +58,10 @@ export function useHeroCarousel({ slideCount, autoplayEnabled, durationMs, pause
   )
 
   useEffect(() => {
-    setIndex((i) => (slideCount > 0 && i >= slideCount ? 0 : i))
+    setIndex((i) => {
+      if (slideCount <= 0) return 0
+      return Math.min(Math.max(i, 0), slideCount - 1)
+    })
   }, [slideCount])
 
   useEffect(() => {
@@ -67,8 +70,14 @@ export function useHeroCarousel({ slideCount, autoplayEnabled, durationMs, pause
     let timer: ReturnType<typeof setTimeout> | null = null
     let cancelled = false
 
+    const clearTimer = () => {
+      if (timer) clearTimeout(timer)
+      timer = null
+    }
+
     const schedule = (delay = durationMs) => {
       if (cancelled) return
+      clearTimer()
       timer = setTimeout(run, delay)
     }
 
@@ -80,27 +89,28 @@ export function useHeroCarousel({ slideCount, autoplayEnabled, durationMs, pause
         return
       }
 
-      setIndex((i) => (i + 1) % slideCount)
-      setAutoplayEpoch((n) => n + 1)
+      if (slideCount > 1) {
+        setIndex((i) => (i + 1) % slideCount)
+        setAutoplayEpoch((n) => n + 1)
+      }
       schedule(durationMs)
     }
 
     const onVisibility = () => {
       if (document.hidden) {
-        if (timer) clearTimeout(timer)
-        timer = null
+        clearTimer()
       } else {
         schedule(reducedMotion ? durationMs : 800)
       }
     }
 
-    schedule(reducedMotion ? durationMs : durationMs)
+    schedule(durationMs)
 
     document.addEventListener('visibilitychange', onVisibility)
 
     return () => {
       cancelled = true
-      if (timer) clearTimeout(timer)
+      clearTimer()
       document.removeEventListener('visibilitychange', onVisibility)
     }
   }, [autoplayEnabled, slideCount, durationMs, reducedMotion])

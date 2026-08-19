@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { HeroCarouselSlide, HeroCmsPayload } from '../../types/heroCarousel'
 import { useHeroCarousel, useSwipe } from '../../hooks/useHeroCarousel'
 import { DEFAULT_HERO_SLIDES, resolveAutoplayMs } from './defaultHeroSlides'
+import { hasValidHeroSlideList } from './heroSlideValidation'
 import { HeroCarouselDeck } from './HeroCarouselDeck'
 import { HeroSlidePanel } from './HeroSlidePanel'
 import './dm-hero.css'
@@ -24,15 +25,11 @@ export function HeroCarousel({ hero, slides, loading, cmsLoaded, cmsError }: Pro
   const regionRef = useRef<HTMLDivElement>(null)
 
   const displaySlides = useMemo(
-    () => (slides.length > 0 ? slides : DEFAULT_HERO_SLIDES),
+    () => (hasValidHeroSlideList(slides) ? slides : DEFAULT_HERO_SLIDES),
     [slides],
   )
 
-  useEffect(() => {
-    if (slides.length === 0 && cmsLoaded) {
-      console.warn('[hero] CMS payload had no valid slides — keeping bundled fallback hero')
-    }
-  }, [slides.length, cmsLoaded])
+  const usingFallback = displaySlides === DEFAULT_HERO_SLIDES || !hasValidHeroSlideList(slides)
 
   const { index, reducedMotion, autoplayEpoch, next, prev, select } = useHeroCarousel({
     slideCount: displaySlides.length,
@@ -43,11 +40,39 @@ export function HeroCarousel({ hero, slides, loading, cmsLoaded, cmsError }: Pro
 
   const swipe = useSwipe(next, prev)
 
-  const activeSlide = displaySlides[index] ?? displaySlides[0]
+  const safeIndex = Math.min(Math.max(index, 0), displaySlides.length - 1)
+  const activeSlide = displaySlides[safeIndex] ?? displaySlides[0]
 
   useEffect(() => {
     setAnimKey((k) => k + 1)
-  }, [index])
+  }, [safeIndex])
+
+  useEffect(() => {
+    if (!import.meta.env.DEV) return
+    console.debug('[hero] carousel state', {
+      incomingSlideCount: slides.length,
+      validatedSlideCount: hasValidHeroSlideList(slides) ? slides.length : 0,
+      displaySlideCount: displaySlides.length,
+      usingFallback,
+      cmsLoaded,
+      loading,
+      cmsError,
+      activeIndex: index,
+      safeIndex,
+      activeSlideId: activeSlide?.id,
+    })
+  }, [
+    slides.length,
+    displaySlides.length,
+    usingFallback,
+    cmsLoaded,
+    loading,
+    cmsError,
+    index,
+    safeIndex,
+    activeSlide?.id,
+    slides,
+  ])
 
   const onKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -61,22 +86,6 @@ export function HeroCarousel({ hero, slides, loading, cmsLoaded, cmsError }: Pro
     },
     [next, prev],
   )
-
-  if (loading && !cmsLoaded && displaySlides.length === 0) {
-    return (
-      <section id="home" className="dm-hero" aria-busy="true" aria-label="Loading hero">
-        <div className="dm-hero__container dm-hero__inner">
-          <div className="dm-hero__copy">
-            <div className="dm-hero__copy-inner" aria-hidden />
-          </div>
-        </div>
-      </section>
-    )
-  }
-
-  if (cmsError && !cmsLoaded && import.meta.env.DEV) {
-    console.warn('[hero] CMS fetch failed — rendering bundled fallback slides', cmsError)
-  }
 
   return (
     <section
@@ -101,22 +110,20 @@ export function HeroCarousel({ hero, slides, loading, cmsLoaded, cmsError }: Pro
         }}
       >
         <div className="dm-hero__copy">
-          {activeSlide ? (
-            <HeroSlidePanel
-              slide={activeSlide}
-              slideIndex={index}
-              slideCount={displaySlides.length}
-              animKey={animKey}
-              reducedMotion={reducedMotion}
-              hero={hero}
-            />
-          ) : null}
+          <HeroSlidePanel
+            slide={activeSlide}
+            slideIndex={safeIndex}
+            slideCount={displaySlides.length}
+            animKey={animKey}
+            reducedMotion={reducedMotion}
+            hero={hero}
+          />
         </div>
 
         <div className="dm-hero__carousel">
           <HeroCarouselDeck
             slides={displaySlides}
-            activeIndex={index}
+            activeIndex={safeIndex}
             animKey={animKey}
             reducedMotion={reducedMotion}
             durationMs={durationMs}

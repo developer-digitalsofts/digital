@@ -8,42 +8,34 @@ import { hasValidHeroSlides } from './hero/heroSlideValidation'
 
 export function HeroSection() {
   const { data, loading, error } = useCms()
-  const hero = data?.hero as HeroCmsPayload | undefined
-  const cmsLoaded = Boolean(data)
+  const hero = (data?.hero ?? undefined) as HeroCmsPayload | undefined
 
-  const slides = useMemo(
-    () => resolveHeroSlides(hero, { cmsLoaded }),
-    [hero, cmsLoaded],
-  )
+  const slides = useMemo(() => resolveHeroSlides(hero), [hero])
 
   useEffect(() => {
-    if (!cmsLoaded) return
-    const cmsSlideCount = Array.isArray(hero?.slides) ? hero!.slides!.length : 0
+    if (!import.meta.env.DEV) return
+    const cmsSlideCount = Array.isArray(hero?.slides) ? hero.slides.length : 0
     const validCmsSlides = hasValidHeroSlides(hero)
-    if (!validCmsSlides && cmsSlideCount > 0) {
-      console.warn('[hero] Published CMS hero slides were present but invalid — using bundled fallback')
-    }
-    if (import.meta.env.DEV) {
-      console.log('RENDERED_HERO_DATA', {
-        cmsLoaded,
-        cmsSlideCount,
-        validCmsSlides,
-        renderedSlideCount: slides.length,
-        eyebrow: slides[0]?.pill?.en,
-        legacyPill: hero?.pill?.en,
-        source: validCmsSlides ? 'published-cms-api' : 'bundled-fallback',
-      })
-    }
-  }, [cmsLoaded, slides, hero])
+    console.debug('[hero] HeroSection', {
+      cmsLoaded: Boolean(data),
+      loading,
+      cmsError: error,
+      incomingSlideCount: cmsSlideCount,
+      validatedSlideCount: validCmsSlides ? cmsSlideCount : 0,
+      renderedSlideCount: slides.length,
+      usingFallback: !validCmsSlides,
+      eyebrow: slides[0]?.pill?.en,
+    })
+  }, [data, hero, slides, loading, error])
 
   return (
     <HeroErrorBoundary>
       <HeroCarousel
         hero={hero}
         slides={slides}
-        loading={loading && !data}
+        loading={loading}
         cmsError={error}
-        cmsLoaded={cmsLoaded}
+        cmsLoaded={Boolean(data)}
       />
     </HeroErrorBoundary>
   )

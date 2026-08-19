@@ -1,7 +1,11 @@
 import type { HeroCarouselSlide, HeroCmsPayload } from '../../types/heroCarousel'
 import { pick } from '../../cms/pick'
 import type { Lang } from '../../i18n/messages'
-import { filterValidHeroSlides, hasValidHeroSlides, isValidHeroSlide } from './heroSlideValidation'
+import {
+  hasValidHeroSlides,
+  isValidHeroSlide,
+  sortValidHeroSlides,
+} from './heroSlideValidation'
 
 export const DEFAULT_AUTOPLAY_MS = 5000
 
@@ -107,7 +111,21 @@ export const DEFAULT_HERO_SLIDES: HeroCarouselSlide[] = [
   },
 ]
 
-/** Build a single fallback slide from legacy hero fields when carousel data is absent. */
+if (import.meta.env.DEV && !DEFAULT_HERO_SLIDES.every((slide) => isValidHeroSlide(slide))) {
+  console.error('[hero] Bundled DEFAULT_HERO_SLIDES contains invalid slides — fallback hero may be blank in production')
+}
+
+function normalizeSlideId(slide: HeroCarouselSlide, index: number): HeroCarouselSlide {
+  const id =
+    typeof slide.id === 'string' && slide.id.trim()
+      ? slide.id.trim()
+      : typeof slide.moduleType === 'string' && slide.moduleType
+        ? `slide-${slide.moduleType}`
+        : `slide-fallback-${index}`
+  return slide.id === id ? slide : { ...slide, id }
+}
+
+/** Build a single fallback slide from legacy hero fields when carousel mode is disabled. */
 export function legacyHeroToSlide(hero: HeroCmsPayload | undefined): HeroCarouselSlide {
   const base = DEFAULT_HERO_SLIDES[0]
   if (!hero) return base
@@ -131,53 +149,19 @@ export function legacyHeroToSlide(hero: HeroCmsPayload | undefined): HeroCarouse
   }
 }
 
-export type ResolveHeroSlidesOptions = {
-  /** Published CMS payload loaded — do not substitute bundled default slides. */
-  cmsLoaded?: boolean
-}
-
-function normalizeSlideId(slide: HeroCarouselSlide, index: number): HeroCarouselSlide {
-  const id =
-    typeof slide.id === 'string' && slide.id.trim()
-      ? slide.id.trim()
-      : typeof slide.moduleType === 'string' && slide.moduleType
-        ? `slide-${slide.moduleType}`
-        : `slide-fallback-${index}`
-  return slide.id === id ? slide : { ...slide, id }
-}
-
-function sortVisibleSlides(raw: HeroCarouselSlide[]): HeroCarouselSlide[] {
-  return [...raw]
-    .filter((s) => isValidHeroSlide(s))
-    .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
-    .map(normalizeSlideId)
-}
-
-/** Never return an empty slide list — production CMS gaps must not erase the bundled hero. */
-export function resolveHeroSlides(
-  hero: HeroCmsPayload | undefined,
-  options: ResolveHeroSlidesOptions = {},
-): HeroCarouselSlide[] {
-  const cmsLoaded = options.cmsLoaded === true
-
+/**
+ * Resolve hero slides from CMS payload.
+ * Never returns an empty array — invalid, empty, or missing CMS data keeps bundled defaults.
+ */
+export function resolveHeroSlides(hero: HeroCmsPayload | undefined | null): HeroCarouselSlide[] {
   if (hero?.carouselEnabled === false) {
     const legacy = legacyHeroToSlide(hero)
     return isValidHeroSlide(legacy) ? [legacy] : DEFAULT_HERO_SLIDES
   }
 
   if (hasValidHeroSlides(hero)) {
-    const fromCms = sortVisibleSlides(hero!.slides as HeroCarouselSlide[])
+    const fromCms = sortValidHeroSlides(hero!.slides as HeroCarouselSlide[]).map(normalizeSlideId)
     if (fromCms.length > 0) return fromCms
-  }
-
-  if (Array.isArray(hero?.slides) && hero.slides.length > 0) {
-    const filtered = filterValidHeroSlides(hero.slides as HeroCarouselSlide[])
-    if (filtered.length > 0) return sortVisibleSlides(filtered)
-  }
-
-  if (cmsLoaded && hero) {
-    const legacy = legacyHeroToSlide(hero)
-    if (isValidHeroSlide(legacy)) return [legacy]
   }
 
   return DEFAULT_HERO_SLIDES

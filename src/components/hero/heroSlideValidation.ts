@@ -58,10 +58,20 @@ export function isValidHeroSlide(slide: HeroCarouselSlide | null | undefined): s
 }
 
 export function hasValidHeroSlides(hero: HeroCmsPayload | null | undefined): boolean {
-  const slides = hero?.slides
+  return hasValidHeroSlideList(hero?.slides)
+}
+
+/** True when a slide array contains at least one renderable slide. */
+export function hasValidHeroSlideList(
+  slides: HeroCarouselSlide[] | null | undefined,
+): slides is HeroCarouselSlide[] {
   return Array.isArray(slides) && slides.some((slide) => isValidHeroSlide(slide))
 }
 
 export function filterValidHeroSlides(slides: HeroCarouselSlide[]): HeroCarouselSlide[] {
   return slides.filter((slide) => isValidHeroSlide(slide))
+}
+
+export function sortValidHeroSlides(slides: HeroCarouselSlide[]): HeroCarouselSlide[] {
+  return [...filterValidHeroSlides(slides)].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
 }
