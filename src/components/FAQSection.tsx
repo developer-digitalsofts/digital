@@ -5,19 +5,21 @@ import { useCms } from '../cms/CmsContext'
 import { pick } from '../cms/pick'
 import type { Bilingual } from '../cms/types'
 import { ScrollReveal } from './ScrollReveal'
-import { pageShellClass } from '../ui/pageShell'
-import {
-  faqItemInteractive,
-  faqPanelModern,
-  faqTriggerModern,
-  sectionContentTop,
-  sectionMuted,
-  sectionPad,
-  sectionSubCenter,
-  sectionTitle,
-} from '../ui/saas'
+import { sectionWhite } from '../ui/saas'
+import './faq-section.css'
 
-const faqIndexes = [1, 2, 3, 4, 5, 6] as const
+const fallbackKeys = [
+  'q1',
+  'q2',
+  'q3',
+  'q4',
+  'q5',
+  'q6',
+  'q7',
+  'q8',
+  'q9',
+  'q10',
+] as const
 
 type FaqItem = {
   id: string
@@ -33,95 +35,118 @@ type FaqCms = {
   items?: FaqItem[]
 }
 
+type FaqRow = { id: string; q: string; a: string }
+
+function splitColumns(items: FaqRow[]) {
+  const mid = Math.ceil(items.length / 2)
+  return [items.slice(0, mid), items.slice(mid)]
+}
+
+function FaqColumn({
+  items,
+  startIndex,
+  openIndex,
+  onToggle,
+}: {
+  items: FaqRow[]
+  startIndex: number
+  openIndex: number | null
+  onToggle: (index: number) => void
+}) {
+  return (
+    <div className="dm-faq__col">
+      {items.map((row, i) => {
+        const globalIndex = startIndex + i
+        const isOpen = openIndex === globalIndex
+        return (
+          <div key={row.id} className={`dm-faq__item ${isOpen ? 'is-open' : ''}`}>
+            <button
+              type="button"
+              className="dm-faq__trigger"
+              aria-expanded={isOpen}
+              onClick={() => onToggle(globalIndex)}
+            >
+              <span className="dm-faq__question-text">{row.q}</span>
+              {isOpen ? (
+                <span className="dm-faq__toggle" aria-hidden>
+                  <Minus className="dm-faq__icon" strokeWidth={2.25} />
+                </span>
+              ) : (
+                <span className="dm-faq__toggle" aria-hidden>
+                  <Plus className="dm-faq__icon" strokeWidth={2.25} />
+                </span>
+              )}
+            </button>
+            <div className={`dm-faq__panel-wrap ${isOpen ? 'is-open' : ''}`}>
+              <div className="dm-faq__panel">
+                <p className="dm-faq__answer">{row.a}</p>
+              </div>
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
 export function FAQSection() {
   const { t, lang } = useI18n()
   const { data } = useCms()
   const block = data?.faqs as FaqCms | undefined
 
-  const title = block?.title ? pick(block.title, lang) : t('faq.title')
-  const sub = block?.subtitle ? pick(block.subtitle, lang) : t('faq.sub')
+  const eyebrow = block?.title ? pick(block.title, lang) : t('faq.eyebrow')
 
   const items = useMemo(() => {
     const raw = block?.items
-    if (!raw?.length) return null
-    return [...raw]
-      .filter((x) => x.active !== false)
-      .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
-      .map((x) => ({
-        id: x.id,
-        q: x.question ? pick(x.question, lang) : '',
-        a: x.answer ? pick(x.answer, lang) : '',
-      }))
-  }, [block?.items, lang])
+    if (raw?.length) {
+      return [...raw]
+        .filter((x) => x.active !== false)
+        .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+        .map((x) => ({
+          id: x.id,
+          q: x.question ? pick(x.question, lang) : '',
+          a: x.answer ? pick(x.answer, lang) : '',
+        }))
+    }
+    return fallbackKeys.map((key) => ({
+      id: key,
+      q: t(`faq.${key}`),
+      a: t(`faq.a${key.slice(1)}`),
+    }))
+  }, [block?.items, lang, t])
 
-  const [open, setOpen] = useState<number | null>(0)
+  const [leftItems, rightItems] = useMemo(() => splitColumns(items), [items])
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
 
-  const renderFaqRow = (key: string | number, q: string, a: string, i: number) => {
-    const isOpen = open === i
-    return (
-      <div
-        key={key}
-        className={`${faqItemInteractive} group/faq relative hover:border-brand/25${
-          isOpen ? ' border-brand/40 bg-white' : ''
-        }`}
-        data-open={isOpen ? 'true' : 'false'}
-      >
-        <button
-          type="button"
-          className={`${faqTriggerModern}${isOpen ? ' bg-brand/[0.03]' : ''}`}
-          aria-expanded={isOpen}
-          onClick={() => setOpen(isOpen ? null : i)}
-        >
-          <span
-            className={`pr-4 text-[1.0625rem] transition-colors duration-300 sm:text-lg ${
-              isOpen ? 'font-bold text-brand-deep' : 'font-semibold text-slate-900 group-hover/faq:text-slate-800'
-            }`}
-          >
-            {q}
-          </span>
-          <span
-            className={`flex size-11 shrink-0 items-center justify-center rounded-xl border transition-all duration-200 ease-out ${
-              isOpen
-                ? 'border-brand/40 bg-brand text-white'
-                : 'border-[rgba(15,23,42,0.08)] bg-slate-50/90 text-slate-500 group-hover/faq:border-brand/30 group-hover/faq:bg-brand/[0.06] group-hover/faq:text-brand'
-            }`}
-          >
-            {isOpen ? (
-              <Minus className="size-5" strokeWidth={2.5} aria-hidden />
-            ) : (
-              <Plus className="size-5" strokeWidth={2.5} aria-hidden />
-            )}
-          </span>
-        </button>
-        <div
-          className={`grid transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:duration-0 ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
-        >
-          <div className="min-h-0 overflow-hidden">
-            <div
-              className={`${faqPanelModern}${isOpen ? ' border-l-[3px] border-brand/50 bg-white' : ''}`}
-            >
-              {a}
-            </div>
-          </div>
-        </div>
-      </div>
-    )
+  const onToggle = (index: number) => {
+    setOpenIndex((prev) => (prev === index ? null : index))
   }
 
   return (
-    <section id="faqs" className={`scroll-mt-28 ${sectionMuted} ${sectionPad}`}>
-      <div className={pageShellClass}>
-        <div className="mx-auto w-full max-w-[52rem] lg:max-w-[56rem] xl:max-w-[60rem]">
-          <ScrollReveal>
-            <h2 className={sectionTitle}>{title}</h2>
-            <p className={`${sectionSubCenter} mx-auto mt-4 max-w-2xl text-slate-600`}>{sub}</p>
-          </ScrollReveal>
-          <div className={`${sectionContentTop} space-y-4 md:space-y-5`}>
-            {items && items.length > 0
-              ? items.map((row, i) => renderFaqRow(row.id, row.q, row.a, i))
-              : faqIndexes.map((n, i) => renderFaqRow(n, t(`faq.q${n}`), t(`faq.a${n}`), i))}
+    <section id="faqs" className={`dm-faq scroll-mt-28 ${sectionWhite} home-section home-section--faq`}>
+      <div className="industries-section__container">
+        <ScrollReveal>
+          <header className="dm-faq__header">
+            <p className="dm-faq__eyebrow">{eyebrow}</p>
+          </header>
+        </ScrollReveal>
+
+        <ScrollReveal delayMs={60}>
+          <div className="dm-faq__grid">
+            <FaqColumn
+              items={leftItems}
+              startIndex={0}
+              openIndex={openIndex}
+              onToggle={onToggle}
+            />
+            <FaqColumn
+              items={rightItems}
+              startIndex={leftItems.length}
+              openIndex={openIndex}
+              onToggle={onToggle}
+            />
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   )

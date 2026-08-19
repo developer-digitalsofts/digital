@@ -72,9 +72,9 @@ export function mergeProductionManagementPremiumPage(data: SoftwareDetailPageDat
     ...pl,
     featuresHeading: 'Software Features',
     featuresLead:
-      'Chart of accounts, cash and product context, departments and warehouses, bill of materials, and factory overheads — aligned to manufacturing efficiency on one cloud platform.',
+      'Production planning, BOM handling, gate passes, stock consumption, warehouse integration, and complete production tracking — aligned to manufacturing efficiency on one cloud platform.',
     vouchersSectionEyebrow: 'Production module',
-    challengesHeading: 'Production Management',
+    challengesHeading: 'Production Challenges',
     challengesIntro: PROBLEM,
     challengesListLead: '',
     challengeBullets: [],
@@ -119,29 +119,34 @@ export function mergeProductionManagementPremiumPage(data: SoftwareDetailPageDat
     },
     features: [
       {
-        icon: 'Layers',
-        title: 'Chart of Accounts',
-        description: 'Financial structure that keeps production postings, WIP, and finished goods aligned with the general ledger.',
+        icon: 'Compass',
+        title: 'Planning & BOM',
+        description:
+          'Production estimation, BOM production, and manual production paths with material visibility from planning through completion.',
       },
       {
-        icon: 'Wallet',
-        title: 'Cash and Product',
-        description: 'Link production movements to product masters and cash impact where your process requires it.',
-      },
-      {
-        icon: 'Building2',
-        title: 'Chart of Departments / Warehouse',
-        description: 'Organise production, stores, and cost centres so issues, transfers, and completions land in the right place.',
-      },
-      {
-        icon: 'Boxes',
-        title: 'BOM (Bill of Material)',
-        description: 'Define multilevel BOMs to drive material issues, estimations, and BOM-based production vouchers.',
+        icon: 'Warehouse',
+        title: 'Stock & Warehouse',
+        description:
+          'Inward gate pass, transfers, consumption, and outward delivery aligned to inventory valuation and warehouse control.',
       },
       {
         icon: 'Factory',
-        title: 'FOH (Factory Over Heads)',
-        description: 'Capture and absorb factory overheads so product cost reflects real manufacturing burden.',
+        title: 'Production Vouchers',
+        description:
+          'Record gate passes, material issues, consumption, and completions with BOM-based or manual production voucher discipline.',
+      },
+      {
+        icon: 'LineChart',
+        title: 'Cost & Control',
+        description:
+          'FOH absorption and production reporting so leadership sees efficiency, wastage, and margin signals early.',
+      },
+      {
+        icon: 'Truck',
+        title: 'Gate Pass & Delivery',
+        description:
+          'Track inward and outward gate passes and delivery chalan documentation tied to production runs and dispatch.',
       },
     ],
     vouchersReports: {
@@ -164,7 +169,6 @@ export function mergeProductionManagementPremiumPage(data: SoftwareDetailPageDat
     implementation: PRODUCTION_IMPLEMENTATION,
     related: [],
     seoBlocks: [],
-    faqs: [],
     demoCta: {
       ...data.demoCta,
       heading: 'Want To Try Our Software Or Need A Quotation?',

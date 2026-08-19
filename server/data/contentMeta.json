@@ -1,17 +1,27 @@
 {
   "hero": {
     "createdAt": "2026-08-12T07:19:46.468Z",
-    "updatedAt": "2026-08-12T09:47:56.732Z",
+    "updatedAt": "2026-08-19T06:53:06.646Z",
     "updatedBy": "admin@admin.com"
   },
   "pageSections": {
     "createdAt": "2026-08-12T07:19:46.486Z",
-    "updatedAt": "2026-08-12T07:59:43.871Z",
+    "updatedAt": "2026-08-19T06:45:04.626Z",
     "updatedBy": "admin@admin.com"
   },
   "pages": {
     "createdAt": "2026-08-12T07:39:49.819Z",
     "updatedAt": "2026-08-12T09:47:56.997Z",
+    "updatedBy": "admin@admin.com"
+  },
+  "demoCta": {
+    "createdAt": "2026-08-19T06:26:07.471Z",
+    "updatedAt": "2026-08-19T06:29:15.191Z",
+    "updatedBy": "admin@admin.com"
+  },
+  "stats": {
+    "createdAt": "2026-08-19T06:45:22.968Z",
+    "updatedAt": "2026-08-19T06:45:45.061Z",
     "updatedBy": "admin@admin.com"
   }
 }

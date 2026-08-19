@@ -7,7 +7,7 @@ export const megaMenuAr = {
     'payroll-management-software': 'برمجيات إدارة الرواتب',
     'point-of-sale-management-software': 'برمجيات إدارة نقاط البيع',
     'integration-system': 'نظام التكامل',
-    'fbr-pos-integration-software': 'برمجيات تكامل نقاط البيع مع FBR',
+    'fbr-pos-integration-software': 'برمجيات تكامل نقاط البيع مع ضريبة القيمة المضافة',
     'crm-software': 'برمجيات إدارة علاقات العملاء',
   },
   industryCats: {
@@ -77,7 +77,7 @@ export const megaMenuAr = {
     'small-and-medium-business-erp-software': 'ERP للشركات الصغيرة والمتوسطة',
     'flour-mill-management-software': 'برمجيات إدارة مطاحن الدقيق',
     'oil-and-gas-business-management-software': 'برمجيات أعمال النفط والغاز',
-    'fbr-digital-invoicing-industry-software': 'برمجيات الفوترة الرقمية وFBR',
+    'fbr-digital-invoicing-industry-software': 'برمجيات الفوترة الرقمية وضريبة القيمة المضافة',
     'hospitality-management-software': 'برمجيات إدارة الضيافة',
     'education-institute-management-software': 'برمجيات المعاهد والتعليم',
     'professional-services-erp-software': 'ERP للخدمات المهنية',

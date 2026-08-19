@@ -1,11 +1,19 @@
 {
   "title": {
-    "en": "Industry ERP Solutions",
-    "ar": "حلول ERP للقطاعات"
+    "en": "Built for Your Industry",
+    "ar": "مصمم لقطاعك"
   },
   "subtitle": {
-    "en": "Purpose-built ERP for petrol, retail, manufacturing, poultry, dairy, real estate, and more.",
-    "ar": "ERP مخصص للوقود والتجزئة والتصنيع والدواجن والألبان والعقارات والمزيد."
+    "en": "Tailored ERP solutions for retail, manufacturing, hospitality, healthcare, and more.",
+    "ar": "حلول ERP مخصصة للتجزئة والتصنيع والضيافة والرعاية الصحية والمزيد."
+  },
+  "eyebrow": {
+    "en": "Tailored Solutions for Every Industry",
+    "ar": "حلول مخصصة لكل قطاع"
+  },
+  "viewAllLabel": {
+    "en": "View All Industries",
+    "ar": "عرض جميع القطاعات"
   },
   "exploreLabel": {
     "en": "Explore →",
@@ -13,177 +21,153 @@
   },
   "items": [
     {
-      "id": "i-petrol",
-      "icon": "Fuel",
-      "accentColor": "#f97316",
-      "cardKey": "petrol",
-      "category": {
-        "en": "Industry Solution",
-        "ar": "حل قطاعي"
-      },
-      "title": {
-        "en": "Petrol & Gas",
-        "ar": "الوقود والغاز"
-      },
+      "id": "i-retail",
+      "title": { "en": "Retail", "ar": "التجزئة" },
       "description": {
-        "en": "Shifts, nozzles, wet stock, and forecourt retail in one ledger.",
-        "ar": "ورديات ومضخات ومخزون سائل وتجزئة المحطة في دفتر واحد."
+        "en": "Manage sales, inventory and customers across stores.",
+        "ar": "إدارة المبيعات والمخزون والعملاء عبر الفروع."
       },
-      "href": "/software/industry/petrol-pump-software",
+      "href": "/software/industry/retail-management-software",
+      "imageUrl": "/software-images/retail-management-software/hero.jpg",
       "sortOrder": 0,
       "active": true
     },
     {
-      "id": "i-retail",
-      "icon": "Store",
-      "accentColor": "#10b981",
-      "cardKey": "general",
-      "category": {
-        "en": "Industry Solution",
-        "ar": "حل قطاعي"
-      },
-      "title": {
-        "en": "Retail",
-        "ar": "التجزئة"
-      },
+      "id": "i-petrol",
+      "title": { "en": "Petrol & Gas Station", "ar": "محطات الوقود والغاز" },
       "description": {
-        "en": "Finance, inventory, and operations for trading businesses.",
-        "ar": "مالية ومخزون وعمليات لشركات التجارة."
+        "en": "End-to-end fuel station operations and reporting.",
+        "ar": "عمليات محطة الوقود والتقارير من البداية للنهاية."
       },
-      "href": "/software/industry/retail-management-software",
+      "href": "/software/industry/petrol-pump-software",
+      "imageUrl": "/software-images/petrol-pump-software/hero.jpg",
       "sortOrder": 1,
       "active": true
     },
     {
-      "id": "i-fbr",
-      "icon": "FileText",
-      "accentColor": "#ef4444",
-      "cardKey": "fbr",
-      "category": {
-        "en": "Compliance",
-        "ar": "امتثال"
-      },
-      "title": {
-        "en": "FBR POS",
-        "ar": "نقطة بيع FBR"
-      },
+      "id": "i-knitting",
+      "title": { "en": "Knitting & Dyeing", "ar": "الحياكة والصباغة" },
       "description": {
-        "en": "Compliant digital invoicing with faster reconciliation.",
-        "ar": "فوترة رقمية متوافقة مع تسوية أسرع."
+        "en": "Yarn, fabric, dyeing and finishing management.",
+        "ar": "إدارة الخيوط والأقمشة والصباغة والتشطيب."
       },
-      "href": "/software/module/fbr-pos-integration-software",
+      "href": "/software/industry/knitting-dyeing-industry-software",
+      "imageUrl": "/software-images/knitting-dyeing-industry-software/hero.jpg",
       "sortOrder": 2,
       "active": true
     },
     {
-      "id": "i-poultry",
-      "icon": "Bird",
-      "accentColor": "#ec4899",
-      "cardKey": "poultry",
-      "category": {
-        "en": "Agriculture",
-        "ar": "زراعة"
-      },
-      "title": {
-        "en": "Poultry",
-        "ar": "الدواجن"
-      },
+      "id": "i-supply",
+      "title": { "en": "Supply Chain", "ar": "سلسلة التوريد" },
       "description": {
-        "en": "Flock cycles, feed, batches, and cost tracking unified.",
-        "ar": "دورات القطعان والعلف والدفعات وتتبع التكلفة في نظام واحد."
+        "en": "Procurement, logistics and vendor management.",
+        "ar": "المشتريات واللوجستيات وإدارة الموردين."
       },
-      "href": "/software/industry/poultry-control-shed-management-software",
+      "href": "/software/industry/supply-chain-management-software",
+      "imageUrl": "/software-images/inventory-management-software/hero.jpg",
       "sortOrder": 3,
       "active": true
     },
     {
-      "id": "i-dairy",
-      "icon": "Milk",
-      "accentColor": "#06b6d4",
-      "cardKey": "dairy",
-      "category": {
-        "en": "Agriculture",
-        "ar": "زراعة"
-      },
-      "title": {
-        "en": "Dairy Farm",
-        "ar": "مزارع الألبان"
-      },
+      "id": "i-textile",
+      "title": { "en": "Textile Industries", "ar": "صناعات النسيج" },
       "description": {
-        "en": "Milk collection, routes, and producer settlements.",
-        "ar": "جمع الحليب والمسارات وتسويات المنتجين."
+        "en": "Spinning, weaving, garments and textile processing.",
+        "ar": "الغزل والنسيج والملابس ومعالجة المنسوجات."
       },
-      "href": "/software/industry/dairy-farm-management-software",
+      "href": "/software/industry/cloud-erp-software-for-textile-industries",
+      "imageUrl": "/software-images/garments-manufacturing-software/hero.jpg",
       "sortOrder": 4,
       "active": true
     },
     {
-      "id": "i-lpg",
-      "icon": "Flame",
-      "accentColor": "#f59e0b",
-      "cardKey": "lpg",
-      "category": {
-        "en": "Energy",
-        "ar": "طاقة"
-      },
-      "title": {
-        "en": "LPG",
-        "ar": "غاز البترول المسال"
-      },
+      "id": "i-education",
+      "title": { "en": "Education", "ar": "التعليم" },
       "description": {
-        "en": "Cylinder tracking, refills, and depot operations.",
-        "ar": "تتبع الأسطوانات والتعبئة وعمليات المستودع."
+        "en": "Institution, fee management and academic records.",
+        "ar": "إدارة المؤسسة والرسوم والسجلات الأكاديمية."
       },
-      "href": "/software/industry/lpg-business-software",
+      "href": "/software/industry/education-institute-management-software",
+      "imageUrl": "/software-images/computers-laptop-business-software/hero.jpg",
       "sortOrder": 5,
       "active": true
     },
     {
-      "id": "i-realestate",
-      "icon": "Landmark",
-      "accentColor": "#14b8a6",
-      "cardKey": "installment",
-      "category": {
-        "en": "Finance",
-        "ar": "مالية"
-      },
-      "title": {
-        "en": "Real Estate",
-        "ar": "العقارات"
-      },
+      "id": "i-agriculture",
+      "title": { "en": "Agriculture", "ar": "الزراعة" },
       "description": {
-        "en": "Contracts, installments, and collection tracking.",
-        "ar": "عقود وأقساط وتتبع التحصيل."
+        "en": "Crop, inventory, stock and supply chain for agri-business.",
+        "ar": "المحاصيل والمخزون وسلسلة التوريد للأعمال الزراعية."
       },
-      "href": "/software/industry/erp-software-for-real-estate-business",
+      "href": "/software/industry/cloud-erp-software-for-agriculture-business",
+      "imageUrl": "/software-images/cloud-erp-software-for-agriculture-business/hero.jpg",
       "sortOrder": 6,
       "active": true
     },
     {
-      "id": "i-garments",
-      "icon": "Factory",
-      "accentColor": "#2563eb",
-      "cardKey": "manuf",
-      "category": {
-        "en": "Manufacturing",
-        "ar": "تصنيع"
-      },
-      "title": {
-        "en": "Garments",
-        "ar": "الملابس"
-      },
+      "id": "i-services",
+      "title": { "en": "Services", "ar": "الخدمات" },
       "description": {
-        "en": "BOM, production orders, and shop-floor visibility.",
-        "ar": "قوائم مواد وأوامر إنتاج ورؤية أرض الورشة."
+        "en": "Project, task, billing and resource management.",
+        "ar": "إدارة المشاريع والمهام والفوترة والموارد."
       },
-      "href": "/software/industry/garments-manufacturing-software",
+      "href": "/software/industry/cloud-erp-software-for-services-business",
+      "imageUrl": "/software-images/cloud-erp-software-for-services-business/meeting.jpg",
       "sortOrder": 7,
+      "active": true
+    },
+    {
+      "id": "i-hospitality",
+      "title": { "en": "Hospitality", "ar": "الضيافة" },
+      "description": {
+        "en": "Hotel, restaurants, POS and reservations.",
+        "ar": "الفنادق والمطاعم ونقطة البيع والحجوزات."
+      },
+      "href": "/software/industry/hotel-management-software",
+      "imageUrl": "/software-images/hotel-management-software/hero.jpg",
+      "sortOrder": 8,
+      "active": true
+    },
+    {
+      "id": "i-poultry",
+      "title": { "en": "Poultry", "ar": "الدواجن" },
+      "description": {
+        "en": "Broiler, breeder, hatchery and feed management.",
+        "ar": "إدارة التسمين والتربية والمفقس والعلف."
+      },
+      "href": "/software/industry/poultry-control-shed-management-software",
+      "imageUrl": "/software-images/poultry-control-shed-management-software/hero.jpg",
+      "sortOrder": 9,
+      "active": true
+    },
+    {
+      "id": "i-manufacturing",
+      "title": { "en": "Manufacturing", "ar": "التصنيع" },
+      "description": {
+        "en": "Discrete & process manufacturing solutions.",
+        "ar": "حلول التصنيع المنفصل والعمليات."
+      },
+      "href": "/software/industry/production-management-software",
+      "imageUrl": "/software-images/production-management-software/hero.jpg",
+      "sortOrder": 10,
+      "active": true
+    },
+    {
+      "id": "i-transportation",
+      "title": { "en": "Transportation", "ar": "النقل" },
+      "description": {
+        "en": "Fleet, routes, tracking and maintenance.",
+        "ar": "الأسطول والمسارات والتتبع والصيانة."
+      },
+      "href": "/software/industry/logistics-transportation-software",
+      "imageUrl": "/software-images/logistics-transportation-software/hero.jpg",
+      "sortOrder": 11,
       "active": true
     }
   ],
   "_meta": {
     "createdAt": "2026-08-12T08:31:16.124Z",
-    "updatedAt": "2026-08-12T08:31:16.124Z",
-    "updatedBy": "migrate-original-homepage"
+    "updatedAt": "2026-08-15T12:05:00.000Z",
+    "updatedBy": "industry-showcase-replace-about"
   }
 }

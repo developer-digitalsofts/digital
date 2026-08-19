@@ -85,8 +85,12 @@ export function AdminSoftwareDetailForm({ mode }: { mode: Mode }) {
       const { page } = await adminFetch<{ page: SoftwareDetailCmsRecord }>(
         `/api/admin/software-details/${paramKind}/${paramSlug}`,
       )
-      setForm(cloneForm(page))
-      setBaseline(JSON.stringify(page))
+      const merged: SoftwareDetailCmsRecord = {
+        ...page,
+        sectionImages: page.sectionImages ?? emptySoftwareDetailDraft(paramKind).sectionImages,
+      }
+      setForm(cloneForm(merged))
+      setBaseline(JSON.stringify(merged))
     } catch {
       const draft: SoftwareDetailCmsRecord = {
         ...emptySoftwareDetailDraft(paramKind),
@@ -304,6 +308,56 @@ export function AdminSoftwareDetailForm({ mode }: { mode: Mode }) {
                 onChange={(heroImageUrl) => patch({ heroImageUrl })}
                 hint="Upload a new image or pick from Media Library. Shown on the public detail page hero when set."
               />
+              <div className="rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
+                <p className="text-sm font-semibold text-slate-800">Section images (optional)</p>
+                <p className="mt-1 text-xs text-slate-600">
+                  Override photos for operational cards, benefit rows, business types, and testimonial. Leave blank to use
+                  semantic defaults. Changing the hero image does not affect these fields.
+                </p>
+                <div className="mt-4 grid gap-4">
+                  {[0, 1, 2].map((idx) => (
+                    <AdminLayoutMediaField
+                      key={`op-${idx}`}
+                      label={`Operational card ${idx + 1}`}
+                      value={form.sectionImages.operational[idx] ?? ''}
+                      onChange={(url) => {
+                        const operational = [...form.sectionImages.operational]
+                        operational[idx] = url
+                        patch({ sectionImages: { ...form.sectionImages, operational } })
+                      }}
+                    />
+                  ))}
+                  {[0, 1].map((idx) => (
+                    <AdminLayoutMediaField
+                      key={`benefit-${idx}`}
+                      label={`Benefit row ${idx + 1}`}
+                      value={form.sectionImages.benefitRows[idx] ?? ''}
+                      onChange={(url) => {
+                        const benefitRows = [...form.sectionImages.benefitRows]
+                        benefitRows[idx] = url
+                        patch({ sectionImages: { ...form.sectionImages, benefitRows } })
+                      }}
+                    />
+                  ))}
+                  {[0, 1, 2, 3].map((idx) => (
+                    <AdminLayoutMediaField
+                      key={`biz-${idx}`}
+                      label={`Business type card ${idx + 1}`}
+                      value={form.sectionImages.businessTypes[idx] ?? ''}
+                      onChange={(url) => {
+                        const businessTypes = [...form.sectionImages.businessTypes]
+                        businessTypes[idx] = url
+                        patch({ sectionImages: { ...form.sectionImages, businessTypes } })
+                      }}
+                    />
+                  ))}
+                  <AdminLayoutMediaField
+                    label="Testimonial photo"
+                    value={form.sectionImages.testimonial}
+                    onChange={(testimonial) => patch({ sectionImages: { ...form.sectionImages, testimonial } })}
+                  />
+                </div>
+              </div>
               <BilingualInputs labelEn="Eyebrow (EN)" labelAr="Eyebrow (AR)" value={form.hero.eyebrow} onChange={(eyebrow) => patchHero({ eyebrow })} />
               <BilingualInputs labelEn="Hero headline (EN)" labelAr="Hero headline (AR)" value={form.hero.headline} onChange={(headline) => patchHero({ headline })} />
               <BilingualInputs labelEn="Hero subhead (EN)" labelAr="Hero subhead (AR)" value={form.hero.subhead} onChange={(subhead) => patchHero({ subhead })} />

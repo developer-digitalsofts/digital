@@ -1,18 +1,19 @@
 {
   "hero": {
-    "lastSavedAt": "2026-08-12T09:47:56.736Z",
-    "lastPublishedAt": "2026-08-12T09:47:56.755Z",
+    "lastSavedAt": "2026-08-19T06:53:06.650Z",
+    "lastPublishedAt": "2026-08-19T06:53:06.675Z",
     "lastPublishedBy": "admin@admin.com",
     "hasUnpublishedChanges": false,
     "migratedAt": "2026-08-12T08:31:16.124Z",
     "lastSavedBy": "admin@admin.com"
   },
   "stats": {
-    "lastSavedAt": "2026-08-12T08:31:16.124Z",
-    "lastPublishedAt": "2026-08-12T08:31:16.124Z",
-    "lastPublishedBy": "migrate-original-homepage",
+    "lastSavedAt": "2026-08-19T06:45:45.064Z",
+    "lastPublishedAt": "2026-08-19T06:45:45.115Z",
+    "lastPublishedBy": "admin@admin.com",
     "hasUnpublishedChanges": false,
-    "migratedAt": "2026-08-12T08:31:16.124Z"
+    "migratedAt": "2026-08-12T08:31:16.124Z",
+    "lastSavedBy": "admin@admin.com"
   },
   "about": {
     "lastSavedAt": "2026-08-12T08:31:16.124Z",
@@ -71,10 +72,18 @@
     "migratedAt": "2026-08-12T08:31:16.124Z"
   },
   "pageSections": {
-    "lastSavedAt": "2026-08-12T08:31:16.124Z",
-    "lastPublishedAt": "2026-08-12T08:31:16.124Z",
-    "lastPublishedBy": "migrate-original-homepage",
+    "lastSavedAt": "2026-08-19T06:45:04.636Z",
+    "lastPublishedAt": "2026-08-19T06:34:15.296Z",
+    "lastPublishedBy": "admin@admin.com",
+    "hasUnpublishedChanges": true,
+    "migratedAt": "2026-08-12T08:31:16.124Z",
+    "lastSavedBy": "admin@admin.com"
+  },
+  "demoCta": {
+    "lastSavedAt": "2026-08-19T06:29:15.194Z",
+    "lastSavedBy": "admin@admin.com",
     "hasUnpublishedChanges": false,
-    "migratedAt": "2026-08-12T08:31:16.124Z"
+    "lastPublishedAt": "2026-08-19T06:29:15.219Z",
+    "lastPublishedBy": "admin@admin.com"
   }
 }

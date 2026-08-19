@@ -175,7 +175,7 @@ export function mergeAutoPartsBusinessIndustryPage(data: SoftwareDetailPageData)
     challengeBullets: [],
     solutionHeading: 'Smarter parts retail',
     solutionParagraphs: [
-      'Efficiently manage inventory, track sales, handle suppliers, and monitor stock movement through a powerful cloud-based ERP system designed specifically for the auto parts industry in Pakistan.',
+      'Efficiently manage inventory, track sales, handle suppliers, and monitor stock movement through a powerful cloud-based ERP system designed specifically for the auto parts industry in the UAE.',
     ],
     heroAsideCaption: 'Auto parts ERP with purchase, sales, stock, and accounts on DigitalManager.',
   }
@@ -184,14 +184,14 @@ export function mergeAutoPartsBusinessIndustryPage(data: SoftwareDetailPageData)
     ...data,
     metaTitle: 'Auto Parts Business Software | DigitalManager ERP',
     metaDescription:
-      'Manage stock, track sales, serve faster — cloud ERP for auto parts dealers, spare parts retailers, and vehicle accessory shops in Pakistan.',
+      'Manage stock, track sales, serve faster — cloud ERP for auto parts dealers, spare parts retailers, and vehicle accessory shops in the UAE.',
     premiumLayout,
     hero: {
       ...data.hero,
       headline: 'Cloud-Based Auto Parts Business Software for Smarter Inventory & Sales',
       subhead: 'Manage Stock. Track Sales. Serve Faster.',
       intro:
-        'A specialized software solution for auto parts dealers, spare parts retailers, and vehicle accessory shops. Efficiently manage inventory, track sales, handle suppliers, and monitor stock movement through a powerful cloud-based ERP system designed specifically for the auto parts industry in Pakistan.',
+        'A specialized software solution for auto parts dealers, spare parts retailers, and vehicle accessory shops. Efficiently manage inventory, track sales, handle suppliers, and monitor stock movement through a powerful cloud-based ERP system designed specifically for the auto parts industry in the UAE.',
       trust: [...AUTO_PARTS_TRUST],
       ctaPrimary: { label: 'Get Live Demo', to: '/contact#contact-form' },
       ctaSecondary: data.hero.ctaSecondary,

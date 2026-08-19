@@ -165,10 +165,10 @@ export const moduleRichPages: Record<string, ModuleRichPage> = {
     headline: 'Cloud-Based Point Of Sale Software (POS) That Powers Your Retail Growth',
     subhead: 'Simplify Sales. Track Inventory. Delight Customers.',
     intro:
-      'All-in-one retail management solution for grocery stores, fashion boutiques, electronics shops, salons, cafes, restaurants, and pharmacies.\n\nSeamlessly FBR-integrated and designed for businesses of all sizes.',
+      'All-in-one retail management solution for grocery stores, fashion boutiques, electronics shops, salons, cafes, restaurants, and pharmacies.\n\nSeamlessly UAE VAT-integrated and designed for businesses of all sizes.',
     highlights: [
       'Purchase, sales, inventory, and accounts modules behind the register — one retail spine',
-      'FBR-aligned invoicing where enabled, with lanes, shifts, and tender control for busy stores',
+      'UAE VAT-aligned invoicing where enabled, with lanes, shifts, and tender control for busy stores',
       'Reporting from orders and sales through stock and financial statements without manual consolidation',
     ],
     capabilities: [
@@ -345,7 +345,7 @@ export const moduleRichPages: Record<string, ModuleRichPage> = {
     headline: 'Cloud-Based SMS Integration System That Keeps Your Customers Connected',
     subhead: 'Send Alerts. Boost Engagement. Automate Communication.',
     intro:
-      'All-in-one SMS solution for retail, healthcare, education, logistics, and service-based businesses.\n\nEasily integrate with your POS, CRM, or ERP to send invoices, promotions, reminders, and alerts — instantly and reliably across Pakistan.',
+      'All-in-one SMS solution for retail, healthcare, education, logistics, and service-based businesses.\n\nEasily integrate with your POS, CRM, or ERP to send invoices, promotions, reminders, and alerts — instantly and reliably across the UAE.',
     highlights: [
       'Sale and purchase alerts, minimum stock signals, and overdue customer reminders by SMS',
       'Promotions, welcome notes, and campaign-style messaging from the same integration layer',
@@ -378,12 +378,12 @@ export const moduleRichPages: Record<string, ModuleRichPage> = {
   }),
 
   'fbr-pos-integration-software': base({
-    headline: 'FBR-Integrated POS Software for Real-Time Sales Compliance',
+    headline: 'UAE VAT-Integrated POS Software for Real-Time Sales Compliance',
     subhead: 'Compliant. Automated. Officially Integrated.',
     intro:
-      'Stay fully compliant with regulatory standards using our officially verified Point of Sale (POS) software integrated with the Federal Board of Revenue (FBR).\n\nThis smart cloud-based system automates real-time invoice reporting, generates digital receipts, verifies STRNs, and ensures seamless tax filing processes.\n\nIdeal for retail businesses, restaurants, pharmacies, and service providers.',
+      'Stay fully compliant with regulatory standards using our officially verified Point of Sale (POS) software integrated with the UAE tax compliance workflows.\n\nThis smart cloud-based system automates real-time invoice reporting, generates digital receipts, verifies TRNs, and ensures seamless tax filing processes.\n\nIdeal for retail businesses, restaurants, pharmacies, and service providers.',
     highlights: [
-      'POS, CRM, tax filing verification, and analytics aligned to FBR digital invoicing expectations',
+      'POS, CRM, tax filing verification, and analytics aligned to UAE VAT digital invoicing expectations',
       'Varying tax percentages by product with sales and purchase history for audits and reviews',
       'SMS-aware filing verification with real-time reporting for leadership and tax teams',
     ],
@@ -403,7 +403,7 @@ export const moduleRichPages: Record<string, ModuleRichPage> = {
     ],
     workflows: [
       { step: 'Transact at POS', detail: 'Sell with compliant digital invoice data alongside stock and tender control.' },
-      { step: 'Verify & notify', detail: 'Validate STRNs, use SMS alerts where configured, and track submission health.' },
+      { step: 'Verify & notify', detail: 'Validate TRNs, use SMS alerts where configured, and track submission health.' },
       { step: 'Report & file', detail: 'Use analytics and history packs to support timely, confident tax filing.' },
     ],
     outcomes: [

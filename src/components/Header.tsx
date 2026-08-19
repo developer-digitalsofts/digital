@@ -3,7 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom'
 import { ChevronDown, Clock, Mail, Menu, Search, X } from 'lucide-react'
 import { industryCategories, industryCategoryTitleEn, moduleMegaItems } from '../data/megaMenu'
 import { MegaMenuIndustriesPanel, MegaMenuModulesPanel } from './HeaderMegaMenu'
-import { GetDemoModal } from './GetDemoModal'
+import { useGetDemo } from '../context/GetDemoContext'
 import { CmsLink } from './CmsLink'
 import { headerGetDemoButtonClass, headerShellDefault, headerShellScrolled } from '../ui/saas'
 import { useI18n } from '../i18n/I18nProvider'
@@ -11,6 +11,7 @@ import { megaIndustryCatTitle, megaIndustryLabel, megaModuleLabel } from '../i18
 import { SITE_LOGO_SRC, BRAND_DEEP_BG } from '../constants'
 import { pageShellClass } from '../ui/pageShell'
 import { useCms } from '../cms/CmsContext'
+import { useSiteSettings } from '../cms/useSiteSettings'
 import { pick } from '../cms/pick'
 import { isTopBarVisibleFromSections, parsePageSections } from '../cms/pageSections'
 import type { CmsHeader, CmsHeaderNavLink } from '../cms/types'
@@ -19,12 +20,13 @@ type MegaKey = 'module' | 'industry'
 
 function TopBar({ header }: { header?: CmsHeader }) {
   const { lang } = useI18n()
+  const site = useSiteSettings()
   const tb = header?.topBar
-  const email = tb?.email ?? 'info@digitalmanager.ae'
-  const hours = tb?.hours ? pick(tb.hours, lang) : lang === 'ar' ? 'السبت–الخميس: ١٠ ص – ٩ م' : 'Sat - Thu : 10.00 am - 9.00 pm'
+  const email = tb?.email ?? site.primaryEmail
+  const hours = tb?.hours ? pick(tb.hours, lang) : site.workingHours
   const phoneCta = tb?.phoneCta ? pick(tb.phoneCta, lang) : lang === 'ar' ? 'تحدث معنا:' : 'Talk to Us:'
-  const phoneDisplay = tb?.phoneDisplay ?? '+971 58 117 4911'
-  const phoneHref = tb?.phoneHref ?? 'tel:+971581174911'
+  const phoneDisplay = tb?.phoneDisplay ?? site.phoneDisplay
+  const phoneHref = tb?.phoneHref ?? site.phoneHref
   return (
     <div
       className="border-b border-white/10 text-[11px] leading-snug text-slate-200 antialiased sm:text-[12px]"
@@ -159,7 +161,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
   const [mobileModulesOpen, setMobileModulesOpen] = useState(false)
   const [mobileIndustriesOpen, setMobileIndustriesOpen] = useState(false)
   const [mobileIndustryCat, setMobileIndustryCat] = useState<string | null>(null)
-  const [demoOpen, setDemoOpen] = useState(false)
+  const { openDemo } = useGetDemo()
   const [scrolled, setScrolled] = useState(false)
   const closeMega = useCallback(() => {
     setMega(null)
@@ -178,10 +180,10 @@ export function Header({ onOpenSearch }: HeaderProps) {
     closeMega()
   }, [closeMega])
 
-  const openDemo = useCallback(() => {
+  const handleOpenDemo = useCallback(() => {
     closeMobile()
-    setDemoOpen(true)
-  }, [closeMobile])
+    openDemo()
+  }, [closeMobile, openDemo])
 
   useEffect(() => {
     if (!mobileOpen) return
@@ -397,7 +399,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
               <button
                 type="button"
                 className={`${headerGetDemoButtonClass} min-h-[40px] sm:min-h-[44px]`}
-                onClick={openDemo}
+                onClick={handleOpenDemo}
               >
                 Get Demo
               </button>
@@ -444,7 +446,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
               <button
                 type="button"
                 className={`${headerGetDemoButtonClass} min-h-[36px] px-2.5 py-1.5 text-[11px] sm:min-h-[40px] sm:px-3.5 sm:py-2 sm:text-xs`}
-                onClick={openDemo}
+                onClick={handleOpenDemo}
               >
                 Get Demo
               </button>
@@ -464,9 +466,10 @@ export function Header({ onOpenSearch }: HeaderProps) {
         {navStyle !== 'simple' && mega === 'module' && (
           <div
             id="nav-mega-modules-panel"
-            role="region"
+            role="presentation"
+            data-mega="module"
+            className="dm-mega-menu-wrap"
             aria-labelledby="nav-mega-modules-trigger"
-            className="pointer-events-none absolute left-1/2 top-full z-50 hidden -translate-x-1/2 bg-transparent pt-2 pb-3 lg:block"
           >
             <MegaMenuModulesPanel key={`mega-mod-${lang}`} onPick={closeMega} />
           </div>
@@ -474,9 +477,10 @@ export function Header({ onOpenSearch }: HeaderProps) {
         {navStyle !== 'simple' && mega === 'industry' && (
           <div
             id="nav-mega-industries-panel"
-            role="region"
+            role="presentation"
+            data-mega="industry"
+            className="dm-mega-menu-wrap"
             aria-labelledby="nav-mega-industries-trigger"
-            className="pointer-events-none absolute left-1/2 top-full z-50 hidden -translate-x-1/2 bg-transparent pt-2 pb-3 lg:block"
           >
             <MegaMenuIndustriesPanel key={`mega-ind-${lang}`} onPick={closeMega} />
           </div>
@@ -657,7 +661,6 @@ export function Header({ onOpenSearch }: HeaderProps) {
           </div>
         )}
       </div>
-      <GetDemoModal open={demoOpen} onClose={() => setDemoOpen(false)} />
     </>
   )
 }

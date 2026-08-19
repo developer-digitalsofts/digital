@@ -15,6 +15,112 @@ export const messages = {
       moduleCol2: 'Retail & point of sale',
       moduleCol3: 'People & integration',
     },
+    megaMenuIndustries: {
+      heading: 'Solutions for every type of business',
+      subheading: 'Choose your industry to explore software designed for your daily operations.',
+      viewAll: 'View All Industries →',
+      columns: {
+        retailCommerce: 'RETAIL & COMMERCE',
+        manufacturing: 'MANUFACTURING & DISTRIBUTION',
+        specialized: 'SPECIALIZED INDUSTRIES',
+      },
+      items: {
+        retailPos: {
+          title: 'Retail POS',
+          desc: 'Billing, stock and customer management',
+        },
+        supermarket: {
+          title: 'Supermarket Software',
+          desc: 'Fast checkout and multi-branch control',
+        },
+        pharmacy: {
+          title: 'Pharmacy Management',
+          desc: 'Inventory, expiry and sales tracking',
+        },
+        manufacturingErp: {
+          title: 'Manufacturing ERP',
+          desc: 'Production, inventory and costing',
+        },
+        textileGarments: {
+          title: 'Textile & Garments',
+          desc: 'Orders, production and dispatch',
+        },
+        warehouse: {
+          title: 'Warehouse Management',
+          desc: 'Locations, transfers and stock visibility',
+        },
+        petrolStation: {
+          title: 'Petrol Station Software',
+          desc: 'Tanks, nozzles, shifts and accounts',
+        },
+        lpg: {
+          title: 'LPG Business Software',
+          desc: 'Cylinders, filling and distribution',
+        },
+        poultryAgri: {
+          title: 'Poultry & Agriculture',
+          desc: 'Flocks, feed, production and finance',
+        },
+      },
+      footer: {
+        prompt: 'Need a solution tailored to your workflow?',
+        linkAction: 'Talk to our experts →',
+        buttonAction: 'Get a Demo',
+      },
+    },
+    megaMenuModules: {
+      heading: 'Powerful modules for every business function',
+      subheading: 'Choose the tools you need and manage everything from one connected platform.',
+      viewAll: 'View All Modules →',
+      columns: {
+        financeCompliance: 'FINANCE & COMPLIANCE',
+        operations: 'OPERATIONS',
+        salesWorkforce: 'SALES & WORKFORCE',
+      },
+      items: {
+        accountsFinance: {
+          title: 'Accounts & Finance',
+          desc: 'Ledgers, vouchers, cash flow and bank control',
+        },
+        vatCompliance: {
+          title: 'UAE VAT & Tax Compliance',
+          desc: 'UAE VAT-compliant invoicing and tax reporting',
+        },
+        reportsAnalytics: {
+          title: 'Reports & Analytics',
+          desc: 'Real-time dashboards and business insights',
+        },
+        inventoryManagement: {
+          title: 'Inventory Management',
+          desc: 'Stock levels, transfers and warehouse control',
+        },
+        productionManagement: {
+          title: 'Production Management',
+          desc: 'Work orders, BOM and shop-floor visibility',
+        },
+        purchaseManagement: {
+          title: 'Purchase Management',
+          desc: 'Supplier orders, GRN and procurement control',
+        },
+        pointOfSale: {
+          title: 'Point of Sale',
+          desc: 'Fast checkout, billing and retail sales',
+        },
+        crmSoftware: {
+          title: 'CRM Software',
+          desc: 'Leads, follow-ups and customer pipeline',
+        },
+        payrollManagement: {
+          title: 'Payroll Management',
+          desc: 'Salaries, attendance and workforce payroll',
+        },
+      },
+      footer: {
+        prompt: 'Not sure which modules your business needs?',
+        linkAction: 'Compare Solutions →',
+        buttonAction: 'Talk to an Expert',
+      },
+    },
     search: {
       placeholder: 'Search software…',
       empty: 'Type to search modules and industries.',
@@ -37,6 +143,43 @@ export const messages = {
       l2: 'ERP Workflows',
       l3: 'Industry Solutions',
       l4: 'Daily Transactions',
+    },
+    erpModules: {
+      eyebrow: 'All-in-One ERP Modules',
+      sectionTitle: 'One Platform. Every Business Function.',
+      featured: {
+        title: 'Accounts & Finance',
+        desc: 'Complete control over your financial operations.',
+        features: {
+          ledger: 'General Ledger',
+          payable: 'Accounts Payable',
+          receivable: 'Accounts Receivable',
+          reconciliation: 'Bank Reconciliation',
+          reporting: 'Financial Reporting',
+        },
+      },
+      cards: {
+        inventory: {
+          title: 'Inventory Management',
+          desc: 'Track stock in real-time across warehouses and locations.',
+        },
+        production: {
+          title: 'Production Management',
+          desc: 'Plan, produce and monitor with complete visibility.',
+        },
+        pos: {
+          title: 'Point of Sale (POS)',
+          desc: 'Fast billing, returns and multi-outlet management.',
+        },
+        payroll: {
+          title: 'Payroll Management',
+          desc: 'Automate payroll, deductions, leave and employee records.',
+        },
+        invoicing: {
+          title: 'Digital Invoicing',
+          desc: 'Create, send and track invoices digitally. Stay compliant and get paid faster.',
+        },
+      },
     },
     valueChain: {
       title: 'Enterprise-grade control across your value chain',
@@ -69,7 +212,7 @@ export const messages = {
     cta: {
       title: 'Ready to modernize your business with a trusted ERP partner?',
       sub: 'DigitalManager helps growing businesses across UAE, GCC and international markets manage accounts, inventory, sales, payroll, POS and reporting from one connected platform.',
-      trustLine: 'Trusted by businesses across UAE, Saudi Arabia, Qatar, Bahrain, Oman and Pakistan.',
+      trustLine: 'Trusted by businesses across the UAE, Saudi Arabia, Qatar, Bahrain and Oman.',
       demo: 'Book Free Demo',
       expert: 'Talk to an ERP Consultant',
       wa: 'WhatsApp Now',
@@ -80,21 +223,137 @@ export const messages = {
         multibranch: 'Multi-Branch ERP',
       },
     },
+    demoCta: {
+      title: 'See DigitalManager in Action',
+      desc: 'Book a personalized demo and discover the right ERP solution for your business.',
+      button: 'Book Your Free Demo',
+    },
+    personalizedDemo: {
+      eyebrow: 'See DigitalManager in Action',
+      title: 'Book a Personalized Demo Tailored to Your Business',
+      desc: 'Our experts will walk you through the platform, show how it fits your needs and answer all your questions.',
+      highlights: {
+        tour: 'Personalized Tour',
+        commitment: 'No Commitment',
+        response: 'Quick Response',
+      },
+      fields: {
+        name: 'Full Name*',
+        email: 'Email Address*',
+        company: 'Company Name*',
+        phone: 'Phone Number*',
+        industry: 'Industry*',
+        employees: 'Number of Employees*',
+        discussion: 'What would you like to discuss?',
+      },
+      placeholders: {
+        name: 'Full Name*',
+        email: 'Email Address*',
+        company: 'Company Name*',
+        phone: 'Phone Number*',
+        industry: 'Industry*',
+        employees: 'Number of Employees*',
+        discussion: 'What would you like to discuss?',
+      },
+      industries: {
+        retail: 'Retail',
+        manufacturing: 'Manufacturing',
+        hospitality: 'Hospitality',
+        healthcare: 'Healthcare',
+        services: 'Services',
+        agriculture: 'Agriculture',
+        other: 'Other',
+      },
+      employees: {
+        '1-10': '1–10',
+        '11-50': '11–50',
+        '51-200': '51–200',
+        '201-500': '201–500',
+        '500-plus': '500+',
+      },
+      submit: 'Request Demo',
+      submitting: 'Submitting…',
+      formError: 'Please complete all required fields with a valid email and phone number.',
+      submitError: 'Could not submit your request. Please try again in a moment.',
+      networkError: 'Network error — please check your connection and try again.',
+      successTitle: 'Thank you — we received your request.',
+      successDesc: 'Our team will contact you shortly to schedule your personalized demo.',
+    },
+    testimonials: {
+      eyebrow: 'Loved by Businesses Like Yours',
+      dotsLabel: 'Testimonial slides',
+      slideLabel: 'Go to slide',
+      prev: 'Previous testimonial',
+      next: 'Next testimonial',
+      items: {
+        fahad: {
+          quote:
+            'Before DigitalManager, our financial reporting was spread across multiple files and departments. The platform brought accounts, inventory and branch operations into one connected system. Our reports are now prepared faster, management receives accurate information on time and our team has much better control over daily business performance.',
+          name: 'Fahad Ahmed',
+          role: 'Chief Executive Officer',
+          company: 'Retail & Distribution Business',
+        },
+        ayesha: {
+          quote:
+            'The implementation process was well planned and the support team guided our staff at every stage. DigitalManager has simplified our approval workflows, receivables monitoring and management reporting. We can now identify pending activities earlier and make decisions using reliable real-time information instead of waiting for manual reports.',
+          name: 'Ayesha Khan',
+          role: 'Finance Director',
+          company: 'Manufacturing Group',
+        },
+        usman: {
+          quote:
+            'Managing stock across multiple branches was one of our biggest challenges. With DigitalManager, our team can monitor stock movement, low-stock items, purchases and sales from one dashboard. It has reduced manual reconciliation and given both branch managers and head office a much clearer view of inventory availability.',
+          name: 'Usman Tariq',
+          role: 'Operations Manager',
+          company: 'Multi-Branch Retail Company',
+        },
+        sara: {
+          quote:
+            'DigitalManager helped us connect our sales, customer balances, cash collection and financial reporting in one platform. The system is straightforward for daily users while still providing detailed reports for management. Our month-end process is more organized, and the team spends less time correcting duplicate or incomplete entries.',
+          name: 'Sara Malik',
+          role: 'Head of Accounts',
+          company: 'Trading & Services Company',
+        },
+        bilal: {
+          quote:
+            'We needed a solution that could support operational controls without making the process complicated for our staff. DigitalManager provided the right balance of usability and detailed reporting. Attendance, payroll, approvals and departmental information are now available in one place, making administration much easier for our management team.',
+          name: 'Bilal Hussain',
+          role: 'General Manager',
+          company: 'Industrial Services Business',
+        },
+        nadia: {
+          quote:
+            'The biggest improvement has been management visibility. We can review sales, expenses, receivables, inventory and branch performance without collecting reports from different people. DigitalManager has helped create a more disciplined workflow, reduced reporting delays and given our management team greater confidence in the information used for business decisions.',
+          name: 'Nadia Rahman',
+          role: 'Business Director',
+          company: 'Regional Distribution Network',
+        },
+      },
+    },
     faq: {
+      eyebrow: 'Frequently Asked Questions',
       title: 'Questions ERP buyers ask',
       sub: 'Straight answers before you shortlist or roll out.',
-      q1: 'Is DigitalManager suitable for small businesses?',
-      a1: 'Yes. Start with accounts and inventory, then add POS or payroll as you grow. You only enable what you are ready to run day to day.',
-      q2: 'Can I use only selected ERP modules?',
-      a2: 'Yes. Turn on the modules you need while sharing one chart of accounts, item master, and customer records across the company.',
-      q3: 'Does it support POS and inventory?',
-      a3: 'Yes. POS sales can update stock in near real time, and inventory valuation follows the same rules your finance team expects.',
-      q4: 'Can reports be customized?',
-      a4: 'Role-based dashboards and standard packs are included. Heavier custom layouts depend on your plan and implementation scope.',
-      q5: 'Can it work for multiple branches?',
-      a5: 'Yes. Use inter-branch transfers, consolidated reporting, and branch-level permissions without splitting your data.',
-      q6: 'How do I start?',
-      a6: 'Book a demo, share your priorities, and we will recommend a sensible module footprint and rollout sequence.',
+      q1: 'What is DigitalManager ERP?',
+      a1: 'DigitalManager ERP is a cloud-based business management platform that connects finance, inventory, sales, POS, HR, and reporting in one secure system.',
+      q2: 'Is DigitalManager suitable for small businesses?',
+      a2: 'Yes. Start with accounts and inventory, then add POS or payroll as you grow. You only enable the modules you are ready to run day to day.',
+      q3: 'How long does implementation take?',
+      a3: 'Most businesses go live in a few weeks depending on modules, branches, and data migration. We provide a phased rollout plan before you start.',
+      q4: 'Can I access DigitalManager on mobile?',
+      a4: 'Yes. DigitalManager works in the browser on desktop, tablet, and mobile so your team can review approvals, stock, and sales on the go.',
+      q5: 'Do you provide training and support?',
+      a5: 'Yes. We provide onboarding, user training, and ongoing support so your finance, warehouse, and store teams adopt the system confidently.',
+      q6: 'Which industries do you serve?',
+      a6: 'Retail, manufacturing, hospitality, petrol, agriculture, textiles, services, and many more — with industry-specific workflows built into the platform.',
+      q7: 'Is my data secure with DigitalManager?',
+      a7: 'Yes. Role-based access, audit trails, and secure cloud hosting help protect sensitive financial and operational data across your organization.',
+      q8: 'Can DigitalManager integrate with other systems?',
+      a8: 'Yes. We support integrations for SMS, POS devices, payment gateways, and selected third-party tools depending on your deployment needs.',
+      q9: 'What deployment options are available?',
+      a9: 'DigitalManager is primarily cloud-hosted for fast rollout and lower IT overhead. Discuss private or hybrid options with our team if required.',
+      q10: 'How is pricing structured?',
+      a10: 'Pricing depends on modules, users, branches, and support level. Book a demo and we will recommend a plan aligned with your business size and scope.',
     },
     about: {
       eyebrow: 'About Us',
@@ -152,6 +411,237 @@ export const messages = {
     },
     trustStats: {
       title: 'Trusted By Businesses Across UAE & GCC',
+      bannerTitle: 'Trusted Results.\nStronger Businesses.',
+      eyebrow: 'Proven Performance',
+      heading: 'Built on Trust. Proven by Results.',
+      items: {
+        experience: { value: 'Cloud', label: 'Native ERP Platform' },
+        softwares: { value: '120+', label: 'Business Solutions' },
+        clients: { value: 'AED', label: 'VAT-Ready Invoicing' },
+        satisfaction: { value: 'Unified', label: 'Connected Operations' },
+        branches: { value: 'UAE', label: 'Focused Implementation' },
+      },
+    },
+    industryListing: {
+      eyebrow: 'Tailored ERP Solutions',
+      title: 'Built for Your Industry',
+      description:
+        'Explore purpose-built ERP solutions designed around the workflows, challenges and growth needs of your industry.',
+      searchLabel: 'Search industries or software solutions',
+      searchPlaceholder: 'Search industries or software solutions...',
+      emptyTitle: 'No industries found',
+      emptyText: 'Try a different search term or filter to explore our ERP solutions.',
+      exploreIndustry: 'Explore Industry',
+      filters: {
+        all: 'All Industries',
+        retailCommerce: 'Retail & Commerce',
+        manufacturing: 'Manufacturing',
+        energy: 'Energy',
+        services: 'Services',
+        agriculture: 'Agriculture',
+        logistics: 'Logistics',
+        construction: 'Construction',
+      },
+      cta: {
+        heading: 'Not sure which solution fits your business?',
+        text: 'Tell us about your operations and our ERP specialists will help you identify the right solution.',
+        consultant: 'Talk to an ERP Consultant',
+        whatsapp: 'WhatsApp Now',
+      },
+      categories: {
+        'oil-gas': {
+          label: 'OIL & GAS',
+          desc: 'Control fuel sales, stock, shifts and accounts from one connected ERP platform.',
+        },
+        textile: {
+          label: 'TEXTILE',
+          desc: 'Manage spinning, weaving, dyeing and garment production with unified inventory and costing.',
+        },
+        manufacturing: {
+          label: 'MANUFACTURING',
+          desc: 'Run production, BOM, inventory and shop-floor operations with real-time visibility.',
+        },
+        retail: {
+          label: 'RETAIL',
+          desc: 'Manage sales, inventory and customers across stores, counters and branches.',
+        },
+        smb: {
+          label: 'SMB',
+          desc: 'Flexible ERP for growing service and trading businesses with billing and operations control.',
+        },
+        medical: {
+          label: 'MEDICAL',
+          desc: 'Pharmacy and healthcare business management with stock, sales and compliance workflows.',
+        },
+        hospitality: {
+          label: 'HOSPITALITY',
+          desc: 'Hotel, restaurant and hospitality operations with POS, billing and service management.',
+        },
+        logistics: {
+          label: 'LOGISTICS',
+          desc: 'Fleet, dispatch, vendor and transport operations managed from one connected system.',
+        },
+        poultry: {
+          label: 'POULTRY',
+          desc: 'Broiler, breeder, feed and shed management for commercial poultry operations.',
+        },
+        agriculture: {
+          label: 'AGRICULTURE',
+          desc: 'Crop, dairy, inventory and supply workflows for agriculture and farm businesses.',
+        },
+        construction: {
+          label: 'CONSTRUCTION',
+          desc: 'Project materials, inventory and factory operations for construction-related businesses.',
+        },
+        'real-estate': {
+          label: 'REAL ESTATE',
+          desc: 'Property sales, installments and construction-linked ERP for real-estate businesses.',
+        },
+        visa: {
+          label: 'VISA CONSULTANCY',
+          desc: 'Client records, billing and case management for visa and immigration consultants.',
+        },
+        electronics: {
+          label: 'ELECTRONICS',
+          desc: 'Retail and distribution ERP for electronics, mobile and computer businesses.',
+        },
+      },
+    },
+    industryShowcase: {
+      eyebrow: 'Tailored Solutions for Every Industry',
+      title: 'Built for Your Industry',
+      pageSubtitle: 'Browse industry categories and explore every ERP solution we offer.',
+      softwareCount: '{{count}} software solutions',
+      viewAll: 'View All Industries',
+      viewAllSolutions: 'View all solutions',
+      moreSolutions: '+{{count}} more solutions',
+      moreSolution: '+{{count}} more solution',
+      showLess: 'Show less',
+      categorySolutions: 'Solutions in this category',
+      homeCard: {
+        retail: {
+          label: 'RETAIL',
+          desc: 'Manage sales, inventory and customers across every store and channel.',
+        },
+        petrol: {
+          label: 'PETROL & GAS',
+          desc: 'Control fuel sales, stock, shifts and accounts from one connected ERP platform.',
+        },
+        textile: {
+          label: 'TEXTILE',
+          desc: 'Spinning, weaving, garments and textile processing in one unified ERP platform.',
+        },
+        manufacturing: {
+          label: 'MANUFACTURING',
+          desc: 'Discrete and process manufacturing with production, inventory and costing control.',
+        },
+        transportation: {
+          label: 'LOGISTICS',
+          desc: 'Fleet, routes, dispatch and vendor management for transport operations.',
+        },
+        services: {
+          label: 'SERVICES',
+          desc: 'Project, billing and resource management for service-based businesses.',
+        },
+      },
+      card: {
+        retail: {
+          title: 'Retail',
+          desc: 'Manage sales, inventory and customers across stores.',
+        },
+        petrol: {
+          title: 'Petrol & Gas Station',
+          desc: 'End-to-end fuel station operations and reporting.',
+        },
+        knitting: {
+          title: 'Knitting & Dyeing',
+          desc: 'Yarn, fabric, dyeing and finishing management.',
+        },
+        supply: {
+          title: 'Supply Chain',
+          desc: 'Procurement, logistics and vendor management.',
+        },
+        textile: {
+          title: 'Textile Industries',
+          desc: 'Spinning, weaving, garments and textile processing.',
+        },
+        education: {
+          title: 'Education',
+          desc: 'Institution, fee management and academic records.',
+        },
+        agriculture: {
+          title: 'Agriculture',
+          desc: 'Crop, inventory, stock and supply chain for agri-business.',
+        },
+        services: {
+          title: 'Services',
+          desc: 'Project, task, billing and resource management.',
+        },
+        hospitality: {
+          title: 'Hospitality',
+          desc: 'Hotel, restaurants, POS and reservations.',
+        },
+        poultry: {
+          title: 'Poultry',
+          desc: 'Broiler, breeder, hatchery and feed management.',
+        },
+        manufacturing: {
+          title: 'Manufacturing',
+          desc: 'Discrete & process manufacturing solutions.',
+        },
+        transportation: {
+          title: 'Transportation',
+          desc: 'Fleet, routes, tracking and maintenance.',
+        },
+      },
+    },
+    powerfulModules: {
+      title: 'Powerful Modules. One Unified Platform.',
+      exploreModule: 'Explore module',
+      cards: {
+        sales: {
+          title: 'Sales Management',
+          desc: 'Manage leads, close deals and delight customers.',
+          tag1: 'Leads',
+          tag2: 'Orders',
+          tag3: 'Customers',
+        },
+        inventory: {
+          title: 'Inventory Management',
+          desc: 'Track stock accurately and optimize availability.',
+          tag1: 'Items',
+          tag2: 'Stock',
+          tag3: 'Warehouses',
+        },
+        finance: {
+          title: 'Finance & Accounting',
+          desc: 'Streamline finances and strengthen fiscal control.',
+          tag1: 'Invoices',
+          tag2: 'Payments',
+          tag3: 'Ledgers',
+        },
+        hr: {
+          title: 'HR & Payroll',
+          desc: 'Empower people and simplify payroll operations.',
+          tag1: 'Employees',
+          tag2: 'Payroll',
+          tag3: 'Leave',
+        },
+        project: {
+          title: 'Project Management',
+          desc: 'Plan projects, assign tasks and deliver on time.',
+          tag1: 'Projects',
+          tag2: 'Tasks',
+          tag3: 'Milestones',
+        },
+        reports: {
+          title: 'Reports & Analytics',
+          desc: 'Turn data into insights that drive decisions.',
+          tag1: 'Reports',
+          tag2: 'Insights',
+          tag3: 'Export',
+        },
+      },
     },
     moduleBlock: {
       pill: 'Connected platform',
@@ -174,8 +664,8 @@ export const messages = {
           desc: 'Fast checkout, promotions, and live stock sync to ERP.',
         },
         'fbr-pos-integration-software': {
-          title: 'FBR Integration',
-          desc: 'FBR-compliant digital invoicing and real-time POS tax lines.',
+          title: 'UAE VAT & Tax Compliance',
+          desc: 'UAE VAT-compliant digital invoicing and real-time POS tax lines.',
         },
         'inventory-management-software': {
           title: 'Inventory',
@@ -213,7 +703,7 @@ export const messages = {
           cat: 'Industry Solution',
         },
         fbr: {
-          title: 'FBR POS',
+          title: 'UAE VAT POS',
           desc: 'Compliant digital invoicing with faster reconciliation.',
           cat: 'Compliance',
         },
@@ -281,12 +771,13 @@ export const messages = {
     },
     footer: {
       rights: 'All rights reserved.',
-      brandSubtitle: 'Business Management Software',
+      brandSubtitle: 'Cloud ERP Suite',
       tagline:
         'Cloud ERP for accounts, inventory, POS, payroll, and industry-specific programmes — built for teams that need dependable operations every day.',
-      colProduct: 'Product',
+      colProduct: 'Products',
       colIndustries: 'Industries',
       colCompany: 'Company',
+      colResources: 'Resources',
       colContact: 'Contact',
       prodAccounts: 'Accounts',
       prodInventory: 'Inventory',
@@ -302,9 +793,29 @@ export const messages = {
       coWorkflow: 'Workflows',
       coFaq: 'FAQs',
       coContact: 'Contact',
-      privacy: 'Privacy',
-      terms: 'Terms',
+      privacy: 'Privacy Policy',
+      terms: 'Terms of Use',
       address: '607, Al Rahma 1, Al Wahda St, Sharjah, UAE',
+      trustMessage: 'Trusted by businesses across UAE, GCC and international markets.',
+      legalNav: 'Legal links',
+      resources: {
+        blog: 'Blog',
+        caseStudies: 'Case Studies',
+        whitepapers: 'Whitepapers',
+        webinars: 'Webinars',
+        helpCenter: 'Help Center',
+        documentation: 'Documentation',
+      },
+      newsletter: {
+        title: 'Stay Updated',
+        desc: 'Subscribe to our newsletter for the latest updates and insights.',
+        placeholder: 'Enter your email',
+        submit: 'Subscribe',
+        submitting: 'Subscribing…',
+        success: 'Thank you — you are subscribed.',
+        error: 'Please enter a valid email address.',
+        networkError: 'Network error — please try again.',
+      },
     },
     contactPage: {
       title: 'Contact us',
@@ -398,7 +909,7 @@ export const messages = {
       emailLabel: 'Email',
       phoneLabel: 'Contact Number',
       emailPlaceholder: 'you@company.com',
-      phonePlaceholder: '+92 …',
+      phonePlaceholder: '+971 …',
       sending: 'Sending…',
       requestSuccess: 'Thank you — our team will contact you shortly.',
       requestError: 'Please enter a valid email and try again.',
@@ -444,6 +955,112 @@ export const messages = {
       moduleCol2: 'التجزئة ونقطة البيع',
       moduleCol3: 'الموارد والتكامل',
     },
+    megaMenuIndustries: {
+      heading: 'حلول لكل نوع من الأعمال',
+      subheading: 'اختر قطاعك لاستكشاف برمجيات مصممة لعملياتك اليومية.',
+      viewAll: 'عرض جميع القطاعات ←',
+      columns: {
+        retailCommerce: 'التجزئة والتجارة',
+        manufacturing: 'التصنيع والتوزيع',
+        specialized: 'القطاعات المتخصصة',
+      },
+      items: {
+        retailPos: {
+          title: 'نقطة بيع التجزئة',
+          desc: 'الفوترة والمخزون وإدارة العملاء',
+        },
+        supermarket: {
+          title: 'برمجيات السوبرماركت',
+          desc: 'دفع سريع وتحكم متعدد الفروع',
+        },
+        pharmacy: {
+          title: 'إدارة الصيدليات',
+          desc: 'المخزون والصلاحية وتتبع المبيعات',
+        },
+        manufacturingErp: {
+          title: 'ERP للتصنيع',
+          desc: 'الإنتاج والمخزون والتكلفة',
+        },
+        textileGarments: {
+          title: 'النسيج والملابس',
+          desc: 'الطلبات والإنتاج والإرسال',
+        },
+        warehouse: {
+          title: 'إدارة المستودعات',
+          desc: 'المواقع والتحويلات ورؤية المخزون',
+        },
+        petrolStation: {
+          title: 'برمجيات محطات الوقود',
+          desc: 'الخزانات والفوهات والورديات والحسابات',
+        },
+        lpg: {
+          title: 'برمجيات أعمال الغاز',
+          desc: 'الأسطوانات والتعبئة والتوزيع',
+        },
+        poultryAgri: {
+          title: 'الدواجن والزراعة',
+          desc: 'القطعان والعلف والإنتاج والمالية',
+        },
+      },
+      footer: {
+        prompt: 'هل تحتاج حلاً مخصصاً لسير عملك؟',
+        linkAction: 'تحدث إلى خبرائنا ←',
+        buttonAction: 'احصل على عرض',
+      },
+    },
+    megaMenuModules: {
+      heading: 'وحدات قوية لكل وظيفة أعمال',
+      subheading: 'اختر الأدوات التي تحتاجها وأدر كل شيء من منصة واحدة متصلة.',
+      viewAll: 'عرض جميع الوحدات ←',
+      columns: {
+        financeCompliance: 'المالية والامتثال',
+        operations: 'العمليات',
+        salesWorkforce: 'المبيعات والموارد',
+      },
+      items: {
+        accountsFinance: {
+          title: 'الحسابات والمالية',
+          desc: 'دفاتر وسندات وتدفق نقدي وبنوك',
+        },
+        fbrIntegration: {
+          title: 'امتثال ضريبة القيمة المضافة',
+          desc: 'فوترة POS متوافقة وتقارير ضريبية',
+        },
+        reportsAnalytics: {
+          title: 'التقارير والتحليلات',
+          desc: 'لوحات معلومات فورية ورؤى الأعمال',
+        },
+        inventoryManagement: {
+          title: 'إدارة المخزون',
+          desc: 'مستويات المخزون والتحويلات والمستودعات',
+        },
+        productionManagement: {
+          title: 'إدارة الإنتاج',
+          desc: 'أوامر العمل وBOM ورؤية المصنع',
+        },
+        purchaseManagement: {
+          title: 'إدارة المشتريات',
+          desc: 'طلبات الموردين وGRN ومراقبة الشراء',
+        },
+        pointOfSale: {
+          title: 'نقطة البيع',
+          desc: 'دفع سريع وفوترة ومبيعات التجزئة',
+        },
+        crmSoftware: {
+          title: 'برمجيات CRM',
+          desc: 'عملاء محتملون ومتابعات ومسار المبيعات',
+        },
+        payrollManagement: {
+          title: 'إدارة الرواتب',
+          desc: 'رواتب وحضور وموارد بشرية',
+        },
+      },
+      footer: {
+        prompt: 'لست متأكداً أي وحدات يحتاجها عملك؟',
+        linkAction: 'قارن الحلول ←',
+        buttonAction: 'تحدث إلى خبير',
+      },
+    },
     search: {
       placeholder: 'ابحث عن البرمجيات…',
       empty: 'اكتب للبحث في الوحدات والقطاعات.',
@@ -466,6 +1083,43 @@ export const messages = {
       l2: 'سير عمل ERP',
       l3: 'حلول قطاعية',
       l4: 'معاملات يومية',
+    },
+    erpModules: {
+      eyebrow: 'وحدات ERP شاملة',
+      sectionTitle: 'منصة واحدة. كل وظائف أعمالك.',
+      featured: {
+        title: 'الحسابات والمالية',
+        desc: 'تحكم كامل في عملياتك المالية.',
+        features: {
+          ledger: 'دفتر الأستاذ العام',
+          payable: 'الذمم الدائنة',
+          receivable: 'الذمم المدينة',
+          reconciliation: 'تسوية البنك',
+          reporting: 'التقارير المالية',
+        },
+      },
+      cards: {
+        inventory: {
+          title: 'إدارة المخزون',
+          desc: 'تتبع المخزون لحظياً عبر المستودعات والمواقع.',
+        },
+        production: {
+          title: 'إدارة الإنتاج',
+          desc: 'خطط وأنتج وراقب بكامل الشفافية.',
+        },
+        pos: {
+          title: 'نقطة البيع (POS)',
+          desc: 'فوترة سريعة ومرتجعات وإدارة فروع متعددة.',
+        },
+        payroll: {
+          title: 'إدارة الرواتب',
+          desc: 'أتمتة الرواتب والاستقطاعات والإجازات وسجلات الموظفين.',
+        },
+        invoicing: {
+          title: 'الفوترة الرقمية',
+          desc: 'أنشئ وأرسل وتتبع الفواتير رقمياً. التزم بالامتثال واستلم مدفوعاتك أسرع.',
+        },
+      },
     },
     valueChain: {
       title: 'تحكم على مستوى المؤسسات عبر سلسلة قيمتك',
@@ -509,21 +1163,137 @@ export const messages = {
         multibranch: 'ERP متعدد الفروع',
       },
     },
+    demoCta: {
+      title: 'شاهد ديجيتال مانجر أثناء العمل',
+      desc: 'احجز عرضًا مخصصًا واكتشف حل ERP المناسب لعملك.',
+      button: 'احجز عرضك المجاني',
+    },
+    personalizedDemo: {
+      eyebrow: 'شاهد ديجيتال مانجر أثناء العمل',
+      title: 'احجز عرضًا مخصصًا يناسب عملك',
+      desc: 'سيرشدك خبراؤنا عبر المنصة، ويوضحون كيف تناسب احتياجاتك ويجيبون على جميع أسئلتك.',
+      highlights: {
+        tour: 'جولة مخصصة',
+        commitment: 'بدون التزام',
+        response: 'استجابة سريعة',
+      },
+      fields: {
+        name: 'الاسم الكامل*',
+        email: 'البريد الإلكتروني*',
+        company: 'اسم الشركة*',
+        phone: 'رقم الهاتف*',
+        industry: 'القطاع*',
+        employees: 'عدد الموظفين*',
+        discussion: 'ما الذي تود مناقشته؟',
+      },
+      placeholders: {
+        name: 'الاسم الكامل*',
+        email: 'البريد الإلكتروني*',
+        company: 'اسم الشركة*',
+        phone: 'رقم الهاتف*',
+        industry: 'القطاع*',
+        employees: 'عدد الموظفين*',
+        discussion: 'ما الذي تود مناقشته؟',
+      },
+      industries: {
+        retail: 'التجزئة',
+        manufacturing: 'التصنيع',
+        hospitality: 'الضيافة',
+        healthcare: 'الرعاية الصحية',
+        services: 'الخدمات',
+        agriculture: 'الزراعة',
+        other: 'أخرى',
+      },
+      employees: {
+        '1-10': '1–10',
+        '11-50': '11–50',
+        '51-200': '51–200',
+        '201-500': '201–500',
+        '500-plus': '500+',
+      },
+      submit: 'طلب عرض',
+      submitting: 'جارٍ الإرسال…',
+      formError: 'يرجى إكمال جميع الحقول المطلوبة ببريد إلكتروني ورقم هاتف صالحين.',
+      submitError: 'تعذر إرسال طلبك. يرجى المحاولة مرة أخرى بعد قليل.',
+      networkError: 'خطأ في الشبكة — يرجى التحقق من الاتصال والمحاولة مرة أخرى.',
+      successTitle: 'شكرًا — استلمنا طلبك.',
+      successDesc: 'سيتواصل فريقنا معك قريبًا لجدولة العرض المخصص.',
+    },
+    testimonials: {
+      eyebrow: 'محبوب من شركات مثل شركتك',
+      dotsLabel: 'شرائح الشهادات',
+      slideLabel: 'انتقل إلى الشريحة',
+      prev: 'الشهادة السابقة',
+      next: 'الشهادة التالية',
+      items: {
+        fahad: {
+          quote:
+            'قبل DigitalManager، كانت تقاريرنا المالية موزعة على ملفات وأقسام متعددة. جمعت المنصة الحسابات والمخزون وعمليات الفروع في نظام متصل واحد. تُعد تقاريرنا الآن أسرع، ويتلقى الإدارة معلومات دقيقة في الوقت المناسب ولدى فريقنا تحكم أفضل بكثير في الأداء اليومي.',
+          name: 'فهد أحمد',
+          role: 'الرئيس التنفيذي',
+          company: 'أعمال التجزئة والتوزيع',
+        },
+        ayesha: {
+          quote:
+            'كانت عملية التنفيذ مخططة جيدًا ووجّه فريق الدعم موظفينا في كل مرحلة. بسّط DigitalManager سير الموافقات ومتابعة الذمم المدينة والتقارير الإدارية. يمكننا الآن تحديد الأنشطة المعلقة مبكرًا واتخاذ قرارات بمعلومات موثوقة لحظيًا بدل انتظار التقارير اليدوية.',
+          name: 'عائشة خان',
+          role: 'مديرة المالية',
+          company: 'مجموعة تصنيع',
+        },
+        usman: {
+          quote:
+            'كان إدارة المخزون عبر فروع متعددة من أكبر تحدياتنا. مع DigitalManager، يراقب فريقنا حركة المخزون والأصناف المنخفضة والمشتريات والمبيعات من لوحة واحدة. قلّل ذلك المطابقة اليدوية ومنح مديري الفروع والمركز الرئيسي رؤية أوضح لتوفر المخزون.',
+          name: 'عثمان طارق',
+          role: 'مدير العمليات',
+          company: 'شركة تجزئة متعددة الفروع',
+        },
+        sara: {
+          quote:
+            'ساعدنا DigitalManager على ربط المبيعات وأرصدة العملاء وتحصيل النقد والتقارير المالية في منصة واحدة. النظام بسيط للمستخدمين اليوميين مع تقارير تفصيلية للإدارة. أصبح إغلاق الشهر أكثر تنظيمًا ويقضي الفريق وقتًا أقل في تصحيح الإدخالات المكررة أو الناقصة.',
+          name: 'سارة مالك',
+          role: 'رئيسة الحسابات',
+          company: 'شركة تجارة وخدمات',
+        },
+        bilal: {
+          quote:
+            'احتجنا حلًا يدعم الرقابة التشغيلية دون تعقيد العمل على الموظفين. قدم DigitalManager توازنًا مناسبًا بين سهولة الاستخدام والتقارير التفصيلية. أصبحت الحضور والرواتب والموافقات ومعلومات الأقسام متاحة في مكان واحد، مما سهّل الإدارة على فريقنا.',
+          name: 'بلال حسين',
+          role: 'المدير العام',
+          company: 'أعمال الخدمات الصناعية',
+        },
+        nadia: {
+          quote:
+            'كان أكبر تحسن هو وضوح الرؤية الإدارية. نراجع المبيعات والمصروفات والذمم والمخزون وأداء الفروع دون جمع تقارير من أشخاص مختلفين. ساعد DigitalManager على سير عمل أكثر انضباطًا وتقليل تأخير التقارير ومنح الإدارة ثقة أكبر في المعلومات المستخدمة للقرارات.',
+          name: 'ناديا رحمن',
+          role: 'مديرة الأعمال',
+          company: 'شبكة توزيع إقليمية',
+        },
+      },
+    },
     faq: {
+      eyebrow: 'الأسئلة الشائعة',
       title: 'أسئلة يطرحها مشترو ERP',
       sub: 'إجابات واضحة قبل الاختيار أو الإطلاق.',
-      q1: 'هل ديجيتال مانجر مناسب للشركات الصغيرة؟',
-      a1: 'نعم. ابدأ بالحسابات والمخزون ثم أضف نقطة البيع أو الرواتب مع النمو. تفعّل فقط ما أنت مستعد لتشغيله يوميًا.',
-      q2: 'هل يمكن استخدام وحدات ERP مختارة فقط؟',
-      a2: 'نعم. فعّل الوحدات التي تحتاجها مع دليل حسابات وسجل أصناف وعملاء موحّدين عبر الشركة.',
-      q3: 'هل يدعم نقطة البيع والمخزون؟',
-      a3: 'نعم. مبيعات نقطة البيع يمكن أن تحدّث المخزون تقريبًا لحظيًا، وتقييم المخزون يتبع قواعدك المالية.',
-      q4: 'هل يمكن تخصيص التقارير؟',
-      a4: 'تُضمَّن لوحات حسب الدور وحزم قياسية. التخصيص الأعمق يعتمد على خطتك ونطاق التنفيذ.',
-      q5: 'هل يعمل لعدة فروع؟',
-      a5: 'نعم. تحويلات بين الفروع وتقارير موحّدة وصلاحيات على مستوى الفرع دون تفتيت بياناتك.',
-      q6: 'كيف أبدأ؟',
-      a6: 'احجز عرضًا، شارك أولوياتك، ونوصي ببصمة وحدات وترتيب إطلاق منطقي.',
+      q1: 'ما هو نظام DigitalManager ERP؟',
+      a1: 'DigitalManager ERP منصة سحابية لإدارة الأعمال تربط المالية والمخزون والمبيعات ونقطة البيع والموارد البشرية والتقارير في نظام آمن واحد.',
+      q2: 'هل يناسب DigitalManager الشركات الصغيرة؟',
+      a2: 'نعم. ابدأ بالحسابات والمخزون ثم أضف نقطة البيع أو الرواتب مع النمو. تفعّل فقط الوحدات التي أنت مستعد لتشغيلها يوميًا.',
+      q3: 'كم يستغرق التنفيذ؟',
+      a3: 'تبدأ معظم الشركات التشغيل خلال أسابيع حسب الوحدات والفروع وترحيل البيانات. نقدم خطة إطلاق مرحلية قبل البدء.',
+      q4: 'هل يمكن الوصول إلى DigitalManager عبر الجوال؟',
+      a4: 'نعم. يعمل DigitalManager في المتصفح على الحاسوب والجهاز اللوحي والجوال لمراجعات الموافقات والمخزون والمبيعات أثناء التنقل.',
+      q5: 'هل تقدمون التدريب والدعم؟',
+      a5: 'نعم. نقدم الإعداد والتدريب والدعم المستمر ليتبنى فريق المالية والمستودع والمتجر النظام بثقة.',
+      q6: 'ما القطاعات التي تخدمونها؟',
+      a6: 'التجزئة والتصنيع والضيافة والوقود والزراعة والنسيج والخدمات وغيرها — مع سير عمل مخصص للقطاع ضمن المنصة.',
+      q7: 'هل بياناتي آمنة مع DigitalManager؟',
+      a7: 'نعم. الصلاحيات حسب الدور ومسارات التدقيق والاستضافة السحابية الآمنة تحمي البيانات المالية والتشغيلية الحساسة.',
+      q8: 'هل يمكن لـ DigitalManager التكامل مع أنظمة أخرى؟',
+      a8: 'نعم. ندعم التكامل مع SMS وأجهزة نقطة البيع وبوابات الدفع وأدوات خارجية محددة حسب احتياجات النشر.',
+      q9: 'ما خيارات النشر المتاحة؟',
+      a9: 'DigitalManager مستضاف سحابيًا بشكل أساسي لإطلاق أسرع وتكلفة IT أقل. ناقش الخيارات الخاصة أو الهجينة مع فريقنا عند الحاجة.',
+      q10: 'كيف يتم هيكلة التسعير؟',
+      a10: 'يعتمد التسعير على الوحدات والمستخدمين والفروع ومستوى الدعم. احجز عرضًا وسنقترح خطة تناسب حجم عملك ونطاقه.',
     },
     about: {
       eyebrow: 'من نحن',
@@ -581,6 +1351,237 @@ export const messages = {
     },
     trustStats: {
       title: 'موثوق من الشركات في الإمارات ودول الخليج',
+      bannerTitle: 'نتائج موثوقة.\nأعمال أقوى.',
+      eyebrow: 'أداء مثبت',
+      heading: 'مبني على الثقة. مثبت بالنتائج.',
+      items: {
+        experience: { value: 'Cloud', label: 'منصة ERP سحابية' },
+        softwares: { value: '120+', label: 'حلول أعمال' },
+        clients: { value: 'AED', label: 'فوترة جاهزة لضريبة القيمة المضافة' },
+        satisfaction: { value: 'Unified', label: 'عمليات متصلة' },
+        branches: { value: 'UAE', label: 'تنفيذ مخصص للإمارات' },
+      },
+    },
+    industryListing: {
+      eyebrow: 'حلول ERP مخصصة',
+      title: 'مصمم لقطاعك',
+      description:
+        'استكشف حلول ERP المصممة حول سير عمل قطاعك وتحدياته واحتياجات نموه.',
+      searchLabel: 'ابحث عن القطاعات أو الحلول البرمجية',
+      searchPlaceholder: 'ابحث عن القطاعات أو الحلول البرمجية...',
+      emptyTitle: 'لم يتم العثور على قطاعات',
+      emptyText: 'جرّب كلمة بحث أو فلتر مختلفاً لاستكشاف حلول ERP.',
+      exploreIndustry: 'استكشف القطاع',
+      filters: {
+        all: 'جميع القطاعات',
+        retailCommerce: 'التجزئة والتجارة',
+        manufacturing: 'التصنيع',
+        energy: 'الطاقة',
+        services: 'الخدمات',
+        agriculture: 'الزراعة',
+        logistics: 'اللوجستيات',
+        construction: 'الإنشاءات',
+      },
+      cta: {
+        heading: 'لست متأكداً أي حل يناسب عملك؟',
+        text: 'أخبرنا عن عملياتك وسيساعدك متخصصو ERP لدينا في تحديد الحل المناسب.',
+        consultant: 'تحدث إلى مستشار ERP',
+        whatsapp: 'واتساب الآن',
+      },
+      categories: {
+        'oil-gas': {
+          label: 'النفط والغاز',
+          desc: 'تحكم في مبيعات الوقود والمخزون والورديات والحسابات من منصة ERP واحدة.',
+        },
+        textile: {
+          label: 'النسيج',
+          desc: 'إدارة الغزل والنسيج والصباغة وإنتاج الملابس مع مخزون وتكلفة موحّدة.',
+        },
+        manufacturing: {
+          label: 'التصنيع',
+          desc: 'تشغيل الإنتاج وقوائم المواد والمخزون وعمليات المصنع برؤية فورية.',
+        },
+        retail: {
+          label: 'التجزئة',
+          desc: 'إدارة المبيعات والمخزون والعملاء عبر الفروع والمتاجر.',
+        },
+        smb: {
+          label: 'المؤسسات الصغيرة والمتوسطة',
+          desc: 'ERP مرن للأعمال الخدمية والتجارية النامية مع فوترة وعمليات.',
+        },
+        medical: {
+          label: 'الطبي',
+          desc: 'إدارة الصيدليات والرعاية الصحية مع مخزون ومبيعات وامتثال.',
+        },
+        hospitality: {
+          label: 'الضيافة',
+          desc: 'عمليات الفنادق والمطاعم مع نقطة البيع والفوترة وإدارة الخدمات.',
+        },
+        logistics: {
+          label: 'اللوجستيات',
+          desc: 'إدارة الأسطول والإرسال والموردين وعمليات النقل من نظام واحد.',
+        },
+        poultry: {
+          label: 'الدواجن',
+          desc: 'إدارة التسمين والتربية والعلف والحظائر للعمليات التجارية.',
+        },
+        agriculture: {
+          label: 'الزراعة',
+          desc: 'محاصيل وألبان ومخزون وسلسلة توريد للأعمال الزراعية.',
+        },
+        construction: {
+          label: 'الإنشاءات',
+          desc: 'مواد المشاريع والمخزون وعمليات المصانع للأعمال الإنشائية.',
+        },
+        'real-estate': {
+          label: 'العقارات',
+          desc: 'مبيعات العقارات والأقساط وERP مرتبط بالإنشاءات.',
+        },
+        visa: {
+          label: 'استشارات التأشيرات',
+          desc: 'سجلات العملاء والفوترة وإدارة الملفات لمكاتب التأشيرات.',
+        },
+        electronics: {
+          label: 'الإلكترونيات',
+          desc: 'ERP للتجزئة والتوزيع للإلكترونيات والهواتف والحاسوب.',
+        },
+      },
+    },
+    industryShowcase: {
+      eyebrow: 'حلول مخصصة لكل قطاع',
+      title: 'مصمم لقطاعك',
+      pageSubtitle: 'تصفّح فئات القطاعات واستكشف كل حل ERP نقدّمه.',
+      softwareCount: '{{count}} حلول برمجية',
+      viewAll: 'عرض جميع القطاعات',
+      viewAllSolutions: 'عرض جميع الحلول',
+      moreSolutions: '+{{count}} حلول إضافية',
+      moreSolution: '+{{count}} حل إضافي',
+      showLess: 'عرض أقل',
+      categorySolutions: 'الحلول في هذه الفئة',
+      homeCard: {
+        retail: {
+          label: 'التجزئة',
+          desc: 'إدارة المبيعات والمخزون والعملاء عبر كل فرع وقناة.',
+        },
+        petrol: {
+          label: 'الوقود والغاز',
+          desc: 'تحكم في مبيعات الوقود والمخزون والورديات والحسابات من منصة ERP واحدة.',
+        },
+        textile: {
+          label: 'النسيج',
+          desc: 'الغزل والنسيج والملابس ومعالجة المنسوجات في منصة ERP موحّدة.',
+        },
+        manufacturing: {
+          label: 'التصنيع',
+          desc: 'تصنيع منفصل وعملياتي مع إنتاج ومخزون وتكلفة في نظام واحد.',
+        },
+        transportation: {
+          label: 'اللوجستيات',
+          desc: 'إدارة الأسطول والمسارات والإرسال والموردين لعمليات النقل.',
+        },
+        services: {
+          label: 'الخدمات',
+          desc: 'إدارة المشاريع والفوترة والموارد للأعمال القائمة على الخدمات.',
+        },
+      },
+      card: {
+        retail: {
+          title: 'التجزئة',
+          desc: 'إدارة المبيعات والمخزون والعملاء عبر الفروع.',
+        },
+        petrol: {
+          title: 'محطات الوقود والغاز',
+          desc: 'عمليات محطة الوقود والتقارير من البداية للنهاية.',
+        },
+        knitting: {
+          title: 'الحياكة والصباغة',
+          desc: 'إدارة الخيوط والأقمشة والصباغة والتشطيب.',
+        },
+        supply: {
+          title: 'سلسلة التوريد',
+          desc: 'المشتريات واللوجستيات وإدارة الموردين.',
+        },
+        textile: {
+          title: 'صناعات النسيج',
+          desc: 'الغزل والنسيج والملابس ومعالجة المنسوجات.',
+        },
+        education: {
+          title: 'التعليم',
+          desc: 'إدارة المؤسسة والرسوم والسجلات الأكاديمية.',
+        },
+        agriculture: {
+          title: 'الزراعة',
+          desc: 'المحاصيل والمخزون وسلسلة التوريد للأعمال الزراعية.',
+        },
+        services: {
+          title: 'الخدمات',
+          desc: 'إدارة المشاريع والمهام والفوترة والموارد.',
+        },
+        hospitality: {
+          title: 'الضيافة',
+          desc: 'الفنادق والمطاعم ونقطة البيع والحجوزات.',
+        },
+        poultry: {
+          title: 'الدواجن',
+          desc: 'إدارة التسمين والتربية والمفقس والعلف.',
+        },
+        manufacturing: {
+          title: 'التصنيع',
+          desc: 'حلول التصنيع المنفصل والعمليات.',
+        },
+        transportation: {
+          title: 'النقل',
+          desc: 'الأسطول والمسارات والتتبع والصيانة.',
+        },
+      },
+    },
+    powerfulModules: {
+      title: 'وحدات قوية. منصة واحدة موحّدة.',
+      exploreModule: 'استكشف الوحدة',
+      cards: {
+        sales: {
+          title: 'إدارة المبيعات',
+          desc: 'أدِر العملاء المحتملين وأغلق الصفقات وقدّم تجربة مميزة للعملاء.',
+          tag1: 'عملاء محتملون',
+          tag2: 'طلبات',
+          tag3: 'عملاء',
+        },
+        inventory: {
+          title: 'إدارة المخزون',
+          desc: 'تتبّع المخزون بدقة وحسّن التوفر.',
+          tag1: 'أصناف',
+          tag2: 'مخزون',
+          tag3: 'مستودعات',
+        },
+        finance: {
+          title: 'المالية والمحاسبة',
+          desc: 'بسّط الشؤون المالية وعزّز الرقابة المالية.',
+          tag1: 'فواتير',
+          tag2: 'مدفوعات',
+          tag3: 'دفاتر',
+        },
+        hr: {
+          title: 'الموارد البشرية والرواتب',
+          desc: 'مكّن فريقك وبسّط عمليات الرواتب.',
+          tag1: 'موظفون',
+          tag2: 'رواتب',
+          tag3: 'إجازات',
+        },
+        project: {
+          title: 'إدارة المشاريع',
+          desc: 'خطّط للمشاريع ووزّع المهام وسلّم في الوقت المحدد.',
+          tag1: 'مشاريع',
+          tag2: 'مهام',
+          tag3: 'معالم',
+        },
+        reports: {
+          title: 'التقارير والتحليلات',
+          desc: 'حوّل البيانات إلى رؤى تدعم القرارات.',
+          tag1: 'تقارير',
+          tag2: 'رؤى',
+          tag3: 'تصدير',
+        },
+      },
     },
     moduleBlock: {
       pill: 'منصة متصلة',
@@ -603,8 +1604,8 @@ export const messages = {
           desc: 'كاشير سريع وعروض وحركة مخزون تتدفق مباشرة إلى الـ ERP.',
         },
         'fbr-pos-integration-software': {
-          title: 'تكامل FBR',
-          desc: 'فوترة رقمية متوافقة مع FBR وضرائب وتكامل نقاط البيع للتجزئة والخدمات.',
+          title: 'امتثال ضريبة القيمة المضافة',
+          desc: 'فوترة رقمية متوافقة مع ضريبة القيمة المضافة الإماراتية وضرائب وتكامل نقاط البيع للتجزئة والخدمات.',
         },
         'inventory-management-software': {
           title: 'المخزون',
@@ -642,7 +1643,7 @@ export const messages = {
           cat: 'حل قطاعي',
         },
         fbr: {
-          title: 'FBR نقطة بيع',
+          title: 'نقطة بيع ضريبة القيمة المضافة',
           desc: 'سير عمل فوترة متوافق مع الامتثال وتسوية أسرع.',
           cat: 'الامتثال',
         },
@@ -710,12 +1711,13 @@ export const messages = {
     },
     footer: {
       rights: 'جميع الحقوق محفوظة.',
-      brandSubtitle: 'برامج إدارة الأعمال',
+      brandSubtitle: 'مجموعة ERP السحابية',
       tagline:
         'ERP سحابي للحسابات والمخزون ونقاط البيع والرواتب وبرامج قطاعية — لفرق تعتمد على العمليات اليومية.',
-      colProduct: 'المنتج',
+      colProduct: 'المنتجات',
       colIndustries: 'القطاعات',
       colCompany: 'الشركة',
+      colResources: 'الموارد',
       colContact: 'اتصل',
       prodAccounts: 'الحسابات',
       prodInventory: 'المخزون',
@@ -731,9 +1733,29 @@ export const messages = {
       coWorkflow: 'سير العمل',
       coFaq: 'الأسئلة',
       coContact: 'اتصل بنا',
-      privacy: 'الخصوصية',
-      terms: 'الشروط',
+      privacy: 'سياسة الخصوصية',
+      terms: 'شروط الاستخدام',
       address: '٦٠٧، الرحمة ١، شارع الوحدة، الشارقة، الإمارات',
+      trustMessage: 'موثوق به من شركات في الإمارات والخليج والأسواق الدولية.',
+      legalNav: 'روابط قانونية',
+      resources: {
+        blog: 'المدونة',
+        caseStudies: 'دراسات الحالة',
+        whitepapers: 'الأوراق البيضاء',
+        webinars: 'الندوات',
+        helpCenter: 'مركز المساعدة',
+        documentation: 'التوثيق',
+      },
+      newsletter: {
+        title: 'ابق على اطلاع',
+        desc: 'اشترك في نشرتنا للحصول على آخر التحديثات والرؤى.',
+        placeholder: 'أدخل بريدك الإلكتروني',
+        submit: 'اشترك',
+        submitting: 'جارٍ الاشتراك…',
+        success: 'شكرًا — تم الاشتراك.',
+        error: 'يرجى إدخال بريد إلكتروني صالح.',
+        networkError: 'خطأ في الشبكة — يرجى المحاولة مرة أخرى.',
+      },
     },
     contactPage: {
       title: 'اتصل بنا',
@@ -827,7 +1849,7 @@ export const messages = {
       emailLabel: 'البريد الإلكتروني',
       phoneLabel: 'رقم التواصل',
       emailPlaceholder: 'you@company.com',
-      phonePlaceholder: '+92 …',
+      phonePlaceholder: '+971 …',
       sending: 'جارٍ الإرسال…',
       requestSuccess: 'شكرًا — سيتواصل فريقنا معك قريبًا.',
       requestError: 'يرجى إدخال بريد إلكتروني صالح والمحاولة مرة أخرى.',

@@ -1,3 +1,5 @@
+import type { IndustrySectionImageOverrides } from './industrySectionImages'
+
 /** Rich software / industry detail page — used by `/software/:kind/:slug`. */
 
 export type SoftwareTrustStat = { value: string; label: string; icon?: string }
@@ -80,6 +82,8 @@ export type SoftwareDetailPageData = {
   premiumLayout?: SoftwarePremiumPageConfig
   /** CMS override — replaces default premium hero photo when set. */
   heroImageUrl?: string
+  /** CMS overrides for section photos — independent from heroImageUrl. */
+  sectionImages?: IndustrySectionImageOverrides
   hero: {
     eyebrow: string
     headline: string

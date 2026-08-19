@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Clock, Mail, MapPin, Phone, X } from 'lucide-react'
-import { WHATSAPP_URL } from '../constants'
 import { useI18n } from '../i18n/I18nProvider'
+import { useSiteSettings } from '../cms/useSiteSettings'
 import { DrawerSocialLinks } from './SocialIconLinks'
 import { WhatsAppIcon } from './WhatsAppIcon'
 
@@ -13,6 +13,7 @@ type Props = {
 
 export function ContactQuickDrawer({ open, onClose }: Props) {
   const { t } = useI18n()
+  const site = useSiteSettings()
 
   useEffect(() => {
     if (!open) return
@@ -60,46 +61,51 @@ export function ContactQuickDrawer({ open, onClose }: Props) {
           <div className="space-y-4 text-sm">
             <div className="flex gap-3">
               <MapPin className="mt-0.5 size-5 shrink-0 text-brand" aria-hidden />
-              <p className="leading-relaxed text-slate-800">{t('footer.address')}</p>
+              <p className="leading-relaxed text-slate-800">{site.officeAddress || t('footer.address')}</p>
             </div>
 
-            <div>
-              <p className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
-                <Phone className="size-4 text-brand" aria-hidden />
-                {t('contactPage.phoneLabel')}
-              </p>
-              <div className="flex flex-col gap-2 ps-0.5">
-                <a href="tel:+97165366786" className="block font-semibold text-slate-900 underline-offset-2 hover:text-brand hover:underline">
-                  +971 6 536 6786
-                </a>
-                <a href="tel:+971581174911" className="block font-semibold text-slate-900 underline-offset-2 hover:text-brand hover:underline">
-                  +971 58 117 4911
+            {site.phoneDisplay ? (
+              <div>
+                <p className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <Phone className="size-4 text-brand" aria-hidden />
+                  {t('contactPage.phoneLabel')}
+                </p>
+                <div className="flex flex-col gap-2 ps-0.5">
+                  <a
+                    href={site.phoneHref}
+                    className="block font-semibold text-slate-900 underline-offset-2 hover:text-brand hover:underline"
+                  >
+                    {site.phoneDisplay}
+                  </a>
+                </div>
+              </div>
+            ) : null}
+
+            {site.primaryEmail ? (
+              <div className="flex gap-3">
+                <Mail className="mt-0.5 size-5 shrink-0 text-brand" aria-hidden />
+                <a
+                  href={`mailto:${site.primaryEmail}`}
+                  className="break-all font-semibold text-slate-900 underline-offset-2 hover:text-brand hover:underline"
+                >
+                  {site.primaryEmail}
                 </a>
               </div>
-            </div>
-
-            <div className="flex gap-3">
-              <Mail className="mt-0.5 size-5 shrink-0 text-brand" aria-hidden />
-              <a
-                href="mailto:info@digitalmanager.ae"
-                className="break-all font-semibold text-slate-900 underline-offset-2 hover:text-brand hover:underline"
-              >
-                info@digitalmanager.ae
-              </a>
-            </div>
+            ) : null}
 
             <div className="rounded-xl border border-slate-100 bg-slate-50 px-3 py-2.5">
               <p className="flex items-center gap-2 text-xs font-semibold text-slate-500">
                 <Clock className="size-4 text-brand" aria-hidden />
                 {t('contactPage.hoursTitle')}
               </p>
-              <p className="mt-1 text-sm text-slate-800">{t('contactPage.hoursBody')}</p>
+              <p className="mt-1 text-sm text-slate-800">{site.workingHours || t('contactPage.hoursBody')}</p>
             </div>
           </div>
 
           <div className="flex flex-col gap-2">
-            <a
-              href={WHATSAPP_URL}
+            {site.whatsappUrl ? (
+              <a
+                href={site.whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#20bd5a]"
@@ -107,8 +113,9 @@ export function ContactQuickDrawer({ open, onClose }: Props) {
               <WhatsAppIcon className="size-5 shrink-0 text-white" />
               {t('contactPage.whatsappAction')}
             </a>
+            ) : null}
             <Link
-              to="/contact#contact-form"
+              to={site.demoPageLink || '/contact#contact-form'}
               onClick={onClose}
               className="inline-flex min-h-[48px] items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-800 hover:border-brand hover:text-brand"
             >

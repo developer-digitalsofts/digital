@@ -302,14 +302,14 @@ export function mergePharmacyBusinessIndustryPage(data: SoftwareDetailPageData):
     ...data,
     metaTitle: 'Pharmacy Business Management Software | DigitalManager ERP',
     metaDescription:
-      'Track medicines, monitor expiry, simplify billing — pharmacy POS and inventory for batch control, barcode sales, and accounts in Pakistan.',
+      'Track medicines, monitor expiry, simplify billing — pharmacy POS and inventory for batch control, barcode sales, and accounts in the UAE.',
     premiumLayout,
     hero: {
       ...data.hero,
       headline: 'Cloud-Based Pharmacy Business Management Software for Safe, Smart, and Streamlined Sales',
       subhead: 'Track Medicines. Monitor Expiry. Simplify Billing.',
       intro:
-        'An all-in-one POS and inventory solution built specifically for pharmacies and medical stores. Manage medicine stock by batch and expiry, set up sale alerts for low stock or near-expiry drugs, handle barcode sales, maintain supplier records, and comply with health regulations — all in a secure cloud-based system built for pharmacies across Pakistan.',
+        'An all-in-one POS and inventory solution built specifically for pharmacies and medical stores. Manage medicine stock by batch and expiry, set up sale alerts for low stock or near-expiry drugs, handle barcode sales, maintain supplier records, and comply with health regulations — all in a secure cloud-based system built for pharmacies across the UAE.',
       trust: [...MEDICAL_TRUST],
       ctaPrimary: { label: 'Get Live Demo', to: '/contact#contact-form' },
       ctaSecondary: data.hero.ctaSecondary,
@@ -373,7 +373,7 @@ export function mergeHomeopathicBusinessIndustryPage(data: SoftwareDetailPageDat
     challengeBullets: [],
     solutionHeading: 'Accurate dispensing and records',
     solutionParagraphs: [
-      'Organize medicine inventory and dosage records, monitor patient treatment history, manage prescriptions, and streamline billing through an intelligent cloud-based platform tailored for homeopathic businesses in Pakistan.',
+      'Organize medicine inventory and dosage records, monitor patient treatment history, manage prescriptions, and streamline billing through an intelligent cloud-based platform tailored for homeopathic businesses in the UAE.',
     ],
     heroAsideCaption: 'Homeopathic ERP with patients, prescriptions, stock, CRM, and accounts on DigitalManager.',
   }
@@ -382,14 +382,14 @@ export function mergeHomeopathicBusinessIndustryPage(data: SoftwareDetailPageDat
     ...data,
     metaTitle: 'Homeopathic Business Management Software | DigitalManager ERP',
     metaDescription:
-      'Manage medicines, track patients, simplify sales — homeopathic clinic software for inventory, prescriptions, CRM, and accounts in Pakistan.',
+      'Manage medicines, track patients, simplify sales — homeopathic clinic software for inventory, prescriptions, CRM, and accounts in the UAE.',
     premiumLayout,
     hero: {
       ...data.hero,
       headline: 'Cloud-Based Homeopathic Business Management Software Built for Accurate Dispensing & Recordkeeping',
       subhead: 'Manage Medicines. Track Patients. Simplify Sales.',
       intro:
-        'A complete software solution for homeopathic clinics, dispensaries, and medicine retailers. Organize medicine inventory and dosage records, monitor patient treatment history, manage prescriptions, and streamline billing through an intelligent cloud-based platform tailored for homeopathic businesses in Pakistan.',
+        'A complete software solution for homeopathic clinics, dispensaries, and medicine retailers. Organize medicine inventory and dosage records, monitor patient treatment history, manage prescriptions, and streamline billing through an intelligent cloud-based platform tailored for homeopathic businesses in the UAE.',
       trust: [...MEDICAL_TRUST],
       ctaPrimary: { label: 'Get Live Demo', to: '/contact#contact-form' },
       ctaSecondary: data.hero.ctaSecondary,

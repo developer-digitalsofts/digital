@@ -24,6 +24,13 @@ export type SoftwareDetailWorkflow = {
   detail: Bilingual
 }
 
+export type IndustrySectionImagesCms = {
+  operational: string[]
+  benefitRows: string[]
+  businessTypes: string[]
+  testimonial: string
+}
+
 export type SoftwareDetailCmsRecord = {
   id: string
   kind: 'module' | 'industry'
@@ -33,6 +40,7 @@ export type SoftwareDetailCmsRecord = {
   icon: string
   accentColor: AccentColorOption
   heroImageUrl: string
+  sectionImages: IndustrySectionImagesCms
   label: Bilingual
   shortDescription: Bilingual
   metaTitle: Bilingual
@@ -72,6 +80,7 @@ export function emptySoftwareDetailDraft(
     icon: 'Box',
     accentColor: 'orange',
     heroImageUrl: '',
+    sectionImages: { operational: ['', '', ''], benefitRows: ['', ''], businessTypes: ['', '', '', ''], testimonial: '' },
     label: emptyBilingual(),
     shortDescription: emptyBilingual(),
     metaTitle: emptyBilingual(),

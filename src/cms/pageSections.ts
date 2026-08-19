@@ -5,10 +5,13 @@ const MAIN_IDS = [
   'stats',
   'about',
   'valueChain',
+  'demoCta',
   'modules',
+  'testimonials',
+  'personalizedDemo',
+  'faqs',
   'workflow',
   'industries',
-  'faqs',
   'cta',
 ] as const
 

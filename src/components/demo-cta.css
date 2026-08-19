@@ -1,0 +1,118 @@
+/* Scoped compact demo CTA strip — import only from DemoCTASection */
+
+.dm-demo-cta {
+  background: #fff;
+}
+
+.dm-demo-cta__strip,
+.demo-cta-strip__card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1.125rem;
+  min-height: 104px;
+  padding: 22px 30px;
+  border: 1px solid rgba(17, 25, 54, 0.16);
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+@media (min-width: 768px) {
+  .dm-demo-cta__strip,
+  .demo-cta-strip__card {
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5rem;
+  }
+}
+
+.dm-demo-cta__icon-wrap {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  background: #111936;
+  color: #fff;
+}
+
+@media (min-width: 768px) {
+  .dm-demo-cta__icon-wrap {
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+}
+
+.dm-demo-cta__icon {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.dm-demo-cta__copy {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.dm-demo-cta__title {
+  margin: 0;
+  font-family: var(--font-heading, inherit);
+  font-size: clamp(18px, 1.8vw, 20px);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: #111936;
+}
+
+.dm-demo-cta__desc {
+  margin: 0.3125rem 0 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #64748b;
+}
+
+.dm-demo-cta__button {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4375rem;
+  min-height: 44px;
+  padding: 0.625rem 1.25rem;
+  border: 1px solid #111936;
+  border-radius: 10px;
+  background: #111936;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+@media (min-width: 768px) {
+  .dm-demo-cta__button {
+    min-height: 48px;
+    padding: 0.6875rem 1.375rem;
+  }
+}
+
+.dm-demo-cta__button:hover {
+  background: #0b1228;
+  border-color: #0b1228;
+}
+
+.dm-demo-cta__button:focus-visible {
+  outline: 2px solid #111936;
+  outline-offset: 2px;
+}
+
+.dm-demo-cta__button-icon {
+  width: 1rem;
+  height: 1rem;
+}

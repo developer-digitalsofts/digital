@@ -1,22 +1,22 @@
 {
   "title": {
-    "en": "Questions ERP buyers ask",
-    "ar": "أسئلة يطرحها مشترو ERP"
+    "en": "Frequently Asked Questions",
+    "ar": "الأسئلة الشائعة"
   },
   "subtitle": {
-    "en": "Straight answers before you shortlist or roll out.",
-    "ar": "إجابات مباشرة قبل الاختيار أو الإطلاق."
+    "en": "",
+    "ar": ""
   },
   "items": [
     {
       "id": "f1",
       "question": {
-        "en": "Is DigitalManager suitable for small businesses?",
-        "ar": "هل يناسب ديجيتال مانجر الشركات الصغيرة؟"
+        "en": "What is DigitalManager ERP?",
+        "ar": "ما هو نظام DigitalManager ERP؟"
       },
       "answer": {
-        "en": "Yes. Start with accounts and inventory, then add POS or payroll as you grow. You only enable what you are ready to run day to day.",
-        "ar": "نعم. ابدأ بالحسابات والمخزون ثم أضف نقطة البيع أو الرواتب مع النمو. تفعّل فقط ما أنت مستعد لتشغيله يوميًا."
+        "en": "DigitalManager ERP is a cloud-based business management platform that connects finance, inventory, sales, POS, HR, and reporting in one secure system.",
+        "ar": "DigitalManager ERP منصة سحابية لإدارة الأعمال تربط المالية والمخزون والمبيعات ونقطة البيع والموارد البشرية والتقارير في نظام آمن واحد."
       },
       "sortOrder": 0,
       "active": true
@@ -24,12 +24,12 @@
     {
       "id": "f2",
       "question": {
-        "en": "Can I use only selected ERP modules?",
-        "ar": "هل يمكن استخدام وحدات محددة فقط؟"
+        "en": "Is DigitalManager suitable for small businesses?",
+        "ar": "هل يناسب DigitalManager الشركات الصغيرة؟"
       },
       "answer": {
-        "en": "Yes. Turn on the modules you need while sharing one chart of accounts, item master, and customer records across the company.",
-        "ar": "نعم. فعّل الوحدات التي تحتاجها مع مشاركة دليل حسابات وأصناف وعملاء واحد عبر الشركة."
+        "en": "Yes. Start with accounts and inventory, then add POS or payroll as you grow. You only enable the modules you are ready to run day to day.",
+        "ar": "نعم. ابدأ بالحسابات والمخزون ثم أضف نقطة البيع أو الرواتب مع النمو. تفعّل فقط الوحدات التي أنت مستعد لتشغيلها يوميًا."
       },
       "sortOrder": 1,
       "active": true
@@ -37,12 +37,12 @@
     {
       "id": "f3",
       "question": {
-        "en": "Does it support POS and inventory?",
-        "ar": "هل يدعم نقطة البيع والمخزون؟"
+        "en": "How long does implementation take?",
+        "ar": "كم يستغرق التنفيذ؟"
       },
       "answer": {
-        "en": "Yes. POS sales can update stock in near real time, and inventory valuation follows the same rules your finance team expects.",
-        "ar": "نعم. مبيعات نقطة البيع تحدّث المخزون شبه لحظيًا، وتقييم المخزون يتبع قواعد فريق المالية."
+        "en": "Most businesses go live in a few weeks depending on modules, branches, and data migration. We provide a phased rollout plan before you start.",
+        "ar": "تبدأ معظم الشركات التشغيل خلال أسابيع حسب الوحدات والفروع وترحيل البيانات. نقدم خطة إطلاق مرحلية قبل البدء."
       },
       "sortOrder": 2,
       "active": true
@@ -50,12 +50,12 @@
     {
       "id": "f4",
       "question": {
-        "en": "Can reports be customized?",
-        "ar": "هل يمكن تخصيص التقارير؟"
+        "en": "Can I access DigitalManager on mobile?",
+        "ar": "هل يمكن الوصول إلى DigitalManager عبر الجوال؟"
       },
       "answer": {
-        "en": "Role-based dashboards and standard packs are included. Heavier custom layouts depend on your plan and implementation scope.",
-        "ar": "تتضمن لوحات حسب الدور وحزمًا قياسية. التخصيص الأعمق يعتمد على خطتك ونطاق التنفيذ."
+        "en": "Yes. DigitalManager works in the browser on desktop, tablet, and mobile so your team can review approvals, stock, and sales on the go.",
+        "ar": "نعم. يعمل DigitalManager في المتصفح على الحاسوب والجهاز اللوحي والجوال لمراجعات الموافقات والمخزون والمبيعات أثناء التنقل."
       },
       "sortOrder": 3,
       "active": true
@@ -63,12 +63,12 @@
     {
       "id": "f5",
       "question": {
-        "en": "Can it work for multiple branches?",
-        "ar": "هل يعمل لعدة فروع؟"
+        "en": "Do you provide training and support?",
+        "ar": "هل تقدمون التدريب والدعم؟"
       },
       "answer": {
-        "en": "Yes. Use inter-branch transfers, consolidated reporting, and branch-level permissions without splitting your data.",
-        "ar": "نعم. استخدم التحويلات بين الفروع والتقارير الموحدة وصلاحيات الفروع دون تقسيم بياناتك."
+        "en": "Yes. We provide onboarding, user training, and ongoing support so your finance, warehouse, and store teams adopt the system confidently.",
+        "ar": "نعم. نقدم الإعداد والتدريب والدعم المستمر ليتبنى فريق المالية والمستودع والمتجر النظام بثقة."
       },
       "sortOrder": 4,
       "active": true
@@ -76,20 +76,72 @@
     {
       "id": "f6",
       "question": {
-        "en": "How do I start?",
-        "ar": "كيف أبدأ؟"
+        "en": "Which industries do you serve?",
+        "ar": "ما القطاعات التي تخدمونها؟"
       },
       "answer": {
-        "en": "Book a demo, share your priorities, and we will recommend a sensible module footprint and rollout sequence.",
-        "ar": "احجز عرضًا وشارك أولوياتك وسنقترح وحدات مناسبة وتسلسل إطلاق."
+        "en": "Retail, manufacturing, hospitality, petrol, agriculture, textiles, services, and many more — with industry-specific workflows built into the platform.",
+        "ar": "التجزئة والتصنيع والضيافة والوقود والزراعة والنسيج والخدمات وغيرها — مع سير عمل مخصص للقطاع ضمن المنصة."
       },
       "sortOrder": 5,
+      "active": true
+    },
+    {
+      "id": "f7",
+      "question": {
+        "en": "Is my data secure with DigitalManager?",
+        "ar": "هل بياناتي آمنة مع DigitalManager؟"
+      },
+      "answer": {
+        "en": "Yes. Role-based access, audit trails, and secure cloud hosting help protect sensitive financial and operational data across your organization.",
+        "ar": "نعم. الصلاحيات حسب الدور ومسارات التدقيق والاستضافة السحابية الآمنة تحمي البيانات المالية والتشغيلية الحساسة."
+      },
+      "sortOrder": 6,
+      "active": true
+    },
+    {
+      "id": "f8",
+      "question": {
+        "en": "Can DigitalManager integrate with other systems?",
+        "ar": "هل يمكن لـ DigitalManager التكامل مع أنظمة أخرى؟"
+      },
+      "answer": {
+        "en": "Yes. We support integrations for SMS, POS devices, payment gateways, and selected third-party tools depending on your deployment needs.",
+        "ar": "نعم. ندعم التكامل مع SMS وأجهزة نقطة البيع وبوابات الدفع وأدوات خارجية محددة حسب احتياجات النشر."
+      },
+      "sortOrder": 7,
+      "active": true
+    },
+    {
+      "id": "f9",
+      "question": {
+        "en": "What deployment options are available?",
+        "ar": "ما خيارات النشر المتاحة؟"
+      },
+      "answer": {
+        "en": "DigitalManager is primarily cloud-hosted for fast rollout and lower IT overhead. Discuss private or hybrid options with our team if required.",
+        "ar": "DigitalManager مستضاف سحابيًا بشكل أساسي لإطلاق أسرع وتكلفة IT أقل. ناقش الخيارات الخاصة أو الهجينة مع فريقنا عند الحاجة."
+      },
+      "sortOrder": 8,
+      "active": true
+    },
+    {
+      "id": "f10",
+      "question": {
+        "en": "How is pricing structured?",
+        "ar": "كيف يتم هيكلة التسعير؟"
+      },
+      "answer": {
+        "en": "Pricing depends on modules, users, branches, and support level. Book a demo and we will recommend a plan aligned with your business size and scope.",
+        "ar": "يعتمد التسعير على الوحدات والمستخدمين والفروع ومستوى الدعم. احجز عرضًا وسنقترح خطة تناسب حجم عملك ونطاقه."
+      },
+      "sortOrder": 9,
       "active": true
     }
   ],
   "_meta": {
     "createdAt": "2026-08-12T08:31:16.124Z",
-    "updatedAt": "2026-08-12T08:31:16.124Z",
-    "updatedBy": "migrate-original-homepage"
+    "updatedAt": "2026-08-15T12:35:00.000Z",
+    "updatedBy": "faq-two-column-redesign"
   }
 }

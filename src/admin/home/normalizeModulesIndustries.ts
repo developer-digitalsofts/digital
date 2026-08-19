@@ -55,6 +55,7 @@ export type IndItem = {
   title: Bilingual
   description: Bilingual
   href: string
+  imageUrl?: string
   sortOrder: number
   active: boolean
 }
@@ -76,6 +77,7 @@ export function normalizeIndItem(raw: unknown): IndItem {
     title: normalizeBilingual(o.title),
     description: normalizeBilingual(o.description),
     href: typeof o.href === 'string' ? o.href : '',
+    imageUrl: typeof o.imageUrl === 'string' ? o.imageUrl : undefined,
     sortOrder: typeof o.sortOrder === 'number' && Number.isFinite(o.sortOrder) ? o.sortOrder : 0,
     active: o.active !== false,
   }

@@ -5,13 +5,13 @@ import { AdminJsonEditor } from './AdminJsonEditor'
 import { HomeSectionLibraryModal } from './home/HomeSectionLibraryModal'
 import { HomeHeroForm } from './home/HomeHeroForm'
 import { HomeStatsForm } from './home/HomeStatsForm'
-import { HomeAboutForm } from './home/HomeAboutForm'
-import { HomeValueChainForm } from './home/HomeValueChainForm'
-import { HomeModulesForm } from './home/HomeModulesForm'
-import { HomeWorkflowForm } from './home/HomeWorkflowForm'
 import { HomeIndustriesForm } from './home/HomeIndustriesForm'
+import { HomeValueChainForm } from './home/HomeValueChainForm'
+import { HomeDemoCtaForm } from './home/HomeDemoCtaForm'
+import { HomeModulesForm } from './home/HomeModulesForm'
+import { HomeTestimonialsForm } from './home/HomeTestimonialsForm'
+import { HomePersonalizedDemoForm } from './home/HomePersonalizedDemoForm'
 import { HomeFaqsForm } from './home/HomeFaqsForm'
-import { HomeCtaForm } from './home/HomeCtaForm'
 import { HomeVisibilityForm } from './home/HomeVisibilityForm'
 import { AdminPanelErrorBoundary } from './cms/AdminPanelErrorBoundary'
 import { AdminButtonTabs } from './cms/AdminButtonTabs'
@@ -71,25 +71,25 @@ function TabPanel({ tab, context }: { tab: TabId; context: AdminHomeEditorContex
       panel = <HomeStatsForm />
       break
     case 'about':
-      panel = <HomeAboutForm />
+      panel = <HomeIndustriesForm />
       break
     case 'features':
       panel = <HomeValueChainForm />
       break
+    case 'demoCta':
+      panel = <HomeDemoCtaForm />
+      break
     case 'modules':
       panel = <HomeModulesForm />
       break
-    case 'workflow':
-      panel = <HomeWorkflowForm />
+    case 'testimonials':
+      panel = <HomeTestimonialsForm />
       break
-    case 'industries':
-      panel = <HomeIndustriesForm />
+    case 'personalizedDemo':
+      panel = <HomePersonalizedDemoForm />
       break
     case 'faqs':
       panel = <HomeFaqsForm />
-      break
-    case 'cta':
-      panel = <HomeCtaForm />
       break
     case 'visibility':
       panel = <HomeVisibilityForm />
@@ -101,15 +101,15 @@ function TabPanel({ tab, context }: { tab: TabId; context: AdminHomeEditorContex
 }
 
 const HOME_EDITOR_TAB_LABELS: Partial<Record<TabId, string>> = {
-  hero: 'Hero',
-  stats: 'Stats',
-  about: 'About',
-  features: 'Features',
-  modules: 'ERP Modules',
-  workflow: 'Workflow CTA',
-  industries: 'Industries',
+  hero: 'Hero Carousel',
+  stats: 'Trust Metrics',
+  about: 'Built for Your Industry',
+  features: 'One Platform',
+  demoCta: 'Demo CTA',
+  modules: 'Powerful Modules',
+  testimonials: 'Testimonials',
+  personalizedDemo: 'Demo Form',
   faqs: 'FAQs',
-  cta: 'Final CTA',
   visibility: 'Visibility',
 }
 

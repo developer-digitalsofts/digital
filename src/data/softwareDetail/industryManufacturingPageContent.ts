@@ -272,14 +272,14 @@ export function mergeGarmentsManufacturingIndustryPage(data: SoftwareDetailPageD
     ...data,
     metaTitle: 'Garments Manufacturing ERP Software | DigitalManager',
     metaDescription:
-      'Cloud ERP for garment factories — procurement, inventory, production, sales, finance, and HR for textile and apparel manufacturers in Pakistan.',
+      'Cloud ERP for garment factories — procurement, inventory, production, sales, finance, and HR for textile and apparel manufacturers in the UAE.',
     premiumLayout,
     hero: {
       ...data.hero,
       headline: 'Cloud Based ERP Software for Garments Manufacturing Business',
       subhead: 'Streamline Procurement, Production, Sales & Finance.',
       intro:
-        'Our Garments ERP Software helps garment factories streamline procurement, inventory tracking, production planning, HR operations, sales management, and financial accounting from one centralized cloud-based platform. Designed for textile and apparel manufacturers in Pakistan.',
+        'Our Garments ERP Software helps garment factories streamline procurement, inventory tracking, production planning, HR operations, sales management, and financial accounting from one centralized cloud-based platform. Designed for textile and apparel manufacturers in the UAE.',
       trust: [...MFG_TRUST],
       ctaPrimary: { label: 'Get Live Demo', to: '/contact#contact-form' },
       ctaSecondary: data.hero.ctaSecondary,

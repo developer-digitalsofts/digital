@@ -67,6 +67,9 @@ export type HomepagePayload = {
   modules: Record<string, unknown>
   workflow: Record<string, unknown>
   industries: Record<string, unknown>
+  demoCta?: Record<string, unknown>
+  testimonials?: Record<string, unknown>
+  personalizedDemo?: Record<string, unknown>
   faqs: Record<string, unknown>
   cta: Record<string, unknown>
   footer: Record<string, unknown>
@@ -74,10 +77,18 @@ export type HomepagePayload = {
   siteSettings?: Record<string, unknown>
   whatsappSettings?: Record<string, unknown>
   pageSections?: { sections?: { id: string; name?: string; visible?: boolean; sortOrder?: number }[] }
+  megaMenus?: Record<string, unknown>
   navigation?: {
     headerLinks?: CmsHeaderNavLink[]
     footerColumns?: Record<string, FooterNavLink[]>
     pages?: { id: string; slug: string; title?: Bilingual; headerEnabled?: boolean; footerEnabled?: boolean }[]
+  }
+  meta?: {
+    slug?: string
+    status?: string
+    schemaVersion?: number
+    updatedAt?: string | null
+    publishedAt?: string | null
   }
 }
 

@@ -1,4 +1,9 @@
 {
+  "schemaVersion": 2,
+  "eyebrow": {
+    "en": "All-in-One ERP Modules",
+    "ar": "وحدات ERP شاملة"
+  },
   "title": {
     "en": "Enterprise-grade control across your value chain",
     "ar": "تحكم على مستوى المؤسسات عبر سلسلة قيمتك"
@@ -7,7 +12,7 @@
     "en": "Manage every department with one connected ERP system.",
     "ar": "أدِر كل الأقسام بنظام ERP واحد متصل."
   },
-  "cards": [
+  "_deprecatedCards": [
     {
       "id": "vc1",
       "icon": "Activity",

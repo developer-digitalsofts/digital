@@ -20,7 +20,7 @@ const FEATURE_BULLETS = [
 ]
 
 const INTRO =
-  'All-in-one SMS solution for retail, healthcare, education, logistics, and service-based businesses.\n\nEasily integrate with your POS, CRM, or ERP to send invoices, promotions, reminders, and alerts — instantly and reliably across Pakistan.'
+  'All-in-one SMS solution for retail, healthcare, education, logistics, and service-based businesses.\n\nEasily integrate with your POS, CRM, or ERP to send invoices, promotions, reminders, and alerts — instantly and reliably across the UAE.'
 
 const SMS_TAB: SoftwareTabBlock = {
   id: 'sms-scenarios',
@@ -81,7 +81,7 @@ export function mergeSmsIntegrationPremiumPage(data: SoftwareDetailPageData): So
     ...data,
     metaTitle: 'Cloud-Based SMS Integration System | DigitalManager ERP',
     metaDescription:
-      'Send alerts, boost engagement, and automate SMS from POS, CRM, or ERP — reminders, promotions, and transactional updates across Pakistan.',
+      'Send alerts, boost engagement, and automate SMS from POS, CRM, or ERP — reminders, promotions, and transactional updates across the UAE.',
     premiumLayout,
     hero: {
       ...data.hero,

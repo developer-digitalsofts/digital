@@ -30,6 +30,17 @@
     "en": "© DigitalManager. All rights reserved.",
     "ar": "© ديجيتال مانجر. جميع الحقوق محفوظة."
   },
+  "defaultCountry": { "en": "United Arab Emirates", "ar": "الإمارات العربية المتحدة" },
+  "defaultCurrency": "AED",
+  "defaultPhoneCode": "+971",
+  "primaryCtaLabel": { "en": "Get Demo", "ar": "احصل على عرض" },
+  "demoPageLink": "/contact#contact-form",
+  "defaultSeoTitle": { "en": "DigitalManager — Cloud ERP for UAE Businesses", "ar": "ديجيتال مانجر — ERP سحابي لأعمال الإمارات" },
+  "defaultMetaDescription": {
+    "en": "Cloud ERP software for retail, manufacturing, logistics and services across the UAE.",
+    "ar": "برمجيات ERP سحابية للتجزئة والتصنيع واللوجستيات والخدمات في الإمارات."
+  },
+  "ogImageUrl": "",
   "_meta": {
     "createdAt": "2026-01-01T00:00:00.000Z",
     "updatedAt": "2026-01-01T00:00:00.000Z",

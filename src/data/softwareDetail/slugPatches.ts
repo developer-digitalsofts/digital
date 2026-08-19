@@ -1,6 +1,6 @@
 import type { SoftwareDetailPageData, SoftwareFaqItem } from './types'
 
-/** POS: `posManagementPageContent.ts`. FBR POS: `fbrPosIntegrationPageContent.ts`. SMS / Integration System: `smsIntegrationPageContent.ts`. */
+/** POS: `posManagementPageContent.ts`. UAE VAT POS: `fbrPosIntegrationPageContent.ts`. SMS / Integration System: `smsIntegrationPageContent.ts`. */
 
 type PatchFn = (displayName: string, kind: 'module' | 'industry') => Partial<SoftwareDetailPageData> | undefined
 

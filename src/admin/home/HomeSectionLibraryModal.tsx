@@ -11,12 +11,10 @@ const HOME_SECTION_TAB: Partial<Record<SectionType, string>> = {
   featureCards: 'features',
   featureStrip: 'features',
   comparison: 'features',
-  workflowSteps: 'workflow',
   modules: 'modules',
-  industries: 'industries',
-  pricing: 'features',
+  industries: 'about',
   faqs: 'faqs',
-  cta: 'cta',
+  cta: 'demoCta',
   richText: 'about',
 }
 

@@ -1,52 +1,74 @@
 {
+  "schemaVersion": 2,
   "sections": [
     {
       "id": "topBar",
       "name": "Header top bar",
       "visible": true,
-      "sortOrder": 0
+      "sortOrder": 0,
+      "deprecated": true
     },
     {
       "id": "hero",
-      "name": "Hero",
+      "name": "Hero Carousel",
       "visible": true,
       "sortOrder": 1
     },
     {
       "id": "stats",
-      "name": "Stats",
+      "name": "Trust Metrics",
       "visible": true,
       "sortOrder": 2
     },
     {
       "id": "about",
-      "name": "About",
+      "name": "Built for Your Industry",
       "visible": true,
       "sortOrder": 3
     },
     {
       "id": "valueChain",
-      "name": "Features / Value chain",
+      "name": "One Platform — Every Business Function",
       "visible": true,
       "sortOrder": 4
     },
     {
+      "id": "demoCta",
+      "name": "See DigitalManager in Action",
+      "visible": true,
+      "sortOrder": 5
+    },
+    {
       "id": "modules",
-      "name": "ERP module ecosystem",
+      "name": "Powerful Modules",
       "visible": true,
       "sortOrder": 5
     },
     {
       "id": "workflow",
       "name": "Workflow CTA",
+      "visible": false,
+      "sortOrder": 6,
+      "deprecated": true
+    },
+    {
+      "id": "testimonials",
+      "name": "Testimonials",
       "visible": true,
-      "sortOrder": 6
+      "sortOrder": 7
     },
     {
       "id": "industries",
-      "name": "Industry solutions",
+      "name": "Industry solutions (legacy)",
+      "visible": false,
+      "sortOrder": 7,
+      "deprecated": true
+    },
+    {
+      "id": "personalizedDemo",
+      "name": "Personalized Demo Form",
       "visible": true,
-      "sortOrder": 7
+      "sortOrder": 8
     },
     {
       "id": "faqs",
@@ -56,20 +78,22 @@
     },
     {
       "id": "cta",
-      "name": "Final CTA",
+      "name": "Final CTA (legacy)",
       "visible": true,
-      "sortOrder": 9
+      "sortOrder": 9,
+      "deprecated": true
     },
     {
       "id": "footer",
       "name": "Footer",
       "visible": true,
-      "sortOrder": 10
+      "sortOrder": 10,
+      "deprecated": true
     }
   ],
   "_meta": {
     "createdAt": "2026-08-12T08:31:16.124Z",
-    "updatedAt": "2026-08-12T08:31:16.124Z",
-    "updatedBy": "migrate-original-homepage"
+    "updatedAt": "2026-08-19T06:45:04.617Z",
+    "updatedBy": "admin@admin.com"
   }
 }

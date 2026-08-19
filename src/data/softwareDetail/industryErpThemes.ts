@@ -47,7 +47,7 @@ const THEMES: Record<string, IndustryErpTheme> = {
     moduleLabel: 'Fuel Station ERP',
     primaryIcon: 'Fuel',
     heroKpis: [
-      { label: 'Nozzle sales', value: 'PKR 1.8M', chip: 'Today' },
+      { label: 'Nozzle sales', value: 'AED 1.8M', chip: 'Today' },
       { label: 'Tank stock', value: '42,500 L', chip: 'Diesel' },
       { label: 'Dip variance', value: '0.3%', chip: 'OK' },
     ],
@@ -59,7 +59,7 @@ const THEMES: Record<string, IndustryErpTheme> = {
     reportRows: [
       { name: 'Nozzle sale summary', value: 'Shift A', status: 'Live' },
       { name: 'Tank gain / loss', value: '0.3%', status: 'OK' },
-      { name: 'Credit customer dues', value: 'PKR 240K', status: 'Open' },
+      { name: 'Credit customer dues', value: 'AED 240K', status: 'Open' },
     ],
     documentTitle: 'Fuel & lubricant vouchers',
     documentRows: [
@@ -127,7 +127,7 @@ const THEMES: Record<string, IndustryErpTheme> = {
     heroKpis: [
       { label: 'Active listings', value: '84', chip: 'Live' },
       { label: 'Site visits', value: '23', chip: 'This week' },
-      { label: 'Collections', value: 'PKR 6.1M', chip: 'MTD' },
+      { label: 'Collections', value: 'AED 6.1M', chip: 'MTD' },
     ],
     chartTitle: 'Leads & collections pipeline',
     chartBars: [35, 42, 48, 52, 58, 55, 62, 68, 72, 78, 82, 88],
@@ -137,7 +137,7 @@ const THEMES: Record<string, IndustryErpTheme> = {
     reportRows: [
       { name: 'Unit availability', value: '84 units', status: 'Live' },
       { name: 'Agent pipeline', value: '41 leads', status: 'Active' },
-      { name: 'Receivable aging', value: 'PKR 2.4M', status: 'Open' },
+      { name: 'Receivable aging', value: 'AED 2.4M', status: 'Open' },
     ],
     documentTitle: 'Property documents',
     documentRows: [
@@ -152,7 +152,7 @@ const THEMES: Record<string, IndustryErpTheme> = {
     primaryIcon: 'HardHat',
     heroKpis: [
       { label: 'Active sites', value: '6', chip: 'Live' },
-      { label: 'Material issued', value: 'PKR 3.2M', chip: 'MTD' },
+      { label: 'Material issued', value: 'AED 3.2M', chip: 'MTD' },
       { label: 'BOQ progress', value: '67%', chip: 'On track' },
     ],
     chartTitle: 'Project cost vs budget',
@@ -161,9 +161,9 @@ const THEMES: Record<string, IndustryErpTheme> = {
     workflowSteps: ['BOQ estimate', 'Material requisition', 'Site issue', 'Sub-contractor bill', 'Progress billing'],
     reportTitle: 'Construction reports',
     reportRows: [
-      { name: 'Material at site', value: 'PKR 1.1M', status: 'Live' },
+      { name: 'Material at site', value: 'AED 1.1M', status: 'Live' },
       { name: 'BOQ consumption', value: '67%', status: 'Active' },
-      { name: 'Sub-contractor dues', value: 'PKR 890K', status: 'Open' },
+      { name: 'Sub-contractor dues', value: 'AED 890K', status: 'Open' },
     ],
     documentTitle: 'Site vouchers',
     documentRows: [
@@ -179,7 +179,7 @@ const THEMES: Record<string, IndustryErpTheme> = {
     heroKpis: [
       { label: 'Production orders', value: '34', chip: 'Active' },
       { label: 'BOM accuracy', value: '98%', chip: 'OK' },
-      { label: 'WIP value', value: 'PKR 4.8M', chip: 'Live' },
+      { label: 'WIP value', value: 'AED 4.8M', chip: 'Live' },
     ],
     chartTitle: 'Production line output',
     chartBars: [50, 55, 60, 58, 65, 70, 72, 78, 75, 82, 88, 90],
@@ -203,7 +203,7 @@ const THEMES: Record<string, IndustryErpTheme> = {
     moduleLabel: 'Retail POS ERP',
     primaryIcon: 'ShoppingCart',
     heroKpis: [
-      { label: 'POS sales', value: 'PKR 2.1M', chip: 'Today' },
+      { label: 'POS sales', value: 'AED 2.1M', chip: 'Today' },
       { label: 'Transactions', value: '842', chip: 'Live' },
       { label: 'Stock alerts', value: '14', chip: 'Reorder' },
     ],
@@ -239,8 +239,8 @@ const THEMES: Record<string, IndustryErpTheme> = {
     workflowSteps: ['Room booking', 'Check-in', 'F&B order', 'Banquet billing', 'Night audit'],
     reportTitle: 'Hotel analytics',
     reportRows: [
-      { name: 'Room revenue', value: 'PKR 1.4M', status: 'Live' },
-      { name: 'Restaurant sales', value: 'PKR 620K', status: 'Posted' },
+      { name: 'Room revenue', value: 'AED 1.4M', status: 'Live' },
+      { name: 'Restaurant sales', value: 'AED 620K', status: 'Posted' },
       { name: 'Housekeeping status', value: '24 rooms', status: 'Active' },
     ],
     documentTitle: 'Hospitality documents',
@@ -256,7 +256,7 @@ const THEMES: Record<string, IndustryErpTheme> = {
     primaryIcon: 'Wheat',
     heroKpis: [
       { label: 'Crop area', value: '420 ac', chip: 'Season' },
-      { label: 'Input cost', value: 'PKR 1.2M', chip: 'MTD' },
+      { label: 'Input cost', value: 'AED 1.2M', chip: 'MTD' },
       { label: 'Yield forecast', value: '94%', chip: 'On plan' },
     ],
     chartTitle: 'Crop & dairy operations',
@@ -265,7 +265,7 @@ const THEMES: Record<string, IndustryErpTheme> = {
     workflowSteps: ['Land record', 'Input issue', 'Irrigation log', 'Harvest intake', 'Sale dispatch'],
     reportTitle: 'Agriculture analytics',
     reportRows: [
-      { name: 'Crop cost per acre', value: 'PKR 42K', status: 'Live' },
+      { name: 'Crop cost per acre', value: 'AED 42K', status: 'Live' },
       { name: 'Milk collection', value: '2,400 L', status: 'Posted' },
       { name: 'Feed inventory', value: '18 t', status: 'OK' },
     ],
@@ -283,7 +283,7 @@ const THEMES: Record<string, IndustryErpTheme> = {
     heroKpis: [
       { label: 'Active trips', value: '28', chip: 'Live' },
       { label: 'Fleet utilisation', value: '86%', chip: 'Week' },
-      { label: 'Freight billed', value: 'PKR 3.4M', chip: 'MTD' },
+      { label: 'Freight billed', value: 'AED 3.4M', chip: 'MTD' },
     ],
     chartTitle: 'Fleet & freight analytics',
     chartBars: [40, 48, 52, 58, 55, 62, 68, 72, 70, 76, 80, 84],
@@ -307,9 +307,9 @@ const THEMES: Record<string, IndustryErpTheme> = {
     moduleLabel: 'SMB Cloud ERP',
     primaryIcon: 'Briefcase',
     heroKpis: [
-      { label: 'Revenue', value: 'PKR 2.8M', chip: 'MTD' },
-      { label: 'Receivables', value: 'PKR 640K', chip: 'Open' },
-      { label: 'Cash position', value: 'PKR 1.1M', chip: 'Live' },
+      { label: 'Revenue', value: 'AED 2.8M', chip: 'MTD' },
+      { label: 'Receivables', value: 'AED 640K', chip: 'Open' },
+      { label: 'Cash position', value: 'AED 1.1M', chip: 'Live' },
     ],
     chartTitle: 'Business performance',
     chartBars: [42, 48, 52, 55, 58, 62, 65, 68, 72, 75, 78, 82],
@@ -335,7 +335,7 @@ const THEMES: Record<string, IndustryErpTheme> = {
     heroKpis: [
       { label: 'Active cases', value: '64', chip: 'Open' },
       { label: 'Submissions', value: '12', chip: 'Week' },
-      { label: 'Fee collected', value: 'PKR 840K', chip: 'MTD' },
+      { label: 'Fee collected', value: 'AED 840K', chip: 'MTD' },
     ],
     chartTitle: 'Case pipeline analytics',
     chartBars: [35, 40, 45, 50, 48, 55, 58, 62, 65, 70, 72, 78],
@@ -345,7 +345,7 @@ const THEMES: Record<string, IndustryErpTheme> = {
     reportRows: [
       { name: 'Case status board', value: '64 cases', status: 'Live' },
       { name: 'Document pending', value: '18', status: 'Alert' },
-      { name: 'Agent commission', value: 'PKR 120K', status: 'Posted' },
+      { name: 'Agent commission', value: 'AED 120K', status: 'Posted' },
     ],
     documentTitle: 'Case documents',
     documentRows: [
@@ -359,7 +359,7 @@ const THEMES: Record<string, IndustryErpTheme> = {
     moduleLabel: 'Electronics Retail ERP',
     primaryIcon: 'Laptop',
     heroKpis: [
-      { label: 'POS sales', value: 'PKR 1.6M', chip: 'Today' },
+      { label: 'POS sales', value: 'AED 1.6M', chip: 'Today' },
       { label: 'SKU count', value: '1,240', chip: 'Active' },
       { label: 'Warranty claims', value: '8', chip: 'Open' },
     ],
@@ -371,7 +371,7 @@ const THEMES: Record<string, IndustryErpTheme> = {
     reportRows: [
       { name: 'Category margin', value: '16.2%', status: 'Live' },
       { name: 'Serial-tracked stock', value: '842 units', status: 'Posted' },
-      { name: 'EV session revenue', value: 'PKR 42K', status: 'Active' },
+      { name: 'EV session revenue', value: 'AED 42K', status: 'Active' },
     ],
     documentTitle: 'Electronics vouchers',
     documentRows: [

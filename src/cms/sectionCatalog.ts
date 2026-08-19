@@ -90,11 +90,13 @@ export function defaultSectionContent(type: SectionType): Record<string, unknown
       }
     case 'stats':
       return {
-        title: bi('Trusted By Businesses Across UAE & GCC'),
+        title: bi('Trusted Results.\nStronger Businesses.', 'نتائج موثوقة.\nأعمال أقوى.'),
         items: [
-          { id: 'st1', value: '20+', label: bi('Years Experience'), icon: 'Award', accentColor: '#ff7a45' },
-          { id: 'st2', value: '120+', label: bi('Business Solutions'), icon: 'Layers', accentColor: '#2563eb' },
-          { id: 'st3', value: '1000+', label: bi('Happy Clients'), icon: 'Users', accentColor: '#16a34a' },
+          { id: 'st1', value: '20+', label: bi('Years of Experience'), icon: 'Award', accentColor: '#ff7a45' },
+          { id: 'st2', value: '1000+', label: bi('Businesses Served'), icon: 'Building2', accentColor: '#ff7a45' },
+          { id: 'st3', value: '15+', label: bi('Industries Covered'), icon: 'Layers', accentColor: '#ff7a45' },
+          { id: 'st4', value: '99%', label: bi('Client Satisfaction'), icon: 'HeartHandshake', accentColor: '#ff7a45' },
+          { id: 'st5', value: '24/7', label: bi('Customer Support'), icon: 'Headphones', accentColor: '#ff7a45' },
         ],
       }
     case 'imageText':

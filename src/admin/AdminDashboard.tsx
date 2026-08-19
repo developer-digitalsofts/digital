@@ -13,7 +13,7 @@ import {
   Sparkles,
   Users,
 } from 'lucide-react'
-import { loadDashboardSummary, getEmptyDashboard, type DashboardLoadSource, type DashboardSummary } from './loadDashboardData'
+import { loadDashboardSummary, type DashboardLoadSource, type DashboardSummary } from './loadDashboardData'
 import { ADMIN_API_OFFLINE_HINT } from './adminApi'
 
 function formatInquirySource(lead: DashboardSummary['recentLeads'][number]): string {
@@ -104,13 +104,20 @@ export function AdminDashboard() {
     setLoading(true)
     setError(null)
     setApiError(null)
+    setData(null)
     try {
       const { data: summary, source, apiError: fetchErr } = await loadDashboardSummary()
+      if (source === 'empty') {
+        setData(null)
+        setLoadSource('empty')
+        setApiError(fetchErr || ADMIN_API_OFFLINE_HINT)
+        return
+      }
       setData(summary)
       setLoadSource(source)
       if (fetchErr) setApiError(fetchErr)
     } catch (e) {
-      setData(getEmptyDashboard())
+      setData(null)
       setLoadSource('empty')
       setApiError(e instanceof Error ? e.message : ADMIN_API_OFFLINE_HINT)
     } finally {
@@ -145,11 +152,13 @@ export function AdminDashboard() {
     )
   }
 
-  if (error || !data) {
+  const apiUnavailable = loadSource === 'empty' || !data
+
+  if (apiUnavailable) {
     return (
-      <div className="mx-auto max-w-lg rounded-xl border border-red-200 bg-red-50 p-8 text-center">
-        <p className="text-sm font-semibold text-red-900">{error || apiError || 'Dashboard unavailable'}</p>
-        <p className="mt-2 text-sm text-red-800/90">{ADMIN_API_OFFLINE_HINT}</p>
+      <div className="mx-auto max-w-lg rounded-xl border border-amber-200 bg-amber-50 p-8 text-center">
+        <p className="text-sm font-semibold text-amber-950">CMS service is temporarily unavailable.</p>
+        <p className="mt-2 text-sm text-amber-900/90">{apiError || error || ADMIN_API_OFFLINE_HINT}</p>
         <button
           type="button"
           onClick={() => void load()}
@@ -161,7 +170,7 @@ export function AdminDashboard() {
     )
   }
 
-  const apiOffline = loadSource === 'empty' || loadSource === 'fallback'
+  const apiOffline = loadSource === 'fallback' && !data.health.api
 
   return (
     <div className="mx-auto max-w-6xl space-y-8 pb-8">

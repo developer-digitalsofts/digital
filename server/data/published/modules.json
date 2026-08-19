@@ -85,12 +85,12 @@
         "ar": "شائع"
       },
       "title": {
-        "en": "FBR Integration",
-        "ar": "تكامل FBR"
+        "en": "UAE VAT & Tax Compliance",
+        "ar": "امتثال ضريبة القيمة المضافة"
       },
       "description": {
-        "en": "FBR-compliant digital invoicing and real-time POS tax lines.",
-        "ar": "فوترة رقمية متوافقة مع FBR وخطوط ضريبة نقطة البيع لحظيًا."
+        "en": "UAE VAT-compliant digital invoicing and real-time POS tax lines.",
+        "ar": "فوترة رقمية متوافقة مع ضريبة القيمة المضافة الإماراتية وخطوط ضريبة نقطة البيع لحظيًا."
       },
       "href": "/software/fbr-pos-integration-software",
       "sortOrder": 3,

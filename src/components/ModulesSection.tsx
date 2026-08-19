@@ -1,109 +1,109 @@
-import { moduleExplorerCards } from '../data/moduleExplorerCards'
+import { useMemo } from 'react'
+import { ArrowUpRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import {
+  powerfulModulesCards,
+  resolvePowerfulModuleHref,
+  slugFromModuleHref,
+} from '../data/powerfulModulesCards'
 import { useI18n } from '../i18n/I18nProvider'
 import { useCms } from '../cms/CmsContext'
-import { pick } from '../cms/pick'
-import type { Bilingual } from '../cms/types'
-import { LucideByName } from '../utils/lucideFromName'
-import { pageShellClass } from '../ui/pageShell'
 import { ScrollReveal } from './ScrollReveal'
-import { PremiumFeatureCard } from './PremiumFeatureCard'
-import { moduleCardIconStyle } from '../ui/cardIconColors'
-import {
-  sectionContentTop,
-  sectionEyebrow,
-  sectionPad,
-  sectionSubCenter,
-  sectionTitle,
-  sectionWhite,
-} from '../ui/saas'
+import { sectionTitle } from '../ui/saas'
+import './powerful-modules-editorial.css'
 
 type ModItem = {
   id: string
-  icon?: string
-  accentColor?: string
-  badge?: Bilingual
-  title?: Bilingual
-  description?: Bilingual
   href?: string
   sortOrder?: number
   active?: boolean
 }
 
 type ModulesCms = {
-  pill?: Bilingual
-  title?: Bilingual
-  subtitle?: Bilingual
-  exploreLabel?: Bilingual
   items?: ModItem[]
 }
 
+const TAG_KEYS = ['tag1', 'tag2', 'tag3'] as const
+
 export function ModulesSection() {
-  const { t, lang } = useI18n()
+  const { t } = useI18n()
   const { data } = useCms()
   const block = data?.modules as ModulesCms | undefined
 
-  const pill = block?.pill ? pick(block.pill, lang) : t('moduleBlock.pill')
-  const title = block?.title ? pick(block.title, lang) : t('moduleBlock.title')
-  const sub = block?.subtitle ? pick(block.subtitle, lang) : t('moduleBlock.sub')
-  const explore = block?.exploreLabel ? pick(block.exploreLabel, lang) : t('moduleBlock.explore')
+  const title = t('powerfulModules.title')
 
-  const cmsItems = block?.items
-    ? [...block.items]
-        .filter((m) => m.active !== false)
-        .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
-    : []
+  const cmsHrefBySlug = useMemo(() => {
+    const map = new Map<string, string>()
+    const items = block?.items
+      ? [...block.items]
+          .filter((m) => m.active !== false)
+          .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+      : []
+
+    for (const item of items) {
+      const href = item.href?.trim()
+      if (!href) continue
+      const slug = slugFromModuleHref(href)
+      if (slug) map.set(slug, href)
+    }
+
+    return map
+  }, [block?.items])
 
   return (
-    <section
-      id="modules"
-      className={`relative scroll-mt-28 overflow-hidden border-t border-slate-200/50 ${sectionWhite} ${sectionPad}`}
-    >
-      <div className={`${pageShellClass} relative`}>
-        <ScrollReveal className="mx-auto max-w-4xl text-center">
-          <p className={`${sectionEyebrow} uppercase`}>{pill}</p>
-          <h2 className={`${sectionTitle} mt-2`}>{title}</h2>
-          <p className={`${sectionSubCenter} mt-3 max-w-2xl text-slate-600`}>{sub}</p>
+    <section id="modules" className="powerful-modules-editorial scroll-mt-28 home-section home-section--powerful-modules">
+      <div className="industries-section__container">
+        <ScrollReveal>
+          <header className="powerful-modules-editorial__header">
+            <h2 className={sectionTitle}>{title}</h2>
+          </header>
         </ScrollReveal>
 
-        <div
-          className={`${sectionContentTop} mx-auto grid max-w-[72rem] auto-rows-fr grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 lg:gap-7`}
-        >
-          {cmsItems.length > 0
-            ? cmsItems.map((m, i) => {
-                const to = m.href?.trim() || '/'
-                const iconStyle = moduleCardIconStyle(to, i)
-                const accent = m.accentColor?.trim() || iconStyle.accent
-                return (
-                  <ScrollReveal key={m.id} delayMs={i * 70}>
-                    <PremiumFeatureCard
-                      variant="module"
-                      title={m.title ? pick(m.title, lang) : ''}
-                      description={m.description ? pick(m.description, lang) : ''}
-                      exploreLabel={explore}
-                      to={to}
-                      useCmsLink
-                      iconAccentColor={accent}
-                      icon={<LucideByName name={m.icon} strokeWidth={2} />}
-                    />
-                  </ScrollReveal>
-                )
-              })
-            : moduleExplorerCards.map((m, i) => {
-                const iconStyle = moduleCardIconStyle(m.slug, i)
-                return (
-                  <ScrollReveal key={m.slug} delayMs={i * 70}>
-                    <PremiumFeatureCard
-                      variant="module"
-                      title={t(`moduleBlock.card.${m.slug}.title`)}
-                      description={t(`moduleBlock.card.${m.slug}.desc`)}
-                      exploreLabel={t('moduleBlock.explore')}
-                      to={m.to}
-                      iconAccentColor={iconStyle.accent}
-                      icon={<m.icon strokeWidth={2} aria-hidden />}
-                    />
-                  </ScrollReveal>
-                )
-              })}
+        <div className="powerful-modules-editorial__grid">
+          {powerfulModulesCards.map((card) => {
+            const Icon = card.icon
+            const to = resolvePowerfulModuleHref(card.slug, cmsHrefBySlug)
+            const base = `powerfulModules.cards.${card.key}`
+            const cardTitle = t(`${base}.title`)
+            const tags = TAG_KEYS.map((key) => t(`${base}.${key}`))
+
+            return (
+              <Link
+                key={card.key}
+                to={to}
+                className="powerful-module-editorial-card"
+                aria-label={`Explore ${cardTitle}`}
+              >
+                <span className="powerful-module-editorial-card__diagonal" aria-hidden="true" />
+
+                <span className="powerful-module-editorial-card__number" aria-hidden="true">
+                  {card.number}
+                </span>
+
+                <span className="powerful-module-editorial-card__icon" aria-hidden="true">
+                  <Icon strokeWidth={1.8} />
+                  <span className="powerful-module-editorial-card__icon-accent" />
+                </span>
+
+                <div className="powerful-module-editorial-card__content">
+                  <h3 className="powerful-module-editorial-card__title">{cardTitle}</h3>
+                  <p className="powerful-module-editorial-card__description">{t(`${base}.desc`)}</p>
+                </div>
+
+                <div className="powerful-module-editorial-card__tags">
+                  {tags.map((tag) => (
+                    <span key={tag} className="powerful-module-editorial-card__tag">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <span className="powerful-module-editorial-card__explore">{t('powerfulModules.exploreModule')}</span>
+
+                <ArrowUpRight className="powerful-module-editorial-card__arrow" aria-hidden="true" />
+              </Link>
+            )
+          })}
         </div>
       </div>
     </section>

@@ -16,11 +16,16 @@ const PUBLIC_HASH_TO_ADMIN_TAB: Record<string, AdminHomeEditorTabId> = {
   features: 'features',
   valueChain: 'features',
   modules: 'modules',
-  industries: 'industries',
-  workflow: 'workflow',
+  industries: 'about',
+  'erp-modules': 'features',
+  'demo-cta': 'demoCta',
+  testimonials: 'testimonials',
+  'personalized-demo': 'personalizedDemo',
+  'get-demo': 'personalizedDemo',
   faqs: 'faqs',
-  'final-cta': 'cta',
-  cta: 'cta',
+  workflow: 'visibility',
+  'final-cta': 'demoCta',
+  cta: 'demoCta',
 }
 
 function adminContextFromPath(pathname: string): AdminHomeEditorContext {

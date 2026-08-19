@@ -2,15 +2,17 @@ import type { LucideIcon } from 'lucide-react'
 import {
   FileStack,
   FileText,
+  Globe2,
   Home,
   ImageIcon,
   Layers,
   LayoutDashboard,
+  LayoutGrid,
   LogOut,
   CalendarDays,
   MessageSquare,
-  PanelBottom,
-  Phone,
+  PanelTop,
+  Search,
   Sparkles,
   UserCircle,
   Users,
@@ -34,17 +36,19 @@ export const ADMIN_PAGES_PATH = '/admin/pages-list'
 
 export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
   { id: 'dashboard', to: '/admin', label: 'Dashboard', icon: LayoutDashboard, end: true },
-  { id: 'homepage', to: ADMIN_HOME_EDITOR_PATH, label: 'Homepage', icon: Home },
   { id: 'pages', to: ADMIN_PAGES_PATH, label: 'Pages', icon: FileText },
-  { id: 'modules', to: ADMIN_ERP_MODULES_PATH, label: 'ERP Modules', icon: Layers },
+  { id: 'homepage', to: ADMIN_HOME_EDITOR_PATH, label: 'Homepage', icon: Home },
+  { id: 'modules', to: ADMIN_ERP_MODULES_PATH, label: 'Modules', icon: Layers },
   { id: 'industries', to: ADMIN_INDUSTRIES_PATH, label: 'Industries', icon: Sparkles },
+  { id: 'mega-menus', to: '/admin/mega-menus', label: 'Mega Menus', icon: LayoutGrid },
   { id: 'detail-pages', to: ADMIN_DETAIL_PAGES_PATH, label: 'Detail Pages', icon: FileStack, end: true },
-  { id: 'demo-requests', to: '/admin/demo-requests', label: 'Demo Requests', icon: CalendarDays },
-  { id: 'inquiries', to: '/admin/leads', label: 'Contact Inquiries', icon: MessageSquare },
-  { id: 'media', to: '/admin/media', label: 'Media / Images', icon: ImageIcon },
-  { id: 'contact', to: '/admin/email-settings', label: 'Contact Details', icon: Phone },
-  { id: 'footer', to: '/admin/layout/footer', label: 'Footer Settings', icon: PanelBottom },
-  { id: 'users', to: '/admin/users', label: 'Users / Access', icon: Users },
+  { id: 'demo-requests', to: '/admin/demo-requests', label: 'Forms & Leads', icon: CalendarDays },
+  { id: 'media', to: '/admin/media', label: 'Media Library', icon: ImageIcon },
+  { id: 'header', to: '/admin/layout/header', label: 'Header & Footer', icon: PanelTop },
+  { id: 'seo', to: '/admin/seo', label: 'SEO', icon: Search },
+  { id: 'site-settings', to: '/admin/site-settings', label: 'Global Settings', icon: Globe2 },
+  { id: 'users', to: '/admin/users', label: 'Users', icon: Users },
+  { id: 'activity', to: '/admin/activity', label: 'Activity Log', icon: MessageSquare },
   { id: 'profile', to: '/admin/profile', label: 'Admin Profile', icon: UserCircle },
 ]
 
@@ -66,6 +70,18 @@ export function isAdminNavActive(pathname: string, _search: string, item: AdminN
   }
   if (item.to === ADMIN_INDUSTRIES_PATH) {
     return pathname === ADMIN_INDUSTRIES_PATH
+  }
+  if (item.to === '/admin/mega-menus') {
+    return pathname === '/admin/mega-menus'
+  }
+  if (item.to === '/admin/site-settings') {
+    return pathname === '/admin/site-settings'
+  }
+  if (item.to === '/admin/seo') {
+    return pathname === '/admin/seo'
+  }
+  if (item.to === '/admin/layout/header') {
+    return pathname === '/admin/layout/header' || pathname === '/admin/layout/footer'
   }
 
   if (item.end) return isPathMatch(pathname, item.to, 'exact')

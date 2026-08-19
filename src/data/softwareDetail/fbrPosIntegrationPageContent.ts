@@ -10,7 +10,7 @@ const INTEGRATION_PROBLEM =
   'Businesses struggle with manual invoice reporting, delayed tax submissions, and compliance management.'
 
 const INTEGRATION_SOLUTION =
-  'Our FBR POS Integration System automates invoice reporting, tax verification, SMS alerts, and real-time analytics while keeping your business compliant.'
+  'Our UAE VAT POS Integration System automates invoice reporting, tax verification, SMS alerts, and real-time analytics while keeping your business compliant.'
 
 const INTEGRATION_FEATURE_BULLETS = [
   'Varying Tax Percentages Based on Products',
@@ -20,7 +20,7 @@ const INTEGRATION_FEATURE_BULLETS = [
 ]
 
 const INTRO =
-  'Stay fully compliant with regulatory standards using our officially verified Point of Sale (POS) software integrated with the Federal Board of Revenue (FBR).\n\nThis smart cloud-based system automates real-time invoice reporting, generates digital receipts, verifies STRNs, and ensures seamless tax filing processes.\n\nIdeal for retail businesses, restaurants, pharmacies, and service providers.'
+  'Stay fully compliant with regulatory standards using our officially verified Point of Sale (POS) software integrated with the UAE tax compliance workflows.\n\nThis smart cloud-based system automates real-time invoice reporting, generates digital receipts, verifies TRNs, and ensures seamless tax filing processes.\n\nIdeal for retail businesses, restaurants, pharmacies, and service providers.'
 
 const INVOICING_TAB: SoftwareTabBlock = {
   id: 'fbr-invoicing',
@@ -29,10 +29,10 @@ const INVOICING_TAB: SoftwareTabBlock = {
     {
       name: 'Centralized invoicing & compliance',
       description:
-        'Manage invoices, sales reporting, FBR verification, tax compliance, and customer transactions through one centralized cloud-based platform. Integrated with FBR Pakistan for seamless invoice verification and automated reporting.',
+        'Manage invoices, sales reporting, UAE VAT verification, tax compliance, and customer transactions through one centralized cloud-based platform aligned with UAE VAT invoicing workflows.',
     },
     {
-      name: 'Verified By FBR',
+      name: 'VAT-ready operations',
       description:
         'Operate with a solution positioned for regulator-aligned digital invoicing so payloads, references, and submission status stay traceable from POS to filing.',
     },
@@ -49,7 +49,7 @@ const FBR_IMPLEMENTATION: SoftwareImplementationStep[] = [
     icon: 'Compass',
     title: 'Consultancy',
     description:
-      'We map your POS lanes, item and tax masters, buyer validation rules, and FBR submission cadence so DigitalManager mirrors how your retail and finance teams comply in practice.',
+      'We map your POS lanes, item and tax masters, buyer validation rules, and VAT submission cadence so DigitalManager mirrors how your retail and finance teams comply in practice.',
   },
   {
     icon: 'GraduationCap',
@@ -61,7 +61,7 @@ const FBR_IMPLEMENTATION: SoftwareImplementationStep[] = [
     icon: 'Download',
     title: 'Software Installation',
     description:
-      'Environment setup, schema mappings, sandbox submissions, and go-live checklists so production POS and FBR endpoints are validated together.',
+      'Environment setup, schema mappings, sandbox submissions, and go-live checklists so production POS and VAT endpoints are validated together.',
   },
   {
     icon: 'Headphones',
@@ -72,7 +72,7 @@ const FBR_IMPLEMENTATION: SoftwareImplementationStep[] = [
 ]
 
 /**
- * Post-template content for the FBR (POS) Integration Software module page only.
+ * Post-template content for the UAE VAT & Tax Compliance Software module page only.
  */
 export function mergeFbrPosIntegrationPremiumPage(data: SoftwareDetailPageData): SoftwareDetailPageData {
   const pl = data.premiumLayout
@@ -82,9 +82,9 @@ export function mergeFbrPosIntegrationPremiumPage(data: SoftwareDetailPageData):
     ...pl,
     featuresHeading: 'Software Modules',
     featuresLead:
-      'Point of Sale, customer relationship context, tax filing verification, and reporting and analytics — unified for FBR-aligned retail and service operations.',
-    vouchersSectionEyebrow: 'FBR POS invoicing',
-    challengesHeading: 'FBR POS Integration System',
+      'Point of Sale, customer relationship context, tax filing verification, and reporting and analytics — unified for UAE VAT-aligned retail and service operations.',
+    vouchersSectionEyebrow: 'UAE VAT POS invoicing',
+    challengesHeading: 'UAE VAT POS Integration System',
     challengesIntro: INTEGRATION_PROBLEM,
     challengesListLead: 'Features:',
     challengeBullets: INTEGRATION_FEATURE_BULLETS,
@@ -92,7 +92,7 @@ export function mergeFbrPosIntegrationPremiumPage(data: SoftwareDetailPageData):
     solutionParagraphs: [INTEGRATION_SOLUTION],
     heroChips: [],
     heroAsideCaption:
-      'Real-time digital invoicing, STRN-aware validation, and compliance workflows built around how Pakistani retailers actually sell.',
+      'Real-time digital invoicing, TRN-aware validation, and compliance workflows built around how UAE retailers actually sell.',
     industriesSection: {
       ...pl.industriesSection,
       heading: '',
@@ -102,20 +102,20 @@ export function mergeFbrPosIntegrationPremiumPage(data: SoftwareDetailPageData):
     },
     implementationSectionTitle: 'Implementation',
     implementationSectionLead:
-      'Consultancy, training, software installation, and support — structured so stores, tax, and finance share one rollout path for FBR POS integration on DigitalManager.',
+      'Consultancy, training, software installation, and support — structured so stores, tax, and finance share one rollout path for UAE VAT POS integration on DigitalManager.',
     demoSendButtonLabel: 'Request Here',
     faqSectionHeading: pl.faqSectionHeading,
   }
 
   return {
     ...data,
-    metaTitle: 'FBR-Integrated POS Software | DigitalManager ERP',
+    metaTitle: 'UAE VAT-Integrated POS Software | DigitalManager ERP',
     metaDescription:
-      'Compliant, automated, officially integrated FBR POS — real-time invoice reporting, digital receipts, STRN verification, and smoother tax filing for retail and services.',
+      'Compliant, automated, officially integrated UAE VAT POS — real-time invoice reporting, digital receipts, STRN verification, and smoother tax filing for retail and services.',
     premiumLayout,
     hero: {
       ...data.hero,
-      headline: 'FBR-Integrated POS Software for Real-Time Sales Compliance',
+      headline: 'UAE VAT-Integrated POS Software for Real-Time Sales Compliance',
       subhead: 'Compliant. Automated. Officially Integrated.',
       intro: INTRO,
       trust: [
@@ -150,7 +150,7 @@ export function mergeFbrPosIntegrationPremiumPage(data: SoftwareDetailPageData):
       },
     ],
     vouchersReports: {
-      heading: 'FBR Point Of Sale (POS) Invoicing System',
+      heading: 'UAE VAT Point Of Sale (POS) Invoicing System',
       subheading: 'Verified Solution Integrated By Powerful Features',
       tabs: [INVOICING_TAB],
     },
@@ -169,7 +169,7 @@ export function mergeFbrPosIntegrationPremiumPage(data: SoftwareDetailPageData):
     demoCta: {
       ...data.demoCta,
       heading: 'Want To Try Our Software Or Need A Quotation?',
-      sub: 'Share your email and contact number — we will respond with a tailored walkthrough or quotation for FBR POS integration on DigitalManager.',
+      sub: 'Share your email and contact number — we will respond with a tailored walkthrough or quotation for UAE VAT POS integration on DigitalManager.',
     },
   }
 }

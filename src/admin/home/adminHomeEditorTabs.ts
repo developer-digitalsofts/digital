@@ -5,16 +5,23 @@ export const ADMIN_INDUSTRIES_PATH = '/admin/industries'
 export const ADMIN_DETAIL_PAGES_PATH = '/admin/detail-pages'
 
 export const HOME_EDITOR_TABS = [
-  { tab: 'hero', section: 'hero', label: 'Hero' },
-  { tab: 'stats', section: 'stats', label: 'Stats' },
-  { tab: 'about', section: 'about', label: 'About' },
-  { tab: 'features', section: 'valueChain', label: 'Features' },
-  { tab: 'modules', section: 'modules', label: 'ERP Modules' },
-  { tab: 'workflow', section: 'workflow', label: 'Workflow CTA' },
-  { tab: 'industries', section: 'industries', label: 'Industries' },
+  { tab: 'hero', section: 'hero', label: 'Hero Carousel' },
+  { tab: 'stats', section: 'stats', label: 'Trust Metrics' },
+  { tab: 'about', section: 'industries', label: 'Built for Your Industry' },
+  { tab: 'features', section: 'valueChain', label: 'One Platform' },
+  { tab: 'demoCta', section: 'demoCta', label: 'Demo CTA' },
+  { tab: 'modules', section: 'modules', label: 'Powerful Modules' },
+  { tab: 'testimonials', section: 'testimonials', label: 'Testimonials' },
+  { tab: 'personalizedDemo', section: 'personalizedDemo', label: 'Demo Form' },
   { tab: 'faqs', section: 'faqs', label: 'FAQs' },
-  { tab: 'cta', section: 'cta', label: 'Final CTA' },
   { tab: 'visibility', section: 'pageSections', label: 'Visibility' },
+] as const
+
+/** Legacy tabs — data preserved but hidden from default homepage editor. */
+export const DEPRECATED_HOME_EDITOR_TABS = [
+  { tab: 'workflow', section: 'workflow', label: 'Workflow CTA (legacy)' },
+  { tab: 'industries', section: 'industries', label: 'Industries (legacy tab)' },
+  { tab: 'cta', section: 'cta', label: 'Final CTA (legacy)' },
 ] as const
 
 export type AdminHomeEditorTabId = (typeof HOME_EDITOR_TABS)[number]['tab']
@@ -26,9 +33,7 @@ const INDUSTRIES_CONTEXT_TABS = new Set<AdminHomeEditorTabId>([
   'stats',
   'about',
   'features',
-  'industries',
   'faqs',
-  'cta',
   'visibility',
 ])
 
@@ -54,7 +59,7 @@ export function defaultTabForContext(context: AdminHomeEditorContext): AdminHome
     case 'erp-modules':
       return 'modules'
     case 'industries':
-      return 'industries'
+      return 'about'
     default:
       return 'hero'
   }

@@ -2,6 +2,8 @@
 
 export const sectionPad = 'py-12 md:py-[3.75rem] lg:py-[4.25rem]'
 export const sectionPadCompact = 'py-10 md:py-12 lg:py-[3.25rem]'
+export const homeSection = 'home-section'
+export const compactHomeSection = 'compact-home-section'
 export const heroPad = 'py-12 md:py-16 lg:py-[4.75rem] xl:py-20'
 export const footerPad = 'py-10 md:py-11 lg:py-12'
 

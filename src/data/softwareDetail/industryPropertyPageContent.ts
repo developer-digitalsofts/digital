@@ -286,7 +286,7 @@ export function mergeRealEstateBusinessIndustryPage(data: SoftwareDetailPageData
     ...data,
     metaTitle: 'Software for Real Estate Business | DigitalManager ERP',
     metaDescription:
-      'Manage properties, track installments, control operations — ERP for real estate builders, dealers, housing societies, and developers in Pakistan.',
+      'Manage properties, track installments, control operations — ERP for real estate builders, dealers, housing societies, and developers in the UAE.',
     premiumLayout,
     hero: {
       ...data.hero,

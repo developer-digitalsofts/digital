@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 2,
+  "enabled": true,
+  "title": {
+    "en": "See DigitalManager in Action",
+    "ar": "شاهد ديجيتال مانجر أثناء العمل"
+  },
+  "description": {
+    "en": "Book a personalized demo and discover the right ERP solution for your business.",
+    "ar": "احجز عرضًا مخصصًا واكتشف حل ERP المناسب لعملك."
+  },
+  "buttonLabel": {
+    "en": "Book Your Free Demo",
+    "ar": "احجز عرضك المجاني"
+  },
+  "_meta": {
+    "createdAt": "2026-08-19T06:10:35.210Z",
+    "updatedAt": "2026-08-19T06:29:15.185Z",
+    "updatedBy": "admin@admin.com"
+  }
+}

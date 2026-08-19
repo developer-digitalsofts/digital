@@ -1,21 +1,18 @@
 import { Mail, MessageSquare, Phone } from 'lucide-react'
 import { useCallback, useState, type FormEvent } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { WHATSAPP_URL } from '../constants'
 import { WhatsAppIcon } from '../components/WhatsAppIcon'
 import { useI18n } from '../i18n/I18nProvider'
+import { useSiteSettings } from '../cms/useSiteSettings'
 import { apiBase, fetchWithTimeout } from '../cms/api'
 import { pageShellClass } from '../ui/pageShell'
 import { sectionPad } from '../ui/saas'
-
-const PHONE_DISPLAY = '+971 58 117 4911'
-const PHONE_HREF = 'tel:+971581174911'
-const EMAIL = 'info@digitalmanager.ae'
 
 type Topic = 'demo' | 'pricing' | 'support' | 'other'
 
 export function ContactPage() {
   const { t } = useI18n()
+  const site = useSiteSettings()
   const location = useLocation()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -85,38 +82,46 @@ export function ContactPage() {
           <div className="lg:col-span-5">
             <div className="rounded-lg border border-slate-200 bg-white p-5 md:p-6">
               <h2 className="font-heading text-base font-bold text-slate-900">{t('contactPage.phoneLabel')}</h2>
-              <a
-                href={PHONE_HREF}
-                className="mt-3 inline-flex items-center gap-2 text-base font-semibold text-brand transition-colors hover:text-brand-dark"
-              >
-                <Phone className="size-5 shrink-0" aria-hidden />
-                {PHONE_DISPLAY}
-              </a>
+              {site.phoneDisplay ? (
+                <a
+                  href={site.phoneHref}
+                  className="mt-3 inline-flex items-center gap-2 text-base font-semibold text-brand transition-colors hover:text-brand-dark"
+                >
+                  <Phone className="size-5 shrink-0" aria-hidden />
+                  {site.phoneDisplay}
+                </a>
+              ) : null}
 
               <h2 className="font-heading mt-6 text-base font-bold text-slate-900">{t('contactPage.emailLabel')}</h2>
-              <a
-                href={`mailto:${EMAIL}`}
-                className="mt-3 inline-flex items-center gap-2 break-all text-base font-semibold text-brand transition-colors hover:text-brand-dark"
-              >
-                <Mail className="size-5 shrink-0" aria-hidden />
-                {EMAIL}
-              </a>
+              {site.primaryEmail ? (
+                <a
+                  href={`mailto:${site.primaryEmail}`}
+                  className="mt-3 inline-flex items-center gap-2 break-all text-base font-semibold text-brand transition-colors hover:text-brand-dark"
+                >
+                  <Mail className="size-5 shrink-0" aria-hidden />
+                  {site.primaryEmail}
+                </a>
+              ) : null}
 
               <h2 className="font-heading mt-6 text-base font-bold text-slate-900">{t('contactPage.whatsappLabel')}</h2>
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-3 inline-flex items-center gap-2 text-base font-semibold text-[#128C7E] transition-colors hover:text-[#0d6b5c]"
-              >
-                <WhatsAppIcon className="size-5 shrink-0" aria-hidden />
-                {t('contactPage.whatsappAction')}
-              </a>
+              {site.whatsappUrl ? (
+                <a
+                  href={site.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex items-center gap-2 text-base font-semibold text-[#128C7E] transition-colors hover:text-[#0d6b5c]"
+                >
+                  <WhatsAppIcon className="size-5 shrink-0" aria-hidden />
+                  {t('contactPage.whatsappAction')}
+                </a>
+              ) : null}
 
-              <div className="mt-10 rounded-xl bg-cream-dark/80 px-4 py-4">
-                <p className="text-sm font-bold text-slate-900">{t('contactPage.hoursTitle')}</p>
-                <p className="mt-1 text-sm text-slate-600">{t('contactPage.hoursBody')}</p>
-              </div>
+              {site.workingHours ? (
+                <div className="mt-10 rounded-xl bg-cream-dark/80 px-4 py-4">
+                  <p className="text-sm font-bold text-slate-900">{t('contactPage.hoursTitle')}</p>
+                  <p className="mt-1 text-sm text-slate-600">{site.workingHours}</p>
+                </div>
+              ) : null}
             </div>
           </div>
 
@@ -186,6 +191,7 @@ export function ContactPage() {
                         autoComplete="tel"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
+                        placeholder={site.phonePlaceholder}
                         className="mt-1.5 w-full rounded-lg border border-slate-200 bg-white px-3 py-2.5 text-slate-900 outline-none transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20"
                       />
                     </div>

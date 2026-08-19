@@ -149,7 +149,7 @@ const POS_FAQS: SoftwareFaqItem[] = [
     a: 'The retail suite shares one item, customer, and ledger backbone so POS checkouts, purchase invoices, stock movements, and financial vouchers stay aligned without duplicate entry between systems.',
   },
   {
-    q: 'Is FBR digital invoicing supported for retail?',
+    q: 'Is UAE VAT digital invoicing supported for retail?',
     a: 'Where you enable regulator integration, sale and return payloads can follow schema-aware rules with submission queues and reconciliation views—keeping tax lines consistent with what was posted at the register.',
   },
   {
@@ -183,7 +183,7 @@ const POS_IMPLEMENTATION: SoftwareImplementationStep[] = [
     icon: 'Compass',
     title: 'Consultancy',
     description:
-      'We map your store formats, tax profile, purchase and sales cycles, stock locations, and FBR expectations so DigitalManager POS mirrors how your retail and finance teams actually work.',
+      'We map your store formats, tax profile, purchase and sales cycles, stock locations, and UAE VAT expectations so DigitalManager POS mirrors how your retail and finance teams actually work.',
   },
   {
     icon: 'GraduationCap',
@@ -206,7 +206,7 @@ const POS_IMPLEMENTATION: SoftwareImplementationStep[] = [
 ]
 
 const INTRO =
-  'All-in-one retail management solution for grocery stores, fashion boutiques, electronics shops, salons, cafes, restaurants, and pharmacies.\n\nSeamlessly FBR-integrated and designed for businesses of all sizes.'
+  'All-in-one retail management solution for grocery stores, fashion boutiques, electronics shops, salons, cafes, restaurants, and pharmacies.\n\nSeamlessly UAE VAT-integrated and designed for businesses of all sizes.'
 
 /**
  * Post-template content for the Point of Sale Management module page only.
@@ -228,10 +228,10 @@ export function mergePosManagementPremiumPage(data: SoftwareDetailPageData): Sof
     challengeBullets: [],
     solutionHeading: 'One platform for the counter and the books',
     solutionParagraphs: [
-      'DigitalManager POS connects lane activity with purchase, sales, inventory, and accounts modules — including FBR-aligned invoicing where you enable it — so promotions, stock, and settlements stay coherent from first scan to month-end.',
+      'DigitalManager POS connects lane activity with purchase, sales, inventory, and accounts modules — including UAE VAT-aligned invoicing where you enable it — so promotions, stock, and settlements stay coherent from first scan to month-end.',
     ],
     heroChips: [],
-    heroAsideCaption: 'Cloud POS with retail modules, FBR-ready flows, and reporting leadership can act on the same week.',
+    heroAsideCaption: 'Cloud POS with retail modules, UAE VAT-ready flows, and reporting leadership can act on the same week.',
     industriesSection: {
       ...pl.industriesSection,
       heading: '',
@@ -250,7 +250,7 @@ export function mergePosManagementPremiumPage(data: SoftwareDetailPageData): Sof
     ...data,
     metaTitle: 'Cloud-Based Point Of Sale Software (POS) | DigitalManager ERP',
     metaDescription:
-      'Simplify sales, track inventory, and delight customers with cloud POS — FBR-integrated retail management for grocery, fashion, electronics, salons, cafes, restaurants, and pharmacies.',
+      'Simplify sales, track inventory, and delight customers with cloud POS — UAE VAT-integrated retail management for grocery, fashion, electronics, salons, cafes, restaurants, and pharmacies.',
     premiumLayout,
     hero: {
       ...data.hero,

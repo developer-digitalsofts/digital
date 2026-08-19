@@ -21,6 +21,7 @@ import { WHATSAPP_URL } from '../../constants'
 import { CmsLink } from '../CmsLink'
 import { SoftwareDemoCtaSection } from './SoftwareDemoCtaSection'
 import { useDetailPageInquiry } from './useDetailPageInquiry'
+import { AccountsFinancePrototypeView } from './accounts/AccountsFinancePrototypeView'
 
 function IconByName({ name, className }: { name: string; className?: string }) {
   const Cmp =
@@ -110,6 +111,19 @@ export function PremiumSoftwareDetailView({
   const isAccountsPage = cfg.layout === 'accounts-management'
 
   if (isAccountsPage) {
+    if (slug === 'accounts-management-software') {
+      return (
+        <AccountsFinancePrototypeView
+          detail={detail}
+          displayName={displayName}
+          crumbMid={crumbMid}
+          crumbHome={crumbHome}
+          slug={slug}
+          showBreadcrumb={showBreadcrumb}
+        />
+      )
+    }
+
     const introParagraphs = detail.hero.intro
       .split(/\n+/)
       .map((p) => p.trim())

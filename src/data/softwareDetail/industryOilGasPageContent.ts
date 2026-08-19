@@ -595,8 +595,8 @@ const PETROL_PUMP_FAQS: SoftwareFaqItem[] = [
     a: 'DigitalManager Petrol Station Software is a complete ERP solution designed to automate petrol station operations including fuel sales, tank stock management, nozzle tracking, inventory control, customer accounts, and financial reporting.',
   },
   {
-    q: 'Is this software suitable for petrol stations in Pakistan?',
-    a: 'Yes, the software is specially designed according to the operational needs of petrol pumps and fuel stations in Pakistan.',
+    q: 'Is this software suitable for petrol stations in the UAE?',
+    a: 'Yes, the software is specially designed according to the operational needs of petrol pumps and fuel stations in the UAE.',
   },
   {
     q: 'Does the software support multiple fuel products?',
@@ -656,7 +656,7 @@ const PETROL_PUMP_SEO: SoftwareSeoBlock[] = [
     heading: 'Trusted by Leading Oil Marketing Companies',
     level: 2,
     paragraphs: [
-      'Our petrol station software is trusted by fuel stations, lubricant distributors, and oil marketing businesses across Pakistan for reliable operations, accurate reporting, and business automation.',
+      'Our petrol station software is trusted by fuel stations, lubricant distributors, and oil marketing businesses across the UAE for reliable operations, accurate reporting, and business automation.',
     ],
   },
   {
@@ -667,7 +667,7 @@ const PETROL_PUMP_SEO: SoftwareSeoBlock[] = [
       {
         items: [
           'petrol station management software',
-          'petrol pump software Pakistan',
+          'petrol pump software UAE',
           'fuel station ERP software',
           'petrol pump inventory system',
           'tank stock management software',
@@ -888,7 +888,7 @@ export function mergePetrolFillingStationIndustryPage(data: SoftwareDetailPageDa
     ...data,
     metaTitle: 'Petrol & CNG Filling Station Software | DigitalManager ERP',
     metaDescription:
-      'Nozzle sales, tank stock, dips, lubricants, credit sales, and accounts for petrol and CNG filling stations in Pakistan.',
+      'Nozzle sales, tank stock, dips, lubricants, credit sales, and accounts for petrol and CNG filling stations in the UAE.',
     premiumLayout,
     hero: {
       ...data.hero,
@@ -1222,12 +1222,12 @@ export function mergePetrolPumpIndustryPage(data: SoftwareDetailPageData): Softw
     featuresLead:
       'Purchase, inventory, sales, accounts, tank stock, and HR — unified for modern fuel station operations.',
     vouchersSectionEyebrow: 'Petrol pump ERP',
-    challengesHeading: 'Why fuel station owners across Pakistan trust DigitalManager',
+    challengesHeading: 'Why fuel station owners across the UAE trust DigitalManager',
     challengesIntro:
-      'Are you struggling with managing daily operations at your petrol station? DigitalManager Petrol Station Management Software is a complete cloud-based ERP solution specially designed for fuel stations across Pakistan.',
+      'Are you struggling with managing daily operations at your petrol station? DigitalManager Petrol Station Management Software is a complete cloud-based ERP solution specially designed for fuel stations across the UAE.',
     challengesListLead: '',
     challengeBullets: [
-      'Specially designed for petrol stations in Pakistan',
+      'Specially designed for petrol stations in the UAE',
       'Real-time tank and nozzle monitoring',
       'Reduce fuel theft and manual errors',
       'Improve business efficiency with automation',
@@ -1262,16 +1262,16 @@ export function mergePetrolPumpIndustryPage(data: SoftwareDetailPageData): Softw
 
   return {
     ...data,
-    metaTitle: 'Petrol Station Management Software in Pakistan | DigitalManager',
+    metaTitle: 'Petrol Station Management Software in the UAE | DigitalManager',
     metaDescription:
-      'Best petrol pump software for fuel stations in Pakistan — nozzle sales, tank stock, dips, credit sales, lubricants, accounts, and shift reporting.',
+      'Best petrol pump software for fuel stations in the UAE — nozzle sales, tank stock, dips, credit sales, lubricants, accounts, and shift reporting.',
     premiumLayout,
     hero: {
       ...data.hero,
-      headline: 'Petrol Station Management Software in Pakistan',
+      headline: 'Petrol Station Management Software in the UAE',
       subhead: 'Complete Petrol Pump ERP Solution for Modern Fuel Stations.',
       intro:
-        'Are you struggling with managing daily operations at your petrol station? DigitalManager Petrol Station Management Software is a complete cloud-based ERP solution specially designed for fuel stations across Pakistan. Monitor nozzle sales, tank stock, dip readings, lubricant inventory, customer balances, staff attendance, and financial reports from one centralized dashboard.',
+        'Are you struggling with managing daily operations at your petrol station? DigitalManager Petrol Station Management Software is a complete cloud-based ERP solution specially designed for fuel stations across the UAE. Monitor nozzle sales, tank stock, dip readings, lubricant inventory, customer balances, staff attendance, and financial reports from one centralized dashboard.',
       trust: [...ENERGY_TRUST],
       ctaPrimary: { label: 'Get Live Demo', to: '/contact#contact-form' },
       ctaSecondary: data.hero.ctaSecondary,

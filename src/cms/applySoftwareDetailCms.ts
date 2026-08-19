@@ -3,6 +3,7 @@ import { pick } from './pick'
 import type { SoftwareDetailCmsRecord } from './softwareDetailTypes'
 import type { ModuleRichPage } from '../data/moduleRichPages'
 import type { SoftwareDetailPageData } from '../data/softwareDetail/types'
+import type { IndustrySectionImageOverrides } from '../data/softwareDetail/industrySectionImages'
 
 function pickLang(b: { en: string; ar: string }, lang: Lang): string {
   const v = pick(b, lang)
@@ -17,6 +18,27 @@ function pickList(list: { en: string[]; ar: string[] }, lang: Lang): string[] {
 function hasText(b?: { en?: string; ar?: string }): boolean {
   if (!b) return false
   return Boolean((b.en || '').trim() || (b.ar || '').trim())
+}
+
+function mergeSectionImages(cms: SoftwareDetailCmsRecord): IndustrySectionImageOverrides | undefined {
+  const raw = cms.sectionImages
+  if (!raw) return undefined
+
+  const operational = raw.operational?.map((s) => s.trim()).filter(Boolean)
+  const benefitRows = raw.benefitRows?.map((s) => s.trim()).filter(Boolean)
+  const businessTypes = raw.businessTypes?.map((s) => s.trim()).filter(Boolean)
+  const testimonial = raw.testimonial?.trim()
+
+  if (!operational?.length && !benefitRows?.length && !businessTypes?.length && !testimonial) {
+    return undefined
+  }
+
+  return {
+    ...(operational?.length ? { operational } : {}),
+    ...(benefitRows?.length ? { benefitRows } : {}),
+    ...(businessTypes?.length ? { businessTypes } : {}),
+    ...(testimonial ? { testimonial } : {}),
+  }
 }
 
 /** Merge CMS record into ModuleRichPage / industry rich shape used by the detail builder. */
@@ -105,6 +127,8 @@ export function applyCmsToDetailPage(
           }))
       : detail.faqs
 
+  const sectionImages = mergeSectionImages(cms)
+
   return {
     ...detail,
     metaTitle: metaTitle || detail.metaTitle,
@@ -132,5 +156,6 @@ export function applyCmsToDetailPage(
       sub: demoSub || detail.demoCta.sub,
     },
     ...(cms.heroImageUrl.trim() ? { heroImageUrl: cms.heroImageUrl.trim() } : {}),
+    ...(sectionImages ? { sectionImages } : {}),
   }
 }

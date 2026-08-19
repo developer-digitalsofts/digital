@@ -1892,7 +1892,7 @@ export function mergePoultryArhatIndustryPage(data: SoftwareDetailPageData): Sof
     ...baseIndustryTrim(pl),
     featuresHeading: 'Software Features',
     featuresLead:
-      'Bird purchase and loading, chick weight and broiler management, inventory, and accounts — built for poultry arhat and broiler sale shops in Pakistan.',
+      'Bird purchase and loading, chick weight and broiler management, inventory, and accounts — built for poultry arhat and broiler sale shops in the UAE.',
     vouchersSectionEyebrow: 'Poultry arhat & broiler',
     challengesHeading: 'Why poultry traders choose DigitalManager',
     challengesIntro:
@@ -1910,11 +1910,11 @@ export function mergePoultryArhatIndustryPage(data: SoftwareDetailPageData): Sof
     ...data,
     metaTitle: 'Poultry Arhat & Broiler Farm Software | DigitalManager ERP',
     metaDescription:
-      'Manage poultry trading, sales, and inventory — bird purchase, loading, chick weight, broiler, and accounts for Pakistan poultry businesses.',
+      'Manage poultry trading, sales, and inventory — bird purchase, loading, chick weight, broiler, and accounts for the UAE poultry businesses.',
     premiumLayout,
     hero: {
       ...data.hero,
-      headline: 'Poultry Arhat Software for Broiler Farm and Chicken Sale Shops in Pakistan',
+      headline: 'Poultry Arhat Software for Broiler Farm and Chicken Sale Shops in the UAE',
       subhead: 'Manage Poultry Trading, Sales, and Inventory Efficiently.',
       intro:
         'Digital Manager Poultry Arhat Software helps poultry traders and chicken sale businesses manage purchases, sales, inventory, accounts, and customer records from one centralized cloud-based platform.',
@@ -1997,7 +1997,7 @@ export function mergePoultryChickenSupplyIndustryPage(data: SoftwareDetailPageDa
     ...data,
     metaTitle: 'Chicken Supply Chain Management Software | DigitalManager ERP',
     metaDescription:
-      'Farm procurement, cold-chain dispatch, dealer billing, and accounts for poultry chicken supply distributors in Pakistan.',
+      'Farm procurement, cold-chain dispatch, dealer billing, and accounts for poultry chicken supply distributors in the UAE.',
     premiumLayout,
     hero: {
       ...data.hero,

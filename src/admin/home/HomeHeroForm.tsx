@@ -5,6 +5,9 @@ import { useAdminToast } from '../AdminToastContext'
 import { BilingualInputs } from '../cms/BilingualInputs'
 import { AdminFormActions } from '../cms/AdminFormActions'
 import { ConfirmDialog } from '../cms/ConfirmDialog'
+import { HomeHeroCarouselEditor } from './HomeHeroCarouselEditor'
+import type { HeroCarouselSlide } from '../../types/heroCarousel'
+import { DEFAULT_AUTOPLAY_MS, DEFAULT_HERO_SLIDES } from '../../components/hero/defaultHeroSlides'
 
 type HeroBadge = {
   id: string
@@ -22,6 +25,10 @@ type HeroDoc = {
   ctaSecondary: { label: Bilingual; href: string }
   mockupImageUrl: string
   badges: HeroBadge[]
+  carouselEnabled?: boolean
+  autoplayEnabled?: boolean
+  autoplayDurationMs?: number
+  slides?: HeroCarouselSlide[]
   _meta?: Record<string, unknown>
 }
 
@@ -45,7 +52,14 @@ export function HomeHeroForm() {
 
   useEffect(() => {
     if (!hero.data) return
-    const h = { ...hero.data, badges: sortBadges(hero.data.badges || []) }
+    const h = {
+      ...hero.data,
+      badges: sortBadges(hero.data.badges || []),
+      carouselEnabled: hero.data.carouselEnabled !== false,
+      autoplayEnabled: hero.data.autoplayEnabled !== false,
+      autoplayDurationMs: hero.data.autoplayDurationMs ?? DEFAULT_AUTOPLAY_MS,
+      slides: hero.data.slides?.length ? hero.data.slides : DEFAULT_HERO_SLIDES,
+    }
     setLocal(h)
     const vis =
       pageSec.data?.sections?.find((s) => s.id === 'hero')?.visible !== false
@@ -168,7 +182,18 @@ export function HomeHeroForm() {
           onChange={(e) => setLocal({ ...local, mockupImageUrl: e.target.value })}
           placeholder="/uploads/…"
         />
+        <span className="mt-1 block text-xs text-slate-500">Legacy single-image hero fallback when carousel is disabled.</span>
       </label>
+
+      <HomeHeroCarouselEditor
+        slides={local.slides ?? DEFAULT_HERO_SLIDES}
+        carouselEnabled={local.carouselEnabled !== false}
+        autoplayEnabled={local.autoplayEnabled !== false}
+        autoplayDurationMs={local.autoplayDurationMs ?? DEFAULT_AUTOPLAY_MS}
+        onChange={({ slides, carouselEnabled, autoplayEnabled, autoplayDurationMs }) =>
+          setLocal({ ...local, slides, carouselEnabled, autoplayEnabled, autoplayDurationMs })
+        }
+      />
 
       <div>
         <div className="mb-2 flex items-center justify-between gap-2">

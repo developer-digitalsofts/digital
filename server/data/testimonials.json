@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 2,
+  "eyebrow": {
+    "en": "Loved by Businesses Like Yours",
+    "ar": "محبوب من شركات مثل شركتك"
+  },
+  "title": {
+    "en": "What Our Clients Say",
+    "ar": "ماذا يقول عملاؤنا"
+  },
+  "items": [
+    {
+      "id": "fahad",
+      "quote": {
+        "en": "DigitalManager gave us one connected view of finance, inventory and sales. Month-end close is faster and branch reporting is finally reliable.",
+        "ar": "منحنا ديجيتال مانجر رؤية موحدة للمالية والمخزون والمبيعات. إغلاق الشهر أسرع وتقارير الفروع أصبحت موثوقة."
+      },
+      "customerName": {
+        "en": "Fahad Al Mazrouei",
+        "ar": "فهد المزروعي"
+      },
+      "designation": {
+        "en": "Finance Director",
+        "ar": "مدير المالية"
+      },
+      "company": {
+        "en": "UAE Trading Group",
+        "ar": "مجموعة الإمارات التجارية"
+      },
+      "image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=150&h=150&q=80",
+      "imageAlt": {
+        "en": "Fahad Al Mazrouei",
+        "ar": "فهد المزروعي"
+      },
+      "sortOrder": 0,
+      "enabled": true
+    },
+    {
+      "id": "ayesha",
+      "quote": {
+        "en": "We replaced spreadsheets with one ERP platform. Inventory, POS and accounts now stay in sync across our stores.",
+        "ar": "استبدلنا جداول البيانات بمنصة ERP واحدة. المخزون ونقطة البيع والحسابات متزامنة الآن عبر فروعنا."
+      },
+      "customerName": {
+        "en": "Ayesha Khan",
+        "ar": "عائشة خان"
+      },
+      "designation": {
+        "en": "Operations Manager",
+        "ar": "مديرة العمليات"
+      },
+      "company": {
+        "en": "Retail Chain",
+        "ar": "سلسلة تجزئة"
+      },
+      "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&h=150&q=80",
+      "imageAlt": {
+        "en": "Ayesha Khan",
+        "ar": "عائشة خان"
+      },
+      "sortOrder": 0,
+      "enabled": true
+    },
+    {
+      "id": "usman",
+      "quote": {
+        "en": "Implementation was structured and the team understood UAE business workflows. Payroll and attendance are much easier to manage now.",
+        "ar": "كان التنفيذ منظمًا وفهم الفريق سير عمل الأعمال في الإمارات. الرواتب والحضور أصبحت أسهل في الإدارة."
+      },
+      "customerName": {
+        "en": "Usman Ali",
+        "ar": "عثمان علي"
+      },
+      "designation": {
+        "en": "General Manager",
+        "ar": "المدير العام"
+      },
+      "company": {
+        "en": "Manufacturing Co.",
+        "ar": "شركة تصنيع"
+      },
+      "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&h=150&q=80",
+      "imageAlt": {
+        "en": "Usman Ali",
+        "ar": "عثمان علي"
+      },
+      "sortOrder": 0,
+      "enabled": true
+    }
+  ],
+  "_meta": {
+    "createdAt": "2026-08-19T06:10:35.214Z",
+    "updatedAt": "2026-08-19T06:10:35.214Z",
+    "updatedBy": "cms-schema-migrate-v2"
+  }
+}

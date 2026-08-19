@@ -1,6 +1,7 @@
 import { Route, Routes, Navigate } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { HomePage } from './pages/HomePage'
+import { IndustriesPage } from './pages/IndustriesPage'
 import { ContactPage } from './pages/ContactPage'
 import { SoftwarePage } from './pages/SoftwarePage'
 import { CmsPage } from './pages/CmsPage'
@@ -26,6 +27,7 @@ import { AdminPageForm } from './admin/AdminPageForm'
 import { PageSectionsManager } from './admin/pages/PageSectionsManager'
 import { AdminSoftwareDetailForm } from './admin/AdminSoftwareDetailForm'
 import { AdminUsers } from './admin/AdminUsers'
+import { AdminMegaMenusPage } from './admin/AdminMegaMenusPage'
 
 export default function App() {
   return (
@@ -53,6 +55,7 @@ export default function App() {
           <Route path="layout/footer" element={<AdminFooterEditor />} />
           <Route path="layout/navigation" element={<Navigate to="/admin/layout/header" replace />} />
 
+          <Route path="mega-menus" element={<AdminMegaMenusPage />} />
           <Route path="site-settings" element={<AdminSiteSettingsPage />} />
           <Route path="seo" element={<AdminSeo />} />
           <Route path="whatsapp" element={<AdminWhatsAppPage />} />
@@ -84,6 +87,7 @@ export default function App() {
       </Route>
       <Route element={<Layout />}>
         <Route index element={<HomePage />} />
+        <Route path="industries" element={<IndustriesPage />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="software/:flatSlug" element={<SoftwarePage />} />
         <Route path="software/:kind/:slug" element={<SoftwarePage />} />

@@ -4,9 +4,14 @@ function easeOutCubic(t: number) {
   return 1 - (1 - t) ** 3
 }
 
-/** Parses display stat strings like "500+", "2K+", "10+" for count-up animation. */
+/** Parses display stat strings like "500+", "99%", "2K+" for count-up animation. */
 export function parseStatValue(raw: string): { target: number; prefix: string; suffix: string } | null {
   const s = raw.trim()
+  if (/^\d+\/\d+$/.test(s)) return null
+
+  const pct = s.match(/^(\d+(?:\.\d+)?)(%)$/)
+  if (pct) return { target: Number(pct[1]), prefix: '', suffix: '%' }
+
   const m = s.match(/^(\d+(?:\.\d+)?)([KkMm])?(\+?)$/)
   if (!m) return null
   let n = Number(m[1])
@@ -18,13 +23,14 @@ export function parseStatValue(raw: string): { target: number; prefix: string; s
 }
 
 export function formatStatCount(n: number, parsed: { target: number; prefix: string; suffix: string }) {
+  if (parsed.suffix === '%') return `${Math.round(n)}%`
   const hasK = parsed.suffix.toUpperCase().includes('K')
   const hasPlus = parsed.suffix.includes('+')
   if (hasK) {
     const k = Math.round(n / 1000)
     return `${k}K${hasPlus ? '+' : ''}`
   }
-  return `${Math.round(n)}${hasPlus ? '+' : ''}`
+  return `${Math.round(n)}${hasPlus ? parsed.suffix.replace(/K/i, '') : parsed.suffix}`
 }
 
 export function useCountUp(target: number, active: boolean, durationMs = 1400) {

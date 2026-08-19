@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { PremiumSoftwareDetailView } from '../components/software/PremiumSoftwareDetailView'
-import { SoftwareDetailView } from '../components/software/SoftwareDetailView'
+import { ModuleDetailTemplate } from '../components/software/ModuleDetailTemplate'
+import { IndustryDetailTemplate } from '../components/software/IndustryDetailTemplate'
 import { applyCmsToDetailPage, applyCmsToRichPage } from '../cms/applySoftwareDetailCms'
 import { fetchJson } from '../cms/api'
 import type { SoftwareDetailCmsRecord } from '../cms/softwareDetailTypes'
@@ -180,27 +180,27 @@ export function SoftwarePage() {
 
   const crumbMid = isModule ? t('softwarePage.crumbModules') : t('softwarePage.crumbIndustries')
 
-  if ((detail.accounts ?? detail.premiumLayout) && canonicalSlug) {
+  if (isModule) {
     return (
-      <PremiumSoftwareDetailView
+      <ModuleDetailTemplate
         detail={detail}
         displayName={displayName}
         crumbMid={crumbMid}
         crumbHome={t('softwarePage.crumbHome')}
-        slug={canonicalSlug}
+        slug={canonicalSlug!}
         showBreadcrumb={false}
       />
     )
   }
 
   return (
-    <SoftwareDetailView
+    <IndustryDetailTemplate
       detail={detail}
       displayName={displayName}
       crumbMid={crumbMid}
       crumbHome={t('softwarePage.crumbHome')}
-      isModule={isModule}
       slug={canonicalSlug!}
+      showBreadcrumb={false}
     />
   )
 }

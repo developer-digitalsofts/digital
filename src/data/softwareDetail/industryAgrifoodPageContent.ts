@@ -202,14 +202,14 @@ export function mergeDairyFarmIndustryPage(data: SoftwareDetailPageData): Softwa
     ...data,
     metaTitle: 'Cloud-Based Dairy Farm Management Software | DigitalManager ERP',
     metaDescription:
-      'Track animals, milk production, feed, vaccinations, breeding, expenses, and profitability — dairy farm ERP for Pakistan.',
+      'Track animals, milk production, feed, vaccinations, breeding, expenses, and profitability — dairy farm ERP for the UAE.',
     premiumLayout,
     hero: {
       ...data.hero,
       headline: 'Cloud-Based Dairy Farm Management Software',
       subhead: 'Smart Dairy Operations with Complete Farm Control.',
       intro:
-        'Track animal records, milk production, feed inventory, vaccination schedules, breeding cycles, expenses, and farm profitability using our advanced Dairy Farm Management Software. Designed for dairy farms, livestock businesses, and milk production units in Pakistan.',
+        'Track animal records, milk production, feed inventory, vaccination schedules, breeding cycles, expenses, and farm profitability using our advanced Dairy Farm Management Software. Designed for dairy farms, livestock businesses, and milk production units in the UAE.',
       trust: [...AGRIFOOD_TRUST],
       ctaPrimary: { label: 'Get Live Demo', to: '/contact#contact-form' },
       ctaSecondary: data.hero.ctaSecondary,
@@ -297,7 +297,7 @@ export function mergeAgricultureIndustryPage(data: SoftwareDetailPageData): Soft
     ...data,
     metaTitle: 'Cloud-Based Smart Agriculture Farm Management Software | DigitalManager',
     metaDescription:
-      'Manage crops, land, fertilizers, pesticides, labour, inventory, irrigation, and farm profitability — smart agriculture ERP for Pakistan.',
+      'Manage crops, land, fertilizers, pesticides, labour, inventory, irrigation, and farm profitability — smart agriculture ERP for the UAE.',
     premiumLayout,
     hero: {
       ...data.hero,

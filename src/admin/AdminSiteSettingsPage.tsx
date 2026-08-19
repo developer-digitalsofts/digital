@@ -23,6 +23,14 @@ type SiteDoc = {
   youtubeUrl: string
   tiktokUrl: string
   copyrightText: Bilingual
+  defaultCountry: Bilingual
+  defaultCurrency: string
+  defaultPhoneCode: string
+  primaryCtaLabel: Bilingual
+  demoPageLink: string
+  defaultSeoTitle: Bilingual
+  defaultMetaDescription: Bilingual
+  ogImageUrl: string
   _meta?: Record<string, unknown>
 }
 
@@ -55,6 +63,14 @@ function normalize(raw: Record<string, unknown>): SiteDoc {
     youtubeUrl: String(raw.youtubeUrl ?? ''),
     tiktokUrl: String(raw.tiktokUrl ?? ''),
     copyrightText: normBi(raw.copyrightText),
+    defaultCountry: normBi(raw.defaultCountry),
+    defaultCurrency: String(raw.defaultCurrency ?? 'AED'),
+    defaultPhoneCode: String(raw.defaultPhoneCode ?? '+971'),
+    primaryCtaLabel: normBi(raw.primaryCtaLabel),
+    demoPageLink: String(raw.demoPageLink ?? '/contact#contact-form'),
+    defaultSeoTitle: normBi(raw.defaultSeoTitle),
+    defaultMetaDescription: normBi(raw.defaultMetaDescription),
+    ogImageUrl: String(raw.ogImageUrl ?? ''),
     _meta: raw._meta as SiteDoc['_meta'],
   }
 }
@@ -298,6 +314,61 @@ export function AdminSiteSettingsPage() {
         </fieldset>
 
         <BiPair label="Copyright line" value={doc.copyrightText} onChange={(copyrightText) => setDoc({ ...doc, copyrightText })} rows={2} />
+
+        <fieldset className="space-y-3 rounded-xl border border-slate-200 bg-slate-50/50 p-4">
+          <legend className="text-sm font-bold text-slate-800">UAE localization</legend>
+          <BiPair label="Default country" value={doc.defaultCountry} onChange={(defaultCountry) => setDoc({ ...doc, defaultCountry })} />
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div>
+              <label className="text-xs font-semibold text-slate-600">Default currency</label>
+              <input
+                className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-brand"
+                value={doc.defaultCurrency}
+                onChange={(e) => setDoc({ ...doc, defaultCurrency: e.target.value })}
+                placeholder="AED"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-semibold text-slate-600">Default phone code</label>
+              <input
+                className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-brand"
+                value={doc.defaultPhoneCode}
+                onChange={(e) => setDoc({ ...doc, defaultPhoneCode: e.target.value })}
+                placeholder="+971"
+              />
+            </div>
+          </div>
+          <BiPair label="Primary CTA label" value={doc.primaryCtaLabel} onChange={(primaryCtaLabel) => setDoc({ ...doc, primaryCtaLabel })} rows={1} />
+          <div>
+            <label className="text-xs font-semibold text-slate-600">Demo page link</label>
+            <input
+              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-brand"
+              value={doc.demoPageLink}
+              onChange={(e) => setDoc({ ...doc, demoPageLink: e.target.value })}
+              placeholder="/contact#contact-form"
+            />
+          </div>
+        </fieldset>
+
+        <fieldset className="space-y-3 rounded-xl border border-slate-200 bg-slate-50/50 p-4">
+          <legend className="text-sm font-bold text-slate-800">Default SEO</legend>
+          <BiPair label="Default SEO title" value={doc.defaultSeoTitle} onChange={(defaultSeoTitle) => setDoc({ ...doc, defaultSeoTitle })} rows={2} />
+          <BiPair
+            label="Default meta description"
+            value={doc.defaultMetaDescription}
+            onChange={(defaultMetaDescription) => setDoc({ ...doc, defaultMetaDescription })}
+            rows={3}
+          />
+          <div>
+            <label className="text-xs font-semibold text-slate-600">Open Graph image URL</label>
+            <input
+              className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-brand"
+              value={doc.ogImageUrl}
+              onChange={(e) => setDoc({ ...doc, ogImageUrl: e.target.value })}
+              placeholder="/og-image.jpg"
+            />
+          </div>
+        </fieldset>
 
         <div className="flex justify-end border-t border-slate-100 pt-4">
           <button

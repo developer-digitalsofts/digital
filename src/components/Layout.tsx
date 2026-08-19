@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import { GetDemoProvider } from '../context/GetDemoContext'
 import { Outlet, useLocation } from 'react-router-dom'
 import { Header } from './Header'
 import { Footer } from './Footer'
@@ -17,20 +18,22 @@ export function Layout() {
   const showFooter = isSectionVisible(sections, 'footer')
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 antialiased">
-      <SeoHead />
-      <ScrollToTop />
-      <Header
-        onOpenSearch={() => {
-          setSearchOpen(true)
-        }}
-      />
-      <div key={location.pathname} className="animate-page-enter motion-reduce:animate-none">
-        <Outlet />
+    <GetDemoProvider>
+      <div className="min-h-screen bg-white text-slate-900 antialiased">
+        <SeoHead />
+        <ScrollToTop />
+        <Header
+          onOpenSearch={() => {
+            setSearchOpen(true)
+          }}
+        />
+        <div key={location.pathname} className="animate-page-enter motion-reduce:animate-none">
+          <Outlet />
+        </div>
+        {showFooter ? <Footer /> : null}
+        <FloatingWhatsApp />
+        <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
       </div>
-      {showFooter ? <Footer /> : null}
-      <FloatingWhatsApp />
-      <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
-    </div>
+    </GetDemoProvider>
   )
 }

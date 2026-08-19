@@ -1,5 +1,106 @@
 @import 'tailwindcss';
 
+:root {
+  --dm-navy: #111936;
+  --dm-orange: #ff714a;
+  --dm-orange-dark: #f25f3a;
+  --dm-orange-light: #fff7ed;
+  --dm-white: #ffffff;
+  --dm-page: #f8fafc;
+  --dm-border: #e2e8f0;
+  --dm-muted: #64748b;
+  --dm-success: #16a34a;
+  --dm-container: 1320px;
+  --dm-section-space: 88px;
+  --dm-radius-card: 14px;
+  --dm-section-padding-desktop: 84px;
+  --dm-section-padding-tablet: 64px;
+  --dm-section-padding-mobile: 48px;
+  --dm-heading-content-gap: 32px;
+}
+
+.home-section {
+  padding-block: var(--dm-section-padding-mobile);
+}
+
+@media (min-width: 768px) {
+  .home-section {
+    padding-block: var(--dm-section-padding-tablet);
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-section {
+    padding-block: var(--dm-section-padding-desktop);
+  }
+}
+
+.compact-home-section {
+  padding-block: 42px;
+}
+
+.home-section--trust-stats {
+  padding-top: 0;
+  padding-bottom: var(--dm-section-padding-mobile);
+}
+
+.home-section--industries,
+.home-section--erp-modules,
+.home-section--powerful-modules,
+.home-section--testimonials,
+.home-section--personalized-demo,
+.home-section--faq {
+  padding-block: var(--dm-section-padding-mobile);
+}
+
+.compact-home-section--demo-cta {
+  padding-block: 36px;
+}
+
+@media (min-width: 768px) {
+  .home-section--trust-stats {
+    padding-bottom: var(--dm-section-padding-tablet);
+  }
+
+  .home-section--industries,
+  .home-section--erp-modules,
+  .home-section--powerful-modules,
+  .home-section--testimonials,
+  .home-section--personalized-demo,
+  .home-section--faq {
+    padding-block: var(--dm-section-padding-tablet);
+  }
+
+  .compact-home-section--demo-cta {
+    padding-block: 48px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-section--trust-stats {
+    padding-bottom: 56px;
+  }
+
+  .home-section--industries,
+  .home-section--erp-modules,
+  .home-section--powerful-modules,
+  .home-section--testimonials,
+  .home-section--personalized-demo,
+  .home-section--faq {
+    padding-block: var(--dm-section-padding-desktop);
+  }
+
+  .compact-home-section--demo-cta {
+    padding-block: 56px;
+  }
+}
+
+@media (max-width: 767px) {
+  .compact-home-section--demo-cta {
+    padding-block: 32px;
+  }
+}
+
 @theme {
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-heading: 'Sora', 'Inter', ui-sans-serif, system-ui, sans-serif;
@@ -37,6 +138,53 @@ body {
 
 #root {
   min-height: 100vh;
+}
+
+/* Shared marketing page horizontal shell */
+.site-container,
+.industries-section__container {
+  width: min(calc(100% - 176px), var(--dm-container));
+  margin-inline: auto;
+}
+
+@media (max-width: 1440px) {
+  .site-container,
+  .industries-section__container {
+    width: min(calc(100% - 80px), 1320px);
+  }
+}
+
+@media (max-width: 768px) {
+  .site-container,
+  .industries-section__container {
+    width: calc(100% - 32px);
+  }
+}
+
+.section-eyebrow {
+  margin-bottom: 10px;
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dm-orange);
+}
+
+.section-title {
+  margin: 0;
+  font-size: clamp(34px, 2.7vw, 44px);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  font-weight: 800;
+  color: var(--dm-navy);
+}
+
+.section-description {
+  margin-top: 12px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--dm-muted);
 }
 
 /* —— RTL (Arabic) —— */
@@ -84,7 +232,6 @@ html[dir='rtl'] .text-start {
   animation: fade-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.14s both;
 }
 
-/* —— Ambient motion —— */
 @keyframes float-dashboard {
   0%,
   100% {
@@ -446,14 +593,6 @@ html[dir='rtl'] .text-start {
   -webkit-backdrop-filter: blur(12px);
 }
 
-.hero-grid-bg {
-  background-image:
-    linear-gradient(rgba(15, 23, 42, 0.028) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.028) 1px, transparent 1px);
-  background-size: 52px 52px;
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 10%, transparent 78%);
-}
-
 .gradient-border-wrap {
   padding: 1px;
   border-radius: 1rem;
@@ -512,3 +651,4 @@ html[dir='rtl'] .text-start {
     display: none;
   }
 }
+

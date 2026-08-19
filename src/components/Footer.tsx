@@ -1,20 +1,20 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { Mail, MapPin, Phone, MessageCircle } from 'lucide-react'
+import { Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
 import { FooterSocialLinks, type FooterSocialItem } from './SocialIconLinks'
 import { useI18n } from '../i18n/I18nProvider'
 import { useCms } from '../cms/CmsContext'
 import { pick } from '../cms/pick'
 import type { Bilingual } from '../cms/types'
-import { SITE_LOGO_SRC, BRAND_DEEP_BG } from '../constants'
-import { pageShellClass } from '../ui/pageShell'
+import { SITE_LOGO_SRC } from '../constants'
 import { getFooterProductModules, resolveFooterIndustryLinks } from '../data/footerMegaLinks'
+import { footerResourceLinks } from '../data/footerResourceLinks'
 import { megaIndustryLabel, megaModuleLabel } from '../i18n/megaLabels'
-import { footerColTitle, footerLink, footerPad } from '../ui/saas'
+import { apiBase, fetchWithTimeout } from '../cms/api'
 import { CmsLink } from './CmsLink'
+import './footer.css'
 
 const companyKeys = ['coAbout', 'coWorkflow', 'coFaq', 'coContact'] as const
-
 const companyTos = ['/#about', '/#workflow', '/#faqs', '/contact'] as const
 
 const footerProducts = getFooterProductModules()
@@ -42,7 +42,6 @@ type FooterCms = {
   }
   social?: FooterSocialItem[]
   rightsSuffix?: Bilingual
-  /** When set, replaces the “DigitalManager. {rights}” segment (year is still prefixed). */
   copyrightLine?: Bilingual
   privacy?: { label?: Bilingual; href?: string }
   terms?: { label?: Bilingual; href?: string }
@@ -64,11 +63,6 @@ function mergeFooterRows(base: FooterLink[], extra: FooterLink[]) {
   return out.sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
 }
 
-/**
- * Footer logo: icon keeps brand colors, wordmark reads white on navy.
- * Single aspect-ratio box + aligned layers (digitalmanager.svg viewBox 274×62).
- * `dir="ltr"` keeps identical rendering inside RTL pages (Arabic).
- */
 function FooterBrandLogo({ src }: { src: string }) {
   return (
     <Link
@@ -101,6 +95,124 @@ function FooterBrandLogo({ src }: { src: string }) {
   )
 }
 
+function FooterNewsletter() {
+  const { t } = useI18n()
+  const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
+
+  const onSubmit = useCallback(
+    async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+      if (!emailOk) {
+        setErrorMsg(t('footer.newsletter.error'))
+        setStatus('error')
+        return
+      }
+
+      setStatus('submitting')
+      setErrorMsg(null)
+
+      try {
+        const res = await fetchWithTimeout(`${apiBase()}/api/leads`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: 'Newsletter subscriber',
+            email: email.trim(),
+            phone: '000000',
+            topic: 'newsletter',
+            source: 'Footer Newsletter',
+            message: 'Newsletter subscription request',
+            sourcePage: 'footer-newsletter',
+          }),
+        })
+
+        if (!res.ok) {
+          let message = t('footer.newsletter.error')
+          try {
+            const data = (await res.json()) as { error?: string }
+            if (data?.error?.trim()) message = data.error.trim()
+          } catch {
+            /* use default */
+          }
+          setErrorMsg(message)
+          setStatus('error')
+          return
+        }
+
+        setEmail('')
+        setStatus('success')
+      } catch {
+        setErrorMsg(t('footer.newsletter.networkError'))
+        setStatus('error')
+      }
+    },
+    [email, t],
+  )
+
+  return (
+    <div className="dm-footer__newsletter-card">
+      <h3 className="dm-footer__newsletter-title">{t('footer.newsletter.title')}</h3>
+      <p className="dm-footer__newsletter-desc">{t('footer.newsletter.desc')}</p>
+      <form className="dm-footer__newsletter-form" onSubmit={onSubmit} noValidate>
+        <input
+          type="email"
+          name="email"
+          autoComplete="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="dm-footer__newsletter-input"
+          placeholder={t('footer.newsletter.placeholder')}
+        />
+        <button type="submit" disabled={status === 'submitting'} className="dm-footer__newsletter-submit">
+          {status === 'submitting' ? t('footer.newsletter.submitting') : t('footer.newsletter.submit')}
+        </button>
+      </form>
+      {status === 'success' ? (
+        <p className="dm-footer__newsletter-message dm-footer__newsletter-message--success" role="status">
+          {t('footer.newsletter.success')}
+        </p>
+      ) : null}
+      {status === 'error' && errorMsg ? (
+        <p className="dm-footer__newsletter-message dm-footer__newsletter-message--error" role="alert">
+          {errorMsg}
+        </p>
+      ) : null}
+    </div>
+  )
+}
+
+function FooterLinkList({
+  links,
+}: {
+  links: { key: string; label: string; href: string; useCms?: boolean }[]
+}) {
+  return (
+    <ul className="dm-footer__links">
+      {links.map((row) => (
+        <li key={row.key}>
+          {row.useCms ? (
+            <CmsLink to={row.href} className="dm-footer__link">
+              {row.label}
+            </CmsLink>
+          ) : row.href.startsWith('http') || row.href.startsWith('#') || row.href.startsWith('mailto:') ? (
+            <a href={row.href} className="dm-footer__link">
+              {row.label}
+            </a>
+          ) : (
+            <Link to={row.href} className="dm-footer__link">
+              {row.label}
+            </Link>
+          )}
+        </li>
+      ))}
+    </ul>
+  )
+}
+
 export function Footer() {
   const { t, lang } = useI18n()
   const { data } = useCms()
@@ -111,7 +223,7 @@ export function Footer() {
   const colP = f?.columnProduct ? pick(f.columnProduct, lang) : t('footer.colProduct')
   const colI = f?.columnIndustries ? pick(f.columnIndustries, lang) : t('footer.colIndustries')
   const colC = f?.columnCompany ? pick(f.columnCompany, lang) : t('footer.colCompany')
-  const colContact = f?.columnContact ? pick(f.columnContact, lang) : t('footer.colContact')
+  const colR = t('footer.colResources')
 
   const addr = f?.contact?.address ? pick(f.contact.address, lang) : t('footer.address')
   const phoneDisplay = f?.contact?.phoneDisplay ?? '+971 6 536 6786'
@@ -129,27 +241,95 @@ export function Footer() {
     const extra = sortFooterLinks(data?.navigation?.footerColumns?.product as FooterLink[] | undefined)
     return mergeFooterRows(base, extra)
   }, [f?.productLinks, data?.navigation?.footerColumns?.product])
+
   const industryRows = useMemo(() => {
     const base = sortFooterLinks(f?.industryLinks)
     const extra = sortFooterLinks(data?.navigation?.footerColumns?.industries as FooterLink[] | undefined)
     return mergeFooterRows(base, extra)
   }, [f?.industryLinks, data?.navigation?.footerColumns?.industries])
+
   const companyRows = useMemo(() => {
     const base = sortFooterLinks(f?.companyLinks)
     const extra = sortFooterLinks(data?.navigation?.footerColumns?.company as FooterLink[] | undefined)
     return mergeFooterRows(base, extra)
   }, [f?.companyLinks, data?.navigation?.footerColumns?.company])
 
+  const productLinks = useMemo(
+    () =>
+      productRows.length
+        ? productRows.map((row) => ({
+            key: row.id,
+            label: row.label ? pick(row.label, lang) : '',
+            href: row.href,
+            useCms: true,
+          }))
+        : footerProducts.map((item) => ({
+            key: item.slug,
+            label: megaModuleLabel(lang, item.slug, item.labelEn),
+            href: item.to,
+            useCms: false,
+          })),
+    [lang, productRows],
+  )
+
+  const industryLinks = useMemo(
+    () =>
+      industryRows.length
+        ? industryRows.map((row) => ({
+            key: row.id,
+            label: row.label ? pick(row.label, lang) : '',
+            href: row.href,
+            useCms: true,
+          }))
+        : footerIndustries.map((item) => ({
+            key: item.slug,
+            label: megaIndustryLabel(lang, item.slug, item.labelEn),
+            href: item.to,
+            useCms: false,
+          })),
+    [industryRows, lang],
+  )
+
+  const resourceLinks = useMemo(
+    () =>
+      footerResourceLinks.map((item) => ({
+        key: item.key,
+        label: t(`footer.resources.${item.key}`),
+        href: item.href,
+        useCms: false,
+      })),
+    [t],
+  )
+
+  const companyLinks = useMemo(() => {
+    if (companyRows.length) {
+      return companyRows.map((row) => ({
+        key: row.id,
+        label: row.label ? pick(row.label, lang) : '',
+        href: row.href,
+        useCms: true,
+      }))
+    }
+
+    return companyKeys.map((key, i) => ({
+      key,
+      label: t(`footer.${key}`),
+      href: companyTos[i],
+      useCms: true,
+    }))
+  }, [companyRows, lang, t])
+
+  const sitemapHref = f?.sitemap?.href?.trim() || ''
+  const sitemapLabel = f?.sitemap?.label ? pick(f.sitemap.label, lang) : 'Sitemap'
+
   const copyrightText = useMemo(() => {
     const year = new Date().getFullYear()
     if (f?.copyrightLine?.en || f?.copyrightLine?.ar) {
       return `© ${year} ${pick(f.copyrightLine, lang)}`
     }
-    return `© ${year} DigitalManager. ${rights}`
+    return `© ${year} DigitalManager (Pvt.) Limited. ${rights}`
   }, [f?.copyrightLine, lang, rights])
 
-  const sitemapHref = f?.sitemap?.href?.trim() || ''
-  const sitemapLabel = f?.sitemap?.label ? pick(f.sitemap.label, lang) : 'Sitemap'
   const waHref = f?.contact?.whatsappHref?.trim()
   const waLabel =
     f?.contact?.whatsappLabel && (f.contact.whatsappLabel.en || f.contact.whatsappLabel.ar)
@@ -157,125 +337,99 @@ export function Footer() {
       : 'WhatsApp'
 
   return (
-    <footer
-      id="contact"
-      className="border-t border-white/10 text-slate-300"
-      style={{ backgroundColor: BRAND_DEEP_BG }}
-    >
-      <div className={`${pageShellClass} ${footerPad}`}>
-        <div className="grid gap-8 sm:grid-cols-2 sm:gap-x-8 lg:grid-cols-6 lg:gap-x-10">
-          <div className="sm:col-span-2 lg:col-span-2">
+    <footer id="contact" className="dm-footer scroll-mt-28">
+      <div className="dm-footer__accent" aria-hidden="true" />
+
+      <div className="industries-section__container dm-footer__container">
+        <div className="dm-footer__main">
+          <div className="dm-footer__brand">
             <FooterBrandLogo src={logo} />
-            <p className="mt-4 max-w-md text-pretty text-[0.9375rem] leading-[1.7] text-slate-300">{tagline}</p>
-            <div className="mt-5 flex gap-2.5">
-              <FooterSocialLinks items={f?.social} />
-            </div>
+            <p className="dm-footer__brand-subtitle">{t('footer.brandSubtitle')}</p>
+            <p className="dm-footer__tagline" title={tagline}>
+              {tagline}
+            </p>
           </div>
-          <div>
-            <h3 className={footerColTitle}>{colP}</h3>
-            <ul className="mt-4 space-y-2">
-              {productRows.length
-                ? productRows.map((row) => (
-                    <li key={row.id}>
-                      <CmsLink to={row.href} className={footerLink}>
-                        {row.label ? pick(row.label, lang) : ''}
-                      </CmsLink>
-                    </li>
-                  ))
-                : footerProducts.map((item) => (
-                    <li key={item.slug}>
-                      <Link to={item.to} className={footerLink}>
-                        {megaModuleLabel(lang, item.slug, item.labelEn)}
-                      </Link>
-                    </li>
-                  ))}
-            </ul>
+
+          <div className="dm-footer__col">
+            <h3 className="dm-footer__col-title">{colP}</h3>
+            <FooterLinkList links={productLinks} />
           </div>
-          <div>
-            <h3 className={footerColTitle}>{colI}</h3>
-            <ul className="mt-4 space-y-2">
-              {industryRows.length
-                ? industryRows.map((row) => (
-                    <li key={row.id}>
-                      <CmsLink to={row.href} className={footerLink}>
-                        {row.label ? pick(row.label, lang) : ''}
-                      </CmsLink>
-                    </li>
-                  ))
-                : footerIndustries.map((item) => (
-                    <li key={item.slug}>
-                      <Link to={item.to} className={footerLink}>
-                        {megaIndustryLabel(lang, item.slug, item.labelEn)}
-                      </Link>
-                    </li>
-                  ))}
-            </ul>
+
+          <div className="dm-footer__col">
+            <h3 className="dm-footer__col-title">{colI}</h3>
+            <FooterLinkList links={industryLinks} />
           </div>
-          <div>
-            <h3 className={footerColTitle}>{colC}</h3>
-            <ul className="mt-4 space-y-2">
-              {companyRows.length
-                ? companyRows.map((row) => (
-                    <li key={row.id}>
-                      <CmsLink to={row.href} className={footerLink}>
-                        {row.label ? pick(row.label, lang) : ''}
-                      </CmsLink>
-                    </li>
-                  ))
-                : companyKeys.map((key, i) => (
-                    <li key={key}>
-                      <CmsLink to={companyTos[i]} className={footerLink}>
-                        {t(`footer.${key}`)}
-                      </CmsLink>
-                    </li>
-                  ))}
-            </ul>
+
+          <div className="dm-footer__col">
+            <h3 className="dm-footer__col-title">{colR}</h3>
+            <FooterLinkList links={resourceLinks} />
           </div>
-          <div className="sm:col-span-2 lg:col-span-1">
-            <h3 className={footerColTitle}>{colContact}</h3>
-            <ul className="mt-4 space-y-3 text-sm leading-relaxed text-slate-300/95">
-              <li className="flex gap-2">
-                <MapPin className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden />
-                <span>{addr}</span>
-              </li>
-              <li className="flex gap-2">
-                <Phone className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden />
-                <a href={phoneHref} className="hover:text-brand">
-                  {phoneDisplay}
-                </a>
-              </li>
-              <li className="flex gap-2">
-                <Mail className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden />
-                <a href={`mailto:${email}`} className="hover:text-brand">
-                  {email}
-                </a>
-              </li>
-              {waHref ? (
-                <li className="flex gap-2">
-                  <MessageCircle className="mt-0.5 size-4 shrink-0 text-brand" aria-hidden />
-                  <a href={waHref} className="hover:text-brand" target="_blank" rel="noopener noreferrer">
-                    {waLabel}
-                  </a>
-                </li>
-              ) : null}
-            </ul>
+
+          <div className="dm-footer__col">
+            <h3 className="dm-footer__col-title">{colC}</h3>
+            <FooterLinkList links={companyLinks} />
+          </div>
+
+          <div className="dm-footer__newsletter">
+            <FooterNewsletter />
           </div>
         </div>
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-7 text-center text-sm leading-relaxed text-slate-400 sm:flex-row sm:text-left">
-          <p>{copyrightText}</p>
-          <div className="flex flex-wrap justify-center gap-4 sm:justify-end sm:gap-6">
-            <a href={privacyHref} className="hover:text-brand">
+
+        <div className="dm-footer__trust-row">
+          <div className="dm-footer__contact-summary">
+            <span className="dm-footer__contact-chip">
+              <MapPin className="dm-footer__contact-icon" aria-hidden />
+              <span>{addr}</span>
+            </span>
+            <span className="dm-footer__contact-divider" aria-hidden />
+            <span className="dm-footer__contact-chip">
+              <Phone className="dm-footer__contact-icon" aria-hidden />
+              <a href={phoneHref} className="dm-footer__contact-link">
+                {phoneDisplay}
+              </a>
+            </span>
+            <span className="dm-footer__contact-divider" aria-hidden />
+            <span className="dm-footer__contact-chip">
+              <Mail className="dm-footer__contact-icon" aria-hidden />
+              <a href={`mailto:${email}`} className="dm-footer__contact-link">
+                {email}
+              </a>
+            </span>
+            {waHref ? (
+              <>
+                <span className="dm-footer__contact-divider" aria-hidden />
+                <span className="dm-footer__contact-chip">
+                  <MessageCircle className="dm-footer__contact-icon" aria-hidden />
+                  <a href={waHref} className="dm-footer__contact-link" target="_blank" rel="noopener noreferrer">
+                    {waLabel}
+                  </a>
+                </span>
+              </>
+            ) : null}
+          </div>
+
+          <p className="dm-footer__trust-message">{t('footer.trustMessage')}</p>
+
+          <div className="dm-footer__social">
+            <FooterSocialLinks items={f?.social} />
+          </div>
+        </div>
+
+        <div className="dm-footer__bottom">
+          <p className="dm-footer__copyright">{copyrightText}</p>
+          <nav className="dm-footer__legal" aria-label={t('footer.legalNav')}>
+            <a href={privacyHref} className="dm-footer__legal-link">
               {privacyLabel}
             </a>
-            <a href={termsHref} className="hover:text-brand">
+            <a href={termsHref} className="dm-footer__legal-link">
               {termsLabel}
             </a>
             {sitemapHref ? (
-              <a href={sitemapHref} className="hover:text-brand">
+              <a href={sitemapHref} className="dm-footer__legal-link">
                 {sitemapLabel}
               </a>
             ) : null}
-          </div>
+          </nav>
         </div>
       </div>
     </footer>

@@ -129,27 +129,34 @@ export async function fetchJson<T>(path: string, init?: RequestInit, timeoutMs =
   }
 }
 
-/** Short-lived in-memory cache for public homepage payload (navigation + header). */
-let homepageCache: { data: unknown; at: number } | null = null
-const HOMEPAGE_CACHE_MS = 60_000
+export type FetchHomepageOptions = {
+  /** Skip any in-memory reuse and bust intermediaries with a unique query param. */
+  bustCache?: boolean
+}
 
-export async function fetchHomepage<T>(init?: RequestInit): Promise<T> {
-  if (homepageCache && Date.now() - homepageCache.at < HOMEPAGE_CACHE_MS) {
-    return homepageCache.data as T
+/**
+ * Load published homepage CMS payload from the public API.
+ * Always uses no-store — never serves a stale in-memory copy after publish.
+ */
+export async function fetchHomepage<T>(opts?: FetchHomepageOptions): Promise<T> {
+  const bust = opts?.bustCache ? `?v=${encodeURIComponent(String(Date.now()))}` : ''
+  const path = `/api/homepage${bust}`
+
+  if (import.meta.env.DEV) {
+    console.debug('[cms] fetch homepage', apiUrl(path))
   }
-  const data = await fetchJson<T>('/api/homepage', {
-    ...init,
+
+  return fetchJson<T>(path, {
     headers: {
-      ...((init?.headers as Record<string, string>) || {}),
+      Accept: 'application/json',
       'Cache-Control': 'no-cache',
       Pragma: 'no-cache',
     },
     cache: 'no-store',
   })
-  homepageCache = { data, at: Date.now() }
-  return data
 }
 
+/** @deprecated No-op — homepage responses are never cached client-side anymore. */
 export function clearHomepageCache() {
-  homepageCache = null
+  /* intentionally empty */
 }

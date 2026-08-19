@@ -19,9 +19,11 @@ import {
   resolveSmtpConfig,
 } from './envConfig.mjs'
 import { createPublishStore } from './publishStore.mjs'
+import { migrateCmsSchemaV2 } from './cmsSchemaMigrate.mjs'
 import {
   clearJsonCache,
   invalidateJsonCache,
+  invalidateJsonCachePrefix,
   jsonCacheStats,
   readJsonCached,
 } from './jsonCache.mjs'
@@ -44,7 +46,7 @@ const DATA_DIR = path.join(ROOT, 'data')
 const UPLOADS_DIR = path.join(ROOT, 'uploads')
 const DIST_DIR = path.join(ROOT, '..', 'dist')
 
-const PORT = Number(process.env.PORT) || 3000
+const PORT = Number(process.env.PORT) || 3040
 const HOST = process.env.HOST || '0.0.0.0'
 const JWT_SECRET = authSecretOrDevFallback()
 const DIST_INDEX = path.join(DIST_DIR, 'index.html')
@@ -76,6 +78,9 @@ const DATA_FILES = {
   modules: 'modules.json',
   workflow: 'workflow.json',
   industries: 'industries.json',
+  demoCta: 'demoCta.json',
+  testimonials: 'testimonials.json',
+  personalizedDemo: 'personalizedDemo.json',
   faqs: 'faqs.json',
   cta: 'cta.json',
   footer: 'footer.json',
@@ -89,12 +94,14 @@ const ADMIN_KEYS = new Set([
   'emailSettings',
   'pageSections',
   'pages',
+  'megaMenus',
 ])
 
 const EXTRA_HOMEPAGE_FILES = {
   siteSettings: 'siteSettings.json',
   whatsappSettings: 'whatsappSettings.json',
   pageSections: 'pageSections.json',
+  megaMenus: 'megaMenus.json',
 }
 
 const ACTIVITY_FILE = 'activityLog.json'
@@ -186,9 +193,8 @@ const publishStore = createPublishStore({
 })
 
 const PUBLIC_CACHE_HEADERS = {
-  'Cache-Control': 'no-cache, no-store, must-revalidate',
+  'Cache-Control': 'no-store',
   Pragma: 'no-cache',
-  Expires: '0',
 }
 
 function sendPublicJson(res, payload, status = 200) {
@@ -211,10 +217,25 @@ const PUBLISHABLE_KEYS = new Set([
 
 let homepagePayloadCache = null
 let homepagePayloadCacheAt = 0
-const HOMEPAGE_PAYLOAD_CACHE_MS = 60_000
+const HOMEPAGE_PAYLOAD_CACHE_MS = 0
+
+async function buildHomepageMeta() {
+  const pubMeta = (await publishStore.readPublishMeta()) || {}
+  const stamps = Object.values(pubMeta)
+    .map((row) => (row && typeof row === 'object' ? row.lastPublishedAt || row.lastSavedAt : null))
+    .filter(Boolean)
+  const publishedAt = stamps.length ? [...stamps].sort().at(-1) : null
+  return {
+    slug: 'home',
+    status: 'published',
+    schemaVersion: 2,
+    updatedAt: publishedAt,
+    publishedAt,
+  }
+}
 
 async function loadPublishedHomepagePayload() {
-  if (homepagePayloadCache && Date.now() - homepagePayloadCacheAt < HOMEPAGE_PAYLOAD_CACHE_MS) {
+  if (HOMEPAGE_PAYLOAD_CACHE_MS > 0 && homepagePayloadCache && Date.now() - homepagePayloadCacheAt < HOMEPAGE_PAYLOAD_CACHE_MS) {
     return homepagePayloadCache
   }
   const t0 = Date.now()
@@ -228,6 +249,7 @@ async function loadPublishedHomepagePayload() {
     out[key] = publishStore.stripMeta(docs[i]) ?? {}
   })
   out.navigation = await buildPublishedNavigation(out)
+  out.meta = await buildHomepageMeta()
   homepagePayloadCache = out
   homepagePayloadCacheAt = Date.now()
   const ms = Date.now() - t0
@@ -238,6 +260,11 @@ async function loadPublishedHomepagePayload() {
 function clearHomepagePayloadCache() {
   homepagePayloadCache = null
   homepagePayloadCacheAt = 0
+}
+
+function invalidatePublishedContentCaches() {
+  clearHomepagePayloadCache()
+  invalidateJsonCachePrefix('published/')
 }
 
 function defaultPageSeo() {
@@ -785,6 +812,32 @@ async function ensureBootstrapFiles() {
   }))
   await ensureDataFile(ACTIVITY_FILE, () => [])
   await ensureDataFile(SOFTWARE_DETAILS_FILE, () => ({ items: [], _meta: defaultDataMeta() }))
+
+  try {
+    const draftMigration = await migrateCmsSchemaV2({
+      dataDir: DATA_DIR,
+      readJsonFile,
+      writeJsonFile,
+      safeReadJson,
+    })
+    if (draftMigration.changed > 0) {
+      console.log(`[cms-migrate] draft schema v2 updated ${draftMigration.changed} file(s)`)
+      if (draftMigration.backupDir) console.log(`[cms-migrate] backup: ${draftMigration.backupDir}`)
+    }
+
+    const publishedMigration = await migrateCmsSchemaV2({
+      dataDir: path.join(DATA_DIR, 'published'),
+      readJsonFile: (relPath) => readJsonFile(`published/${relPath}`),
+      writeJsonFile: (relPath, data) => writeJsonFile(`published/${relPath}`, data),
+      safeReadJson: (relPath, fallback) => safeReadJson(`published/${relPath}`, fallback),
+    })
+    if (publishedMigration.changed > 0) {
+      console.log(`[cms-migrate] published schema v2 updated ${publishedMigration.changed} file(s)`)
+      clearHomepagePayloadCache()
+    }
+  } catch (err) {
+    console.error('[cms-migrate] schema v2 migration failed — previous content retained', err?.message || err)
+  }
 }
 
 async function readPagesStore() {
@@ -987,6 +1040,31 @@ function coerceWorkflowList(raw) {
   })
 }
 
+function coerceStringList(raw, fallback = []) {
+  if (!Array.isArray(raw)) return fallback
+  return raw.map((v) => (typeof v === 'string' ? v : ''))
+}
+
+function coerceSectionImages(raw, base) {
+  const src = raw && typeof raw === 'object' ? raw : base?.sectionImages
+  const fallback = {
+    operational: ['', '', ''],
+    benefitRows: ['', ''],
+    businessTypes: ['', '', '', ''],
+    testimonial: '',
+  }
+  if (!src || typeof src !== 'object') return fallback
+  const operational = coerceStringList(src.operational, fallback.operational)
+  const benefitRows = coerceStringList(src.benefitRows, fallback.benefitRows)
+  const businessTypes = coerceStringList(src.businessTypes, fallback.businessTypes)
+  return {
+    operational: [operational[0] ?? '', operational[1] ?? '', operational[2] ?? ''],
+    benefitRows: [benefitRows[0] ?? '', benefitRows[1] ?? ''],
+    businessTypes: [businessTypes[0] ?? '', businessTypes[1] ?? '', businessTypes[2] ?? '', businessTypes[3] ?? ''],
+    testimonial: typeof src.testimonial === 'string' ? src.testimonial : fallback.testimonial,
+  }
+}
+
 function normalizeSoftwareDetailFromBody(body, prev) {
   const now = new Date().toISOString()
   const base = prev || {}
@@ -1007,6 +1085,7 @@ function normalizeSoftwareDetailFromBody(body, prev) {
     icon: typeof body.icon === 'string' && body.icon.trim() ? body.icon.trim() : base.icon || 'Box',
     accentColor: ACCENT_COLORS.has(body.accentColor) ? body.accentColor : base.accentColor || 'orange',
     heroImageUrl: typeof body.heroImageUrl === 'string' ? body.heroImageUrl : base.heroImageUrl || '',
+    sectionImages: coerceSectionImages(body.sectionImages, base),
     label: coerceBilingual(body.label ?? base.label),
     shortDescription: coerceBilingual(body.shortDescription ?? base.shortDescription),
     metaTitle: coerceBilingual(body.metaTitle ?? base.metaTitle),
@@ -2165,7 +2244,7 @@ app.post('/api/admin/publish/:key', authMiddleware, async (req, res) => {
   }
   try {
     const result = await publishStore.publishFile(file, key, req.user.email)
-    clearHomepagePayloadCache()
+    invalidatePublishedContentCaches()
     await appendActivity({
       action: 'publish',
       section: key,
@@ -2173,7 +2252,14 @@ app.post('/api/admin/publish/:key', authMiddleware, async (req, res) => {
       adminEmail: req.user.email,
       adminName: req.user.name || '',
     })
-    res.json({ ok: true, key, publishStatus: result.status })
+    res.json({
+      success: true,
+      ok: true,
+      key,
+      message: 'Published successfully',
+      data: { published: publishStore.stripMeta(result.published) },
+      publishStatus: result.status,
+    })
   } catch (e) {
     console.error(e)
     res.status(500).json({ error: 'Publish failed' })
@@ -2192,7 +2278,7 @@ app.post('/api/admin/publish', authMiddleware, async (req, res) => {
       const result = await publishStore.publishFile(file, key, req.user.email)
       results[key] = result.status
     }
-    clearHomepagePayloadCache()
+    invalidatePublishedContentCaches()
     await appendActivity({
       action: 'publish',
       section: 'site',

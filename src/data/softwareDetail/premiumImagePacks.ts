@@ -25,17 +25,16 @@ const SLUG_ALIASES: Record<string, string> = {
   'petrol-gas-filling-station-software': 'petrol-gas-filling-station-software',
 }
 
-const LEGACY_PACK: PremiumPhotoPaths = {
-  heroTeam: '/accounts/hero-finance-team.jpg',
-  financialReports: '/accounts/financial-reports.jpg',
-  dashboard: '/accounts/accounting-dashboard.jpg',
-  teamMeeting: '/accounts/finance-team-meeting.jpg',
-  ledgerOffice: '/accounts/ledger-documents.jpg',
-}
-
 export function getPremiumPhotoPaths(slug: string): PremiumPhotoPaths {
   const resolved = SLUG_ALIASES[slug] ?? slug
-  return MANIFEST[resolved] ?? LEGACY_PACK
+  if (MANIFEST[resolved]) return MANIFEST[resolved]
+  return {
+    heroTeam: `/software-images/${resolved}/hero.jpg`,
+    teamMeeting: `/software-images/${resolved}/meeting.jpg`,
+    dashboard: `/software-images/${resolved}/dashboard.jpg`,
+    ledgerOffice: `/software-images/${resolved}/ledger.jpg`,
+    financialReports: `/software-images/${resolved}/reports.jpg`,
+  }
 }
 
 /** Source URLs on digitalmanager.ae — for maintainers / SEO traceability. */

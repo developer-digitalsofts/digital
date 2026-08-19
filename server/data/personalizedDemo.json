@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 2,
+  "enabled": true,
+  "eyebrow": {
+    "en": "See DigitalManager in Action",
+    "ar": "شاهد ديجيتال مانجر أثناء العمل"
+  },
+  "title": {
+    "en": "Book a Personalized Demo Tailored to Your Business",
+    "ar": "احجز عرضًا مخصصًا يناسب عملك"
+  },
+  "description": {
+    "en": "Our experts will walk you through the platform, show how it fits your needs and answer all your questions.",
+    "ar": "سيرشدك خبراؤنا عبر المنصة، ويوضحون كيف تناسب احتياجاتك ويجيبون على جميع أسئلتك."
+  },
+  "highlights": [
+    {
+      "id": "tour",
+      "icon": "Users",
+      "label": {
+        "en": "Personalized Tour",
+        "ar": "جولة مخصصة"
+      },
+      "sortOrder": 0,
+      "enabled": true
+    },
+    {
+      "id": "commitment",
+      "icon": "ShieldCheck",
+      "label": {
+        "en": "No Commitment",
+        "ar": "بدون التزام"
+      },
+      "sortOrder": 1,
+      "enabled": true
+    },
+    {
+      "id": "response",
+      "icon": "HandHelping",
+      "label": {
+        "en": "Quick Response",
+        "ar": "استجابة سريعة"
+      },
+      "sortOrder": 2,
+      "enabled": true
+    }
+  ],
+  "submitLabel": {
+    "en": "Book My Demo",
+    "ar": "احجز عرضي"
+  },
+  "successMessage": {
+    "en": "Thank you — we will contact you shortly.",
+    "ar": "شكرًا — سنتواصل معك قريبًا."
+  },
+  "errorMessage": {
+    "en": "Please check the highlighted fields and try again.",
+    "ar": "يرجى مراجعة الحقول المظللة والمحاولة مرة أخرى."
+  },
+  "_meta": {
+    "createdAt": "2026-08-19T06:10:35.218Z",
+    "updatedAt": "2026-08-19T06:10:35.218Z",
+    "updatedBy": "cms-schema-migrate-v2"
+  }
+}

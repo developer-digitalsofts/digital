@@ -223,7 +223,7 @@ export const moduleRichPagesAr: Record<string, ModuleRichPage> = {
   }),
 
   'fbr-pos-integration-software': b({
-    headline: 'تجزئة جاهزة لتسجيل FBR',
+    headline: 'تجزئة جاهزة لامتثال ضريبة القيمة المضافة',
     subhead: 'فواتير نقطة بيع وتسويات متوافقة مع الحمولات التنظيمية وتوقعات التدقيق.',
     intro:
       'يخفض التجار المخاطر بإنشاء سجلات رقمية مطابقة من نفس المعاملات التي تحرك المخزون والإيراد في الـ ERP.',

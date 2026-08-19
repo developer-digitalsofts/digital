@@ -10,7 +10,7 @@ import type { Bilingual, CmsHeader, CmsHeaderNavLink } from '../../cms/types'
 
 const DEFAULT_NAV_LINKS: CmsHeaderNavLink[] = [
   { id: 'nl-home', label: { en: 'Home', ar: 'الرئيسية' }, href: '/', sortOrder: 0, active: true },
-  { id: 'nl-about', label: { en: 'About Us', ar: 'من نحن' }, href: '/#about', sortOrder: 1, active: true },
+      { id: 'nl-about', label: { en: 'About Us', ar: 'من نحن' }, href: '/#industries', sortOrder: 1, active: true },
   { id: 'nl-services', label: { en: 'Services', ar: 'الخدمات' }, href: '/#modules', sortOrder: 2, active: true },
   { id: 'nl-projects', label: { en: 'Projects', ar: 'المشاريع' }, href: '/#workflow', sortOrder: 3, active: true },
   { id: 'nl-residential', label: { en: 'Residential', ar: 'سكني' }, href: '/residential', sortOrder: 4, active: true },

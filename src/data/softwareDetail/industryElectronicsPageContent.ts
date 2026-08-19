@@ -725,7 +725,7 @@ export function mergeComputersLaptopIndustryPage(data: SoftwareDetailPageData): 
   return mergeElectronicsBase(data, {
     metaTitle: 'Computer & Laptop Retailer Software | DigitalManager ERP',
     metaDescription:
-      'Manage sales, track inventory, grow your tech business — ERP for computer shops, laptop retailers, and electronics dealers in Pakistan.',
+      'Manage sales, track inventory, grow your tech business — ERP for computer shops, laptop retailers, and electronics dealers in the UAE.',
     featuresHeading: 'Software Features',
     featuresLead: 'Purchase, sales, inventory, and accounts — built for computer and laptop retailers with serial and warranty discipline.',
     vouchersSectionEyebrow: 'Computer & laptop retail',

@@ -1,73 +1,77 @@
 {
+  "eyebrow": {
+    "en": "Proven Performance",
+    "ar": "أداء مثبت"
+  },
   "title": {
-    "en": "Trusted By Businesses Across UAE & GCC",
-    "ar": "موثوق به من الشركات عبر الإمارات ودول الخليج"
+    "en": "Built on Trust. Proven by Results.",
+    "ar": "مبني على الثقة. مثبت بالنتائج."
   },
   "items": [
     {
-      "id": "s-exp",
-      "value": "20+",
+      "id": "s-cloud",
+      "value": "Cluad",
       "label": {
-        "en": "Years Experience",
-        "ar": "سنوات خبرة"
+        "en": "Based",
+        "ar": "سحابي"
       },
-      "icon": "Award",
-      "accentColor": "#ff7a45",
+      "icon": "Cloud",
+      "accentColor": "#f47c4d",
       "sortOrder": 0,
       "active": true
     },
     {
-      "id": "s-sol",
+      "id": "s-solutions",
       "value": "120+",
       "label": {
         "en": "Business Solutions",
         "ar": "حلول أعمال"
       },
       "icon": "Layers",
-      "accentColor": "#2563eb",
+      "accentColor": "#f47c4d",
       "sortOrder": 1,
       "active": true
     },
     {
-      "id": "s-cli",
-      "value": "1000+",
+      "id": "s-vat",
+      "value": "AED",
       "label": {
-        "en": "Happy Clients",
-        "ar": "عملاء سعداء"
+        "en": "Ready",
+        "ar": "جاهز"
       },
-      "icon": "Users",
-      "accentColor": "#16a34a",
+      "icon": "FileCheck",
+      "accentColor": "#f47c4d",
       "sortOrder": 2,
       "active": true
     },
     {
-      "id": "s-sat",
-      "value": "99%",
+      "id": "s-unified",
+      "value": "Unified",
       "label": {
-        "en": "Client Satisfaction",
-        "ar": "رضا العملاء"
+        "en": "Platform",
+        "ar": "منصة"
       },
-      "icon": "HeartHandshake",
-      "accentColor": "#db2777",
+      "icon": "Workflow",
+      "accentColor": "#f47c4d",
       "sortOrder": 3,
       "active": true
     },
     {
-      "id": "s-mb",
-      "value": "Multi-Branch",
+      "id": "s-uae",
+      "value": "UAE",
       "label": {
-        "en": "ERP Platform",
-        "ar": "منصة ERP"
+        "en": "Focused",
+        "ar": "مخصص للإمارات"
       },
-      "icon": "Network",
-      "accentColor": "#0ea5e9",
+      "icon": "MapPin",
+      "accentColor": "#f47c4d",
       "sortOrder": 4,
       "active": true
     }
   ],
   "_meta": {
     "createdAt": "2026-08-12T08:31:16.124Z",
-    "updatedAt": "2026-08-12T08:31:16.124Z",
-    "updatedBy": "migrate-original-homepage"
+    "updatedAt": "2026-08-19T06:45:45.053Z",
+    "updatedBy": "admin@admin.com"
   }
 }

@@ -70,9 +70,9 @@ You configure masters once (items, vendors, customers, tax, dimensions), then ru
 /** Optional per-slug overrides (merged on top of `buildIndustryRichPage` for that label). */
 const industryOverrides: Record<string, Partial<ModuleRichPage>> = {
   'petrol-pump-software': {
-    headline: 'Petrol Station Management Software in Pakistan',
+    headline: 'Petrol Station Management Software in the UAE',
     subhead: 'Complete Petrol Pump ERP Solution for Modern Fuel Stations.',
-    intro: `Are you struggling with managing daily operations at your petrol station? DigitalManager Petrol Station Management Software is a complete cloud-based ERP solution specially designed for fuel stations across Pakistan. Monitor nozzle sales, tank stock, dip readings, lubricant inventory, customer balances, staff attendance, and financial reports from one centralized dashboard.`,
+    intro: `Are you struggling with managing daily operations at your petrol station? DigitalManager Petrol Station Management Software is a complete cloud-based ERP solution specially designed for fuel stations across the UAE. Monitor nozzle sales, tank stock, dip readings, lubricant inventory, customer balances, staff attendance, and financial reports from one centralized dashboard.`,
   },
   'retail-management-software': {
     headline: 'Cloud Based Point Of Sale & Retail Management Software',
@@ -91,7 +91,7 @@ Easily manage inventory, barcode billing, supplier purchases, sales, stock level
   'garments-manufacturing-software': {
     headline: 'Cloud Based ERP Software for Garments Manufacturing Business',
     subhead: 'Streamline Procurement, Production, Sales & Finance.',
-    intro: `Our Garments ERP Software helps garment factories streamline procurement, inventory tracking, production planning, HR operations, sales management, and financial accounting from one centralized cloud-based platform. Designed for textile and apparel manufacturers in Pakistan.`,
+    intro: `Our Garments ERP Software helps garment factories streamline procurement, inventory tracking, production planning, HR operations, sales management, and financial accounting from one centralized cloud-based platform. Designed for textile and apparel manufacturers in the UAE.`,
   },
   'logistics-transportation-software': {
     headline: 'Cloud ERP Software for Logistics & Transportation Business',
@@ -108,7 +108,7 @@ Track vehicles, trips, fuel expenses, inventory, HR, accounts, sales, and wareho
   'dairy-farm-management-software': {
     headline: 'Cloud-Based Dairy Farm Management Software',
     subhead: 'Smart Dairy Operations with Complete Farm Control.',
-    intro: `Track animal records, milk production, feed inventory, vaccination schedules, breeding cycles, expenses, and farm profitability using our advanced Dairy Farm Management Software. Designed for dairy farms, livestock businesses, and milk production units in Pakistan.`,
+    intro: `Track animal records, milk production, feed inventory, vaccination schedules, breeding cycles, expenses, and farm profitability using our advanced Dairy Farm Management Software. Designed for dairy farms, livestock businesses, and milk production units in the UAE.`,
   },
   'lpg-business-software': {
     headline: 'Cloud ERP Software for LPG Business',
@@ -134,7 +134,7 @@ Manage procurement, cylinder inventory, plant filling, sales, finance, HR, and l
   'auto-parts-business-software': {
     headline: 'Cloud-Based Auto Parts Business Software for Smarter Inventory & Sales',
     subhead: 'Manage Stock. Track Sales. Serve Faster.',
-    intro: `A specialized software solution for auto parts dealers, spare parts retailers, and vehicle accessory shops. Efficiently manage inventory, track sales, handle suppliers, and monitor stock movement through a powerful cloud-based ERP system designed specifically for the auto parts industry in Pakistan.`,
+    intro: `A specialized software solution for auto parts dealers, spare parts retailers, and vehicle accessory shops. Efficiently manage inventory, track sales, handle suppliers, and monitor stock movement through a powerful cloud-based ERP system designed specifically for the auto parts industry in the UAE.`,
   },
   'education-institute-management-software': {
     headline: 'Education institutes: fees, exams, HR, and campus stock on one ERP',
@@ -151,7 +151,7 @@ The programme reflects how schools, colleges, and training centres manage multi-
 Route-wise profitability, vehicle expenses, and driver accountability can sit beside warehouse KPIs and branch P&L — with approvals when discounts or credit limits breach policy.`,
   },
   'fbr-digital-invoicing-industry-software': {
-    headline: 'FBR digital invoicing & compliance for regulated retail and trade',
+    headline: 'UAE VAT digital invoicing & compliance for regulated retail and trade',
     subhead: 'Schema-aware payloads, submission queues, and reconciliation views that keep finance and tax teams aligned.',
   },
   'hospitality-management-software': {
@@ -225,12 +225,12 @@ Track fabric inventory, manage color and design variations, barcode billing, cus
   'pharmacy-business-management-software': {
     headline: 'Cloud-Based Pharmacy Business Management Software for Safe, Smart, and Streamlined Sales',
     subhead: 'Track Medicines. Monitor Expiry. Simplify Billing.',
-    intro: `An all-in-one POS and inventory solution built specifically for pharmacies and medical stores. Manage medicine stock by batch and expiry, set up sale alerts for low stock or near-expiry drugs, handle barcode sales, maintain supplier records, and comply with health regulations — all in a secure cloud-based system built for pharmacies across Pakistan.`,
+    intro: `An all-in-one POS and inventory solution built specifically for pharmacies and medical stores. Manage medicine stock by batch and expiry, set up sale alerts for low stock or near-expiry drugs, handle barcode sales, maintain supplier records, and comply with health regulations — all in a secure cloud-based system built for pharmacies across the UAE.`,
   },
   'homeopathic-business-management-software': {
     headline: 'Cloud-Based Homeopathic Business Management Software Built for Accurate Dispensing & Recordkeeping',
     subhead: 'Manage Medicines. Track Patients. Simplify Sales.',
-    intro: `A complete software solution for homeopathic clinics, dispensaries, and medicine retailers. Organize medicine inventory and dosage records, monitor patient treatment history, manage prescriptions, and streamline billing through an intelligent cloud-based platform tailored for homeopathic businesses in Pakistan.`,
+    intro: `A complete software solution for homeopathic clinics, dispensaries, and medicine retailers. Organize medicine inventory and dosage records, monitor patient treatment history, manage prescriptions, and streamline billing through an intelligent cloud-based platform tailored for homeopathic businesses in the UAE.`,
   },
   'luggage-bags-store-software': {
     headline: 'Cloud Based Point Of Sale Software for Luggage & Bags Store',
