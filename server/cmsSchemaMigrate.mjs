@@ -6,6 +6,7 @@ import fs from 'fs/promises'
 import path from 'path'
 
 export const CMS_SCHEMA_VERSION = 2
+export const TESTIMONIALS_SCHEMA_VERSION = 3
 
 const DEFAULT_HERO_SLIDES = [
   {
@@ -203,61 +204,98 @@ function defaultDemoCta() {
 }
 
 function defaultTestimonials() {
-  const mk = (id, quoteEn, quoteAr, nameEn, nameAr, roleEn, roleAr, companyEn, companyAr, image) => ({
-    id,
-    quote: { en: quoteEn, ar: quoteAr },
-    customerName: { en: nameEn, ar: nameAr },
-    designation: { en: roleEn, ar: roleAr },
-    company: { en: companyEn, ar: companyAr },
-    image,
-    imageAlt: { en: nameEn, ar: nameAr },
-    sortOrder: 0,
-    enabled: true,
-  })
   return {
-    schemaVersion: CMS_SCHEMA_VERSION,
-    eyebrow: { en: 'Loved by Businesses Like Yours', ar: 'محبوب من شركات مثل شركتك' },
-    title: { en: 'What Our Clients Say', ar: 'ماذا يقول عملاؤنا' },
-    items: [
-      mk(
-        'fahad',
-        'DigitalManager gave us one connected view of finance, inventory and sales. Month-end close is faster and branch reporting is finally reliable.',
-        'منحنا ديجيتال مانجر رؤية موحدة للمالية والمخزون والمبيعات. إغلاق الشهر أسرع وتقارير الفروع أصبحت موثوقة.',
-        'Fahad Al Mazrouei',
-        'فهد المزروعي',
-        'Finance Director',
-        'مدير المالية',
-        'UAE Trading Group',
-        'مجموعة الإمارات التجارية',
-        'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=150&h=150&q=80',
-      ),
-      mk(
-        'ayesha',
-        'We replaced spreadsheets with one ERP platform. Inventory, POS and accounts now stay in sync across our stores.',
-        'استبدلنا جداول البيانات بمنصة ERP واحدة. المخزون ونقطة البيع والحسابات متزامنة الآن عبر فروعنا.',
-        'Ayesha Khan',
-        'عائشة خان',
-        'Operations Manager',
-        'مديرة العمليات',
-        'Retail Chain',
-        'سلسلة تجزئة',
-        'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&h=150&q=80',
-      ),
-      mk(
-        'usman',
-        'Implementation was structured and the team understood UAE business workflows. Payroll and attendance are much easier to manage now.',
-        'كان التنفيذ منظمًا وفهم الفريق سير عمل الأعمال في الإمارات. الرواتب والحضور أصبحت أسهل في الإدارة.',
-        'Usman Ali',
-        'عثمان علي',
-        'General Manager',
-        'المدير العام',
-        'Manufacturing Co.',
-        'شركة تصنيع',
-        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&h=150&q=80',
-      ),
-    ],
+    schemaVersion: TESTIMONIALS_SCHEMA_VERSION,
+    section: {
+      enabled: true,
+      eyebrow: { en: 'CLIENT SUCCESS', ar: 'نجاح العملاء' },
+      heading: { en: 'Trusted by Growing UAE Businesses', ar: 'موثوق من الشركات النامية في الإمارات' },
+      supportingText: {
+        en: 'Verified feedback from teams using DigitalManager to unify finance, inventory, retail and operations.',
+        ar: 'آراء موثقة من فرق تستخدم ديجيتال مانجر لتوحيد المالية والمخزون والتجزئة والعمليات.',
+      },
+      limit: 6,
+      selectionMode: 'featured',
+      manualIds: [],
+      viewAllLabel: { en: 'View All Testimonials', ar: 'عرض كل الشهادات' },
+      viewAllUrl: '/testimonials',
+      showViewAll: true,
+    },
+    page: {
+      enabled: true,
+      title: { en: 'Client Testimonials', ar: 'شهادات العملاء' },
+      intro: {
+        en: 'Read verified client feedback from businesses using DigitalManager across the UAE.',
+        ar: 'اقرأ آراء العملاء الموثقة من الشركات التي تستخدم ديجيتال مانجر في الإمارات.',
+      },
+      seoTitle: { en: 'Client Testimonials | DigitalManager', ar: 'شهادات العملاء | ديجيتال مانجر' },
+      seoDescription: {
+        en: 'Verified client testimonials from UAE businesses using DigitalManager ERP, POS and inventory solutions.',
+        ar: 'شهادات عملاء موثقة من شركات إماراتية تستخدم حلول ديجيتال مانجر.',
+      },
+    },
+    items: [],
     _meta: nowMeta(),
   }
+}
+
+function migrateTestimonialsV3(doc) {
+  if (!doc || typeof doc !== 'object') return defaultTestimonials()
+  if ((doc.schemaVersion ?? 0) >= TESTIMONIALS_SCHEMA_VERSION) return doc
+
+  const legacyItems = Array.isArray(doc.items) ? doc.items : []
+  const items = legacyItems.map((item, index) => ({
+    ...item,
+    internalTitle: item.internalTitle || pickEn(item.customerName) || item.id || `Testimonial ${index + 1}`,
+    status: 'draft',
+    isSample: true,
+    featuredOnHomepage: false,
+    verified: false,
+    countryCode: item.countryCode || 'AE',
+    languageCode: item.languageCode || 'en',
+    enabled: item.enabled !== false,
+    sortOrder: item.sortOrder ?? index,
+  }))
+
+  return {
+    schemaVersion: TESTIMONIALS_SCHEMA_VERSION,
+    section: {
+      enabled: true,
+      eyebrow: doc.eyebrow || { en: 'CLIENT SUCCESS', ar: 'نجاح العملاء' },
+      heading: doc.title || doc.heading || { en: 'Trusted by Growing UAE Businesses', ar: 'موثوق من الشركات النامية في الإمارات' },
+      supportingText: doc.supportingText || {
+        en: 'Verified feedback from teams using DigitalManager to unify finance, inventory, retail and operations.',
+        ar: 'آراء موثقة من فرق تستخدم ديجيتال مانجر لتوحيد المالية والمخزون والتجزئة والعمليات.',
+      },
+      limit: 6,
+      selectionMode: 'featured',
+      manualIds: [],
+      viewAllLabel: { en: 'View All Testimonials', ar: 'عرض كل الشهادات' },
+      viewAllUrl: '/testimonials',
+      showViewAll: true,
+    },
+    page: {
+      enabled: true,
+      title: doc.title || { en: 'Client Testimonials', ar: 'شهادات العملاء' },
+      intro: doc.page?.intro || {
+        en: 'Read verified client feedback from businesses using DigitalManager across the UAE.',
+        ar: 'اقرأ آراء العملاء الموثقة من الشركات التي تستخدم ديجيتال مانجر في الإمارات.',
+      },
+      seoTitle: doc.page?.seoTitle || { en: 'Client Testimonials | DigitalManager', ar: 'شهادات العملاء | ديجيتال مانجر' },
+      seoDescription: doc.page?.seoDescription || {
+        en: 'Verified client testimonials from UAE businesses using DigitalManager ERP, POS and inventory solutions.',
+        ar: 'شهادات عملاء موثقة من شركات إماراتية تستخدم حلول ديجيتال مانجر.',
+      },
+    },
+    items,
+    _meta: doc._meta || nowMeta(),
+  }
+}
+
+function pickEn(value) {
+  if (typeof value === 'string') return value
+  if (value && typeof value === 'object' && typeof value.en === 'string') return value.en
+  return ''
 }
 
 function defaultPersonalizedDemo() {
@@ -347,8 +385,8 @@ export async function migrateCmsSchemaV2(deps) {
   if (await writeIfChanged(writeJsonFile, 'demoCta.json', nextDemoCta, demoCta)) changed++
 
   const testimonials = await readJsonSafe(readJsonFile, 'testimonials.json', null)
-  const nextTestimonials = testimonials?.schemaVersion >= CMS_SCHEMA_VERSION ? testimonials : defaultTestimonials()
-  if (await writeIfChanged(writeJsonFile, 'testimonials.json', nextTestimonials, testimonials)) changed++
+  const migratedTestimonials = migrateTestimonialsV3(testimonials)
+  if (await writeIfChanged(writeJsonFile, 'testimonials.json', migratedTestimonials, testimonials)) changed++
 
   const personalizedDemo = await readJsonSafe(readJsonFile, 'personalizedDemo.json', null)
   const nextPersonalizedDemo =

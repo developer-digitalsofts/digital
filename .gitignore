@@ -31,3 +31,10 @@ server/.env.*.local
 *.njsproj
 *.sln
 *.sw?
+
+# Generated verification artifacts & runtime temp/backup data
+screenshots/
+server/data/*.tmp
+server/data/backups/
+server/data/published/backups/
+server/data/.test-fixtures/

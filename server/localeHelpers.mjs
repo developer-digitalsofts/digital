@@ -1,0 +1,292 @@
+/**
+ * Locale-aware content resolution service — reusable resolver for all CMS content types.
+ * Resolution order: country+language override → country default language → approved global → missing.
+ */
+import { readBilingualText } from './contentHelpers.mjs'
+import { normalizeCountryCode } from './countryHelpers.mjs'
+import {
+  DEFAULT_GLOBAL_COUNTRY,
+  DEFAULT_GLOBAL_LANG,
+  canPublishRecord,
+  normalizeLocaleLang,
+} from './localeContentModel.mjs'
+
+export { normalizeLocaleLang, localeKey } from './localeContentModel.mjs'
+export { detectCountryFromRequest } from './localeDetect.mjs'
+
+export const TRANSLATION_STATUSES = new Set(['missing', 'draft', 'needs_review', 'approved', 'published'])
+
+export const RESOLVED_FROM = {
+  LOCALE_OVERRIDE: 'locale_override',
+  COUNTRY_DEFAULT: 'country_default',
+  GLOBAL: 'global',
+  MISSING: 'missing',
+}
+
+export const RESOLVABLE_CONTENT_TYPES = new Set([
+  'page',
+  'pageSection',
+  'solution',
+  'industry',
+  'businessModel',
+  'navigation',
+  'footer',
+  'faq',
+  'contact',
+  'seo',
+  'blog',
+  'testimonial',
+])
+
+export function findLocaleRecord(records, { contentType, globalIdentity, slug, countryCode, lang }) {
+  const country = normalizeCountryCode(countryCode)
+  const language = normalizeLocaleLang(lang)
+  const list = records || []
+
+  const match = (c, l) =>
+    list.find((r) => {
+      if (r.enabled === false) return false
+      if (contentType && r.contentType !== contentType) return false
+      if (globalIdentity && r.globalIdentity !== globalIdentity) return false
+      if (slug && r.slug !== slug) return false
+      return normalizeCountryCode(r.countryCode) === c && normalizeLocaleLang(r.languageCode) === l
+    })
+
+  return {
+    exact: match(country, language),
+    countryDefault: language !== 'en' ? match(country, 'en') : null,
+    global: match(DEFAULT_GLOBAL_COUNTRY, DEFAULT_GLOBAL_LANG),
+  }
+}
+
+export function resolveLocaleRecord(_record, matches, { context = 'public', countryEnabled = true, allowFallback = true, allowGlobalFallback = true } = {}) {
+  const buildMeta = (resolvedFrom, source, translationStatus, publicationStatus, inherited, fallbackUsed = false) => ({
+    resolvedFrom,
+    inherited,
+    customized: resolvedFrom === RESOLVED_FROM.LOCALE_OVERRIDE && source?.inheritanceMode === 'override',
+    sourceCountry: source?.countryCode || DEFAULT_GLOBAL_COUNTRY,
+    sourceLanguage: source?.languageCode || DEFAULT_GLOBAL_LANG,
+    translationStatus,
+    publicationStatus,
+    fallbackUsed,
+    missing: resolvedFrom === RESOLVED_FROM.MISSING,
+  })
+
+  const isPublic = context === 'public'
+
+  const tryRecord = (rec, resolvedFrom, fallbackUsed = false) => {
+    if (!rec) return null
+    const pub = rec.publicationStatus || 'draft'
+    const trans = rec.translationStatus || 'draft'
+    if (isPublic && pub !== 'published') return null
+    if (isPublic) {
+      const can = canPublishRecord(rec, { countryEnabled })
+      if (!can.ok) return null
+    }
+    return {
+      record: rec,
+      meta: buildMeta(resolvedFrom, rec, trans, pub, resolvedFrom !== RESOLVED_FROM.LOCALE_OVERRIDE, fallbackUsed),
+    }
+  }
+
+  let result = tryRecord(matches.exact, RESOLVED_FROM.LOCALE_OVERRIDE)
+  if (result) return result
+
+  if (allowFallback) {
+    result = tryRecord(matches.countryDefault, RESOLVED_FROM.COUNTRY_DEFAULT, true)
+    if (result) return result
+  }
+
+  if (allowFallback && allowGlobalFallback) {
+    result = tryRecord(matches.global, RESOLVED_FROM.GLOBAL, true)
+    if (result) return result
+  }
+
+  if (!isPublic) {
+    const draft = matches.exact || matches.countryDefault || matches.global
+    if (draft) {
+      return {
+        record: draft,
+        meta: buildMeta(
+          matches.exact ? RESOLVED_FROM.LOCALE_OVERRIDE : matches.countryDefault ? RESOLVED_FROM.COUNTRY_DEFAULT : RESOLVED_FROM.GLOBAL,
+          draft,
+          draft.translationStatus || 'draft',
+          draft.publicationStatus || 'draft',
+          !matches.exact,
+          Boolean(!matches.exact && (matches.countryDefault || matches.global)),
+        ),
+      }
+    }
+  }
+
+  return {
+    record: null,
+    meta: buildMeta(RESOLVED_FROM.MISSING, null, 'missing', 'draft', false),
+  }
+}
+
+export function mergePayloadFromBaseline(record, baselineDoc, lang) {
+  if (!record) return {}
+  const payload = { ...(record.payload || {}) }
+  if (baselineDoc && (payload.useBaseline === true || record.inheritanceMode === 'inherit' || record.inheritanceMode === 'global')) {
+    const merged = { ...baselineDoc, ...(payload.fields || {}) }
+    const out = { ...merged, ...payload }
+    delete out.fields
+    delete out.useBaseline
+    return flattenBilingualFields(out, lang)
+  }
+  return flattenBilingualFields(payload, lang)
+}
+
+function flattenBilingualFields(obj, lang) {
+  if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return obj
+  const out = { ...obj }
+  for (const [k, v] of Object.entries(out)) {
+    if (v && typeof v === 'object' && !Array.isArray(v) && ('en' in v || 'ar' in v)) {
+      out[k] = readBilingualText(v, lang)
+    }
+  }
+  return out
+}
+
+export function resolveContent(store, query, opts = {}) {
+  const { contentType, globalIdentity, slug, countryCode = DEFAULT_GLOBAL_COUNTRY, lang = DEFAULT_GLOBAL_LANG } = query
+  let matches
+
+  if (slug && !globalIdentity && !contentType) {
+    const list = store.records || []
+    const exactSlug = list.find(
+      (r) =>
+        r.slug === slug &&
+        normalizeCountryCode(r.countryCode) === normalizeCountryCode(countryCode) &&
+        normalizeLocaleLang(r.languageCode) === normalizeLocaleLang(lang),
+    )
+    if (exactSlug) {
+      matches = { exact: exactSlug, countryDefault: null, global: null }
+      const globalSlug = list.find(
+        (r) => r.slug === slug && normalizeCountryCode(r.countryCode) === DEFAULT_GLOBAL_COUNTRY && r.languageCode === DEFAULT_GLOBAL_LANG,
+      )
+      if (globalSlug) matches.global = globalSlug
+      if (normalizeLocaleLang(lang) !== 'en') {
+        matches.countryDefault = list.find(
+          (r) => r.slug === slug && normalizeCountryCode(r.countryCode) === normalizeCountryCode(countryCode) && r.languageCode === 'en',
+        )
+      }
+    } else {
+      matches = findLocaleRecord(list, { contentType, globalIdentity, slug, countryCode, lang })
+    }
+  } else {
+    matches = findLocaleRecord(store.records || [], { contentType, globalIdentity, slug, countryCode, lang })
+  }
+
+  return resolveLocaleRecord(null, matches, opts)
+}
+
+export function resolveContentWithBaseline(store, query, baselineDoc, opts = {}) {
+  const resolved = resolveContent(store, query, opts)
+  if (!resolved.record) return { ...resolved, payload: null, publicView: null }
+  const language = normalizeLocaleLang(query.lang)
+  const payload = mergePayloadFromBaseline(resolved.record, baselineDoc, language)
+  return {
+    ...resolved,
+    payload,
+    publicView: shapePublicLocaleView(resolved.record, payload, language, resolved.meta),
+  }
+}
+
+export function shapePublicLocaleView(record, payload, lang, meta) {
+  if (!record) return null
+  const title = payload.title || payload.heading
+  const titleText = typeof title === 'string' ? title : readBilingualText(title, lang)
+  return {
+    id: record.id,
+    slug: record.slug,
+    contentType: record.contentType,
+    globalIdentity: record.globalIdentity,
+    template: payload.template || 'cms-page',
+    title: titleText,
+    heading: payload.heading
+      ? typeof payload.heading === 'string'
+        ? payload.heading
+        : readBilingualText(payload.heading, lang)
+      : titleText,
+    shortDescription: payload.shortDescription
+      ? typeof payload.shortDescription === 'string'
+        ? payload.shortDescription
+        : readBilingualText(payload.shortDescription, lang)
+      : '',
+    sections: Array.isArray(payload.sections) ? payload.sections.filter((s) => s.visible !== false) : [],
+    seo: record.seo || payload.seo || {},
+    sortOrder: record.sortOrder ?? 0,
+    _locale: meta,
+  }
+}
+
+/** Parse software detail path segments into locale query fields. */
+export function parseSoftwareLocalePath(kind, slug) {
+  const k = kind === 'module' || kind === 'industry' ? kind : null
+  if (!k || !slug) return null
+  return {
+    contentType: k === 'module' ? 'solution' : 'industry',
+    globalIdentity: `${k}:${slug}`,
+    slug,
+  }
+}
+
+/** Legacy nested-locales helper — kept for blog/testimonial documents using locales map. */
+export function resolveLocalizedRecord(record, { countryCode = 'AE', lang = 'en', globalCountry = 'AE', globalLang = 'en' } = {}) {
+  if (!record || typeof record !== 'object') {
+    return { value: record, source: 'missing', status: 'missing' }
+  }
+
+  const country = normalizeCountryCode(countryCode)
+  const language = normalizeLocaleLang(lang)
+  const key = `${country}:${language}`
+  const locales = record.locales && typeof record.locales === 'object' ? record.locales : {}
+  const exact = locales[key]
+  if (exact) {
+    return {
+      value: exact,
+      source: 'locale_override',
+      status: exact.translationStatus || exact.status || 'draft',
+    }
+  }
+
+  const countryDefault = locales[`${country}:en`]
+  if (language === 'ar' && countryDefault) {
+    return {
+      value: countryDefault,
+      source: 'country_default',
+      status: countryDefault.translationStatus || countryDefault.status || 'draft',
+    }
+  }
+
+  const global = locales[`${globalCountry}:${globalLang}`] || record
+  if (global && global !== record) {
+    return {
+      value: global,
+      source: 'global',
+      status: global.translationStatus || global.status || 'published',
+    }
+  }
+
+  if (record.translationStatus === 'published' || record.status === 'published') {
+    return { value: record, source: 'global', status: 'published' }
+  }
+
+  return { value: record, source: 'global', status: record.translationStatus || record.status || 'draft' }
+}
+
+export function filterByLocaleScope(items, countryCode, lang, { includeDraft = false } = {}) {
+  const country = normalizeCountryCode(countryCode)
+  const language = normalizeLocaleLang(lang)
+  return (items || []).filter((item) => {
+    const scoped = item?.countryCode ? normalizeCountryCode(item.countryCode) : null
+    if (scoped && scoped !== country && scoped !== 'GCC') return false
+    const langs = Array.isArray(item?.languages) ? item.languages : null
+    if (langs && langs.length && !langs.includes(language)) return false
+    if (!includeDraft && item?.status && item.status !== 'published') return false
+    return true
+  })
+}
+

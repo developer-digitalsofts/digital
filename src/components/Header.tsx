@@ -11,16 +11,17 @@ import { megaIndustryCatTitle, megaIndustryLabel, megaModuleLabel } from '../i18
 import { SITE_LOGO_SRC, BRAND_DEEP_BG } from '../constants'
 import { pageShellClass } from '../ui/pageShell'
 import { useCms } from '../cms/CmsContext'
-import { useSiteSettings } from '../cms/useSiteSettings'
+import { useRegionalSettings } from '../cms/useRegionalSettings'
 import { pick } from '../cms/pick'
 import { isTopBarVisibleFromSections, parsePageSections } from '../cms/pageSections'
 import type { CmsHeader, CmsHeaderNavLink } from '../cms/types'
+import { LocaleSelector } from './LocaleSelector'
 
 type MegaKey = 'module' | 'industry'
 
 function TopBar({ header }: { header?: CmsHeader }) {
   const { lang } = useI18n()
-  const site = useSiteSettings()
+  const site = useRegionalSettings()
   const tb = header?.topBar
   const email = tb?.email ?? site.primaryEmail
   const hours = tb?.hours ? pick(tb.hours, lang) : site.workingHours
@@ -139,12 +140,11 @@ export function Header({ onOpenSearch }: HeaderProps) {
       .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
   }, [header?.navLinks, data?.navigation?.headerLinks])
 
-  const cmsPageHeaderLinks = useMemo(() => {
+  const supplementalHeaderLinks = useMemo(() => {
     const rows = data?.navigation?.headerLinks
     if (!Array.isArray(rows)) return []
     return rows
-      .filter((l) => l && (l as { source?: string }).source === 'cms-page')
-      .filter((l) => l.active !== false)
+      .filter((l) => l && l.active !== false)
       .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
   }, [data?.navigation?.headerLinks])
   const showLangSwitcher = header?.showLangSwitcher !== false
@@ -343,7 +343,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                       {navContact}
                     </NavLink>
                   </li>
-                  {cmsPageHeaderLinks.map((item) => (
+                  {supplementalHeaderLinks.map((item) => (
                     <li key={item.id}>
                       <CmsLink
                         to={item.href}
@@ -359,6 +359,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
             </nav>
 
             <div className="hidden shrink-0 items-center gap-1.5 sm:gap-2 lg:flex">
+              <LocaleSelector compact />
               {showLangSwitcher ? (
                 <button
                   type="button"
@@ -631,7 +632,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                     >
                       {navContact}
                     </NavLink>
-                    {cmsPageHeaderLinks.map((item) => (
+                    {supplementalHeaderLinks.map((item) => (
                       <CmsLink
                         key={item.id}
                         to={item.href}
@@ -644,20 +645,9 @@ export function Header({ onOpenSearch }: HeaderProps) {
                   </>
                 )}
             </nav>
-            {showLangSwitcher ? (
-              <div className="mt-3 flex items-center border-t border-slate-100 pt-3">
-                <button
-                  type="button"
-                  onClick={() => {
-                    closeMega()
-                    toggleLang()
-                  }}
-                  className="text-sm font-bold text-brand"
-                >
-                  {langSwitch}
-                </button>
-              </div>
-            ) : null}
+            <div className="mt-3 border-t border-slate-100 pt-3">
+              <LocaleSelector />
+            </div>
           </div>
         )}
       </div>

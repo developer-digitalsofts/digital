@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "section": {
+    "enabled": true,
+    "eyebrow": { "en": "LATEST INSIGHTS", "ar": "أحدث الرؤى" },
+    "heading": { "en": "Business Insights", "ar": "رؤى الأعمال" },
+    "supportingText": {
+      "en": "Practical guidance on ERP, retail, inventory, finance and digital operations.",
+      "ar": "إرشادات عملية حول ERP والتجزئة والمخزون والمالية والعمليات الرقمية."
+    },
+    "limit": 3,
+    "selectionMode": "recent",
+    "manualIds": [],
+    "viewAllLabel": { "en": "View All Insights", "ar": "عرض كل الرؤى" },
+    "viewAllUrl": "/blog"
+  },
+  "_meta": {
+    "createdAt": "2026-08-21T10:00:00.000Z",
+    "updatedAt": "2026-08-21T11:30:00.000Z",
+    "updatedBy": "content-bootstrap"
+  }
+}

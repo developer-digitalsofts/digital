@@ -1,0 +1,123 @@
+.dm-locale-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.dm-locale-select__group {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.dm-locale-select__flag {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.dm-locale-select__input {
+  appearance: none;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  background: #fff;
+  color: #0f172a;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.38rem 1.55rem 0.38rem 0.55rem;
+  cursor: pointer;
+}
+
+.dm-locale-select__input--lang {
+  min-width: 3.25rem;
+  padding-left: 0.65rem;
+}
+
+.dm-locale-select--compact .dm-locale-select__input {
+  font-size: 0.625rem;
+  padding-top: 0.32rem;
+  padding-bottom: 0.32rem;
+}
+
+.dm-locale-select__chevron {
+  position: absolute;
+  right: 0.45rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  color: #64748b;
+  pointer-events: none;
+}
+
+.dm-locale-suggest {
+  position: fixed;
+  inset: auto 1rem 1rem 1rem;
+  z-index: 60;
+  max-width: 28rem;
+  margin-inline: auto;
+  padding: 1rem 1.1rem;
+  border-radius: 14px;
+  border: 1px solid #dbeafe;
+  background: #fff;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.14);
+}
+
+@media (min-width: 640px) {
+  .dm-locale-suggest {
+    inset: auto 1.5rem 1.5rem auto;
+    margin-inline: 0;
+  }
+}
+
+.dm-locale-suggest__title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.dm-locale-suggest__text {
+  margin: 0.45rem 0 0;
+  font-size: 0.875rem;
+  color: #475569;
+}
+
+.dm-locale-suggest__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+.dm-locale-suggest__btn {
+  border-radius: 8px;
+  padding: 0.45rem 0.85rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dm-locale-suggest__btn--primary {
+  border: 1px solid #0f4c81;
+  background: #0f4c81;
+  color: #fff;
+}
+
+.dm-locale-suggest__btn--ghost {
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #334155;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

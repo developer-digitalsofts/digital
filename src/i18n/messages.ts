@@ -799,7 +799,8 @@ export const messages = {
       trustMessage: 'Trusted by businesses across UAE, GCC and international markets.',
       legalNav: 'Legal links',
       resources: {
-        blog: 'Blog',
+        blog: 'Insights',
+        testimonials: 'Testimonials',
         caseStudies: 'Case Studies',
         whitepapers: 'Whitepapers',
         webinars: 'Webinars',
@@ -1739,7 +1740,8 @@ export const messages = {
       trustMessage: 'موثوق به من شركات في الإمارات والخليج والأسواق الدولية.',
       legalNav: 'روابط قانونية',
       resources: {
-        blog: 'المدونة',
+        blog: 'الرؤى',
+        testimonials: 'شهادات العملاء',
         caseStudies: 'دراسات الحالة',
         whitepapers: 'الأوراق البيضاء',
         webinars: 'الندوات',

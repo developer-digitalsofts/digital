@@ -5,7 +5,10 @@ import { AdminJsonEditor } from '../AdminJsonEditor'
 import { AdminFormActions } from '../cms/AdminFormActions'
 import { BilingualInputs } from '../cms/BilingualInputs'
 import { ConfirmDialog } from '../cms/ConfirmDialog'
+import { useAdminLocale } from '../AdminLocaleContext'
 import { AdminLayoutMediaField } from './AdminLayoutMediaField'
+import { AdminLocaleEditorBanner } from '../AdminLocaleEditorBanner'
+import { ADMIN_EDITOR_LOCALE } from '../adminLocaleSections'
 import type { Bilingual } from '../../cms/types'
 import type { FooterSocialItem, FooterSocialPlatform } from '../../components/SocialIconLinks'
 
@@ -108,8 +111,14 @@ function defaultSocialFromSeed(): FooterSocialItem[] {
 
 type LinkField = 'productLinks' | 'industryLinks' | 'companyLinks'
 
+async function fetchFooterDraft() {
+  const raw = await adminFetch<Record<string, unknown>>('/api/admin/data/footer')
+  return normalizeFooter(raw)
+}
+
 export function AdminFooterEditor() {
   const toast = useAdminToast()
+  const { setDirty: setLocaleDirty } = useAdminLocale()
   const [local, setLocal] = useState<FooterDraft | null>(null)
   const [baseline, setBaseline] = useState('')
   const [loading, setLoading] = useState(true)
@@ -119,24 +128,45 @@ export function AdminFooterEditor() {
   const [jsonOpen, setJsonOpen] = useState(false)
   const [del, setDel] = useState<{ field: LinkField; id: string } | null>(null)
 
-  const reload = useCallback(() => {
-    setLoading(true)
-    setErr(null)
-    adminFetch<Record<string, unknown>>('/api/admin/data/footer')
-      .then((raw) => {
-        const n = normalizeFooter(raw)
-        setLocal(n)
-        setBaseline(JSON.stringify(n))
-      })
-      .catch((e: Error) => setErr(e.message))
-      .finally(() => setLoading(false))
+  const reload = useCallback(async () => {
+    try {
+      const n = await fetchFooterDraft()
+      setLocal(n)
+      setBaseline(JSON.stringify(n))
+      setErr(null)
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : 'Load failed')
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
   useEffect(() => {
-    reload()
-  }, [reload])
+    let active = true
+    fetchFooterDraft()
+      .then((n) => {
+        if (!active) return
+        setLocal(n)
+        setBaseline(JSON.stringify(n))
+        setErr(null)
+      })
+      .catch((e: Error) => {
+        if (!active) return
+        setErr(e.message)
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+    return () => {
+      active = false
+    }
+  }, [])
 
   const dirty = useMemo(() => (local ? JSON.stringify(local) !== baseline : false), [local, baseline])
+
+  useEffect(() => {
+    setLocaleDirty(dirty)
+  }, [dirty, setLocaleDirty])
 
   const cancel = () => {
     try {
@@ -344,6 +374,7 @@ export function AdminFooterEditor() {
 
   return (
     <div className="mx-auto max-w-4xl space-y-6 pb-8">
+      <AdminLocaleEditorBanner {...ADMIN_EDITOR_LOCALE.footer} />
       <header>
         <h1 className="text-2xl font-bold text-slate-900">Footer</h1>
         <p className="mt-1 text-sm text-slate-600">Branding, link columns, contact block, social icons, and bottom bar links.</p>

@@ -78,6 +78,8 @@ export type HomepagePayload = {
   whatsappSettings?: Record<string, unknown>
   pageSections?: { sections?: { id: string; name?: string; visible?: boolean; sortOrder?: number }[] }
   megaMenus?: Record<string, unknown>
+  countries?: Record<string, unknown>
+  blogSection?: Record<string, unknown>
   navigation?: {
     headerLinks?: CmsHeaderNavLink[]
     footerColumns?: Record<string, FooterNavLink[]>

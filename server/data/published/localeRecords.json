@@ -1,0 +1,5868 @@
+{
+  "schemaVersion": 1,
+  "records": [
+    {
+      "id": "loc_global_erp_en",
+      "contentType": "solution",
+      "globalIdentity": "erp",
+      "slug": "erp",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "translationGroupId": "grp_iUlEk_TFP7",
+      "sourceRecordId": null,
+      "inheritanceMode": "global",
+      "translationStatus": "published",
+      "publicationStatus": "published",
+      "enabled": true,
+      "publishedAt": "2026-08-21T12:45:55.484Z",
+      "updatedAt": "2026-08-22T07:28:45.949Z",
+      "sortOrder": 0,
+      "seo": {
+        "title": {
+          "en": "ERP Software",
+          "ar": "برنامج ERP"
+        },
+        "noIndex": false
+      },
+      "payload": {
+        "template": "cms-page",
+        "useBaseline": false,
+        "title": {
+          "en": "Enterprise-grade control across your value chain",
+          "ar": "تحكم على مستوى المؤسسات عبر سلسلة قيمتك"
+        },
+        "heading": {
+          "en": "Enterprise-grade control across your value chain",
+          "ar": "تحكم على مستوى المؤسسات عبر سلسلة قيمتك"
+        },
+        "shortDescription": {
+          "en": "Manage every department with one connected ERP system.",
+          "ar": "أدِر كل الأقسام بنظام ERP واحد متصل."
+        },
+        "sections": [
+          {
+            "id": "erp-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {
+              "eyebrow": {
+                "en": "All-in-One ERP Modules",
+                "ar": "وحدات ERP شاملة"
+              },
+              "title": {
+                "en": "Enterprise-grade control across your value chain",
+                "ar": "تحكم على مستوى المؤسسات عبر سلسلة قيمتك"
+              },
+              "description": {
+                "en": "Manage every department with one connected ERP system.",
+                "ar": "أدِر كل الأقسام بنظام ERP واحد متصل."
+              },
+              "primaryCta": {
+                "label": {
+                  "en": "Get a Demo",
+                  "ar": "احجز عرضًا"
+                },
+                "href": "/contact"
+              },
+              "secondaryCta": {
+                "label": {
+                  "en": "Explore Modules",
+                  "ar": "استكشف الوحدات"
+                },
+                "href": "#modules"
+              }
+            }
+          },
+          {
+            "id": "erp-modules",
+            "type": "modules",
+            "visible": true,
+            "order": 1,
+            "content": {
+              "eyebrow": {
+                "en": "ERP Modules",
+                "ar": ""
+              },
+              "title": {
+                "en": "ERP Module Ecosystem",
+                "ar": "منظومة وحدات ERP"
+              },
+              "subtitle": {
+                "en": "Accounts, inventory, POS, payroll, and reports — one connected ERP platform.",
+                "ar": "الحسابات والمخزون ونقطة البيع والرواتب والتقارير — منصة ERP واحدة متصلة."
+              }
+            }
+          },
+          {
+            "id": "erp-faqs",
+            "type": "faqs",
+            "visible": true,
+            "order": 2,
+            "content": {
+              "eyebrow": {
+                "en": "FAQ",
+                "ar": "الأسئلة الشائعة"
+              },
+              "title": {
+                "en": "ERP Questions",
+                "ar": ""
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "loc_global_erp_ar",
+      "contentType": "solution",
+      "globalIdentity": "erp",
+      "slug": "erp",
+      "countryCode": "AE",
+      "languageCode": "ar",
+      "translationGroupId": "grp_iUlEk_TFP7",
+      "sourceRecordId": "loc_global_erp_en",
+      "inheritanceMode": "inherit",
+      "translationStatus": "draft",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:45:55.484Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "useBaseline": true,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_6wFZBLGtBgRU",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": null,
+      "inheritanceMode": "global",
+      "translationStatus": "published",
+      "publicationStatus": "published",
+      "enabled": true,
+      "publishedAt": "2026-08-21T12:45:55.484Z",
+      "updatedAt": "2026-08-21T12:45:55.486Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "contact",
+          "ar": ""
+        }
+      }
+    },
+    {
+      "id": "loc_zr1muhz2KDp6",
+      "contentType": "pageSection",
+      "globalIdentity": "hero",
+      "slug": "hero",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "translationGroupId": "grp_LR_d4GH3MD",
+      "sourceRecordId": null,
+      "inheritanceMode": "global",
+      "translationStatus": "published",
+      "publicationStatus": "published",
+      "enabled": true,
+      "publishedAt": "2026-08-21T12:45:55.484Z",
+      "updatedAt": "2026-08-21T12:45:55.490Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": true,
+        "sourceFile": "hero.json",
+        "fields": {}
+      },
+      "baselineRef": "hero.json"
+    },
+    {
+      "id": "loc_Cmdj7Vn4yFYC",
+      "contentType": "pageSection",
+      "globalIdentity": "stats",
+      "slug": "stats",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "translationGroupId": "grp_jZCFQjMJ3Q",
+      "sourceRecordId": null,
+      "inheritanceMode": "global",
+      "translationStatus": "published",
+      "publicationStatus": "published",
+      "enabled": true,
+      "publishedAt": "2026-08-21T12:45:55.484Z",
+      "updatedAt": "2026-08-21T12:45:55.491Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": true,
+        "sourceFile": "stats.json",
+        "fields": {}
+      },
+      "baselineRef": "stats.json"
+    },
+    {
+      "id": "loc_X9fKi9bKnDsI",
+      "contentType": "pageSection",
+      "globalIdentity": "about",
+      "slug": "about",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "translationGroupId": "grp_K9HEIcRPep",
+      "sourceRecordId": null,
+      "inheritanceMode": "global",
+      "translationStatus": "published",
+      "publicationStatus": "published",
+      "enabled": true,
+      "publishedAt": "2026-08-21T12:45:55.484Z",
+      "updatedAt": "2026-08-21T12:45:55.494Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": true,
+        "sourceFile": "about.json",
+        "fields": {}
+      },
+      "baselineRef": "about.json"
+    },
+    {
+      "id": "loc_T5hkYMDabyrB",
+      "contentType": "pageSection",
+      "globalIdentity": "valueChain",
+      "slug": "valueChain",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "translationGroupId": "grp_z6RmhSxS_q",
+      "sourceRecordId": null,
+      "inheritanceMode": "global",
+      "translationStatus": "published",
+      "publicationStatus": "published",
+      "enabled": true,
+      "publishedAt": "2026-08-21T12:45:55.484Z",
+      "updatedAt": "2026-08-21T12:45:55.497Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": true,
+        "sourceFile": "valueChain.json",
+        "fields": {}
+      },
+      "baselineRef": "valueChain.json"
+    },
+    {
+      "id": "loc_6-A0Jc_OxDAV",
+      "contentType": "pageSection",
+      "globalIdentity": "modules",
+      "slug": "modules",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "translationGroupId": "grp_mKEVNHD9x5",
+      "sourceRecordId": null,
+      "inheritanceMode": "global",
+      "translationStatus": "published",
+      "publicationStatus": "published",
+      "enabled": true,
+      "publishedAt": "2026-08-21T12:45:55.484Z",
+      "updatedAt": "2026-08-21T12:45:55.498Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": true,
+        "sourceFile": "modules.json",
+        "fields": {}
+      },
+      "baselineRef": "modules.json"
+    },
+    {
+      "id": "loc_iEzvEJ0liBKW",
+      "contentType": "pageSection",
+      "globalIdentity": "industries",
+      "slug": "industries",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "translationGroupId": "grp_FR2yVV3NEi",
+      "sourceRecordId": null,
+      "inheritanceMode": "global",
+      "translationStatus": "published",
+      "publicationStatus": "published",
+      "enabled": true,
+      "publishedAt": "2026-08-21T12:45:55.484Z",
+      "updatedAt": "2026-08-21T12:45:55.499Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": true,
+        "sourceFile": "industries.json",
+        "fields": {}
+      },
+      "baselineRef": "industries.json"
+    },
+    {
+      "id": "loc_vVhpe_iA2MUg",
+      "contentType": "pageSection",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "translationGroupId": "grp_pugA2fwQGR",
+      "sourceRecordId": null,
+      "inheritanceMode": "global",
+      "translationStatus": "published",
+      "publicationStatus": "published",
+      "enabled": true,
+      "publishedAt": "2026-08-21T12:45:55.484Z",
+      "updatedAt": "2026-08-21T12:45:55.500Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": true,
+        "sourceFile": "faqs.json",
+        "fields": {}
+      },
+      "baselineRef": "faqs.json"
+    },
+    {
+      "id": "loc_2VJKdS0_eOzX",
+      "contentType": "navigation",
+      "globalIdentity": "header",
+      "slug": "header",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "translationGroupId": "grp_Vq10LgnHIu",
+      "sourceRecordId": null,
+      "inheritanceMode": "global",
+      "translationStatus": "published",
+      "publicationStatus": "published",
+      "enabled": true,
+      "publishedAt": "2026-08-21T12:45:55.484Z",
+      "updatedAt": "2026-08-21T12:45:55.500Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": true,
+        "sourceFile": "header.json"
+      }
+    },
+    {
+      "id": "loc_Gvh77irrDflz",
+      "contentType": "footer",
+      "globalIdentity": "footer",
+      "slug": "footer",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "translationGroupId": "grp_fmriqPSQZq",
+      "sourceRecordId": null,
+      "inheritanceMode": "global",
+      "translationStatus": "published",
+      "publicationStatus": "published",
+      "enabled": true,
+      "publishedAt": "2026-08-21T12:45:55.484Z",
+      "updatedAt": "2026-08-21T12:45:55.500Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": true,
+        "sourceFile": "footer.json"
+      }
+    },
+    {
+      "id": "loc_8dR5G4I1NcTk",
+      "contentType": "seo",
+      "globalIdentity": "site",
+      "slug": "seo",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "translationGroupId": "grp_f-OyQvZtNC",
+      "sourceRecordId": null,
+      "inheritanceMode": "global",
+      "translationStatus": "published",
+      "publicationStatus": "published",
+      "enabled": true,
+      "publishedAt": "2026-08-21T12:45:55.484Z",
+      "updatedAt": "2026-08-21T12:45:55.500Z",
+      "sortOrder": 0,
+      "seo": {
+        "pageTitle": {
+          "en": "DigitalManager — Cloud ERP Platform",
+          "ar": "ديجيتال مانجر — منصة ERP سحابية"
+        },
+        "metaDescription": {
+          "en": "Digital Manager — modern cloud ERP for accounts, inventory, POS, payroll, and operations.",
+          "ar": "ديجيتال مانجر — ERP سحابي حديث للحسابات والمخزون ونقاط البيع والرواتب والعمليات."
+        },
+        "metaKeywords": {
+          "en": "ERP, cloud ERP, inventory, POS, payroll, UAE, DigitalManager",
+          "ar": "ERP, مخزون, نقطة بيع, رواتب, الإمارات, ديجيتال مانجر"
+        },
+        "ogImage": "/digitalmanager-favicon.png",
+        "canonicalUrl": "",
+        "ogTitle": {
+          "en": "",
+          "ar": ""
+        },
+        "ogDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "twitterTitle": {
+          "en": "",
+          "ar": ""
+        },
+        "twitterDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "twitterImage": "",
+        "robotsIndex": "index",
+        "robotsFollow": "follow",
+        "_meta": {
+          "createdAt": "2026-01-01T00:00:00.000Z",
+          "updatedAt": "2026-01-01T00:00:00.000Z",
+          "updatedBy": ""
+        }
+      },
+      "payload": {
+        "useBaseline": true,
+        "sourceFile": "seo.json"
+      }
+    },
+    {
+      "id": "loc_1oyK4l2Lp7C-",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "QA",
+      "languageCode": "en",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": "loc_6wFZBLGtBgRU",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.171Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "contact-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "contact-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_yKN7FjfBqdip",
+      "contentType": "pageSection",
+      "globalIdentity": "hero",
+      "slug": "hero",
+      "countryCode": "QA",
+      "languageCode": "en",
+      "translationGroupId": "grp_LR_d4GH3MD",
+      "sourceRecordId": "loc_zr1muhz2KDp6",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.171Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_FCodtvCCxQbG",
+      "contentType": "pageSection",
+      "globalIdentity": "stats",
+      "slug": "stats",
+      "countryCode": "QA",
+      "languageCode": "en",
+      "translationGroupId": "grp_jZCFQjMJ3Q",
+      "sourceRecordId": "loc_Cmdj7Vn4yFYC",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.172Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_2EwMCLAj3FHw",
+      "contentType": "pageSection",
+      "globalIdentity": "about",
+      "slug": "about",
+      "countryCode": "QA",
+      "languageCode": "en",
+      "translationGroupId": "grp_K9HEIcRPep",
+      "sourceRecordId": "loc_X9fKi9bKnDsI",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.172Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_RDhPFApbVl_x",
+      "contentType": "pageSection",
+      "globalIdentity": "valueChain",
+      "slug": "valueChain",
+      "countryCode": "QA",
+      "languageCode": "en",
+      "translationGroupId": "grp_z6RmhSxS_q",
+      "sourceRecordId": "loc_T5hkYMDabyrB",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.172Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_SM1Gzwjm82A1",
+      "contentType": "pageSection",
+      "globalIdentity": "modules",
+      "slug": "modules",
+      "countryCode": "QA",
+      "languageCode": "en",
+      "translationGroupId": "grp_mKEVNHD9x5",
+      "sourceRecordId": "loc_6-A0Jc_OxDAV",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.172Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_fvku-bClhSDC",
+      "contentType": "pageSection",
+      "globalIdentity": "industries",
+      "slug": "industries",
+      "countryCode": "QA",
+      "languageCode": "en",
+      "translationGroupId": "grp_FR2yVV3NEi",
+      "sourceRecordId": "loc_iEzvEJ0liBKW",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.172Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_khfK-iJQDcuI",
+      "contentType": "pageSection",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "QA",
+      "languageCode": "en",
+      "translationGroupId": "grp_pugA2fwQGR",
+      "sourceRecordId": "loc_vVhpe_iA2MUg",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.172Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_4ue75m-Rdj8Q",
+      "contentType": "footer",
+      "globalIdentity": "footer",
+      "slug": "footer",
+      "countryCode": "QA",
+      "languageCode": "en",
+      "translationGroupId": "grp_fmriqPSQZq",
+      "sourceRecordId": "loc_Gvh77irrDflz",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.172Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_i0HNZyvwD1hK",
+      "contentType": "seo",
+      "globalIdentity": "site",
+      "slug": "seo",
+      "countryCode": "QA",
+      "languageCode": "en",
+      "translationGroupId": "grp_f-OyQvZtNC",
+      "sourceRecordId": "loc_8dR5G4I1NcTk",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.172Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_cJPkhHjMkZTT",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "QA",
+      "languageCode": "en",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": "loc_6wFZBLGtBgRU",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.172Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_VcRKgkJmG3VJ",
+      "contentType": "solution",
+      "globalIdentity": "erp",
+      "slug": "erp",
+      "countryCode": "QA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_iUlEk_TFP7",
+      "sourceRecordId": "loc_global_erp_en",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.172Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "erp-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "erp-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_eDGqODnTSppf",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "QA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": "loc_6wFZBLGtBgRU",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.173Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "contact-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "contact-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_AdpNPlINpy2d",
+      "contentType": "pageSection",
+      "globalIdentity": "hero",
+      "slug": "hero",
+      "countryCode": "QA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_LR_d4GH3MD",
+      "sourceRecordId": "loc_zr1muhz2KDp6",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.173Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_Jlz-fMkQ-NLG",
+      "contentType": "pageSection",
+      "globalIdentity": "stats",
+      "slug": "stats",
+      "countryCode": "QA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_jZCFQjMJ3Q",
+      "sourceRecordId": "loc_Cmdj7Vn4yFYC",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.173Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_aMpWFPvSKCgV",
+      "contentType": "pageSection",
+      "globalIdentity": "about",
+      "slug": "about",
+      "countryCode": "QA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_K9HEIcRPep",
+      "sourceRecordId": "loc_X9fKi9bKnDsI",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.173Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_lqBGJUoO8J7S",
+      "contentType": "pageSection",
+      "globalIdentity": "valueChain",
+      "slug": "valueChain",
+      "countryCode": "QA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_z6RmhSxS_q",
+      "sourceRecordId": "loc_T5hkYMDabyrB",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.173Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_OYC_g-S9tGDv",
+      "contentType": "pageSection",
+      "globalIdentity": "modules",
+      "slug": "modules",
+      "countryCode": "QA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_mKEVNHD9x5",
+      "sourceRecordId": "loc_6-A0Jc_OxDAV",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.173Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_Niay8e_zUu-0",
+      "contentType": "pageSection",
+      "globalIdentity": "industries",
+      "slug": "industries",
+      "countryCode": "QA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_FR2yVV3NEi",
+      "sourceRecordId": "loc_iEzvEJ0liBKW",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.173Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_Akadv2MIBjs8",
+      "contentType": "pageSection",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "QA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_pugA2fwQGR",
+      "sourceRecordId": "loc_vVhpe_iA2MUg",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.173Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_sC361HhV-X9M",
+      "contentType": "footer",
+      "globalIdentity": "footer",
+      "slug": "footer",
+      "countryCode": "QA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_fmriqPSQZq",
+      "sourceRecordId": "loc_Gvh77irrDflz",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.173Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_8GC8s3UsfkMj",
+      "contentType": "seo",
+      "globalIdentity": "site",
+      "slug": "seo",
+      "countryCode": "QA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_f-OyQvZtNC",
+      "sourceRecordId": "loc_8dR5G4I1NcTk",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.173Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_m1GLdVroi15D",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "QA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": "loc_6wFZBLGtBgRU",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-21T12:55:30.173Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_FQH3v6ihp8Ms",
+      "contentType": "industry",
+      "globalIdentity": "industries-list",
+      "slug": "industries",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "translationGroupId": "grp_jBz2HrP6ed",
+      "sourceRecordId": null,
+      "inheritanceMode": "global",
+      "translationStatus": "published",
+      "publicationStatus": "published",
+      "enabled": true,
+      "publishedAt": "2026-08-22T05:42:19.919Z",
+      "updatedAt": "2026-08-22T05:42:19.920Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "useBaseline": true,
+        "sourceFile": "industries.json",
+        "fields": {}
+      },
+      "baselineRef": "industries.json"
+    },
+    {
+      "id": "loc_NfzxpGU0Nu0B",
+      "contentType": "solution",
+      "globalIdentity": "solutions-list",
+      "slug": "solutions",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "translationGroupId": "grp_rDA-FXDQHG",
+      "sourceRecordId": null,
+      "inheritanceMode": "global",
+      "translationStatus": "published",
+      "publicationStatus": "published",
+      "enabled": true,
+      "publishedAt": "2026-08-22T05:42:19.919Z",
+      "updatedAt": "2026-08-22T05:42:19.920Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "solutions",
+          "ar": ""
+        }
+      }
+    },
+    {
+      "id": "loc_6y0AK1HiHz_9",
+      "contentType": "businessModel",
+      "globalIdentity": "business-models-list",
+      "slug": "business-models",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "translationGroupId": "grp_5qCiYm-8wH",
+      "sourceRecordId": null,
+      "inheritanceMode": "global",
+      "translationStatus": "published",
+      "publicationStatus": "published",
+      "enabled": true,
+      "publishedAt": "2026-08-22T05:42:19.919Z",
+      "updatedAt": "2026-08-22T05:42:19.920Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "business-models",
+          "ar": ""
+        }
+      }
+    },
+    {
+      "id": "loc_MNpsJLdQGvHK",
+      "contentType": "faq",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "translationGroupId": "grp_mmkqOloPSX",
+      "sourceRecordId": null,
+      "inheritanceMode": "global",
+      "translationStatus": "published",
+      "publicationStatus": "published",
+      "enabled": true,
+      "publishedAt": "2026-08-22T05:42:19.919Z",
+      "updatedAt": "2026-08-22T05:42:19.920Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "useBaseline": true,
+        "sourceFile": "faqs.json",
+        "fields": {}
+      },
+      "baselineRef": "faqs.json"
+    },
+    {
+      "id": "loc_2JuAlzlGH7eA",
+      "contentType": "testimonial",
+      "globalIdentity": "testimonials",
+      "slug": "testimonials",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "translationGroupId": "grp_auRSFymZ8t",
+      "sourceRecordId": null,
+      "inheritanceMode": "global",
+      "translationStatus": "published",
+      "publicationStatus": "published",
+      "enabled": true,
+      "publishedAt": "2026-08-22T05:42:19.919Z",
+      "updatedAt": "2026-08-22T05:42:19.920Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "testimonials",
+          "ar": ""
+        }
+      }
+    },
+    {
+      "id": "loc_tPzKw3pU16LH",
+      "contentType": "solution",
+      "globalIdentity": "erp",
+      "slug": "erp",
+      "countryCode": "KW",
+      "languageCode": "en",
+      "translationGroupId": "grp_iUlEk_TFP7",
+      "sourceRecordId": "loc_global_erp_en",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.518Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "erp-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "erp-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_F0EdnLwNlFAw",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "KW",
+      "languageCode": "en",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": "loc_6wFZBLGtBgRU",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.518Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "contact-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "contact-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_aO3Y0i4Drp0G",
+      "contentType": "industry",
+      "globalIdentity": "industries-list",
+      "slug": "industries",
+      "countryCode": "KW",
+      "languageCode": "en",
+      "translationGroupId": "grp_jBz2HrP6ed",
+      "sourceRecordId": "loc_FQH3v6ihp8Ms",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.518Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "industries-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "industries-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_pgsh2qWJ_Kgk",
+      "contentType": "solution",
+      "globalIdentity": "solutions-list",
+      "slug": "solutions",
+      "countryCode": "KW",
+      "languageCode": "en",
+      "translationGroupId": "grp_rDA-FXDQHG",
+      "sourceRecordId": "loc_NfzxpGU0Nu0B",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.518Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "solutions-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "solutions-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_onoplMsRAWlQ",
+      "contentType": "businessModel",
+      "globalIdentity": "business-models-list",
+      "slug": "business-models",
+      "countryCode": "KW",
+      "languageCode": "en",
+      "translationGroupId": "grp_5qCiYm-8wH",
+      "sourceRecordId": "loc_6y0AK1HiHz_9",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.518Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "business-models-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "business-models-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_Tljcrw3b8VZ9",
+      "contentType": "faq",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "KW",
+      "languageCode": "en",
+      "translationGroupId": "grp_mmkqOloPSX",
+      "sourceRecordId": "loc_MNpsJLdQGvHK",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "faqs-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "faqs-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_j-56xyvNdE55",
+      "contentType": "testimonial",
+      "globalIdentity": "testimonials",
+      "slug": "testimonials",
+      "countryCode": "KW",
+      "languageCode": "en",
+      "translationGroupId": "grp_auRSFymZ8t",
+      "sourceRecordId": "loc_2JuAlzlGH7eA",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "testimonials-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "testimonials-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_XCoQonGieVMx",
+      "contentType": "pageSection",
+      "globalIdentity": "hero",
+      "slug": "hero",
+      "countryCode": "KW",
+      "languageCode": "en",
+      "translationGroupId": "grp_LR_d4GH3MD",
+      "sourceRecordId": "loc_zr1muhz2KDp6",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_6VceB9hEJXM_",
+      "contentType": "pageSection",
+      "globalIdentity": "stats",
+      "slug": "stats",
+      "countryCode": "KW",
+      "languageCode": "en",
+      "translationGroupId": "grp_jZCFQjMJ3Q",
+      "sourceRecordId": "loc_Cmdj7Vn4yFYC",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_xvMpglksinib",
+      "contentType": "pageSection",
+      "globalIdentity": "about",
+      "slug": "about",
+      "countryCode": "KW",
+      "languageCode": "en",
+      "translationGroupId": "grp_K9HEIcRPep",
+      "sourceRecordId": "loc_X9fKi9bKnDsI",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_iCkggmbon5-X",
+      "contentType": "pageSection",
+      "globalIdentity": "valueChain",
+      "slug": "valueChain",
+      "countryCode": "KW",
+      "languageCode": "en",
+      "translationGroupId": "grp_z6RmhSxS_q",
+      "sourceRecordId": "loc_T5hkYMDabyrB",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc__mQdMI4hmyXS",
+      "contentType": "pageSection",
+      "globalIdentity": "modules",
+      "slug": "modules",
+      "countryCode": "KW",
+      "languageCode": "en",
+      "translationGroupId": "grp_mKEVNHD9x5",
+      "sourceRecordId": "loc_6-A0Jc_OxDAV",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_sKMjc2Loq9et",
+      "contentType": "pageSection",
+      "globalIdentity": "industries",
+      "slug": "industries",
+      "countryCode": "KW",
+      "languageCode": "en",
+      "translationGroupId": "grp_FR2yVV3NEi",
+      "sourceRecordId": "loc_iEzvEJ0liBKW",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_CQJCGmI_qNBA",
+      "contentType": "pageSection",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "KW",
+      "languageCode": "en",
+      "translationGroupId": "grp_pugA2fwQGR",
+      "sourceRecordId": "loc_vVhpe_iA2MUg",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_zQNTXs9i7OjK",
+      "contentType": "footer",
+      "globalIdentity": "footer",
+      "slug": "footer",
+      "countryCode": "KW",
+      "languageCode": "en",
+      "translationGroupId": "grp_fmriqPSQZq",
+      "sourceRecordId": "loc_Gvh77irrDflz",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_DtCzb091YNcX",
+      "contentType": "seo",
+      "globalIdentity": "site",
+      "slug": "seo",
+      "countryCode": "KW",
+      "languageCode": "en",
+      "translationGroupId": "grp_f-OyQvZtNC",
+      "sourceRecordId": "loc_8dR5G4I1NcTk",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_h_KhxOfJK7qH",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "KW",
+      "languageCode": "en",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": "loc_6wFZBLGtBgRU",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_tbuhTUw8_8dv",
+      "contentType": "solution",
+      "globalIdentity": "erp",
+      "slug": "erp",
+      "countryCode": "KW",
+      "languageCode": "ar",
+      "translationGroupId": "grp_iUlEk_TFP7",
+      "sourceRecordId": "loc_global_erp_en",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "erp-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "erp-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_qYb4SzeRJvUd",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "KW",
+      "languageCode": "ar",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": "loc_6wFZBLGtBgRU",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "contact-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "contact-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_qmgIpvMQEgQS",
+      "contentType": "industry",
+      "globalIdentity": "industries-list",
+      "slug": "industries",
+      "countryCode": "KW",
+      "languageCode": "ar",
+      "translationGroupId": "grp_jBz2HrP6ed",
+      "sourceRecordId": "loc_FQH3v6ihp8Ms",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "industries-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "industries-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_orrM0XoB3ujJ",
+      "contentType": "solution",
+      "globalIdentity": "solutions-list",
+      "slug": "solutions",
+      "countryCode": "KW",
+      "languageCode": "ar",
+      "translationGroupId": "grp_rDA-FXDQHG",
+      "sourceRecordId": "loc_NfzxpGU0Nu0B",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "solutions-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "solutions-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_XK-4FCG7KyTQ",
+      "contentType": "businessModel",
+      "globalIdentity": "business-models-list",
+      "slug": "business-models",
+      "countryCode": "KW",
+      "languageCode": "ar",
+      "translationGroupId": "grp_5qCiYm-8wH",
+      "sourceRecordId": "loc_6y0AK1HiHz_9",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "business-models-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "business-models-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_2KFoU_uf999P",
+      "contentType": "faq",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "KW",
+      "languageCode": "ar",
+      "translationGroupId": "grp_mmkqOloPSX",
+      "sourceRecordId": "loc_MNpsJLdQGvHK",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "faqs-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "faqs-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_ehVCJNeyLv6q",
+      "contentType": "testimonial",
+      "globalIdentity": "testimonials",
+      "slug": "testimonials",
+      "countryCode": "KW",
+      "languageCode": "ar",
+      "translationGroupId": "grp_auRSFymZ8t",
+      "sourceRecordId": "loc_2JuAlzlGH7eA",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "testimonials-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "testimonials-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_2sIDc0T0K3Kg",
+      "contentType": "pageSection",
+      "globalIdentity": "hero",
+      "slug": "hero",
+      "countryCode": "KW",
+      "languageCode": "ar",
+      "translationGroupId": "grp_LR_d4GH3MD",
+      "sourceRecordId": "loc_zr1muhz2KDp6",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_rCRZ_iBdXivb",
+      "contentType": "pageSection",
+      "globalIdentity": "stats",
+      "slug": "stats",
+      "countryCode": "KW",
+      "languageCode": "ar",
+      "translationGroupId": "grp_jZCFQjMJ3Q",
+      "sourceRecordId": "loc_Cmdj7Vn4yFYC",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_qL6gm9Kfpx08",
+      "contentType": "pageSection",
+      "globalIdentity": "about",
+      "slug": "about",
+      "countryCode": "KW",
+      "languageCode": "ar",
+      "translationGroupId": "grp_K9HEIcRPep",
+      "sourceRecordId": "loc_X9fKi9bKnDsI",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_ahpuDuMnGwMd",
+      "contentType": "pageSection",
+      "globalIdentity": "valueChain",
+      "slug": "valueChain",
+      "countryCode": "KW",
+      "languageCode": "ar",
+      "translationGroupId": "grp_z6RmhSxS_q",
+      "sourceRecordId": "loc_T5hkYMDabyrB",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_TbPwY1urIKMe",
+      "contentType": "pageSection",
+      "globalIdentity": "modules",
+      "slug": "modules",
+      "countryCode": "KW",
+      "languageCode": "ar",
+      "translationGroupId": "grp_mKEVNHD9x5",
+      "sourceRecordId": "loc_6-A0Jc_OxDAV",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_qgeUkUsoiBZx",
+      "contentType": "pageSection",
+      "globalIdentity": "industries",
+      "slug": "industries",
+      "countryCode": "KW",
+      "languageCode": "ar",
+      "translationGroupId": "grp_FR2yVV3NEi",
+      "sourceRecordId": "loc_iEzvEJ0liBKW",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_vCiwXUt-c4na",
+      "contentType": "pageSection",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "KW",
+      "languageCode": "ar",
+      "translationGroupId": "grp_pugA2fwQGR",
+      "sourceRecordId": "loc_vVhpe_iA2MUg",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc__hrqUKGqJjG0",
+      "contentType": "footer",
+      "globalIdentity": "footer",
+      "slug": "footer",
+      "countryCode": "KW",
+      "languageCode": "ar",
+      "translationGroupId": "grp_fmriqPSQZq",
+      "sourceRecordId": "loc_Gvh77irrDflz",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_WfBtthXv8MzW",
+      "contentType": "seo",
+      "globalIdentity": "site",
+      "slug": "seo",
+      "countryCode": "KW",
+      "languageCode": "ar",
+      "translationGroupId": "grp_f-OyQvZtNC",
+      "sourceRecordId": "loc_8dR5G4I1NcTk",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_kFF4hzWS1zQw",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "KW",
+      "languageCode": "ar",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": "loc_6wFZBLGtBgRU",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.519Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_5A7UXX333wdc",
+      "contentType": "solution",
+      "globalIdentity": "erp",
+      "slug": "erp",
+      "countryCode": "OM",
+      "languageCode": "en",
+      "translationGroupId": "grp_iUlEk_TFP7",
+      "sourceRecordId": "loc_global_erp_en",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "erp-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "erp-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_l7YaPyvLDmKQ",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "OM",
+      "languageCode": "en",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": "loc_6wFZBLGtBgRU",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "contact-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "contact-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_pDA46OkIVJ80",
+      "contentType": "industry",
+      "globalIdentity": "industries-list",
+      "slug": "industries",
+      "countryCode": "OM",
+      "languageCode": "en",
+      "translationGroupId": "grp_jBz2HrP6ed",
+      "sourceRecordId": "loc_FQH3v6ihp8Ms",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "industries-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "industries-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_xx91R-f_lpOR",
+      "contentType": "solution",
+      "globalIdentity": "solutions-list",
+      "slug": "solutions",
+      "countryCode": "OM",
+      "languageCode": "en",
+      "translationGroupId": "grp_rDA-FXDQHG",
+      "sourceRecordId": "loc_NfzxpGU0Nu0B",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "solutions-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "solutions-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_tQoNP5DnpD_A",
+      "contentType": "businessModel",
+      "globalIdentity": "business-models-list",
+      "slug": "business-models",
+      "countryCode": "OM",
+      "languageCode": "en",
+      "translationGroupId": "grp_5qCiYm-8wH",
+      "sourceRecordId": "loc_6y0AK1HiHz_9",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "business-models-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "business-models-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_ByBXy1ZPmiPo",
+      "contentType": "faq",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "OM",
+      "languageCode": "en",
+      "translationGroupId": "grp_mmkqOloPSX",
+      "sourceRecordId": "loc_MNpsJLdQGvHK",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "faqs-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "faqs-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_PNhOo6XQxT3w",
+      "contentType": "testimonial",
+      "globalIdentity": "testimonials",
+      "slug": "testimonials",
+      "countryCode": "OM",
+      "languageCode": "en",
+      "translationGroupId": "grp_auRSFymZ8t",
+      "sourceRecordId": "loc_2JuAlzlGH7eA",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "testimonials-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "testimonials-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_JZfHY7-6C9cl",
+      "contentType": "pageSection",
+      "globalIdentity": "hero",
+      "slug": "hero",
+      "countryCode": "OM",
+      "languageCode": "en",
+      "translationGroupId": "grp_LR_d4GH3MD",
+      "sourceRecordId": "loc_zr1muhz2KDp6",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_BNFJBG5F90mK",
+      "contentType": "pageSection",
+      "globalIdentity": "stats",
+      "slug": "stats",
+      "countryCode": "OM",
+      "languageCode": "en",
+      "translationGroupId": "grp_jZCFQjMJ3Q",
+      "sourceRecordId": "loc_Cmdj7Vn4yFYC",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_Tk1-7B2tq6p9",
+      "contentType": "pageSection",
+      "globalIdentity": "about",
+      "slug": "about",
+      "countryCode": "OM",
+      "languageCode": "en",
+      "translationGroupId": "grp_K9HEIcRPep",
+      "sourceRecordId": "loc_X9fKi9bKnDsI",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_5pj5HDgkL27M",
+      "contentType": "pageSection",
+      "globalIdentity": "valueChain",
+      "slug": "valueChain",
+      "countryCode": "OM",
+      "languageCode": "en",
+      "translationGroupId": "grp_z6RmhSxS_q",
+      "sourceRecordId": "loc_T5hkYMDabyrB",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc__ewiaM-VaH8x",
+      "contentType": "pageSection",
+      "globalIdentity": "modules",
+      "slug": "modules",
+      "countryCode": "OM",
+      "languageCode": "en",
+      "translationGroupId": "grp_mKEVNHD9x5",
+      "sourceRecordId": "loc_6-A0Jc_OxDAV",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_vD2UC74r4iPw",
+      "contentType": "pageSection",
+      "globalIdentity": "industries",
+      "slug": "industries",
+      "countryCode": "OM",
+      "languageCode": "en",
+      "translationGroupId": "grp_FR2yVV3NEi",
+      "sourceRecordId": "loc_iEzvEJ0liBKW",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_D5KeW2TEkC2e",
+      "contentType": "pageSection",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "OM",
+      "languageCode": "en",
+      "translationGroupId": "grp_pugA2fwQGR",
+      "sourceRecordId": "loc_vVhpe_iA2MUg",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_YT766iZvObK-",
+      "contentType": "footer",
+      "globalIdentity": "footer",
+      "slug": "footer",
+      "countryCode": "OM",
+      "languageCode": "en",
+      "translationGroupId": "grp_fmriqPSQZq",
+      "sourceRecordId": "loc_Gvh77irrDflz",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_d3F6fYu5BEa9",
+      "contentType": "seo",
+      "globalIdentity": "site",
+      "slug": "seo",
+      "countryCode": "OM",
+      "languageCode": "en",
+      "translationGroupId": "grp_f-OyQvZtNC",
+      "sourceRecordId": "loc_8dR5G4I1NcTk",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_z1inpn0iwH_E",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "OM",
+      "languageCode": "en",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": "loc_6wFZBLGtBgRU",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_MNlBfCdfplk5",
+      "contentType": "solution",
+      "globalIdentity": "erp",
+      "slug": "erp",
+      "countryCode": "OM",
+      "languageCode": "ar",
+      "translationGroupId": "grp_iUlEk_TFP7",
+      "sourceRecordId": "loc_global_erp_en",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "erp-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "erp-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_jN5gm_4J5LWG",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "OM",
+      "languageCode": "ar",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": "loc_6wFZBLGtBgRU",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "contact-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "contact-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_QQNZOuNrr6Ce",
+      "contentType": "industry",
+      "globalIdentity": "industries-list",
+      "slug": "industries",
+      "countryCode": "OM",
+      "languageCode": "ar",
+      "translationGroupId": "grp_jBz2HrP6ed",
+      "sourceRecordId": "loc_FQH3v6ihp8Ms",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "industries-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "industries-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_qByfy9PAF_pr",
+      "contentType": "solution",
+      "globalIdentity": "solutions-list",
+      "slug": "solutions",
+      "countryCode": "OM",
+      "languageCode": "ar",
+      "translationGroupId": "grp_rDA-FXDQHG",
+      "sourceRecordId": "loc_NfzxpGU0Nu0B",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "solutions-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "solutions-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_wvjrcJypRCWH",
+      "contentType": "businessModel",
+      "globalIdentity": "business-models-list",
+      "slug": "business-models",
+      "countryCode": "OM",
+      "languageCode": "ar",
+      "translationGroupId": "grp_5qCiYm-8wH",
+      "sourceRecordId": "loc_6y0AK1HiHz_9",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.546Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "business-models-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "business-models-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_k-77Ras1AE11",
+      "contentType": "faq",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "OM",
+      "languageCode": "ar",
+      "translationGroupId": "grp_mmkqOloPSX",
+      "sourceRecordId": "loc_MNpsJLdQGvHK",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.547Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "faqs-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "faqs-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_ZsIkcYFF2FQY",
+      "contentType": "testimonial",
+      "globalIdentity": "testimonials",
+      "slug": "testimonials",
+      "countryCode": "OM",
+      "languageCode": "ar",
+      "translationGroupId": "grp_auRSFymZ8t",
+      "sourceRecordId": "loc_2JuAlzlGH7eA",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.547Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "testimonials-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "testimonials-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_Snf1s0C4MQiC",
+      "contentType": "pageSection",
+      "globalIdentity": "hero",
+      "slug": "hero",
+      "countryCode": "OM",
+      "languageCode": "ar",
+      "translationGroupId": "grp_LR_d4GH3MD",
+      "sourceRecordId": "loc_zr1muhz2KDp6",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.547Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_xAYpELFEShN4",
+      "contentType": "pageSection",
+      "globalIdentity": "stats",
+      "slug": "stats",
+      "countryCode": "OM",
+      "languageCode": "ar",
+      "translationGroupId": "grp_jZCFQjMJ3Q",
+      "sourceRecordId": "loc_Cmdj7Vn4yFYC",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.547Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_p50spmCO2bs1",
+      "contentType": "pageSection",
+      "globalIdentity": "about",
+      "slug": "about",
+      "countryCode": "OM",
+      "languageCode": "ar",
+      "translationGroupId": "grp_K9HEIcRPep",
+      "sourceRecordId": "loc_X9fKi9bKnDsI",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.547Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_HNcrRdAsb6Th",
+      "contentType": "pageSection",
+      "globalIdentity": "valueChain",
+      "slug": "valueChain",
+      "countryCode": "OM",
+      "languageCode": "ar",
+      "translationGroupId": "grp_z6RmhSxS_q",
+      "sourceRecordId": "loc_T5hkYMDabyrB",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.547Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_9vqVzxnKtxpT",
+      "contentType": "pageSection",
+      "globalIdentity": "modules",
+      "slug": "modules",
+      "countryCode": "OM",
+      "languageCode": "ar",
+      "translationGroupId": "grp_mKEVNHD9x5",
+      "sourceRecordId": "loc_6-A0Jc_OxDAV",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.547Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_PBg7YD7tuc21",
+      "contentType": "pageSection",
+      "globalIdentity": "industries",
+      "slug": "industries",
+      "countryCode": "OM",
+      "languageCode": "ar",
+      "translationGroupId": "grp_FR2yVV3NEi",
+      "sourceRecordId": "loc_iEzvEJ0liBKW",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.547Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_t8VUfqmJtofF",
+      "contentType": "pageSection",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "OM",
+      "languageCode": "ar",
+      "translationGroupId": "grp_pugA2fwQGR",
+      "sourceRecordId": "loc_vVhpe_iA2MUg",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.547Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_nvaWE5I9TrlJ",
+      "contentType": "footer",
+      "globalIdentity": "footer",
+      "slug": "footer",
+      "countryCode": "OM",
+      "languageCode": "ar",
+      "translationGroupId": "grp_fmriqPSQZq",
+      "sourceRecordId": "loc_Gvh77irrDflz",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.547Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_DEikCpJjmJWk",
+      "contentType": "seo",
+      "globalIdentity": "site",
+      "slug": "seo",
+      "countryCode": "OM",
+      "languageCode": "ar",
+      "translationGroupId": "grp_f-OyQvZtNC",
+      "sourceRecordId": "loc_8dR5G4I1NcTk",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.547Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_OC59z3Wmooff",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "OM",
+      "languageCode": "ar",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": "loc_6wFZBLGtBgRU",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:36:19.547Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_0oEYZxWIKsKB",
+      "contentType": "solution",
+      "globalIdentity": "erp",
+      "slug": "erp",
+      "countryCode": "SA",
+      "languageCode": "en",
+      "translationGroupId": "grp_iUlEk_TFP7",
+      "sourceRecordId": "loc_global_erp_en",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.201Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "erp-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "erp-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_HxYsxmYoY3MP",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "SA",
+      "languageCode": "en",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": "loc_6wFZBLGtBgRU",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.202Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "contact-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "contact-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_LM6EiD7ieUSO",
+      "contentType": "industry",
+      "globalIdentity": "industries-list",
+      "slug": "industries",
+      "countryCode": "SA",
+      "languageCode": "en",
+      "translationGroupId": "grp_jBz2HrP6ed",
+      "sourceRecordId": "loc_FQH3v6ihp8Ms",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.202Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "industries-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "industries-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_0IaRuPxQWnrW",
+      "contentType": "solution",
+      "globalIdentity": "solutions-list",
+      "slug": "solutions",
+      "countryCode": "SA",
+      "languageCode": "en",
+      "translationGroupId": "grp_rDA-FXDQHG",
+      "sourceRecordId": "loc_NfzxpGU0Nu0B",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.202Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "solutions-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "solutions-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_0P2_2_7CklLK",
+      "contentType": "businessModel",
+      "globalIdentity": "business-models-list",
+      "slug": "business-models",
+      "countryCode": "SA",
+      "languageCode": "en",
+      "translationGroupId": "grp_5qCiYm-8wH",
+      "sourceRecordId": "loc_6y0AK1HiHz_9",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.202Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "business-models-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "business-models-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_fNu7-IVMQJ0S",
+      "contentType": "faq",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "SA",
+      "languageCode": "en",
+      "translationGroupId": "grp_mmkqOloPSX",
+      "sourceRecordId": "loc_MNpsJLdQGvHK",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.202Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "faqs-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "faqs-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_DKVZEMFsIOT1",
+      "contentType": "testimonial",
+      "globalIdentity": "testimonials",
+      "slug": "testimonials",
+      "countryCode": "SA",
+      "languageCode": "en",
+      "translationGroupId": "grp_auRSFymZ8t",
+      "sourceRecordId": "loc_2JuAlzlGH7eA",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.202Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "testimonials-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "testimonials-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_777UEp698_b_",
+      "contentType": "pageSection",
+      "globalIdentity": "hero",
+      "slug": "hero",
+      "countryCode": "SA",
+      "languageCode": "en",
+      "translationGroupId": "grp_LR_d4GH3MD",
+      "sourceRecordId": "loc_zr1muhz2KDp6",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.202Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_qaLeFVIUKotH",
+      "contentType": "pageSection",
+      "globalIdentity": "stats",
+      "slug": "stats",
+      "countryCode": "SA",
+      "languageCode": "en",
+      "translationGroupId": "grp_jZCFQjMJ3Q",
+      "sourceRecordId": "loc_Cmdj7Vn4yFYC",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.202Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_sRJtwbZZ1jtG",
+      "contentType": "pageSection",
+      "globalIdentity": "about",
+      "slug": "about",
+      "countryCode": "SA",
+      "languageCode": "en",
+      "translationGroupId": "grp_K9HEIcRPep",
+      "sourceRecordId": "loc_X9fKi9bKnDsI",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.203Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_NHBufad3DoLo",
+      "contentType": "pageSection",
+      "globalIdentity": "valueChain",
+      "slug": "valueChain",
+      "countryCode": "SA",
+      "languageCode": "en",
+      "translationGroupId": "grp_z6RmhSxS_q",
+      "sourceRecordId": "loc_T5hkYMDabyrB",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.203Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_s5ZDe0tWWgR2",
+      "contentType": "pageSection",
+      "globalIdentity": "modules",
+      "slug": "modules",
+      "countryCode": "SA",
+      "languageCode": "en",
+      "translationGroupId": "grp_mKEVNHD9x5",
+      "sourceRecordId": "loc_6-A0Jc_OxDAV",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.203Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_VU03dMONR7K_",
+      "contentType": "pageSection",
+      "globalIdentity": "industries",
+      "slug": "industries",
+      "countryCode": "SA",
+      "languageCode": "en",
+      "translationGroupId": "grp_FR2yVV3NEi",
+      "sourceRecordId": "loc_iEzvEJ0liBKW",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.203Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_YMYLGxYvD-pP",
+      "contentType": "pageSection",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "SA",
+      "languageCode": "en",
+      "translationGroupId": "grp_pugA2fwQGR",
+      "sourceRecordId": "loc_vVhpe_iA2MUg",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.203Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_UFbz_6xnmooD",
+      "contentType": "footer",
+      "globalIdentity": "footer",
+      "slug": "footer",
+      "countryCode": "SA",
+      "languageCode": "en",
+      "translationGroupId": "grp_fmriqPSQZq",
+      "sourceRecordId": "loc_Gvh77irrDflz",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.203Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_DXCPNgehpQbX",
+      "contentType": "seo",
+      "globalIdentity": "site",
+      "slug": "seo",
+      "countryCode": "SA",
+      "languageCode": "en",
+      "translationGroupId": "grp_f-OyQvZtNC",
+      "sourceRecordId": "loc_8dR5G4I1NcTk",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.203Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_gmDtf2ztfynM",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "SA",
+      "languageCode": "en",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": "loc_6wFZBLGtBgRU",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.203Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_yu4s6PSTkzcA",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "SA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": "loc_6wFZBLGtBgRU",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.203Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "contact-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "contact-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_Drk5a84lWuCq",
+      "contentType": "industry",
+      "globalIdentity": "industries-list",
+      "slug": "industries",
+      "countryCode": "SA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_jBz2HrP6ed",
+      "sourceRecordId": "loc_FQH3v6ihp8Ms",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.203Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "industries-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "industries-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_c06fB7ofC48V",
+      "contentType": "solution",
+      "globalIdentity": "solutions-list",
+      "slug": "solutions",
+      "countryCode": "SA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_rDA-FXDQHG",
+      "sourceRecordId": "loc_NfzxpGU0Nu0B",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.203Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "solutions-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "solutions-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_ZGFqx8Nj_oNG",
+      "contentType": "businessModel",
+      "globalIdentity": "business-models-list",
+      "slug": "business-models",
+      "countryCode": "SA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_5qCiYm-8wH",
+      "sourceRecordId": "loc_6y0AK1HiHz_9",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.204Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "business-models-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "business-models-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_amIMqxBI938V",
+      "contentType": "faq",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "SA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_mmkqOloPSX",
+      "sourceRecordId": "loc_MNpsJLdQGvHK",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.204Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "faqs-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "faqs-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_ELVwFy2CoHvV",
+      "contentType": "testimonial",
+      "globalIdentity": "testimonials",
+      "slug": "testimonials",
+      "countryCode": "SA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_auRSFymZ8t",
+      "sourceRecordId": "loc_2JuAlzlGH7eA",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.204Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "testimonials-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "testimonials-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_Lj-dYFD5oU_5",
+      "contentType": "pageSection",
+      "globalIdentity": "hero",
+      "slug": "hero",
+      "countryCode": "SA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_LR_d4GH3MD",
+      "sourceRecordId": "loc_zr1muhz2KDp6",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.204Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_8FlQPzRqCpOB",
+      "contentType": "pageSection",
+      "globalIdentity": "stats",
+      "slug": "stats",
+      "countryCode": "SA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_jZCFQjMJ3Q",
+      "sourceRecordId": "loc_Cmdj7Vn4yFYC",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.204Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc__HNvQ_yIZzPe",
+      "contentType": "pageSection",
+      "globalIdentity": "about",
+      "slug": "about",
+      "countryCode": "SA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_K9HEIcRPep",
+      "sourceRecordId": "loc_X9fKi9bKnDsI",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.205Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_Nx5yrPaSxbLI",
+      "contentType": "pageSection",
+      "globalIdentity": "valueChain",
+      "slug": "valueChain",
+      "countryCode": "SA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_z6RmhSxS_q",
+      "sourceRecordId": "loc_T5hkYMDabyrB",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.205Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_wUMmDQL97us0",
+      "contentType": "pageSection",
+      "globalIdentity": "modules",
+      "slug": "modules",
+      "countryCode": "SA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_mKEVNHD9x5",
+      "sourceRecordId": "loc_6-A0Jc_OxDAV",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.205Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_p8GgO1L5BBPL",
+      "contentType": "pageSection",
+      "globalIdentity": "industries",
+      "slug": "industries",
+      "countryCode": "SA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_FR2yVV3NEi",
+      "sourceRecordId": "loc_iEzvEJ0liBKW",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.205Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_CH0lR3mMpIox",
+      "contentType": "pageSection",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "SA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_pugA2fwQGR",
+      "sourceRecordId": "loc_vVhpe_iA2MUg",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.205Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_Oo1ksHK_qeCs",
+      "contentType": "footer",
+      "globalIdentity": "footer",
+      "slug": "footer",
+      "countryCode": "SA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_fmriqPSQZq",
+      "sourceRecordId": "loc_Gvh77irrDflz",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.205Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_jMKrIzFWkUNs",
+      "contentType": "seo",
+      "globalIdentity": "site",
+      "slug": "seo",
+      "countryCode": "SA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_f-OyQvZtNC",
+      "sourceRecordId": "loc_8dR5G4I1NcTk",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.205Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_R58ZQFmuWGMk",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "SA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": "loc_6wFZBLGtBgRU",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.205Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_VJkMQTeMszOG",
+      "contentType": "solution",
+      "globalIdentity": "erp",
+      "slug": "erp",
+      "countryCode": "BH",
+      "languageCode": "en",
+      "translationGroupId": "grp_iUlEk_TFP7",
+      "sourceRecordId": "loc_global_erp_en",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.252Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "erp-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "erp-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_iNJRl-ue9lII",
+      "contentType": "industry",
+      "globalIdentity": "industries-list",
+      "slug": "industries",
+      "countryCode": "BH",
+      "languageCode": "en",
+      "translationGroupId": "grp_jBz2HrP6ed",
+      "sourceRecordId": "loc_FQH3v6ihp8Ms",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.252Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "industries-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "industries-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_KAucZ9FtILyo",
+      "contentType": "solution",
+      "globalIdentity": "solutions-list",
+      "slug": "solutions",
+      "countryCode": "BH",
+      "languageCode": "en",
+      "translationGroupId": "grp_rDA-FXDQHG",
+      "sourceRecordId": "loc_NfzxpGU0Nu0B",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.252Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "solutions-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "solutions-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_-qGEdL7gtlFV",
+      "contentType": "businessModel",
+      "globalIdentity": "business-models-list",
+      "slug": "business-models",
+      "countryCode": "BH",
+      "languageCode": "en",
+      "translationGroupId": "grp_5qCiYm-8wH",
+      "sourceRecordId": "loc_6y0AK1HiHz_9",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.252Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "business-models-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "business-models-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_yONw7RF8793m",
+      "contentType": "faq",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "BH",
+      "languageCode": "en",
+      "translationGroupId": "grp_mmkqOloPSX",
+      "sourceRecordId": "loc_MNpsJLdQGvHK",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.252Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "faqs-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "faqs-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_INze0P04eTym",
+      "contentType": "testimonial",
+      "globalIdentity": "testimonials",
+      "slug": "testimonials",
+      "countryCode": "BH",
+      "languageCode": "en",
+      "translationGroupId": "grp_auRSFymZ8t",
+      "sourceRecordId": "loc_2JuAlzlGH7eA",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.252Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "testimonials-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "testimonials-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_88K84euREEYO",
+      "contentType": "pageSection",
+      "globalIdentity": "hero",
+      "slug": "hero",
+      "countryCode": "BH",
+      "languageCode": "en",
+      "translationGroupId": "grp_LR_d4GH3MD",
+      "sourceRecordId": "loc_zr1muhz2KDp6",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.252Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_n8wkw_TMh4_f",
+      "contentType": "pageSection",
+      "globalIdentity": "stats",
+      "slug": "stats",
+      "countryCode": "BH",
+      "languageCode": "en",
+      "translationGroupId": "grp_jZCFQjMJ3Q",
+      "sourceRecordId": "loc_Cmdj7Vn4yFYC",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.253Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_IYqtj35X9EqG",
+      "contentType": "pageSection",
+      "globalIdentity": "about",
+      "slug": "about",
+      "countryCode": "BH",
+      "languageCode": "en",
+      "translationGroupId": "grp_K9HEIcRPep",
+      "sourceRecordId": "loc_X9fKi9bKnDsI",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.253Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_SYmk4GDqr7hn",
+      "contentType": "pageSection",
+      "globalIdentity": "valueChain",
+      "slug": "valueChain",
+      "countryCode": "BH",
+      "languageCode": "en",
+      "translationGroupId": "grp_z6RmhSxS_q",
+      "sourceRecordId": "loc_T5hkYMDabyrB",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.253Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_qTnIwQb8AuL2",
+      "contentType": "pageSection",
+      "globalIdentity": "modules",
+      "slug": "modules",
+      "countryCode": "BH",
+      "languageCode": "en",
+      "translationGroupId": "grp_mKEVNHD9x5",
+      "sourceRecordId": "loc_6-A0Jc_OxDAV",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.253Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_QkifvE5g736o",
+      "contentType": "pageSection",
+      "globalIdentity": "industries",
+      "slug": "industries",
+      "countryCode": "BH",
+      "languageCode": "en",
+      "translationGroupId": "grp_FR2yVV3NEi",
+      "sourceRecordId": "loc_iEzvEJ0liBKW",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.253Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_t8b7XGgt1VB0",
+      "contentType": "pageSection",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "BH",
+      "languageCode": "en",
+      "translationGroupId": "grp_pugA2fwQGR",
+      "sourceRecordId": "loc_vVhpe_iA2MUg",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.253Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_UszPcm16GKXD",
+      "contentType": "footer",
+      "globalIdentity": "footer",
+      "slug": "footer",
+      "countryCode": "BH",
+      "languageCode": "en",
+      "translationGroupId": "grp_fmriqPSQZq",
+      "sourceRecordId": "loc_Gvh77irrDflz",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.253Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_wQxrmJ5euWu0",
+      "contentType": "seo",
+      "globalIdentity": "site",
+      "slug": "seo",
+      "countryCode": "BH",
+      "languageCode": "en",
+      "translationGroupId": "grp_f-OyQvZtNC",
+      "sourceRecordId": "loc_8dR5G4I1NcTk",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.253Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_ovWn8BbHt4XX",
+      "contentType": "solution",
+      "globalIdentity": "erp",
+      "slug": "erp",
+      "countryCode": "BH",
+      "languageCode": "ar",
+      "translationGroupId": "grp_iUlEk_TFP7",
+      "sourceRecordId": "loc_global_erp_en",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.253Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "erp-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "erp-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_Q3Yh4C39VcKp",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "BH",
+      "languageCode": "ar",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": "loc_6wFZBLGtBgRU",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.253Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "contact-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "contact-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_ErSJh3bfCZhd",
+      "contentType": "industry",
+      "globalIdentity": "industries-list",
+      "slug": "industries",
+      "countryCode": "BH",
+      "languageCode": "ar",
+      "translationGroupId": "grp_jBz2HrP6ed",
+      "sourceRecordId": "loc_FQH3v6ihp8Ms",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.253Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "industries-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "industries-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_EYLzezHEn_O8",
+      "contentType": "solution",
+      "globalIdentity": "solutions-list",
+      "slug": "solutions",
+      "countryCode": "BH",
+      "languageCode": "ar",
+      "translationGroupId": "grp_rDA-FXDQHG",
+      "sourceRecordId": "loc_NfzxpGU0Nu0B",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.253Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "solutions-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "solutions-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_BTEENRNT6rCw",
+      "contentType": "businessModel",
+      "globalIdentity": "business-models-list",
+      "slug": "business-models",
+      "countryCode": "BH",
+      "languageCode": "ar",
+      "translationGroupId": "grp_5qCiYm-8wH",
+      "sourceRecordId": "loc_6y0AK1HiHz_9",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.253Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "business-models-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "business-models-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_i0WemkXhCy50",
+      "contentType": "faq",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "BH",
+      "languageCode": "ar",
+      "translationGroupId": "grp_mmkqOloPSX",
+      "sourceRecordId": "loc_MNpsJLdQGvHK",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.253Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "faqs-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "faqs-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_hSngCcN0SF64",
+      "contentType": "testimonial",
+      "globalIdentity": "testimonials",
+      "slug": "testimonials",
+      "countryCode": "BH",
+      "languageCode": "ar",
+      "translationGroupId": "grp_auRSFymZ8t",
+      "sourceRecordId": "loc_2JuAlzlGH7eA",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.253Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "testimonials-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "testimonials-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_2uGwf8kY355H",
+      "contentType": "pageSection",
+      "globalIdentity": "hero",
+      "slug": "hero",
+      "countryCode": "BH",
+      "languageCode": "ar",
+      "translationGroupId": "grp_LR_d4GH3MD",
+      "sourceRecordId": "loc_zr1muhz2KDp6",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.253Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_D9pnUkSKBD7a",
+      "contentType": "pageSection",
+      "globalIdentity": "stats",
+      "slug": "stats",
+      "countryCode": "BH",
+      "languageCode": "ar",
+      "translationGroupId": "grp_jZCFQjMJ3Q",
+      "sourceRecordId": "loc_Cmdj7Vn4yFYC",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.253Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_5kqjdV4aauER",
+      "contentType": "pageSection",
+      "globalIdentity": "about",
+      "slug": "about",
+      "countryCode": "BH",
+      "languageCode": "ar",
+      "translationGroupId": "grp_K9HEIcRPep",
+      "sourceRecordId": "loc_X9fKi9bKnDsI",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.254Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_hfbdi_w9DwCN",
+      "contentType": "pageSection",
+      "globalIdentity": "valueChain",
+      "slug": "valueChain",
+      "countryCode": "BH",
+      "languageCode": "ar",
+      "translationGroupId": "grp_z6RmhSxS_q",
+      "sourceRecordId": "loc_T5hkYMDabyrB",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.254Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_Wd2Je72_iUqw",
+      "contentType": "pageSection",
+      "globalIdentity": "modules",
+      "slug": "modules",
+      "countryCode": "BH",
+      "languageCode": "ar",
+      "translationGroupId": "grp_mKEVNHD9x5",
+      "sourceRecordId": "loc_6-A0Jc_OxDAV",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.254Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_y2Eg-KXe1QBY",
+      "contentType": "pageSection",
+      "globalIdentity": "industries",
+      "slug": "industries",
+      "countryCode": "BH",
+      "languageCode": "ar",
+      "translationGroupId": "grp_FR2yVV3NEi",
+      "sourceRecordId": "loc_iEzvEJ0liBKW",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.254Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_2CNHn4xJhMDh",
+      "contentType": "pageSection",
+      "globalIdentity": "faqs",
+      "slug": "faqs",
+      "countryCode": "BH",
+      "languageCode": "ar",
+      "translationGroupId": "grp_pugA2fwQGR",
+      "sourceRecordId": "loc_vVhpe_iA2MUg",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.254Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "useBaseline": false,
+        "sections": [],
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_FWDQj2ksS7uv",
+      "contentType": "footer",
+      "globalIdentity": "footer",
+      "slug": "footer",
+      "countryCode": "BH",
+      "languageCode": "ar",
+      "translationGroupId": "grp_fmriqPSQZq",
+      "sourceRecordId": "loc_Gvh77irrDflz",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.254Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_8WDa0fnMWuOB",
+      "contentType": "seo",
+      "globalIdentity": "site",
+      "slug": "seo",
+      "countryCode": "BH",
+      "languageCode": "ar",
+      "translationGroupId": "grp_f-OyQvZtNC",
+      "sourceRecordId": "loc_8dR5G4I1NcTk",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.254Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_F8V3jFYDTQYx",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "BH",
+      "languageCode": "ar",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": "loc_6wFZBLGtBgRU",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T06:39:07.254Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_-a_wDtRC6o1C",
+      "contentType": "solution",
+      "globalIdentity": "erp",
+      "slug": "erp",
+      "countryCode": "QA",
+      "languageCode": "en",
+      "translationGroupId": "grp_iUlEk_TFP7",
+      "sourceRecordId": "loc_global_erp_en",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T07:28:46.570Z",
+      "sortOrder": 0,
+      "seo": {
+        "title": {
+          "en": "ERP Software",
+          "ar": "برنامج ERP"
+        },
+        "noIndex": false
+      },
+      "payload": {
+        "useBaseline": true,
+        "fields": {},
+        "template": "cms-page"
+      }
+    },
+    {
+      "id": "loc__-E1VEXtyfjs",
+      "contentType": "solution",
+      "globalIdentity": "erp",
+      "slug": "erp",
+      "countryCode": "SA",
+      "languageCode": "ar",
+      "translationGroupId": "grp_iUlEk_TFP7",
+      "sourceRecordId": "loc_global_erp_en",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T07:28:46.374Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "erp-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "erp-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    },
+    {
+      "id": "loc_dekelaYe9bXC",
+      "contentType": "contact",
+      "globalIdentity": "contact",
+      "slug": "contact",
+      "countryCode": "BH",
+      "languageCode": "en",
+      "translationGroupId": "grp_psNZXZeVlR",
+      "sourceRecordId": "loc_6wFZBLGtBgRU",
+      "inheritanceMode": "inherit",
+      "translationStatus": "missing",
+      "publicationStatus": "draft",
+      "enabled": true,
+      "publishedAt": null,
+      "updatedAt": "2026-08-22T07:28:46.354Z",
+      "sortOrder": 0,
+      "seo": null,
+      "payload": {
+        "template": "cms-page",
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "heading": {
+          "en": "",
+          "ar": ""
+        },
+        "shortDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "sections": [
+          {
+            "id": "contact-hero",
+            "type": "hero",
+            "visible": true,
+            "order": 0,
+            "content": {}
+          },
+          {
+            "id": "contact-body",
+            "type": "richText",
+            "visible": true,
+            "order": 1,
+            "content": {}
+          }
+        ],
+        "useBaseline": false,
+        "fields": {}
+      }
+    }
+  ],
+  "setupCompleted": {
+    "QA": {
+      "mode": "structure_only",
+      "languages": [
+        "en",
+        "ar"
+      ],
+      "at": "2026-08-21T12:55:30.173Z"
+    },
+    "KW": {
+      "mode": "structure_only",
+      "languages": [
+        "en",
+        "ar"
+      ],
+      "at": "2026-08-22T06:36:19.519Z"
+    },
+    "OM": {
+      "mode": "structure_only",
+      "languages": [
+        "en",
+        "ar"
+      ],
+      "at": "2026-08-22T06:36:19.547Z"
+    },
+    "SA": {
+      "mode": "structure_only",
+      "languages": [
+        "en",
+        "ar"
+      ],
+      "at": "2026-08-22T06:39:07.205Z"
+    },
+    "BH": {
+      "mode": "structure_only",
+      "languages": [
+        "en",
+        "ar"
+      ],
+      "at": "2026-08-22T06:39:07.254Z"
+    }
+  },
+  "_meta": {
+    "createdAt": "2026-08-21T12:45:55.484Z",
+    "updatedAt": "2026-08-22T07:28:46.570Z",
+    "migratedFrom": "uae_global_baseline",
+    "routeBaselinesAdded": 5
+  }
+}

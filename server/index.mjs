@@ -20,6 +20,10 @@ import {
 } from './envConfig.mjs'
 import { createPublishStore } from './publishStore.mjs'
 import { migrateCmsSchemaV2 } from './cmsSchemaMigrate.mjs'
+import { registerContentRoutes, ensureBlogBootstrap, ensureCountriesBootstrap } from './contentRoutes.mjs'
+import { createLocaleStorage } from './localeStorage.mjs'
+import { registerLocaleRoutes } from './localeApi.mjs'
+import { ensureLocaleBaselines } from './localeMigrate.mjs'
 import {
   clearJsonCache,
   invalidateJsonCache,
@@ -87,8 +91,25 @@ const DATA_FILES = {
   seo: 'seo.json',
 }
 
+const EXTRA_HOMEPAGE_FILES = {
+  siteSettings: 'siteSettings.json',
+  whatsappSettings: 'whatsappSettings.json',
+  pageSections: 'pageSections.json',
+  megaMenus: 'megaMenus.json',
+  blogSection: 'blogSection.json',
+  countries: 'countries.json',
+}
+
+const CONTENT_FILES = {
+  blogPosts: 'blogPosts.json',
+  blogCategories: 'blogCategories.json',
+  blogSection: 'blogSection.json',
+}
+
 const ADMIN_KEYS = new Set([
   ...Object.keys(DATA_FILES),
+  ...Object.keys(EXTRA_HOMEPAGE_FILES),
+  ...Object.keys(CONTENT_FILES),
   'siteSettings',
   'whatsappSettings',
   'emailSettings',
@@ -96,13 +117,6 @@ const ADMIN_KEYS = new Set([
   'pages',
   'megaMenus',
 ])
-
-const EXTRA_HOMEPAGE_FILES = {
-  siteSettings: 'siteSettings.json',
-  whatsappSettings: 'whatsappSettings.json',
-  pageSections: 'pageSections.json',
-  megaMenus: 'megaMenus.json',
-}
 
 const ACTIVITY_FILE = 'activityLog.json'
 const CONTENT_META_FILE = 'contentMeta.json'
@@ -115,7 +129,7 @@ const SOFTWARE_DETAILS_FILE = 'softwareDetails.json'
 const PAGE_TYPES = new Set(['home', 'about', 'services', 'projects', 'blog', 'contact', 'residential', 'custom'])
 const PAGE_STATUSES = new Set(['published', 'draft'])
 const PAGE_LANG_MODES = new Set(['en', 'ar', 'both'])
-const RESERVED_PAGE_SLUGS = new Set(['api', 'uploads', 'admin', 'contact', 'software'])
+const RESERVED_PAGE_SLUGS = new Set(['api', 'uploads', 'admin', 'contact', 'software', 'blog', 'testimonials', 'industries'])
 const SOFTWARE_KINDS = new Set(['module', 'industry'])
 const ACCENT_COLORS = new Set(['orange', 'green', 'blue', 'purple', 'teal'])
 
@@ -192,6 +206,13 @@ const publishStore = createPublishStore({
   readJsonFile,
 })
 
+const localeStorage = createLocaleStorage({
+  dataDir: DATA_DIR,
+  writeJsonFile,
+  readJsonFile,
+  safeReadJson,
+})
+
 const PUBLIC_CACHE_HEADERS = {
   'Cache-Control': 'no-store',
   Pragma: 'no-cache',
@@ -205,6 +226,7 @@ function sendPublicJson(res, payload, status = 200) {
 function dataFileForKey(key) {
   if (DATA_FILES[key]) return DATA_FILES[key]
   if (EXTRA_HOMEPAGE_FILES[key]) return EXTRA_HOMEPAGE_FILES[key]
+  if (CONTENT_FILES[key]) return CONTENT_FILES[key]
   if (key === 'pages') return PAGES_FILE
   if (key === 'mediaIndex') return MEDIA_INDEX_FILE
   return null
@@ -213,6 +235,7 @@ function dataFileForKey(key) {
 const PUBLISHABLE_KEYS = new Set([
   ...Object.keys(DATA_FILES),
   ...Object.keys(EXTRA_HOMEPAGE_FILES),
+  ...Object.keys(CONTENT_FILES),
 ])
 
 let homepagePayloadCache = null
@@ -553,6 +576,9 @@ function normalizeLead(row) {
     ...row,
     internalNote: row.internalNote ?? '',
     sourcePage: row.sourcePage ?? '',
+    countryCode: row.countryCode ?? '',
+    localeCountry: row.localeCountry ?? '',
+    localeLang: row.localeLang ?? '',
     source: row.source ?? '',
     company: row.company ?? '',
     productService: row.productService ?? '',
@@ -837,6 +863,30 @@ async function ensureBootstrapFiles() {
     }
   } catch (err) {
     console.error('[cms-migrate] schema v2 migration failed — previous content retained', err?.message || err)
+  }
+
+  try {
+    await ensureBlogBootstrap({ safeReadJson, writeJsonFile, defaultDataMeta })
+  } catch (err) {
+    console.error('[bootstrap] blog content files failed', err?.message || err)
+  }
+
+  try {
+    await ensureCountriesBootstrap({ safeReadJson, writeJsonFile, defaultDataMeta })
+  } catch (err) {
+    console.error('[bootstrap] countries content files failed', err?.message || err)
+  }
+
+  try {
+    await ensureLocaleBaselines({
+      localeStorage,
+      publishStore,
+      safeReadJson,
+      writeJsonFile,
+      logActivity: appendActivity,
+    })
+  } catch (err) {
+    console.error('[bootstrap] locale baselines failed', err?.message || err)
   }
 }
 
@@ -1543,7 +1593,7 @@ app.post('/api/leads', async (req, res) => {
       res.status(429).json({ error: 'Too many submissions. Please wait a few minutes and try again.' })
       return
     }
-    const { name, email, phone, message, topic, company, sourcePage, source, productService } = req.body ?? {}
+    const { name, email, phone, message, topic, company, sourcePage, source, productService, countryCode, localeCountry, localeLang } = req.body ?? {}
     const emailStr = typeof email === 'string' ? email.trim() : ''
     const phoneStr = typeof phone === 'string' ? phone.trim() : ''
     const sourceStr = typeof source === 'string' ? source.trim() : ''
@@ -1579,6 +1629,9 @@ app.post('/api/leads', async (req, res) => {
       productService: typeof productService === 'string' ? productService.trim() : '',
       source: sourceStr,
       sourcePage: typeof sourcePage === 'string' ? sourcePage.trim().slice(0, 500) : '',
+      countryCode: typeof countryCode === 'string' ? countryCode.trim().toUpperCase().slice(0, 3) : '',
+      localeCountry: typeof localeCountry === 'string' ? localeCountry.trim().toLowerCase().slice(0, 3) : '',
+      localeLang: typeof localeLang === 'string' && localeLang.trim() === 'ar' ? 'ar' : typeof localeLang === 'string' ? 'en' : '',
       status: 'New',
       internalNote: '',
       assignedTo: '',
@@ -3293,6 +3346,25 @@ app.post('/api/admin/backup/import', authMiddleware, async (req, res) => {
   }
 })
 
+registerContentRoutes(app, {
+  authMiddleware,
+  publishStore,
+  readJsonFile,
+  safeReadJson,
+  writeJsonFile,
+  sendPublicJson,
+  invalidatePublishedContentCaches,
+  logActivity: appendActivity,
+})
+
+registerLocaleRoutes(app, {
+  authMiddleware,
+  localeStorage,
+  publishStore,
+  safeReadJson,
+  logActivity: appendActivity,
+})
+
 // Unmatched /api/* → JSON 404 (never SPA index.html)
 app.use('/api', (_req, res) => {
   res.status(404).json({ error: 'API route not found' })
@@ -3301,7 +3373,7 @@ app.use('/api', (_req, res) => {
 if (SERVE_STATIC) {
   app.use(express.static(DIST_DIR))
   // SPA fallback — never for /api or /uploads
-  app.get(/^(?!\/api|\/uploads).*/, (_req, res) => {
+  app.get(/^(?!\/api|\/uploads|\/sitemap\.xml).*/, (_req, res) => {
     res.sendFile(DIST_INDEX)
   })
 } else {

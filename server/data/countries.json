@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "defaultCountryCode": "AE",
+  "items": [
+    {
+      "code": "AE",
+      "name": { "en": "United Arab Emirates", "ar": "الإمارات العربية المتحدة" },
+      "shortName": { "en": "UAE", "ar": "الإمارات" },
+      "enabled": true,
+      "isDefault": true,
+      "currency": "AED",
+      "phoneCode": "+971",
+      "primaryEmail": "info@digitalmanager.ae",
+      "salesEmail": "info@digitalmanager.ae",
+      "supportEmail": "info@digitalmanager.ae",
+      "phoneDisplay": "+971 6 536 6786",
+      "phoneHref": "tel:+97165366786",
+      "whatsappNumber": "971581174911",
+      "officeAddress": {
+        "en": "607, Al Rahma 1, Al Wahda St, Sharjah, UAE",
+        "ar": "٦٠٧، الرحمة ١، شارع الوحدة، الشارقة، الإمارات"
+      },
+      "workingHours": {
+        "en": "Sat - Thu : 10.00 am - 9.00 pm",
+        "ar": "السبت–الخميس: ١٠ ص – ٩ م"
+      },
+      "sortOrder": 0
+    },
+    {
+      "code": "SA",
+      "name": { "en": "Saudi Arabia", "ar": "المملكة العربية السعودية" },
+      "shortName": { "en": "KSA", "ar": "السعودية" },
+      "enabled": true,
+      "currency": "SAR",
+      "phoneCode": "+966",
+      "primaryEmail": "info@digitalmanager.ae",
+      "sortOrder": 1
+    },
+    {
+      "code": "KW",
+      "name": { "en": "Kuwait", "ar": "الكويت" },
+      "shortName": { "en": "Kuwait", "ar": "الكويت" },
+      "enabled": true,
+      "currency": "KWD",
+      "phoneCode": "+965",
+      "primaryEmail": "info@digitalmanager.ae",
+      "sortOrder": 2
+    },
+    {
+      "code": "QA",
+      "name": { "en": "Qatar", "ar": "قطر" },
+      "shortName": { "en": "Qatar", "ar": "قطر" },
+      "enabled": true,
+      "currency": "QAR",
+      "phoneCode": "+974",
+      "primaryEmail": "info@digitalmanager.ae",
+      "sortOrder": 3
+    },
+    {
+      "code": "BH",
+      "name": { "en": "Bahrain", "ar": "البحرين" },
+      "shortName": { "en": "Bahrain", "ar": "البحرين" },
+      "enabled": true,
+      "currency": "BHD",
+      "phoneCode": "+973",
+      "primaryEmail": "info@digitalmanager.ae",
+      "sortOrder": 4
+    },
+    {
+      "code": "OM",
+      "name": { "en": "Oman", "ar": "عُمان" },
+      "shortName": { "en": "Oman", "ar": "عُمان" },
+      "enabled": true,
+      "currency": "OMR",
+      "phoneCode": "+968",
+      "primaryEmail": "info@digitalmanager.ae",
+      "sortOrder": 5
+    }
+  ],
+  "_meta": {
+    "createdAt": "2026-08-21T11:45:00.000Z",
+    "updatedAt": "2026-08-21T11:45:00.000Z",
+    "updatedBy": "gcc-countries-bootstrap"
+  }
+}

@@ -23,5 +23,15 @@
     "createdAt": "2026-08-19T06:45:22.968Z",
     "updatedAt": "2026-08-19T06:45:45.061Z",
     "updatedBy": "admin@admin.com"
+  },
+  "testimonials": {
+    "createdAt": "2026-08-21T11:10:57.627Z",
+    "updatedAt": "2026-08-21T11:10:57.863Z",
+    "updatedBy": "admin@admin.com"
+  },
+  "blogPosts": {
+    "createdAt": "2026-08-21T11:10:57.911Z",
+    "updatedAt": "2026-08-21T11:29:17.835Z",
+    "updatedBy": "admin@admin.com"
   }
 }

@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { adminFetch, friendlyAdminApiMessage } from '../adminApi'
+import { useAdminLocale } from '../AdminLocaleContext'
 
 export type PublishStatus = {
   status: string
@@ -10,7 +11,22 @@ export type PublishStatus = {
 }
 
 export function useAdminSection<T extends Record<string, unknown>>(section: string) {
-  const [data, setData] = useState<T | null>(null)
+  const { setDirty } = useAdminLocale()
+  const [data, setDataState] = useState<T | null>(null)
+  const baselineRef = useRef('')
+
+  const setData = useCallback(
+    (next: T | null | ((prev: T | null) => T | null)) => {
+      setDataState((prev) => {
+        const resolved = typeof next === 'function' ? (next as (p: T | null) => T | null)(prev) : next
+        if (resolved && baselineRef.current) {
+          setDirty(JSON.stringify(resolved) !== baselineRef.current)
+        }
+        return resolved
+      })
+    },
+    [setDirty],
+  )
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [publishing, setPublishing] = useState(false)
@@ -27,7 +43,11 @@ export function useAdminSection<T extends Record<string, unknown>>(section: stri
     setLoading(true)
     setError(null)
     adminFetch<T>(`/api/admin/data/${section}`)
-      .then((d) => setData(d))
+      .then((d) => {
+        setDataState(d)
+        baselineRef.current = JSON.stringify(d)
+        setDirty(false)
+      })
       .catch((e: Error) => setError(friendlyAdminApiMessage(e.message)))
       .finally(() => setLoading(false))
     reloadStatus()
@@ -47,7 +67,11 @@ export function useAdminSection<T extends Record<string, unknown>>(section: stri
           body: JSON.stringify(payload),
         })
         if (res.publishStatus) setPublishStatus(res.publishStatus)
-        await adminFetch<T>(`/api/admin/data/${section}`).then((d) => setData(d))
+        await adminFetch<T>(`/api/admin/data/${section}`).then((d) => {
+          setDataState(d)
+          baselineRef.current = JSON.stringify(d)
+          setDirty(false)
+        })
         reloadStatus()
       } catch (e: unknown) {
         const msg = e instanceof Error ? friendlyAdminApiMessage(e.message) : 'Save failed'

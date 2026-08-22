@@ -1,0 +1,467 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "post-uae-inventory-guide",
+      "internalTitle": "UAE inventory guide (editorial)",
+      "title": {
+        "en": "How UAE Businesses Keep Inventory Accurate Across Branches",
+        "ar": "كيف تحافظ الشركات في الإمارات على دقة المخزون عبر الفروع"
+      },
+      "slug": "uae-inventory-accuracy-across-branches",
+      "excerpt": {
+        "en": "A practical overview of why stock visibility breaks down in multi-branch UAE operations — and what to fix first.",
+        "ar": "نظرة عملية على أسباب ضعف رؤية المخزون في عمليات متعددة الفروع — وما يجب إصلاحه أولاً."
+      },
+      "featuredImage": "/software-images/inventory-management-software/dashboard.jpg",
+      "featuredImageAlt": {
+        "en": "Inventory management dashboard interface",
+        "ar": "لوحة معلومات إدارة المخزون"
+      },
+      "categoryId": "cat-inventory",
+      "tags": [
+        "inventory",
+        "UAE",
+        "ERP"
+      ],
+      "author": {
+        "en": "DigitalManager Team",
+        "ar": "فريق ديجيتال مانجر"
+      },
+      "authorRole": {
+        "en": "Product & Operations",
+        "ar": "المنتج والعمليات"
+      },
+      "authorImage": "",
+      "body": [
+        {
+          "id": "intro",
+          "type": "paragraph",
+          "text": {
+            "en": "Growing UAE retailers and distributors often manage inventory across a head office, warehouses, and multiple sales channels. When systems are disconnected, teams rely on spreadsheets and manual adjustments — which slows purchasing decisions and creates reconciliation gaps at month-end.",
+            "ar": "غالباً ما تدير شركات التجزئة والتوزيع النامية في الإمارات المخزون عبر الم head office والمستودعات وقنوات مبيعات متعددة."
+          }
+        },
+        {
+          "id": "h2-1",
+          "type": "heading2",
+          "text": {
+            "en": "Start with one source of truth",
+            "ar": "ابدأ بمصدر واحد للحقيقة"
+          }
+        },
+        {
+          "id": "p2",
+          "type": "paragraph",
+          "text": {
+            "en": "Unify item masters, units of measure, and branch transfers in one platform before adding advanced automation. This gives finance, warehouse, and sales teams the same stock position in real time.",
+            "ar": "وحّد بيانات الأصناف ووحدات القياس وتحويلات الفروع في منصة واحدة قبل إضافة الأتمتة المتقدمة."
+          }
+        },
+        {
+          "id": "cta",
+          "type": "cta",
+          "heading": {
+            "en": "See inventory in DigitalManager",
+            "ar": "شاهد المخزون في ديجيتال مانجر"
+          },
+          "description": {
+            "en": "Book a demo tailored to your branch structure and stock workflows.",
+            "ar": "احجز عرضاً مخصصاً لهيكل فروعك وسير عمل المخزون."
+          },
+          "label": {
+            "en": "Book a Demo",
+            "ar": "احجز عرضاً"
+          },
+          "href": "/contact"
+        }
+      ],
+      "relatedSolutionUrl": "/software/inventory-management",
+      "ctaHeading": {
+        "en": "Ready to unify inventory?",
+        "ar": "هل أنت مستعد لتوحيد المخزون؟"
+      },
+      "ctaDescription": {
+        "en": "Speak with our UAE team about inventory, POS and finance on one platform.",
+        "ar": "تحدث مع فريقنا في الإمارات حول المخزون ونقطة البيع والمالية على منصة واحدة."
+      },
+      "ctaLabel": {
+        "en": "Contact Us",
+        "ar": "اتصل بنا"
+      },
+      "ctaUrl": "/contact",
+      "featured": true,
+      "showOnHomepage": true,
+      "sortOrder": 0,
+      "publishDate": "2026-08-21T10:00:00.000Z",
+      "updatedDate": "2026-08-21T11:29:17.830Z",
+      "status": "published",
+      "enabled": true,
+      "countryCode": "AE",
+      "languageCode": "en",
+      "seo": {
+        "title": {
+          "en": "UAE Inventory Accuracy Across Branches | DigitalManager Insights",
+          "ar": "دقة المخزون عبر الفروع في الإمارات | رؤى ديجيتال مانجر"
+        },
+        "description": {
+          "en": "Practical guidance for UAE businesses improving multi-branch inventory visibility with ERP.",
+          "ar": "إرشادات عملية للشركات في الإمارات لتحسين رؤية المخزون متعدد الفروع."
+        },
+        "canonicalUrl": "/blog/uae-inventory-accuracy-across-branches",
+        "ogTitle": {
+          "en": "How UAE Businesses Keep Inventory Accurate",
+          "ar": "كيف تحافظ الشركات على دقة المخزون"
+        },
+        "ogDescription": {
+          "en": "Why stock visibility breaks down — and what to fix first.",
+          "ar": "لماذا تتدهور رؤية المخزون — وما يجب إصلاحه أولاً."
+        },
+        "ogImage": "/software-images/inventory-management-software/hero.jpg"
+      }
+    },
+    {
+      "id": "post-pos-checkout-basics",
+      "internalTitle": "POS checkout basics (editorial draft)",
+      "title": {
+        "en": "Designing a Faster Checkout Flow for Multi-Branch Retail",
+        "ar": "تصميم عملية دفع أسرع للتجزئة متعددة الفروع"
+      },
+      "slug": "faster-checkout-flow-multi-branch-retail",
+      "excerpt": {
+        "en": "How connected POS, inventory and accounts reduce queue times and end-of-day reconciliation.",
+        "ar": "كيف تقلل نقطة البيع والمخزون والحسابات المتصلة أوقات الانتظار والمطابقة اليومية."
+      },
+      "featuredImage": "/software-images/point-of-sale-management-software/dashboard.jpg",
+      "featuredImageAlt": {
+        "en": "Point of sale dashboard",
+        "ar": "لوحة نقطة البيع"
+      },
+      "categoryId": "cat-pos",
+      "tags": [
+        "POS",
+        "retail",
+        "ERP"
+      ],
+      "author": {
+        "en": "DigitalManager Team",
+        "ar": "فريق ديجيتال مانجر"
+      },
+      "authorRole": {
+        "en": "Product & Operations",
+        "ar": "المنتج والعمليات"
+      },
+      "authorImage": "",
+      "body": [
+        {
+          "id": "intro",
+          "type": "paragraph",
+          "text": {
+            "en": "Retail teams often lose time when checkout, stock updates and daily sales reports run on separate tools. Connecting POS with inventory and accounts keeps branch managers aligned.",
+            "ar": "غالباً ما تفقد فرق التجزئة الوقت عندما تعمل نقطة البيع وتحديثات المخزون والتقارير اليومية على أدوات منفصلة."
+          }
+        }
+      ],
+      "relatedSolutionUrl": "/software/point-of-sale-management-software",
+      "ctaHeading": {
+        "en": "See POS in DigitalManager",
+        "ar": "شاهد نقطة البيع"
+      },
+      "ctaDescription": {
+        "en": "Book a demo tailored to your store layout.",
+        "ar": "احجز عرضاً مخصصاً."
+      },
+      "ctaLabel": {
+        "en": "Book a Demo",
+        "ar": "احجز عرضاً"
+      },
+      "ctaUrl": "/contact",
+      "featured": false,
+      "showOnHomepage": false,
+      "sortOrder": 1,
+      "publishDate": "2026-08-21T11:29:17.699Z",
+      "updatedDate": "2026-08-21T11:30:00.000Z",
+      "status": "draft",
+      "enabled": true,
+      "countryCode": "AE",
+      "languageCode": "en",
+      "seo": {
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "description": {
+          "en": "",
+          "ar": ""
+        },
+        "canonicalUrl": "",
+        "ogTitle": {
+          "en": "",
+          "ar": ""
+        },
+        "ogDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "ogImage": ""
+      }
+    },
+    {
+      "id": "post-draft-layout-a",
+      "internalTitle": "[DRAFT LAYOUT TEST] Card grid sample A",
+      "title": {
+        "en": "[Layout test] Sample article A",
+        "ar": ""
+      },
+      "slug": "draft-layout-test-a",
+      "excerpt": {
+        "en": "CMS layout testing placeholder — not published.",
+        "ar": ""
+      },
+      "featuredImage": "",
+      "featuredImageAlt": {
+        "en": "",
+        "ar": ""
+      },
+      "categoryId": "cat-erp",
+      "tags": [
+        "layout-test"
+      ],
+      "author": {
+        "en": "CMS QA",
+        "ar": ""
+      },
+      "authorRole": {
+        "en": "",
+        "ar": ""
+      },
+      "authorImage": "",
+      "body": [
+        {
+          "id": "p1",
+          "type": "paragraph",
+          "text": {
+            "en": "Draft layout test content.",
+            "ar": ""
+          }
+        }
+      ],
+      "relatedSolutionUrl": "",
+      "ctaHeading": {
+        "en": "",
+        "ar": ""
+      },
+      "ctaDescription": {
+        "en": "",
+        "ar": ""
+      },
+      "ctaLabel": {
+        "en": "",
+        "ar": ""
+      },
+      "ctaUrl": "/contact",
+      "featured": false,
+      "showOnHomepage": false,
+      "sortOrder": 100,
+      "publishDate": "",
+      "updatedDate": "2026-08-21T11:30:00.000Z",
+      "status": "draft",
+      "enabled": true,
+      "countryCode": "AE",
+      "languageCode": "en",
+      "seo": {
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "description": {
+          "en": "",
+          "ar": ""
+        },
+        "canonicalUrl": "",
+        "ogTitle": {
+          "en": "",
+          "ar": ""
+        },
+        "ogDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "ogImage": ""
+      }
+    },
+    {
+      "id": "post-draft-layout-b",
+      "internalTitle": "[DRAFT LAYOUT TEST] Card grid sample B",
+      "title": {
+        "en": "[Layout test] Sample article B",
+        "ar": ""
+      },
+      "slug": "draft-layout-test-b",
+      "excerpt": {
+        "en": "CMS layout testing placeholder — not published.",
+        "ar": ""
+      },
+      "featuredImage": "",
+      "featuredImageAlt": {
+        "en": "",
+        "ar": ""
+      },
+      "categoryId": "cat-accounting",
+      "tags": [
+        "layout-test"
+      ],
+      "author": {
+        "en": "CMS QA",
+        "ar": ""
+      },
+      "authorRole": {
+        "en": "",
+        "ar": ""
+      },
+      "authorImage": "",
+      "body": [
+        {
+          "id": "p1",
+          "type": "paragraph",
+          "text": {
+            "en": "Draft layout test content.",
+            "ar": ""
+          }
+        }
+      ],
+      "relatedSolutionUrl": "",
+      "ctaHeading": {
+        "en": "",
+        "ar": ""
+      },
+      "ctaDescription": {
+        "en": "",
+        "ar": ""
+      },
+      "ctaLabel": {
+        "en": "",
+        "ar": ""
+      },
+      "ctaUrl": "/contact",
+      "featured": false,
+      "showOnHomepage": false,
+      "sortOrder": 101,
+      "publishDate": "",
+      "updatedDate": "2026-08-21T11:30:00.000Z",
+      "status": "draft",
+      "enabled": true,
+      "countryCode": "AE",
+      "languageCode": "en",
+      "seo": {
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "description": {
+          "en": "",
+          "ar": ""
+        },
+        "canonicalUrl": "",
+        "ogTitle": {
+          "en": "",
+          "ar": ""
+        },
+        "ogDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "ogImage": ""
+      }
+    },
+    {
+      "id": "post-draft-layout-c",
+      "internalTitle": "[DRAFT LAYOUT TEST] Card grid sample C",
+      "title": {
+        "en": "[Layout test] Sample article C",
+        "ar": ""
+      },
+      "slug": "draft-layout-test-c",
+      "excerpt": {
+        "en": "CMS layout testing placeholder — not published.",
+        "ar": ""
+      },
+      "featuredImage": "",
+      "featuredImageAlt": {
+        "en": "",
+        "ar": ""
+      },
+      "categoryId": "cat-inventory",
+      "tags": [
+        "layout-test"
+      ],
+      "author": {
+        "en": "CMS QA",
+        "ar": ""
+      },
+      "authorRole": {
+        "en": "",
+        "ar": ""
+      },
+      "authorImage": "",
+      "body": [
+        {
+          "id": "p1",
+          "type": "paragraph",
+          "text": {
+            "en": "Draft layout test content.",
+            "ar": ""
+          }
+        }
+      ],
+      "relatedSolutionUrl": "",
+      "ctaHeading": {
+        "en": "",
+        "ar": ""
+      },
+      "ctaDescription": {
+        "en": "",
+        "ar": ""
+      },
+      "ctaLabel": {
+        "en": "",
+        "ar": ""
+      },
+      "ctaUrl": "/contact",
+      "featured": false,
+      "showOnHomepage": false,
+      "sortOrder": 102,
+      "publishDate": "",
+      "updatedDate": "2026-08-21T11:30:00.000Z",
+      "status": "draft",
+      "enabled": true,
+      "countryCode": "AE",
+      "languageCode": "en",
+      "seo": {
+        "title": {
+          "en": "",
+          "ar": ""
+        },
+        "description": {
+          "en": "",
+          "ar": ""
+        },
+        "canonicalUrl": "",
+        "ogTitle": {
+          "en": "",
+          "ar": ""
+        },
+        "ogDescription": {
+          "en": "",
+          "ar": ""
+        },
+        "ogImage": ""
+      }
+    }
+  ],
+  "_meta": {
+    "createdAt": "2026-08-21T10:00:00.000Z",
+    "updatedAt": "2026-08-21T11:29:17.831Z",
+    "updatedBy": "admin@admin.com"
+  }
+}

@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { WHATSAPP_URL } from '../constants'
 import { WhatsAppIcon } from './WhatsAppIcon'
 import { apiBase, fetchWithTimeout } from '../cms/api'
+import { useLocaleSubmission } from '../locale/useLocaleSubmission'
 import { btnPrimary, btnSecondary } from '../ui/saas'
 
 type Props = {
@@ -18,6 +19,7 @@ export function GetDemoModal({ open, onClose }: Props) {
   const titleId = useId()
   const descId = useId()
   const location = useLocation()
+  const localeMeta = useLocaleSubmission()
   const panelRef = useRef<HTMLDivElement>(null)
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
@@ -79,6 +81,9 @@ export function GetDemoModal({ open, onClose }: Props) {
             message: `Header demo request — business type: ${businessType.trim()}`,
             email: `demo+${digits || Date.now()}@digitalmanager.ae`,
             sourcePage: `header-get-demo:${location.pathname}${location.search}`.slice(0, 500),
+            localeCountry: localeMeta.localeCountry,
+            localeLang: localeMeta.localeLang,
+            countryCode: localeMeta.countryCode,
           }),
         })
         if (!res.ok) {
@@ -99,7 +104,7 @@ export function GetDemoModal({ open, onClose }: Props) {
         setStatus('error')
       }
     },
-    [name, phone, businessType, location.pathname, location.search],
+    [name, phone, businessType, location.pathname, location.search, localeMeta],
   )
 
   if (!open) return null

@@ -1,6 +1,9 @@
 import { pick } from './pick'
 import type { Lang } from '../i18n/messages'
-import type { DemoCtaCms, ErpModulesHeaderCms, PersonalizedDemoCms, TestimonialsCms } from '../types/homepageCms'
+import type { DemoCtaCms, ErpModulesHeaderCms, PersonalizedDemoCms } from '../types/homepageCms'
+import { resolveTestimonialsDoc, selectHomepageTestimonials } from './contentApi'
+import type { TestimonialsContentDoc } from '../types/testimonialsContent'
+import type { GccCountryCode } from '../config/gccCountries'
 
 type CmsPayload = Record<string, unknown> | undefined
 
@@ -38,7 +41,12 @@ export function resolveErpModulesHeader(cms: CmsPayload, t: (key: string) => str
   }
 }
 
-export function resolveTestimonialsCms(cms: CmsPayload, t: (key: string) => string, lang: Lang): {
+export function resolveTestimonialsCms(
+  cms: CmsPayload,
+  t: (key: string) => string,
+  lang: Lang,
+  countryCode?: GccCountryCode,
+): {
   eyebrow: string
   title: string
   items: {
@@ -51,7 +59,6 @@ export function resolveTestimonialsCms(cms: CmsPayload, t: (key: string) => stri
     imageAlt: string
   }[]
 } {
-  const doc = cms?.testimonials as TestimonialsCms | undefined
   const fallbackItems = ['fahad', 'ayesha', 'usman', 'sara', 'bilal', 'nadia'].map((key) => ({
     id: key,
     quote: t(`testimonials.items.${key}.quote`),
@@ -62,32 +69,26 @@ export function resolveTestimonialsCms(cms: CmsPayload, t: (key: string) => stri
     imageAlt: t(`testimonials.items.${key}.name`),
   }))
 
-  if (!doc?.items?.length) {
-    return {
-      eyebrow: t('testimonials.eyebrow'),
-      title: t('testimonials.title'),
-      items: fallbackItems,
-    }
+  const doc = cms?.testimonials as TestimonialsContentDoc | undefined
+  const resolved = resolveTestimonialsDoc(doc, lang)
+  if (!resolved.sectionEnabled) {
+    return { eyebrow: '', title: '', items: [] }
   }
 
-  const items = [...doc.items]
-    .filter((item) => item.enabled !== false)
-    .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
-    .map((item) => ({
-      id: item.id,
-      quote: pick(item.quote, lang),
-      customerName: pick(item.customerName, lang),
-      designation: pick(item.designation, lang),
-      company: pick(item.company, lang),
-      image: item.image?.trim() || '',
-      imageAlt: item.imageAlt ? pick(item.imageAlt, lang) : pick(item.customerName, lang),
-    }))
-    .filter((item) => item.quote && item.customerName)
+  const cmsItems = selectHomepageTestimonials(resolved, countryCode).map((item) => ({
+    id: item.id,
+    quote: item.quote,
+    customerName: item.customerName,
+    designation: item.designation,
+    company: item.company,
+    image: item.image,
+    imageAlt: item.imageAlt,
+  }))
 
   return {
-    eyebrow: doc.eyebrow ? pick(doc.eyebrow, lang) : t('testimonials.eyebrow'),
-    title: doc.title ? pick(doc.title, lang) : t('testimonials.title'),
-    items: items.length ? items : fallbackItems,
+    eyebrow: resolved.eyebrow || t('testimonials.eyebrow'),
+    title: resolved.heading,
+    items: cmsItems.length ? cmsItems : fallbackItems,
   }
 }
 

@@ -85,5 +85,46 @@
     "hasUnpublishedChanges": false,
     "lastPublishedAt": "2026-08-19T06:29:15.219Z",
     "lastPublishedBy": "admin@admin.com"
+  },
+  "blogSection": {
+    "lastPublishedAt": "2026-08-21T11:29:17.876Z",
+    "lastSavedAt": "2026-08-21T10:00:00.000Z",
+    "hasUnpublishedChanges": false,
+    "bootstrappedAt": "2026-08-21T10:36:54.164Z",
+    "lastPublishedBy": "admin@admin.com"
+  },
+  "blogPosts": {
+    "lastPublishedAt": "2026-08-21T11:29:17.858Z",
+    "lastSavedAt": "2026-08-21T11:29:17.839Z",
+    "hasUnpublishedChanges": false,
+    "bootstrappedAt": "2026-08-21T10:36:54.164Z",
+    "lastSavedBy": "admin@admin.com",
+    "lastPublishedBy": "admin@admin.com"
+  },
+  "blogCategories": {
+    "lastPublishedAt": "2026-08-21T10:36:54.164Z",
+    "lastSavedAt": "2026-08-21T10:00:00.000Z",
+    "hasUnpublishedChanges": false,
+    "bootstrappedAt": "2026-08-21T10:36:54.164Z"
+  },
+  "testimonials": {
+    "lastSavedAt": "2026-08-21T11:10:57.867Z",
+    "lastSavedBy": "admin@admin.com",
+    "hasUnpublishedChanges": false,
+    "lastPublishedAt": "2026-08-21T11:10:57.885Z",
+    "lastPublishedBy": "admin@admin.com"
+  },
+  "countries": {
+    "lastPublishedAt": "2026-08-21T11:37:56.756Z",
+    "lastSavedAt": "2026-08-21T11:45:00.000Z",
+    "hasUnpublishedChanges": false,
+    "bootstrappedAt": "2026-08-21T11:37:56.756Z"
+  },
+  "localeRecords": {
+    "lastSavedAt": "2026-08-22T07:28:46.576Z",
+    "lastSavedBy": "admin@admin.com",
+    "hasUnpublishedChanges": false,
+    "lastPublishedAt": "2026-08-22T07:28:46.590Z",
+    "lastPublishedBy": "admin@admin.com"
   }
 }

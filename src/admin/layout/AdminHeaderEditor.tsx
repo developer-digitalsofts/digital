@@ -5,7 +5,10 @@ import { AdminJsonEditor } from '../AdminJsonEditor'
 import { AdminFormActions } from '../cms/AdminFormActions'
 import { BilingualInputs } from '../cms/BilingualInputs'
 import { ConfirmDialog } from '../cms/ConfirmDialog'
+import { useAdminLocale } from '../AdminLocaleContext'
 import { AdminLayoutMediaField } from './AdminLayoutMediaField'
+import { AdminLocaleEditorBanner } from '../AdminLocaleEditorBanner'
+import { ADMIN_EDITOR_LOCALE } from '../adminLocaleSections'
 import type { Bilingual, CmsHeader, CmsHeaderNavLink } from '../../cms/types'
 
 const DEFAULT_NAV_LINKS: CmsHeaderNavLink[] = [
@@ -76,8 +79,14 @@ function normalizeHeader(raw: Record<string, unknown>): CmsHeader & { _meta?: Re
   }
 }
 
+async function fetchHeaderDraft() {
+  const raw = await adminFetch<Record<string, unknown>>('/api/admin/data/header')
+  return normalizeHeader(raw)
+}
+
 export function AdminHeaderEditor() {
   const toast = useAdminToast()
+  const { setDirty: setLocaleDirty } = useAdminLocale()
   const [local, setLocal] = useState<(CmsHeader & { _meta?: Record<string, unknown> }) | null>(null)
   const [baseline, setBaseline] = useState('')
   const [loading, setLoading] = useState(true)
@@ -87,24 +96,45 @@ export function AdminHeaderEditor() {
   const [delNavId, setDelNavId] = useState<string | null>(null)
   const [jsonOpen, setJsonOpen] = useState(false)
 
-  const reload = useCallback(() => {
-    setLoading(true)
-    setErr(null)
-    adminFetch<Record<string, unknown>>('/api/admin/data/header')
-      .then((raw) => {
-        const n = normalizeHeader(raw)
-        setLocal(n)
-        setBaseline(JSON.stringify(n))
-      })
-      .catch((e: Error) => setErr(e.message))
-      .finally(() => setLoading(false))
+  const reload = useCallback(async () => {
+    try {
+      const n = await fetchHeaderDraft()
+      setLocal(n)
+      setBaseline(JSON.stringify(n))
+      setErr(null)
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : 'Load failed')
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
   useEffect(() => {
-    reload()
-  }, [reload])
+    let active = true
+    fetchHeaderDraft()
+      .then((n) => {
+        if (!active) return
+        setLocal(n)
+        setBaseline(JSON.stringify(n))
+        setErr(null)
+      })
+      .catch((e: Error) => {
+        if (!active) return
+        setErr(e.message)
+      })
+      .finally(() => {
+        if (active) setLoading(false)
+      })
+    return () => {
+      active = false
+    }
+  }, [])
 
   const dirty = useMemo(() => (local ? JSON.stringify(local) !== baseline : false), [local, baseline])
+
+  useEffect(() => {
+    setLocaleDirty(dirty)
+  }, [dirty, setLocaleDirty])
 
   const cancel = () => {
     try {
@@ -153,7 +183,7 @@ export function AdminHeaderEditor() {
   const sortedNav = useMemo(() => {
     if (!local?.navLinks) return []
     return [...local.navLinks].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
-  }, [local?.navLinks])
+  }, [local])
 
   if (loading || !local) {
     return (
@@ -166,6 +196,7 @@ export function AdminHeaderEditor() {
 
   return (
     <div className="mx-auto max-w-4xl space-y-6 pb-8">
+      <AdminLocaleEditorBanner {...ADMIN_EDITOR_LOCALE.header} />
       <header>
         <h1 className="text-2xl font-bold text-slate-900">Header</h1>
         <p className="mt-1 text-sm text-slate-600">
