@@ -2,8 +2,10 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useCms } from '../cms/CmsContext'
 import { resolveTestimonialsCms } from '../cms/resolveHomepageCms'
+import { useCountry } from '../context/CountryContext'
 import { useI18n } from '../i18n/I18nProvider'
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
+import { resolvePublicMediaUrl } from '../cms/publicMediaUrl'
 import { ScrollReveal } from './ScrollReveal'
 import { sectionWhite } from '../ui/saas'
 import './testimonials.css'
@@ -41,8 +43,9 @@ function pairSlides(items: ResolvedTestimonial[]): ResolvedTestimonial[][] {
 function TestimonialAvatar({ name, src, alt }: { name: string; src: string; alt: string }) {
   const [failed, setFailed] = useState(false)
   const initials = initialsFromName(name)
+  const url = resolvePublicMediaUrl(src)
 
-  if (failed || !src.trim()) {
+  if (failed || !url) {
     return (
       <div className="testimonial-card__avatar" aria-hidden="true">
         <span className="testimonial-card__avatar-initials">{initials || '?'}</span>
@@ -53,7 +56,7 @@ function TestimonialAvatar({ name, src, alt }: { name: string; src: string; alt:
   return (
     <div className="testimonial-card__avatar">
       <img
-        src={src}
+        src={url}
         alt={alt || name}
         loading="lazy"
         decoding="async"
@@ -90,7 +93,8 @@ function TestimonialCard({ item }: { item: ResolvedTestimonial }) {
 export function TestimonialsSection() {
   const { t, lang } = useI18n()
   const { data } = useCms()
-  const copy = useMemo(() => resolveTestimonialsCms(data ?? undefined, t, lang), [data, t, lang])
+  const { countryCode } = useCountry()
+  const copy = useMemo(() => resolveTestimonialsCms(data ?? undefined, t, lang, countryCode), [data, t, lang, countryCode])
   const reducedMotion = usePrefersReducedMotion()
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
