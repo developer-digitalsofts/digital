@@ -1,12 +1,40 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useI18n } from '../i18n/I18nProvider'
 import { useCms } from '../cms/CmsContext'
 import { useLocale } from '../locale/LocaleContext'
 import { pick } from '../cms/pick'
 import type { Bilingual } from '../cms/types'
-import { LOCALE_COUNTRY_SLUGS, type LocaleLang } from '../locale/localeConfig'
-import { buildLocalizedHref, parseLocalePath } from '../locale/localePaths'
+
+type SeoAlternate = { hreflang: string; href: string }
+
+type ResolvedSeo = {
+  canonical?: string
+  noIndex?: boolean
+  robots?: string
+  lang?: string
+  dir?: 'ltr' | 'rtl'
+  title?: string
+  description?: string
+  ogLocale?: string
+  ogUrl?: string
+  alternates?: SeoAlternate[]
+}
+
+type SeoExt = {
+  pageTitle?: Bilingual
+  metaDescription?: Bilingual
+  metaKeywords?: Bilingual
+  ogImage?: string
+  canonicalUrl?: string
+  ogTitle?: Bilingual
+  ogDescription?: Bilingual
+  twitterTitle?: Bilingual
+  twitterDescription?: Bilingual
+  twitterImage?: string
+  robotsIndex?: string
+  robotsFollow?: string
+}
 
 function setMeta(name: string, content: string) {
   let el = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement | null
@@ -62,35 +90,44 @@ function setLink(rel: string, href: string) {
   el.setAttribute('href', href)
 }
 
-type SeoExt = {
-  pageTitle?: Bilingual
-  metaDescription?: Bilingual
-  metaKeywords?: Bilingual
-  ogImage?: string
-  canonicalUrl?: string
-  ogTitle?: Bilingual
-  ogDescription?: Bilingual
-  twitterTitle?: Bilingual
-  twitterDescription?: Bilingual
-  twitterImage?: string
-  robotsIndex?: string
-  robotsFollow?: string
-}
-
 export function SeoHead() {
   const { lang } = useI18n()
-  const { noIndex } = useLocale()
+  const { noIndex: localeNoIndex } = useLocale()
   const location = useLocation()
   const { data } = useCms()
   const seo = data?.seo as SeoExt | undefined
   const header = data?.header
-  const parsed = parseLocalePath(location.pathname)
+  const [resolved, setResolved] = useState<ResolvedSeo | null>(null)
 
   useEffect(() => {
-    const title = seo?.pageTitle ? pick(seo.pageTitle, lang) : document.title
+    let active = true
+    const path = location.pathname
+    fetch(`/api/public/seo-page?path=${encodeURIComponent(path)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((body: ResolvedSeo | null) => {
+        if (active) setResolved(body)
+      })
+      .catch(() => {
+        if (active) setResolved(null)
+      })
+    return () => {
+      active = false
+    }
+  }, [location.pathname])
+
+  useEffect(() => {
+    const cmsTitle = seo?.pageTitle ? pick(seo.pageTitle, lang) : ''
+    const title = resolved?.title || cmsTitle || document.title
     document.title = title || 'DigitalManager'
 
-    const desc = seo?.metaDescription ? pick(seo.metaDescription, lang) : ''
+    if (resolved?.lang) {
+      document.documentElement.lang = resolved.lang
+    }
+    if (resolved?.dir) {
+      document.documentElement.dir = resolved.dir
+    }
+
+    const desc = resolved?.description || (seo?.metaDescription ? pick(seo.metaDescription, lang) : '')
     if (desc) setMeta('description', desc)
 
     const kw = seo?.metaKeywords ? pick(seo.metaKeywords, lang) : ''
@@ -113,43 +150,34 @@ export function SeoHead() {
     if (twImg) setTw('twitter:image', twImg.startsWith('http') ? twImg : `${window.location.origin}${twImg}`)
     setTw('twitter:card', 'summary_large_image')
 
-    const idx = noIndex || seo?.robotsIndex === 'noindex' ? 'noindex' : 'index'
-    const fol = seo?.robotsFollow === 'nofollow' ? 'nofollow' : 'follow'
-    setMeta('robots', `${idx}, ${fol}`)
+    const noIndex = localeNoIndex || resolved?.noIndex || seo?.robotsIndex === 'noindex'
+    const robots =
+      resolved?.robots ||
+      `${noIndex || seo?.robotsIndex === 'noindex' ? 'noindex' : 'index'}, ${seo?.robotsFollow === 'nofollow' ? 'nofollow' : 'follow'}`
+    setMeta('robots', robots)
 
     const origin = window.location.origin
     const selfCanonical = `${origin}${location.pathname}${location.search || ''}`
-    const canon = seo?.canonicalUrl?.trim() || selfCanonical
+    const canon = resolved?.canonical || seo?.canonicalUrl?.trim() || selfCanonical
     setLink('canonical', canon)
 
-    const keepHreflang = ['x-default']
-    setHreflang('x-default', `${origin}${buildLocalizedHref('ae', 'en', parsed.restPath)}`)
-    const langs: LocaleLang[] = ['en', 'ar']
-    for (const country of LOCALE_COUNTRY_SLUGS) {
-      for (const localeLang of langs) {
-        if (country === 'ae' && localeLang === 'en') {
-          const href = `${origin}${buildLocalizedHref(country, localeLang, parsed.restPath)}`
-          setHreflang('en-AE', href)
-          keepHreflang.push('en-AE')
-          continue
-        }
-        if (country === 'ae' && localeLang === 'ar') {
-          const href = `${origin}${buildLocalizedHref(country, localeLang, parsed.restPath)}`
-          setHreflang('ar-AE', href)
-          keepHreflang.push('ar-AE')
-          continue
-        }
-        const tag = `${localeLang}-${country.toUpperCase()}`
-        const href = `${origin}${buildLocalizedHref(country, localeLang, parsed.restPath)}`
-        setHreflang(tag, href)
-        keepHreflang.push(tag)
-      }
+    if (resolved?.ogUrl) setOg('og:url', resolved.ogUrl)
+    else setOg('og:url', canon)
+
+    if (resolved?.ogLocale) setOg('og:locale', resolved.ogLocale)
+
+    const keepHreflang: string[] = []
+    const alternates = resolved?.alternates || []
+    for (const alt of alternates) {
+      if (!alt.hreflang || !alt.href) continue
+      setHreflang(alt.hreflang, alt.href)
+      keepHreflang.push(alt.hreflang)
     }
     clearHreflangExcept(keepHreflang)
 
     const fav = header?.faviconUrl?.trim()
     if (fav) setLink('icon', fav.startsWith('http') ? fav : fav)
-  }, [lang, seo, header, location.pathname, location.search, noIndex, parsed.restPath])
+  }, [lang, seo, header, location.pathname, location.search, localeNoIndex, resolved])
 
   return null
 }

@@ -15,6 +15,8 @@ import {
 } from './contentHelpers.mjs'
 import { matchesCountryScope, normalizeCountryCode, publishedCountries, defaultCountriesDoc } from './countryHelpers.mjs'
 import { detectCountryFromRequest } from './localeHelpers.mjs'
+import { createLocalePublishHelpers } from './localePublish.mjs'
+import { buildSitemapXml, PUBLIC_SITE_BASE, resolveSeoForPath } from './seoResolve.mjs'
 
 const BLOG_FILES = {
   posts: 'blogPosts.json',
@@ -26,6 +28,7 @@ export function registerContentRoutes(app, deps) {
   const {
     authMiddleware,
     publishStore,
+    localeStorage,
     readJsonFile,
     safeReadJson,
     writeJsonFile,
@@ -33,6 +36,9 @@ export function registerContentRoutes(app, deps) {
     invalidatePublishedContentCaches,
     logActivity,
   } = deps
+
+  const localePublish = localeStorage ? createLocalePublishHelpers({ localeStorage, publishStore }) : null
+  const seoDeps = () => ({ localePublish, publishStore })
 
   async function readPublishedDoc(file) {
     return publishStore.readPublished(file)
@@ -359,26 +365,44 @@ export function registerContentRoutes(app, deps) {
     }
   })
 
+  app.get('/robots.txt', (_req, res) => {
+    const body = [
+      'User-agent: *',
+      'Allow: /',
+      'Disallow: /admin',
+      'Disallow: /api/',
+      '',
+      `Sitemap: ${PUBLIC_SITE_BASE}/sitemap.xml`,
+      '',
+    ].join('\n')
+    res.type('text/plain; charset=utf-8').send(body)
+  })
+
+  app.get('/api/public/seo-page', async (req, res) => {
+    try {
+      if (!localePublish) {
+        res.status(503).json({ error: 'SEO resolver unavailable' })
+        return
+      }
+      const pathParam = String(req.query.path || '/').trim() || '/'
+      const seo = await resolveSeoForPath(seoDeps(), pathParam)
+      res.set({ 'Cache-Control': 'public, max-age=60' })
+      res.json(seo)
+    } catch (e) {
+      console.error(e)
+      res.status(500).json({ error: 'Failed to resolve SEO metadata' })
+    }
+  })
+
   app.get('/sitemap.xml', async (_req, res) => {
     try {
-      const base = process.env.PUBLIC_SITE_URL?.replace(/\/$/, '') || 'https://www.digitalmanager.ae'
-      const [postsDoc, tDoc] = await Promise.all([
-        readPublishedDoc(BLOG_FILES.posts),
-        readPublishedDoc('testimonials.json'),
-      ])
-      const posts = (postsDoc?.items || []).filter((p) => isPublishedRecord(p) && p.slug)
-      const tPage = tDoc?.page || {}
-      const urls = [`${base}/`, `${base}/blog`, `${base}/contact`, `${base}/industries`]
-      if (tPage.enabled !== false && (tDoc?.items || []).some((i) => isPublishedRecord(i) && isValidTestimonial(i))) {
-        urls.push(`${base}/testimonials`)
+      if (!localePublish) {
+        res.status(503).type('text/plain').send('Sitemap unavailable')
+        return
       }
-      for (const post of posts) {
-        urls.push(`${base}/blog/${post.slug}`)
-      }
-      const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
-        .map((loc) => `  <url><loc>${loc}</loc></url>`)
-        .join('\n')}\n</urlset>\n`
+      const { xml } = await buildSitemapXml(seoDeps())
       res.set('Content-Type', 'application/xml; charset=utf-8')
+      res.set('Cache-Control', 'public, max-age=300')
       res.send(xml)
     } catch (e) {
       console.error(e)

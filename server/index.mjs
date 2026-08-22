@@ -3349,6 +3349,7 @@ app.post('/api/admin/backup/import', authMiddleware, async (req, res) => {
 registerContentRoutes(app, {
   authMiddleware,
   publishStore,
+  localeStorage,
   readJsonFile,
   safeReadJson,
   writeJsonFile,
@@ -3373,7 +3374,7 @@ app.use('/api', (_req, res) => {
 if (SERVE_STATIC) {
   app.use(express.static(DIST_DIR))
   // SPA fallback — never for /api or /uploads
-  app.get(/^(?!\/api|\/uploads|\/sitemap\.xml).*/, (_req, res) => {
+  app.get(/^(?!\/api|\/uploads|\/sitemap\.xml|\/robots\.txt).*/, (_req, res) => {
     res.sendFile(DIST_INDEX)
   })
 } else {
