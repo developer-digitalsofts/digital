@@ -18,6 +18,7 @@ const NEGOTIABLE_PAGE_KINDS = new Set([
   'about',
   'contact',
   'privacy',
+  'developers',
   'blog-list',
   'blog-post',
   'registry',

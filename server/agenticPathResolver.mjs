@@ -6,13 +6,14 @@ import { LOCALE_ROUTE_REGISTRY } from './localeContentModel.mjs'
 import { parseLocalePath, LOCALE_COUNTRY_SLUGS, LOCALE_LANGS } from './seoPaths.mjs'
 import { registryStaticPaths, uaeSoftwarePaths } from './seoRouteCatalog.mjs'
 
-const TRUST_PATHS = new Set(['/about', '/contact', '/privacy'])
+const TRUST_PATHS = new Set(['/about', '/contact', '/privacy', '/developers'])
 const CORE_PATHS = new Set([
   '/',
   '/industries',
   '/contact',
   '/about',
   '/privacy',
+  '/developers',
   '/testimonials',
   '/blog',
   '/erp',

@@ -3,6 +3,7 @@
  */
 import { readBilingualText } from './contentHelpers.mjs'
 import { navigationLinksFromContent } from './agenticContentLoader.mjs'
+import { developersMarkdown } from './agenticDevelopersContent.mjs'
 
 function mdEscape(text) {
   return String(text ?? '').replace(/\r\n/g, '\n').trim()
@@ -66,6 +67,14 @@ export function renderAgenticMarkdown(content) {
     }
     lines.push('')
 
+    lines.push(`## ${lang === 'ar' ? 'موارد المطورين' : 'DigitalManager developer resources'}`)
+    lines.push('')
+    lines.push(`- [Developer overview (/developers)](/developers)`)
+    lines.push(`- [OpenAPI 3.1 (/openapi.json)](/openapi.json)`)
+    lines.push(`- [Agent instructions (llms.txt)](/llms.txt)`)
+    lines.push(`- [Sitemap](/sitemap.xml)`)
+    lines.push('')
+
     lines.push(`## ${lang === 'ar' ? 'تواصل' : 'Contact'}`)
     lines.push('')
     if (site.phoneDisplay) lines.push(`- Phone: ${site.phoneDisplay}`)
@@ -89,6 +98,8 @@ export function renderAgenticMarkdown(content) {
   } else if (content.pageType === 'privacy') {
     lines.push(content.lang === 'ar' ? 'راجع الأقسام على صفحة سياسة الخصوصية للتفاصيل.' : 'See the privacy page sections for full details.')
     lines.push('')
+  } else if (content.pageType === 'developers') {
+    return developersMarkdown(content.lang)
   } else if (content.pageType === 'blog-post' && content.post) {
     lines.push(mdEscape(readBilingualText(content.post.excerpt, content.lang)))
     lines.push('')
@@ -105,12 +116,18 @@ export function render404Markdown(pathname, lang = 'en') {
 
 The requested path \`${pathname}\` does not exist on DigitalManager.
 
-## Recovery links
+## Where to look next
 
-- [Homepage](/)
-- [Sitemap](/sitemap.xml)
-- [llms.txt](/llms.txt)
+- Browse the [XML sitemap](/sitemap.xml) for all indexable public URLs
+- Read [llms.txt](/llms.txt) for agent instructions and when to use DigitalManager
+- Review the [DigitalManager developer overview](/developers) and [OpenAPI 3.1 spec](/openapi.json)
+- Return to the [homepage](/) or [contact page](/contact)
+
+## Popular sections
+
+- [ERP overview](/erp)
 - [Blog](/blog)
-- [Contact](/contact)
+- [About](/about)
+- [Privacy](/privacy)
 `
 }

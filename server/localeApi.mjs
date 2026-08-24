@@ -27,6 +27,7 @@ import { createLocalePublishHelpers } from './localePublish.mjs'
 import { getCountryRoutingStatus } from './localeGeoRouting.mjs'
 import { listFieldMeta } from './localeFieldHelpers.mjs'
 import { productionErrorMessage } from './localeStorage.mjs'
+import { localeContentNotFound, validationError, internalError } from './publicApiErrors.mjs'
 
 function parseLocaleQuery(req) {
   const countryCode = normalizeCountryCode(req.query.country || req.query.countryCode || 'AE')
@@ -90,14 +91,16 @@ export function registerLocaleRoutes(app, deps) {
       const { countryCode, lang } = parseLocaleQuery(req)
       const full = await resolveSlugContent(slug, countryCode, lang, 'public')
       if (!full.publicView) {
-        res.status(404).json({
-          error: 'not_found',
-          missing: true,
+        localeContentNotFound(res, {
           slug,
           countryCode,
           lang,
           meta: full.meta,
-          fallback: { countryCode: 'AE', lang: 'en', href: countryCode === 'AE' && lang === 'en' ? `/${slug}` : `/ae/en/${slug}` },
+          fallback: {
+            countryCode: 'AE',
+            lang: 'en',
+            href: countryCode === 'AE' && lang === 'en' ? `/${slug}` : `/ae/en/${slug}`,
+          },
         })
         return
       }
@@ -105,7 +108,7 @@ export function registerLocaleRoutes(app, deps) {
       res.json({ page: full.publicView, meta: full.meta })
     } catch (e) {
       console.error(e)
-      res.status(500).json({ error: productionErrorMessage(e) })
+      internalError(res, productionErrorMessage(e))
     }
   })
 
@@ -116,7 +119,7 @@ export function registerLocaleRoutes(app, deps) {
       const { countryCode, lang } = parseLocaleQuery(req)
       const parsed = parseSoftwareLocalePath(kind, slug)
       if (!parsed) {
-        res.status(400).json({ error: 'Invalid software detail path' })
+        validationError(res, 'Invalid software detail path.')
         return
       }
       const store = await localePublish.readPublishedStore()
@@ -129,9 +132,7 @@ export function registerLocaleRoutes(app, deps) {
         { context: 'public', countryEnabled: true, allowGlobalFallback: true, allowArabicDraftPreview: lang === 'ar' },
       )
       if (!full.publicView) {
-        res.status(404).json({
-          error: 'not_found',
-          missing: true,
+        localeContentNotFound(res, {
           kind,
           slug,
           countryCode,
@@ -145,7 +146,7 @@ export function registerLocaleRoutes(app, deps) {
       res.json({ page: full.publicView, meta: full.meta })
     } catch (e) {
       console.error(e)
-      res.status(500).json({ error: productionErrorMessage(e) })
+      internalError(res, productionErrorMessage(e))
     }
   })
 

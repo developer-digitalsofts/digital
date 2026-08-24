@@ -5,6 +5,7 @@ import { IndustriesPage } from './pages/IndustriesPage'
 import { ContactPage } from './pages/ContactPage'
 import { AboutPage } from './pages/AboutPage'
 import { PrivacyPage } from './pages/PrivacyPage'
+import { DevelopersPage } from './pages/DevelopersPage'
 import { SoftwarePage } from './pages/SoftwarePage'
 import { CmsPage } from './pages/CmsPage'
 import { AdminLogin } from './admin/AdminLogin'
@@ -113,6 +114,7 @@ export default function App() {
         <Route index element={<HomePage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="privacy" element={<PrivacyPage />} />
+        <Route path="developers" element={<DevelopersPage />} />
         <Route path="industries" element={<IndustriesPage />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="testimonials" element={<TestimonialsPage />} />
@@ -133,6 +135,7 @@ export default function App() {
           <Route index element={<HomePage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="privacy" element={<PrivacyPage />} />
+          <Route path="developers" element={<DevelopersPage />} />
           <Route path="industries" element={<IndustriesPage />} />
           <Route path="industries/:slug" element={<LocaleIndustrySlugPage />} />
           <Route path="contact" element={<ContactLocalePage />} />

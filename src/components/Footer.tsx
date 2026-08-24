@@ -44,6 +44,7 @@ type FooterCms = {
   rightsSuffix?: Bilingual
   copyrightLine?: Bilingual
   privacy?: { label?: Bilingual; href?: string }
+  developers?: { label?: Bilingual; href?: string }
   terms?: { label?: Bilingual; href?: string }
   sitemap?: { label?: Bilingual; href?: string }
 }
@@ -233,6 +234,8 @@ export function Footer() {
   const rights = f?.rightsSuffix ? pick(f.rightsSuffix, lang) : t('footer.rights')
   const privacyLabel = f?.privacy?.label ? pick(f.privacy.label, lang) : t('footer.privacy')
   const privacyHref = f?.privacy?.href ?? '#'
+  const developersLabel = f?.developers?.label ? pick(f.developers.label, lang) : 'Developers'
+  const developersHref = f?.developers?.href ?? '/developers'
   const termsLabel = f?.terms?.label ? pick(f.terms.label, lang) : t('footer.terms')
   const termsHref = f?.terms?.href ?? '#'
 
@@ -420,6 +423,9 @@ export function Footer() {
           <nav className="dm-footer__legal" aria-label={t('footer.legalNav')}>
             <a href={privacyHref} className="dm-footer__legal-link">
               {privacyLabel}
+            </a>
+            <a href={developersHref} className="dm-footer__legal-link">
+              {developersLabel}
             </a>
             <a href={termsHref} className="dm-footer__legal-link">
               {termsLabel}

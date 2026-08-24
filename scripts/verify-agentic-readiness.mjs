@@ -51,6 +51,11 @@ async function main() {
   else fail('Homepage HTTP 200', String(home.status))
   if (visible.length >= 500) pass('Homepage raw visible text 500+ chars', `${visible.length} chars`)
   else fail('Homepage raw visible text 500+ chars', `${visible.length} chars`)
+  const efficiency = home.text.length > 0 ? (visible.length / home.text.length) * 100 : 0
+  if (efficiency >= 5) pass('Homepage content efficiency 5%+', `${efficiency.toFixed(2)}%`)
+  else fail('Homepage content efficiency 5%+', `${efficiency.toFixed(2)}%`)
+  if (home.text.includes('/developers') && home.text.includes('/openapi.json')) pass('Homepage links developer resources')
+  else fail('Homepage links developer resources')
   if (countTag(home.text, 'h1') >= 1) pass('Homepage has H1')
   else fail('Homepage has H1')
   if (countTag(home.text, 'h2') >= 1) pass('Homepage has H2 hierarchy')
@@ -80,6 +85,12 @@ async function main() {
   else fail('Unknown markdown route HTTP 404', String(unknownMd.status))
   if ((unknownMd.headers['content-type'] || '').includes('text/markdown')) pass('404 markdown content-type')
   else fail('404 markdown content-type', unknownMd.headers['content-type'])
+  const unknownMdVary = String(unknownMd.headers.vary || unknownMd.headers.Vary || '').toLowerCase()
+  if (unknownMdVary.includes('accept')) pass('404 markdown Vary Accept')
+  else fail('404 markdown Vary Accept', unknownMdVary || 'missing')
+  if (unknownMd.text.includes('/developers') && unknownMd.text.includes('/openapi.json') && unknownMd.text.includes('/sitemap.xml')) {
+    pass('404 markdown recovery links')
+  } else fail('404 markdown recovery links')
 
   const homeMd = await fetchProbe(`${BASE}/`, { Accept: 'text/markdown' })
   if (homeMd.status === 200) pass('Homepage markdown negotiation 200')
@@ -108,8 +119,56 @@ async function main() {
   const openapi = await fetchProbe(`${BASE}/openapi.json`)
   if (openapi.status === 200) pass('openapi.json HTTP 200')
   else fail('openapi.json HTTP 200', String(openapi.status))
+  let spec
+  try {
+    spec = JSON.parse(openapi.text)
+  } catch {
+    spec = null
+  }
+  if (spec?.openapi === '3.1.0') pass('openapi.json is OpenAPI 3.1.0')
+  else fail('openapi.json is OpenAPI 3.1.0', spec?.openapi || 'parse failed')
   if (openapi.text.includes('"/api/leads"') && !openapi.text.includes('/api/admin')) pass('openapi.json public-only surface')
   else fail('openapi.json public-only surface')
+  const opIds = new Set()
+  let dupId = false
+  let missingId = false
+  for (const methods of Object.values(spec?.paths || {})) {
+    for (const op of Object.values(methods || {})) {
+      if (!op?.operationId) missingId = true
+      else if (opIds.has(op.operationId)) dupId = true
+      else opIds.add(op.operationId)
+    }
+  }
+  if (!missingId && !dupId && opIds.size >= 20) pass('openapi.json unique operationIds', `${opIds.size} ops`)
+  else fail('openapi.json unique operationIds', `missing=${missingId} dup=${dupId} count=${opIds.size}`)
+  for (const required of ['/api/public/testimonials', '/api/public/locale-content/{slug}', '/api/site-settings']) {
+    if (spec?.paths?.[required]) pass(`openapi.json documents ${required}`)
+    else fail(`openapi.json documents ${required}`)
+  }
+
+  const developers = await fetchProbe(`${BASE}/developers`, { Accept: 'text/html' })
+  const devChars = visibleText(developers.text).length
+  if (developers.status === 200 && devChars >= 500) pass('/developers page 500+ raw chars', `${devChars}`)
+  else fail('/developers page 500+ raw chars', `${developers.status}, ${devChars}`)
+
+  const devMd = await fetchProbe(`${BASE}/developers`, { Accept: 'text/markdown' })
+  if (devMd.status === 200) pass('/developers markdown negotiation 200')
+  else fail('/developers markdown negotiation 200', String(devMd.status))
+  const devMdType = devMd.headers['content-type'] || ''
+  if (devMdType.includes('text/markdown') && devMdType.includes('charset=utf-8')) pass('/developers markdown content-type')
+  else fail('/developers markdown content-type', devMdType)
+  const devMdVary = String(devMd.headers.vary || devMd.headers.Vary || '').toLowerCase()
+  if (devMdVary.includes('accept')) pass('/developers markdown Vary Accept')
+  else fail('/developers markdown Vary Accept', devMdVary || 'missing')
+
+  if ((homeMd.headers['content-type'] || '').includes('charset=utf-8')) pass('Homepage markdown charset=utf-8')
+  else fail('Homepage markdown charset=utf-8', homeMd.headers['content-type'])
+
+  const llmsDev = await fetchProbe(`${BASE}/llms.txt`)
+  if (llmsDev.text.includes('/developers') && llmsDev.text.includes('/openapi.json')) pass('llms.txt links developers and openapi')
+  else fail('llms.txt links developers and openapi')
+  if (llmsDev.text.includes('When agents should call the public API')) pass('llms.txt agent API guidance')
+  else fail('llms.txt agent API guidance')
 
   for (const path of ['/about', '/contact', '/privacy']) {
     const page = await fetchProbe(`${BASE}${path}`, { Accept: 'text/html' })
@@ -129,6 +188,26 @@ async function main() {
   else fail('Unknown API HTTP 404', String(api404.status))
   if (apiJson?.error?.code && apiJson?.error?.message && apiJson?.error?.resolution) pass('API structured error JSON')
   else fail('API structured error JSON', api404.text.slice(0, 120))
+
+  const invalidSoftware = await fetchProbe(`${BASE}/api/public/locale-content/software/bad-kind/not-a-real-slug`)
+  let invalidJson
+  try {
+    invalidJson = JSON.parse(invalidSoftware.text)
+  } catch {
+    invalidJson = null
+  }
+  if (invalidSoftware.status === 400 && invalidJson?.error?.code === 'VALIDATION_ERROR') pass('Invalid API params structured 400')
+  else fail('Invalid API params structured 400', `${invalidSoftware.status} ${invalidSoftware.text.slice(0, 80)}`)
+
+  const locale404 = await fetchProbe(`${BASE}/api/public/locale-content/not-a-registry-slug?country=AE&lang=en`)
+  let locale404Json
+  try {
+    locale404Json = JSON.parse(locale404.text)
+  } catch {
+    locale404Json = null
+  }
+  if (locale404.status === 404 && locale404Json?.error?.code === 'RESOURCE_NOT_FOUND') pass('Locale content 404 structured JSON')
+  else fail('Locale content 404 structured JSON', locale404.text.slice(0, 120))
 
   const locale = await fetchProbe(`${BASE}/sa/en`, { Accept: 'text/html' })
   if (locale.status === 200) pass('Locale route /sa/en loads')

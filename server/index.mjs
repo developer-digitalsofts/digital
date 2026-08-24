@@ -23,7 +23,14 @@ import { migrateCmsSchemaV2 } from './cmsSchemaMigrate.mjs'
 import { registerContentRoutes, ensureBlogBootstrap, ensureCountriesBootstrap } from './contentRoutes.mjs'
 import { registerAgenticRoutes, createAgenticSpaFallback } from './agenticRoutes.mjs'
 import { registerLocaleGeoRouting } from './localeGeoRouting.mjs'
-import { notFoundError, internalError } from './publicApiErrors.mjs'
+import {
+  notFoundError,
+  internalError,
+  validationError,
+  rateLimitedError,
+  conflictError,
+  serviceUnavailableError,
+} from './publicApiErrors.mjs'
 import { createLocaleStorage } from './localeStorage.mjs'
 import { registerLocaleRoutes } from './localeApi.mjs'
 import { buildLocaleHomepagePayload } from './localeHomepage.mjs'
@@ -136,7 +143,7 @@ const SOFTWARE_DETAILS_FILE = 'softwareDetails.json'
 const PAGE_TYPES = new Set(['home', 'about', 'services', 'projects', 'blog', 'contact', 'residential', 'custom'])
 const PAGE_STATUSES = new Set(['published', 'draft'])
 const PAGE_LANG_MODES = new Set(['en', 'ar', 'both'])
-const RESERVED_PAGE_SLUGS = new Set(['api', 'uploads', 'admin', 'about', 'privacy', 'contact', 'software', 'blog', 'testimonials', 'industries'])
+const RESERVED_PAGE_SLUGS = new Set(['api', 'uploads', 'admin', 'about', 'privacy', 'developers', 'contact', 'software', 'blog', 'testimonials', 'industries'])
 const SOFTWARE_KINDS = new Set(['module', 'industry'])
 const ACCENT_COLORS = new Set(['orange', 'green', 'blue', 'purple', 'teal'])
 
@@ -1628,7 +1635,7 @@ const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 app.post('/api/leads', async (req, res) => {
   try {
     if (!checkLeadRateLimit(req)) {
-      res.status(429).json({ error: 'Too many submissions. Please wait a few minutes and try again.' })
+      rateLimitedError(res, 'Too many submissions. Please wait a few minutes and try again.')
       return
     }
     const { name, email, phone, message, topic, company, sourcePage, source, productService, countryCode, localeCountry, localeLang } = req.body ?? {}
@@ -1639,19 +1646,19 @@ app.post('/api/leads', async (req, res) => {
     const isDetailPageRequest = sourceStr === 'Detail Page Request'
     const isDemo = topicStr.toLowerCase() === 'demo' || sourceStr.toLowerCase().includes('get demo')
     if (!emailRe.test(emailStr)) {
-      res.status(400).json({ error: 'Valid email is required' })
+      validationError(res, 'Valid email is required.')
       return
     }
     if (!isDetailPageRequest && (!phoneStr || phoneStr.length < 6)) {
-      res.status(400).json({ error: 'Phone is required' })
+      validationError(res, 'Phone is required.')
       return
     }
     if (isDemo && typeof name === 'string' && !name.trim()) {
-      res.status(400).json({ error: 'Name is required' })
+      validationError(res, 'Name is required for demo requests.')
       return
     }
     if (isDemo && isDuplicateDemoSubmission(phoneStr, emailStr, topicStr)) {
-      res.status(409).json({ error: 'A demo request with this phone number was just submitted. Please wait a few minutes.' })
+      conflictError(res, 'A demo request with this phone number was just submitted. Please wait a few minutes.')
       return
     }
     const leads = (await readLeads()).map(normalizeLead)
@@ -1685,11 +1692,11 @@ app.post('/api/leads', async (req, res) => {
     res.status(201).json({ ok: true, id: row.id })
   } catch (e) {
     if (isStorageTimeoutError(e)) {
-      res.status(503).json({ error: 'Could not save lead — storage temporarily unavailable' })
+      serviceUnavailableError(res, 'Could not save lead — storage temporarily unavailable.')
       return
     }
     console.error(e)
-    res.status(500).json({ error: 'Could not save lead' })
+    internalError(res, 'Could not save lead.')
   }
 })
 
@@ -3455,9 +3462,14 @@ if (SERVE_STATIC) {
   })
 }
 
-app.use((err, _req, res, _next) => {
+app.use((err, req, res, _next) => {
   console.error(err)
-  if (!res.headersSent) res.status(500).json({ error: 'Server error' })
+  if (res.headersSent) return
+  if (String(req.originalUrl || req.url || '').startsWith('/api')) {
+    internalError(res, 'An unexpected server error occurred.')
+    return
+  }
+  res.status(500).type('text/plain').send('Server error')
 })
 
 app.listen(PORT, HOST, () => {

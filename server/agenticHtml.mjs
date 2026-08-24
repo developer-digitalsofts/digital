@@ -252,6 +252,16 @@ function renderHomeBody(content) {
         ${readBilingualText(site.officeAddress, lang) ? `<p>${textBlock(readBilingualText(site.officeAddress, lang))}</p>` : ''}
         <p><a href="/contact">${lang === 'ar' ? 'صفحة الاتصال' : 'Contact page'}</a></p>
       </section>
+      <section>
+        <h2>${lang === 'ar' ? 'DigitalManager — موارد المطورين' : 'DigitalManager developer resources'}</h2>
+        <p>${lang === 'ar' ? 'واجهة API عامة للقراءة فقط للمحتوى المنشور — بدون مفاتيح API أو بيانات ERP.' : 'Read-only public content API for published marketing data — no API keys or ERP tenant data.'}</p>
+        <ul>
+          <li><a href="/developers">${lang === 'ar' ? 'نظرة عامة للمطورين' : 'Developer overview (/developers)'}</a></li>
+          <li><a href="/openapi.json">OpenAPI 3.1 specification (/openapi.json)</a></li>
+          <li><a href="/llms.txt">Agent instructions (llms.txt)</a></li>
+          <li><a href="/sitemap.xml">${lang === 'ar' ? 'خريطة الموقع' : 'Sitemap'}</a></li>
+        </ul>
+      </section>
     </article>`
 }
 
@@ -329,6 +339,29 @@ function renderPrivacyBody(content) {
     </article>`
 }
 
+function renderDevelopersBody(content) {
+  const copy = content.developers || {}
+  const lang = content.lang
+  const sections = (copy.sections || []).filter((s) => s.heading !== 'Examples')
+  return `
+    <article class="agentic-prerender" data-agentic-prerender="true">
+      <h1>${escapeHtml(content.title)}</h1>
+      <p>${textBlock(content.description)}</p>
+      ${sections
+        .map(
+          (section) =>
+            `<section><h2>${escapeHtml(section.heading)}</h2><ul>${(section.body || []).map((row) => `<li>${textBlock(row)}</li>`).join('')}</ul></section>`,
+        )
+        .join('\n      ')}
+      <section>
+        <h2>${lang === 'ar' ? 'أمثلة' : 'Examples'}</h2>
+        <pre><code>${escapeHtml(copy.curlHealth || '')}</code></pre>
+        <pre><code>${escapeHtml(copy.curlErp || '')}</code></pre>
+      </section>
+      <p><a href="/openapi.json">${escapeHtml(copy.openapiLabel || 'OpenAPI 3.1')}</a> · <a href="/llms.txt">${escapeHtml(copy.llmsLabel || 'llms.txt')}</a></p>
+    </article>`
+}
+
 function renderGenericBody(content) {
   return `
     <article class="agentic-prerender" data-agentic-prerender="true">
@@ -348,6 +381,8 @@ export function renderAgenticBody(content) {
       return renderContactBody(content)
     case 'privacy':
       return renderPrivacyBody(content)
+    case 'developers':
+      return renderDevelopersBody(content)
     default:
       return renderGenericBody(content)
   }
@@ -383,6 +418,8 @@ export function render404Html(templateHtml, pathname, lang = 'en') {
         <li><a href="/">${lang === 'ar' ? 'الرئيسية' : 'Homepage'}</a></li>
         <li><a href="/sitemap.xml">${lang === 'ar' ? 'خريطة الموقع' : 'Sitemap'}</a></li>
         <li><a href="/llms.txt">llms.txt</a></li>
+        <li><a href="/developers">${lang === 'ar' ? 'المطورون' : 'Developers'}</a></li>
+        <li><a href="/openapi.json">OpenAPI</a></li>
         <li><a href="/blog">${lang === 'ar' ? 'المدونة' : 'Blog'}</a></li>
         <li><a href="/contact">${lang === 'ar' ? 'اتصل' : 'Contact'}</a></li>
       </ul>

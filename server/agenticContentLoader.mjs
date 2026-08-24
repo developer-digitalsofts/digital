@@ -8,6 +8,7 @@ import { normalizeLocaleLang } from './localeContentModel.mjs'
 import { parseLocalePath } from './seoPaths.mjs'
 import { resolveSeoForPath, PUBLIC_SITE_BASE } from './seoResolve.mjs'
 import { uaeSoftwarePaths } from './seoRouteCatalog.mjs'
+import { developersPageCopy } from './agenticDevelopersContent.mjs'
 
 function pickLang(doc, lang, field) {
   return readBilingualText(doc?.[field], lang)
@@ -116,6 +117,18 @@ export async function loadAgenticPageContent(deps, pathname, routeInfo) {
     }
   }
 
+  if (kind === 'developers') {
+    const copy = developersPageCopy(lang)
+    return {
+      ...base,
+      pageType: 'developers',
+      title: copy.title,
+      description: copy.intro,
+      developers: copy,
+      siteSettings,
+    }
+  }
+
   if (kind === 'blog-list') {
     const blogSection = await deps.publishStore.readPublished('blogSection.json').catch(() => ({}))
     return {
@@ -191,6 +204,11 @@ export function navigationLinksFromContent(content, lang) {
       { label: lang === 'ar' ? 'المدونة' : 'Blog', href: '/blog' },
     )
   }
+  links.push(
+    { label: lang === 'ar' ? 'DigitalManager للمطورين' : 'DigitalManager Developers', href: '/developers' },
+    { label: 'OpenAPI 3.1', href: '/openapi.json' },
+    { label: 'llms.txt', href: '/llms.txt' },
+  )
   return links
 }
 
