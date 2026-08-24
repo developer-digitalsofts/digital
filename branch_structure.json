@@ -1,0 +1,24 @@
+{
+  "default_branch": "main",
+  "branches": [
+    "feature/multi-country-gcc",
+    "main",
+    "master",
+    "origin",
+    "pakistan-version"
+  ],
+  "parent": {
+    "feature/multi-country-gcc": "main",
+    "main": null,
+    "master": "main",
+    "origin": "main",
+    "pakistan-version": "main"
+  },
+  "order": [
+    "main",
+    "feature/multi-country-gcc",
+    "master",
+    "origin",
+    "pakistan-version"
+  ]
+}

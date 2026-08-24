@@ -40,10 +40,13 @@ import { AdminBlogPostEditor } from './admin/content/AdminBlogPostEditor'
 import { AdminBlogCategoriesPage } from './admin/content/AdminBlogCategoriesPage'
 import { AdminCountriesPage } from './admin/AdminCountriesPage'
 import { AdminCountrySetupPage } from './admin/AdminCountrySetupPage'
+import { AdminCitiesPage } from './admin/AdminCitiesPage'
 import { LocaleGuard } from './routes/LocaleGuard'
 import { ErpLocalePage, ContactLocalePage, SolutionsLocalePage, BusinessModelsLocalePage, FaqsLocalePage } from './pages/LocaleSlugPage'
 import { LocaleSoftwarePage, LocaleIndustrySlugPage } from './pages/LocaleSoftwarePage'
 import { LocaleFallbackPage } from './pages/LocaleFallbackPage'
+import { CityPageGuard } from './routes/CityPageGuard'
+import { AeEnCityRedirect } from './routes/CityPageGuard'
 
 export default function App() {
   return (
@@ -78,6 +81,7 @@ export default function App() {
           <Route path="content/blog/:id/edit" element={<AdminBlogPostEditor mode="edit" />} />
           <Route path="content/countries" element={<AdminCountriesPage />} />
           <Route path="content/countries/setup" element={<AdminCountrySetupPage />} />
+          <Route path="content/cities" element={<AdminCitiesPage />} />
 
           <Route path="mega-menus" element={<AdminMegaMenusPage />} />
           <Route path="site-settings" element={<AdminSiteSettingsPage />} />
@@ -126,6 +130,7 @@ export default function App() {
         <Route path="faqs" element={<FaqsLocalePage />} />
         <Route path="software/:flatSlug" element={<SoftwarePage />} />
         <Route path="software/:kind/:slug" element={<SoftwarePage />} />
+        <Route path=":citySlug/:pageSlug" element={<CityPageGuard />} />
         <Route path=":slug" element={<CmsPage />} />
       </Route>
 
@@ -148,12 +153,13 @@ export default function App() {
           <Route path="faqs" element={<FaqsLocalePage />} />
           <Route path="software/:flatSlug" element={<LocaleSoftwarePage />} />
           <Route path="software/:kind/:slug" element={<LocaleSoftwarePage />} />
+          <Route path=":citySlug/:pageSlug" element={<CityPageGuard />} />
           <Route path=":slug" element={<CmsPage />} />
           <Route path="*" element={<LocaleFallbackPage />} />
         </Route>
       </Route>
 
-      <Route path="ae/en/*" element={<Navigate to="/" replace />} />
+      <Route path="ae/en/*" element={<AeEnCityRedirect />} />
     </Routes>
   )
 }

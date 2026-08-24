@@ -98,7 +98,13 @@ export function registerAgenticRoutes(app, deps) {
         return
       }
 
-      if (routeInfo.kind === 'admin' || routeInfo.kind === 'redirect') return next()
+      if (routeInfo.kind === 'admin' || routeInfo.kind === 'redirect') {
+        if (routeInfo.redirectTo) {
+          res.redirect(302, routeInfo.redirectTo)
+          return
+        }
+        return next()
+      }
 
       if (!NEGOTIABLE_PAGE_KINDS.has(routeInfo.kind)) return next()
 

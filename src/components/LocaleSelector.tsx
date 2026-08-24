@@ -19,7 +19,7 @@ const COUNTRY_LABELS: Record<LocaleCountrySlug, string> = {
 type LocaleSelectorProps = { compact?: boolean; className?: string }
 
 export function LocaleSelector({ compact = false, className = '' }: LocaleSelectorProps) {
-  const { country, lang, countries, setLocale, resetAutoLocale, hasManualLocalePref } = useLocale()
+  const { country, lang, countries, setLocale } = useLocale()
   const flag = useCountryFlag(countries.find((c) => codeToCountrySlug(c.code) === country)?.code ?? 'AE')
 
   return (
@@ -63,12 +63,6 @@ export function LocaleSelector({ compact = false, className = '' }: LocaleSelect
         </select>
         <ChevronDown className="dm-locale-select__chevron" aria-hidden strokeWidth={2.25} />
       </label>
-
-      {hasManualLocalePref ? (
-        <button type="button" className="dm-locale-select__reset" onClick={resetAutoLocale}>
-          Auto
-        </button>
-      ) : null}
     </div>
   )
 }

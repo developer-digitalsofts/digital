@@ -1,6 +1,6 @@
 import type { TranslationStatus } from '../locale/localeConfig'
 
-export type LocaleInheritanceSource = 'locale_override' | 'country_default' | 'global' | 'missing'
+export type LocaleInheritanceSource = 'city_override' | 'locale_override' | 'country_default' | 'global' | 'missing'
 
 export type LocaleContentRecord = {
   id: string
@@ -18,6 +18,7 @@ export type LocaleContentRecord = {
   publishedAt: string | null
   updatedAt: string
   sortOrder?: number
+  citySlug?: string | null
   seo?: Record<string, unknown> | null
   payload?: Record<string, unknown>
   baselineRef?: string

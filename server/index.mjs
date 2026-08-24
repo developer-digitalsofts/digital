@@ -23,6 +23,7 @@ import { migrateCmsSchemaV2 } from './cmsSchemaMigrate.mjs'
 import { registerContentRoutes, ensureBlogBootstrap, ensureCountriesBootstrap } from './contentRoutes.mjs'
 import { registerAgenticRoutes, createAgenticSpaFallback } from './agenticRoutes.mjs'
 import { registerLocaleGeoRouting } from './localeGeoRouting.mjs'
+import { isValidCityForCountry } from './cityRegistry.mjs'
 import {
   notFoundError,
   internalError,
@@ -3413,6 +3414,17 @@ registerLocaleRoutes(app, {
 })
 
 registerLocaleGeoRouting(app, { publishStore, localePublish })
+
+/** Canonicalize UAE English city URLs: /ae/en/dubai/erp-software → /dubai/erp-software */
+app.get(/^\/ae\/en\/([^/]+)\/([^/]+)\/?$/, (req, res, next) => {
+  const citySlug = String(req.params[0] || '').toLowerCase()
+  const pageSlug = String(req.params[1] || '').toLowerCase()
+  if (isValidCityForCountry(citySlug, 'AE')) {
+    res.redirect(302, `/${citySlug}/${pageSlug}`)
+    return
+  }
+  next()
+})
 
 if (SERVE_STATIC) {
   registerAgenticRoutes(app, {

@@ -4,6 +4,8 @@
 import { isPublishedRecord } from './contentHelpers.mjs'
 import { LOCALE_ROUTE_REGISTRY } from './localeContentModel.mjs'
 import { parseLocalePath, LOCALE_COUNTRY_SLUGS, LOCALE_LANGS } from './seoPaths.mjs'
+import { parseCityPagePath } from './cityPaths.mjs'
+import { isValidCityForCountry } from './cityRegistry.mjs'
 import { registryStaticPaths, uaeSoftwarePaths } from './seoRouteCatalog.mjs'
 
 const TRUST_PATHS = new Set(['/about', '/contact', '/privacy', '/developers'])
@@ -43,6 +45,17 @@ export async function resolvePublicPath(deps, pathname) {
   }
 
   if (path.match(/^\/ae\/en(\/|$)/)) {
+    const cityUnderAe = path.match(/^\/ae\/en\/([^/]+)\/([^/]+)\/?$/)
+    if (cityUnderAe && isValidCityForCountry(cityUnderAe[1], 'AE')) {
+      return {
+        known: true,
+        kind: 'redirect',
+        redirectTo: `/${cityUnderAe[1]}/${cityUnderAe[2]}`,
+        path,
+        locale: { country: 'ae', lang: 'en' },
+        restPath: `/${cityUnderAe[1]}/${cityUnderAe[2]}`,
+      }
+    }
     return { known: true, kind: 'redirect', path, locale: { country: 'ae', lang: 'en' }, restPath: '/' }
   }
 
@@ -100,6 +113,19 @@ export async function resolvePublicPath(deps, pathname) {
     const slug = normalizedInternal.split('/')[2]
     if (slug) {
       return { known: true, kind: 'locale-industry', path, locale: parsed, restPath: normalizedInternal, slug }
+    }
+  }
+
+  const cityParsed = parseCityPagePath(path)
+  if (cityParsed.isCityPage && cityParsed.citySlug && cityParsed.pageSlug) {
+    return {
+      known: true,
+      kind: 'city-page',
+      path,
+      locale: parsed,
+      restPath: normalizedInternal,
+      citySlug: cityParsed.citySlug,
+      pageSlug: cityParsed.pageSlug,
     }
   }
 

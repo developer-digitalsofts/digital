@@ -17,7 +17,7 @@
     {
       "id": "stats",
       "name": "Trust Metrics",
-      "visible": true,
+      "visible": false,
       "sortOrder": 2
     },
     {

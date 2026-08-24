@@ -130,6 +130,8 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
       .then((payload: { redirect?: string | null } | null) => {
         const target = payload?.redirect
         if (target && target !== '/' && location.pathname === '/') {
+          const localized = parseLocalePath(target)
+          writeLocalePref({ country: localized.country, lang: localized.lang, manual: false })
           navigate(target, { replace: true })
         }
       })

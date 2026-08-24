@@ -25,10 +25,12 @@ async function main() {
   await page.goto(BASE, { waitUntil: 'networkidle', timeout: 60000 })
   await page.waitForSelector('#home', { timeout: 15000 })
 
-  // Hero autoplay interval
-  const duration = await page.locator('.dm-hero__progress-fill').first().evaluate((el) => el.style.animationDuration)
-  if (duration === '5000ms') pass('Hero autoplay duration is 5s')
-  else fail('Hero autoplay duration is 5s', `got ${duration}`)
+  // Hero autoplay still advances tabs (progress indicator removed)
+  const initialTab = await page.locator('.dm-hero__tab--active').textContent()
+  await page.waitForTimeout(5200)
+  const nextTab = await page.locator('.dm-hero__tab--active').textContent()
+  if (initialTab && nextTab && initialTab !== nextTab) pass('Hero autoplay advances module tabs')
+  else fail('Hero autoplay advances module tabs', `${initialTab || 'none'} -> ${nextTab || 'none'}`)
 
   // Hero tabs
   const tabs = await page.locator('.dm-hero__tab').count()
