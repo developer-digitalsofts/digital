@@ -56,7 +56,8 @@ export function buildLocalizedHref(country: LocaleCountrySlug, lang: LocaleLang,
   const clean = internalPath.startsWith('/') ? internalPath : `/${internalPath}`
   if (clean === '/') return buildLocalePath(country, lang, '/')
   const parts = clean.split('/').filter(Boolean)
-  if (parts[0] && ROOT_TO_LOCALE_ALIASES[parts[0]]) {
+  // UAE English keeps /blog; other locales use /insights
+  if (!isDefaultLocale(country, lang) && parts[0] && ROOT_TO_LOCALE_ALIASES[parts[0]]) {
     parts[0] = ROOT_TO_LOCALE_ALIASES[parts[0]]
   }
   return buildLocalePath(country, lang, `/${parts.join('/')}`)

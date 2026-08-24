@@ -49,6 +49,10 @@ export function resolveTestimonialsCms(
 ): {
   eyebrow: string
   title: string
+  supportingText: string
+  viewAllLabel: string
+  viewAllUrl: string
+  showViewAll: boolean
   items: {
     id: string
     quote: string
@@ -59,22 +63,21 @@ export function resolveTestimonialsCms(
     imageAlt: string
   }[]
 } {
-  const fallbackItems = ['fahad', 'ayesha', 'usman', 'sara', 'bilal', 'nadia'].map((key) => ({
-    id: key,
-    quote: t(`testimonials.items.${key}.quote`),
-    customerName: t(`testimonials.items.${key}.name`),
-    designation: t(`testimonials.items.${key}.role`),
-    company: t(`testimonials.items.${key}.company`),
-    image: '',
-    imageAlt: t(`testimonials.items.${key}.name`),
-  }))
-
   const doc = cms?.testimonials as TestimonialsContentDoc | undefined
   const resolved = resolveTestimonialsDoc(doc, lang)
   if (!resolved.sectionEnabled) {
-    return { eyebrow: '', title: '', items: [] }
+    return {
+      eyebrow: '',
+      title: '',
+      supportingText: '',
+      viewAllLabel: '',
+      viewAllUrl: '/testimonials',
+      showViewAll: false,
+      items: [],
+    }
   }
 
+  // Never fall back to i18n fake quotes — only published CMS testimonials
   const cmsItems = selectHomepageTestimonials(resolved, countryCode).map((item) => ({
     id: item.id,
     quote: item.quote,
@@ -87,8 +90,12 @@ export function resolveTestimonialsCms(
 
   return {
     eyebrow: resolved.eyebrow || t('testimonials.eyebrow'),
-    title: resolved.heading,
-    items: cmsItems.length ? cmsItems : fallbackItems,
+    title: resolved.heading || t('testimonials.title'),
+    supportingText: resolved.supportingText,
+    viewAllLabel: resolved.viewAllLabel || t('testimonials.viewAll'),
+    viewAllUrl: resolved.viewAllUrl || '/testimonials',
+    showViewAll: resolved.showViewAll,
+    items: cmsItems,
   }
 }
 

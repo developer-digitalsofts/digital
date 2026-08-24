@@ -6,9 +6,12 @@ import { pick } from '../../cms/pick'
 type Props = {
   blocks: BlogBlock[]
   lang: Lang
+  headingIds?: { id: string; text: string; level: 2 | 3 }[]
 }
 
-export function BlogArticleBody({ blocks, lang }: Props) {
+export function BlogArticleBody({ blocks, lang, headingIds = [] }: Props) {
+  let headingIndex = 0
+
   return (
     <div className="blog-article__body">
       {blocks.map((block) => {
@@ -16,9 +19,16 @@ export function BlogArticleBody({ blocks, lang }: Props) {
           case 'paragraph':
             return <p key={block.id}>{pick(block.text, lang)}</p>
           case 'heading2':
-            return <h2 key={block.id}>{pick(block.text, lang)}</h2>
-          case 'heading3':
-            return <h3 key={block.id}>{pick(block.text, lang)}</h3>
+          case 'heading3': {
+            const tocId = headingIds[headingIndex]?.id
+            if (block.type === 'heading2' || block.type === 'heading3') headingIndex += 1
+            const Tag = block.type === 'heading2' ? 'h2' : 'h3'
+            return (
+              <Tag key={block.id} id={tocId}>
+                {pick(block.text, lang)}
+              </Tag>
+            )
+          }
           case 'bulletList':
             return (
               <ul key={block.id}>

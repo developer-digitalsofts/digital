@@ -3,10 +3,10 @@
   "section": {
     "enabled": true,
     "eyebrow": { "en": "LATEST INSIGHTS", "ar": "أحدث الرؤى" },
-    "heading": { "en": "Business Insights", "ar": "رؤى الأعمال" },
+    "heading": { "en": "Business Insights & ERP Guides", "ar": "رؤى الأعمال وأدلة ERP" },
     "supportingText": {
-      "en": "Practical guidance on ERP, retail, inventory, finance and digital operations.",
-      "ar": "إرشادات عملية حول ERP والتجزئة والمخزون والمالية والعمليات الرقمية."
+      "en": "Practical articles on cloud ERP, inventory, finance, multi-branch operations and digital transformation for growing GCC businesses.",
+      "ar": "مقالات عملية حول ERP السحابي والمخزون والمالية وعمليات الفروع والتحول الرقمي للشركات النامية في الخليج."
     },
     "limit": 3,
     "selectionMode": "recent",

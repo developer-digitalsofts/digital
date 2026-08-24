@@ -48,12 +48,25 @@ export function registerContentRoutes(app, deps) {
     return (await safeReadJson(file, fallback)) || fallback
   }
 
+  function matchesTestimonialLanguage(item, lang) {
+    const code = (item.languageCode || '').trim().toLowerCase()
+    if (!code) return true
+    return code === lang
+  }
+
   function publishedTestimonials(doc, lang = 'en', countryCode = 'AE') {
     const section = doc?.section || {}
     const page = doc?.page || {}
     const selectedCountry = normalizeCountryCode(countryCode)
     const items = (doc?.items || [])
-      .filter((item) => isPublishedRecord(item) && isValidTestimonial(item) && matchesCountryScope(item.countryCode, selectedCountry))
+      .filter(
+        (item) =>
+          isPublishedRecord(item) &&
+          item.isSample !== true &&
+          isValidTestimonial(item) &&
+          matchesCountryScope(item.countryCode, selectedCountry) &&
+          matchesTestimonialLanguage(item, lang),
+      )
       .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
       .map((item) => ({
         ...stripAdminFieldsTestimonial(item),
@@ -92,6 +105,7 @@ export function registerContentRoutes(app, deps) {
       },
       page: {
         enabled: page.enabled !== false,
+        eyebrow: readBilingualText(page.eyebrow, lang),
         title: readBilingualText(page.title, lang),
         intro: readBilingualText(page.intro, lang),
         seoTitle: readBilingualText(page.seoTitle, lang),
@@ -131,10 +145,23 @@ export function registerContentRoutes(app, deps) {
     return categories.find((c) => c.id === categoryId) || { id: '', name: '', slug: '', description: '' }
   }
 
+  function matchesBlogLanguage(post, lang) {
+    const code = (post.languageCode || '').trim().toLowerCase()
+    if (code) return code === lang
+    return Boolean(readBilingualText(post.title, lang))
+  }
+
   function publishedBlogPosts(doc, categories, lang = 'en', countryCode = 'AE') {
     const selectedCountry = normalizeCountryCode(countryCode)
     return (doc?.items || [])
-      .filter((p) => isPublishedRecord(p) && p.slug && readBilingualText(p.title, lang) && matchesCountryScope(p.countryCode, selectedCountry))
+      .filter(
+        (p) =>
+          isPublishedRecord(p) &&
+          p.slug &&
+          readBilingualText(p.title, lang) &&
+          matchesCountryScope(p.countryCode, selectedCountry) &&
+          matchesBlogLanguage(p, lang),
+      )
       .sort((a, b) => {
         const da = Date.parse(a.publishDate || '') || 0
         const db = Date.parse(b.publishDate || '') || 0
@@ -161,6 +188,12 @@ export function registerContentRoutes(app, deps) {
       authorRole: readBilingualText(post.authorRole, lang),
       authorImage: post.authorImage?.trim() || '',
       body,
+      faq: (post.faq || []).map((item) => ({
+        id: item.id,
+        question: readBilingualText(item.question, lang),
+        answer: readBilingualText(item.answer, lang),
+      })),
+      relatedPostIds: Array.isArray(post.relatedPostIds) ? post.relatedPostIds.filter(Boolean) : [],
       relatedSolutionUrl: post.relatedSolutionUrl?.trim() || '',
       ctaHeading: readBilingualText(post.ctaHeading, lang),
       ctaDescription: readBilingualText(post.ctaDescription, lang),
@@ -178,6 +211,8 @@ export function registerContentRoutes(app, deps) {
         ogTitle: readBilingualText(post.seo?.ogTitle, lang) || readBilingualText(post.title, lang),
         ogDescription: readBilingualText(post.seo?.ogDescription, lang) || readBilingualText(post.excerpt, lang),
         ogImage: post.seo?.ogImage?.trim() || post.featuredImage?.trim() || '',
+        robotsIndex: post.seo?.robotsIndex !== false,
+        robotsFollow: post.seo?.robotsFollow !== false,
       },
     }
   }
@@ -301,9 +336,17 @@ export function registerContentRoutes(app, deps) {
         sendPublicJson(res, { error: 'Not found' }, 404)
         return
       }
-      const related = posts
-        .filter((p) => p.id !== post.id && (p.categoryId === post.categoryId || p.tags.some((t) => post.tags.includes(t))))
-        .slice(0, 3)
+      const relatedById = new Map(posts.map((p) => [p.id, p]))
+      let related = (post.relatedPostIds || [])
+        .map((id) => relatedById.get(id))
+        .filter(Boolean)
+      if (!related.length) {
+        related = posts
+          .filter((p) => p.id !== post.id && (p.categoryId === post.categoryId || p.tags.some((t) => post.tags.includes(t))))
+          .slice(0, 3)
+      } else {
+        related = related.slice(0, 3)
+      }
       const idx = posts.findIndex((p) => p.id === post.id)
       sendPublicJson(res, {
         post,
@@ -373,6 +416,7 @@ export function registerContentRoutes(app, deps) {
       'Disallow: /api/',
       '',
       `Sitemap: ${PUBLIC_SITE_BASE}/sitemap.xml`,
+      `LLMs: ${PUBLIC_SITE_BASE}/llms.txt`,
       '',
     ].join('\n')
     res.type('text/plain; charset=utf-8').send(body)

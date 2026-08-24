@@ -11,6 +11,196 @@ import {
 import { normalizeCountryCode } from './countryHelpers.mjs'
 import { deleteLocaleOverride, upsertLocaleRecord } from './countrySetup.mjs'
 import { resetFieldToInherited, copyFieldFromSource } from './localeFieldHelpers.mjs'
+import { regionalizeDocument, loadCountryProfile } from './localeRegionalize.mjs'
+import { HOMEPAGE_LOCALE_MAP } from './localeHomepage.mjs'
+
+const LAYOUT_IDENTITY = {
+  navigation: 'header',
+  footer: 'footer',
+  seo: 'site',
+  contact: 'contact',
+}
+
+async function loadMergedSourcePayload(deps, source, publishStore) {
+  let payload = structuredClone(source.payload || {})
+  const baselineFile = source.baselineRef || payload.sourceFile
+  if (baselineFile) {
+    try {
+      const raw = await publishStore.readPublished(baselineFile)
+      const baseline = publishStore.stripMeta(raw) ?? raw ?? {}
+      if (payload.useBaseline === true || source.inheritanceMode === 'global' || source.inheritanceMode === 'inherit') {
+        payload = { ...baseline, ...(payload.fields || {}), ...payload }
+        delete payload.fields
+        delete payload.useBaseline
+        delete payload.sourceFile
+      }
+    } catch {
+      /* keep payload as-is */
+    }
+  }
+  return payload
+}
+
+export async function repairCountryLocaleRecords(deps, countryCode, lang) {
+  const country = normalizeCountryCode(countryCode)
+  const language = lang === 'ar' ? 'ar' : 'en'
+
+  const { result } = await deps.localeStorage.mutateLocaleStore(async (store) => {
+    const records = store.records || []
+    const keyFor = (r) => `${r.contentType}:${r.globalIdentity}:${normalizeCountryCode(r.countryCode)}:${r.languageCode}`
+
+    const grouped = new Map()
+    for (const rec of records) {
+      if (normalizeCountryCode(rec.countryCode) !== country || rec.languageCode !== language) continue
+      const key = keyFor(rec)
+      if (!grouped.has(key)) grouped.set(key, [])
+      grouped.get(key).push(rec)
+    }
+
+    const toRemove = new Set()
+    for (const [, list] of grouped) {
+      if (list.length <= 1) continue
+      const sorted = [...list].sort((a, b) => {
+        if (a.inheritanceMode === 'override' && b.inheritanceMode !== 'override') return -1
+        if (b.inheritanceMode === 'override' && a.inheritanceMode !== 'override') return 1
+        return String(a.updatedAt || '').localeCompare(String(b.updatedAt || ''))
+      })
+      for (const dup of sorted.slice(1)) toRemove.add(dup.id)
+    }
+
+    store.records = records.filter((r) => !toRemove.has(r.id))
+
+    const created = []
+    for (const ct of ['navigation', 'footer', 'seo']) {
+      const globalIdentity = LAYOUT_IDENTITY[ct]
+      const exists = store.records.some(
+        (r) =>
+          r.contentType === ct &&
+          r.globalIdentity === globalIdentity &&
+          normalizeCountryCode(r.countryCode) === country &&
+          r.languageCode === language,
+      )
+      if (exists) continue
+      const source = findRecordByIdentity(store.records, ct, globalIdentity, DEFAULT_GLOBAL_COUNTRY, DEFAULT_GLOBAL_LANG)
+      if (!source) continue
+      created.push(
+        defaultLocaleRecord({
+          contentType: ct,
+          globalIdentity,
+          slug: source.slug,
+          countryCode: country,
+          languageCode: language,
+          translationGroupId: source.translationGroupId,
+          sourceRecordId: source.id,
+          inheritanceMode: 'inherit',
+          translationStatus: 'missing',
+          publicationStatus: 'draft',
+          payload: { fields: {} },
+        }),
+      )
+    }
+
+    if (created.length) store.records = [...store.records, ...created]
+    return { removed: toRemove.size, created: created.length }
+  })
+
+  return result
+}
+
+export async function copyUaeStructureAsCountryDraft(deps, { countryCode, lang = 'en', regionalize = true }) {
+  const country = normalizeCountryCode(countryCode)
+  if (country === DEFAULT_GLOBAL_COUNTRY) throw new Error('Cannot bulk-copy UAE structure onto UAE baseline')
+
+  const language = lang === 'ar' ? 'ar' : 'en'
+  await repairCountryLocaleRecords(deps, country, language)
+
+  const countryProfile = regionalize ? await loadCountryProfile(deps.publishStore, country) : null
+  const draftStore = await deps.localeStorage.readLocaleStore()
+  const targets = (draftStore.records || []).filter(
+    (r) => normalizeCountryCode(r.countryCode) === country && r.languageCode === language,
+  )
+
+  const report = { copied: 0, skipped: 0, errors: [] }
+
+  for (const target of targets) {
+    try {
+      const source = findRecordByIdentity(
+        draftStore.records,
+        target.contentType,
+        target.globalIdentity,
+        DEFAULT_GLOBAL_COUNTRY,
+        DEFAULT_GLOBAL_LANG,
+      )
+      if (!source) {
+        report.skipped++
+        continue
+      }
+
+      let payload = await loadMergedSourcePayload(deps, source, deps.publishStore)
+      let seo = source.seo ? structuredClone(source.seo) : target.seo
+
+      if (regionalize && countryProfile) {
+        payload = regionalizeDocument(payload, country, { countryProfile })
+        if (seo) seo = regionalizeDocument(seo, country, { countryProfile })
+      }
+
+      const next = {
+        ...target,
+        sourceRecordId: source.id,
+        inheritanceMode: 'override',
+        translationStatus: 'draft',
+        publicationStatus: 'draft',
+        publishedAt: null,
+        payload,
+        seo,
+        updatedAt: new Date().toISOString(),
+      }
+
+      const validation = validateLocaleRecord(next, { existingRecords: draftStore.records })
+      if (!validation.ok) throw new Error(validation.errors.join('; '))
+
+      await upsertLocaleRecord(deps, next)
+      report.copied++
+    } catch (err) {
+      report.errors.push(`${target.contentType}/${target.globalIdentity}: ${err instanceof Error ? err.message : String(err)}`)
+    }
+  }
+
+  // Ensure homepage pageSection records exist even if missing from setup
+  for (const map of Object.values(HOMEPAGE_LOCALE_MAP)) {
+    const existing = findRecordByIdentity(draftStore.records, map.contentType, map.globalIdentity, country, language)
+    if (existing) continue
+    const source = findRecordByIdentity(draftStore.records, map.contentType, map.globalIdentity, DEFAULT_GLOBAL_COUNTRY, DEFAULT_GLOBAL_LANG)
+    if (!source) continue
+    let payload = await loadMergedSourcePayload(deps, source, deps.publishStore)
+    if (regionalize && countryProfile) payload = regionalizeDocument(payload, country, { countryProfile })
+    await upsertLocaleRecord(
+      deps,
+      defaultLocaleRecord({
+        contentType: map.contentType,
+        globalIdentity: map.globalIdentity,
+        slug: source.slug,
+        countryCode: country,
+        languageCode: language,
+        translationGroupId: source.translationGroupId,
+        sourceRecordId: source.id,
+        inheritanceMode: 'override',
+        translationStatus: 'draft',
+        publicationStatus: 'draft',
+        payload,
+      }),
+    )
+    report.copied++
+  }
+
+  deps.logActivity?.({
+    action: 'locale_bulk_copy',
+    description: `Copied UAE structure to ${country}/${language} — ${report.copied} records`,
+    section: 'localeRecords',
+  })
+
+  return report
+}
 
 export async function copyLocaleFromSource(deps, { targetId, sourceCountry, sourceLang, asDraft = true }) {
   const store = await deps.localeStorage.readLocaleStore()

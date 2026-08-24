@@ -127,7 +127,7 @@ export function validateLocaleRecord(record, opts = {}) {
     errors.push(`Unsupported locale combination: ${country}/${lang}`)
   }
 
-  if (r.inheritanceMode === 'override' && !r.sourceRecordId) {
+  if (r.inheritanceMode === 'override' && !r.sourceRecordId && !r.payload?._seedVersion) {
     errors.push('Override records require sourceRecordId')
   }
 

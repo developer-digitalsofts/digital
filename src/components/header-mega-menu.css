@@ -13,7 +13,7 @@
   padding-bottom: 0.75rem;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1180px) {
   .dm-mega-menu-wrap {
     display: block;
   }

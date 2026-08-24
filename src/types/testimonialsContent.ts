@@ -47,6 +47,7 @@ export type TestimonialsSectionConfig = {
 
 export type TestimonialsPageConfig = {
   enabled?: boolean
+  eyebrow?: Bilingual
   title?: Bilingual
   intro?: Bilingual
   seoTitle?: Bilingual

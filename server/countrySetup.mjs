@@ -192,10 +192,11 @@ export async function runCountrySetup(deps, request) {
           }
         }
 
-        for (const ct of ['navigation', 'footer', 'seo', 'contact']) {
-          const source = findGlobalSource(records, ct, ct === 'seo' ? 'site' : ct)
+        for (const ct of ['navigation', 'footer', 'seo']) {
+          const globalIdentity = ct === 'navigation' ? 'header' : ct === 'seo' ? 'site' : ct
+          const source = findGlobalSource(records, ct, globalIdentity)
           if (!source) continue
-          const existingLayout = records.find(
+          const existingLayout = [...records, ...created].find(
             (r) =>
               r.contentType === ct &&
               r.globalIdentity === source.globalIdentity &&
@@ -216,6 +217,8 @@ export async function runCountrySetup(deps, request) {
             publicationStatus: 'draft',
             payload: mode === 'structure_shared_draft' ? { useBaseline: true, fields: {} } : { fields: {} },
           })
+          const validation = validateLocaleRecord(rec, { existingRecords: [...records, ...created] })
+          if (!validation.ok) throw new Error(validation.errors.join('; '))
           created.push(rec)
         }
       }

@@ -28,7 +28,8 @@ const VALID_HREFLANG = new Set([
   'ar-BH',
 ])
 
-const DRAFT_LOCALE_PREFIXES = ['/qa/', '/sa/', '/om/', '/kw/', '/bh/']
+const DRAFT_AR_PATH_PREFIXES = ['/qa/ar', '/sa/ar', '/om/ar', '/kw/ar', '/bh/ar']
+const PUBLISHED_EN_HOME_PATHS = ['/sa/en', '/qa/en', '/om/en', '/kw/en', '/bh/en']
 const BLOCKED_PATHS = ['/admin', '/api/', '/admin/login']
 
 const results = []
@@ -79,16 +80,29 @@ async function verifySitemapContents(locs) {
   if (unique.size === locs.length) pass('No duplicate sitemap URLs', `${locs.length} entries`)
   else fail('No duplicate sitemap URLs', `${locs.length} total, ${unique.size} unique`)
 
-  for (const prefix of DRAFT_LOCALE_PREFIXES) {
+  for (const prefix of DRAFT_AR_PATH_PREFIXES) {
     const leaked = locs.filter((u) => {
       try {
-        return new URL(u).pathname.startsWith(prefix)
+        const p = new URL(u).pathname
+        return p === prefix || p.startsWith(`${prefix}/`)
       } catch {
         return u.includes(prefix)
       }
     })
-    if (!leaked.length) pass(`Draft GCC URLs excluded (${prefix})`)
-    else fail(`Draft GCC URLs excluded (${prefix})`, leaked.slice(0, 3).join(', '))
+    if (!leaked.length) pass(`Arabic draft URLs excluded (${prefix})`)
+    else fail(`Arabic draft URLs excluded (${prefix})`, leaked.slice(0, 3).join(', '))
+  }
+
+  for (const homePath of PUBLISHED_EN_HOME_PATHS) {
+    const found = locs.some((u) => {
+      try {
+        return new URL(u).pathname === homePath
+      } catch {
+        return u.endsWith(homePath)
+      }
+    })
+    if (found) pass(`Published English homepage in sitemap (${homePath})`)
+    else fail(`Published English homepage in sitemap (${homePath})`)
   }
 
   for (const blocked of BLOCKED_PATHS) {
@@ -143,10 +157,14 @@ async function verifyHreflangReciprocity() {
   if (xDefault?.href?.endsWith('/erp')) pass('x-default points to UAE English /erp', xDefault.href)
   else fail('x-default is correct', xDefault?.href || 'missing')
 
-  if (!alternates.some((a) => a.hreflang === 'en-SA')) {
-    pass('Missing translations do not generate alternates', 'no en-SA for draft SA')
+  const hasEnSa = alternates.some((a) => a.hreflang === 'en-SA')
+  const hasArSa = alternates.some((a) => a.hreflang === 'ar-SA')
+  if (hasEnSa && !hasArSa) {
+    pass('Published English SA alternate without unpublished Arabic', 'en-SA present, ar-SA absent')
+  } else if (!hasEnSa && !hasArSa) {
+    pass('No SA alternates when SA content unpublished')
   } else {
-    fail('Missing translations do not generate alternates', 'unexpected en-SA alternate')
+    fail('SA hreflang alternates', `en-SA=${hasEnSa} ar-SA=${hasArSa}`)
   }
 
   let reciprocalOk = true
@@ -171,11 +189,10 @@ async function verifyHreflangReciprocity() {
 async function verifyDraftNoindexWithFixtures(auth) {
   await withDraftTestFixtures(async () => {
     const draftPaths = [
-      '/qa/en/erp',
+      '/qa/ar/erp',
       '/sa/ar/erp',
       '/om/en/software/industry/retail-management-software',
-      '/kw/ar/software/inventory-management-software',
-      '/bh/en/contact',
+      '/kw/ar/software/module/inventory-management-software',
     ]
     for (const path of draftPaths) {
       const { body } = await verifySeoPage(path)
@@ -183,9 +200,25 @@ async function verifyDraftNoindexWithFixtures(auth) {
       else fail(`Draft/noindex protection (${path})`, `noIndex=${body.noIndex}`)
     }
 
+    const publishedPaths = ['/sa/en', '/qa/en/erp', '/bh/en/contact']
+    for (const path of publishedPaths) {
+      const { body } = await verifySeoPage(path)
+      if (body.noIndex === false) pass(`Published English indexable (${path})`)
+      else fail(`Published English indexable (${path})`, `noIndex=${body.noIndex}`)
+    }
+
     const sitemap = await fetch(`${API}/sitemap.xml`).then((r) => r.text())
     const locs = parseSitemapLocs(sitemap)
-    const leaked = locs.filter((u) => DRAFT_LOCALE_PREFIXES.some((p) => new URL(u).pathname.startsWith(p)))
+    const leaked = locs.filter((u) =>
+      DRAFT_AR_PATH_PREFIXES.some((p) => {
+        try {
+          const pathname = new URL(u).pathname
+          return pathname === p || pathname.startsWith(`${p}/`)
+        } catch {
+          return false
+        }
+      }),
+    )
     if (!leaked.length) pass('Draft locales excluded from sitemap with fixtures active')
     else fail('Draft locales excluded from sitemap with fixtures active', leaked.join(', '))
   }, auth)

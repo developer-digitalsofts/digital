@@ -16,6 +16,7 @@ import { pick } from '../cms/pick'
 import { isTopBarVisibleFromSections, parsePageSections } from '../cms/pageSections'
 import type { CmsHeader, CmsHeaderNavLink } from '../cms/types'
 import { LocaleSelector } from './LocaleSelector'
+import './header-layout.css'
 
 type MegaKey = 'module' | 'industry'
 
@@ -61,12 +62,12 @@ function TopBar({ header }: { header?: CmsHeader }) {
 
 /** Home / Contact — color only, no hover underline. */
 const navLinkBase =
-  'inline-flex items-center gap-1.5 pb-0.5 text-[12px] font-bold uppercase tracking-wide text-[#0f172a] transition-colors duration-200 hover:text-brand lg:text-[13px]'
+  'dm-header__nav-link inline-flex items-center gap-1 whitespace-nowrap pb-0.5 text-[11px] font-bold uppercase tracking-wide text-[#0f172a] transition-colors duration-200 hover:text-brand min-[1180px]:text-[12px]'
 
 /** Module / Industries triggers — color only, no underline on hover or when open. */
 function navMegaTrigger(active: boolean) {
   return [
-    'inline-flex items-center gap-1.5 border-0 bg-transparent pb-1 text-[13px] font-bold uppercase tracking-wide transition-colors duration-200',
+    'dm-header__nav-trigger inline-flex items-center gap-1 whitespace-nowrap border-0 bg-transparent pb-0.5 text-[11px] font-bold uppercase tracking-wide transition-colors duration-200 min-[1180px]:text-[12px]',
     active ? 'cursor-pointer text-brand' : 'cursor-pointer text-[#0f172a] hover:text-brand',
   ].join(' ')
 }
@@ -236,11 +237,11 @@ export function Header({ onOpenSearch }: HeaderProps) {
         ref={headerShellRef}
         className={`relative ${scrolled ? headerShellScrolled : headerShellDefault}`}
       >
-        <div className={pageShellClass}>
-          <div className="flex min-h-[58px] items-center justify-between gap-2.5 py-2 sm:min-h-[62px] sm:gap-3 lg:min-h-[64px] lg:py-2.5">
+        <div className="dm-header__container">
+          <div className="dm-header__bar">
             <Link
               to="/"
-              className="isolate flex shrink-0 items-center gap-3 bg-transparent py-0.5 transition-opacity duration-200 hover:opacity-90"
+              className="dm-header__logo isolate flex shrink-0 items-center gap-2 bg-transparent transition-opacity duration-200 hover:opacity-90"
               onClick={() => {
                 closeMega()
                 closeMobile()
@@ -249,14 +250,14 @@ export function Header({ onOpenSearch }: HeaderProps) {
               <img
                 src={logoSrc}
                 alt={brandName && (brandName.en || brandName.ar) ? pick(brandName, lang) : 'DigitalManager'}
-                className="h-7 max-h-8 w-auto max-w-[min(160px,48vw)] bg-transparent object-contain object-left sm:h-8 md:h-9 lg:max-h-9 rtl:object-right"
+                className="dm-header__logo-img bg-transparent rtl:object-right"
                 width={200}
                 height={58}
                 loading="eager"
                 decoding="async"
               />
               {brandName && (brandName.en || brandName.ar) ? (
-                <span className="hidden min-w-0 flex-col sm:flex">
+                <span className="hidden min-w-0 flex-col xl:flex">
                   <span className="truncate font-heading text-sm font-bold leading-tight tracking-tight text-[#0f172a]">
                     {pick(brandName, lang)}
                   </span>
@@ -269,12 +270,9 @@ export function Header({ onOpenSearch }: HeaderProps) {
               ) : null}
             </Link>
 
-            <nav
-              className="hidden flex-1 items-center justify-center px-2 lg:flex xl:justify-center"
-              aria-label="Primary"
-            >
+            <nav className="dm-header__nav" aria-label="Primary">
               {navStyle === 'simple' && simpleNavLinks.length > 0 ? (
-                <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 lg:gap-x-8 xl:gap-x-10">
+                <ul className="dm-header__nav-list">
                   {simpleNavLinks.map((item) => (
                     <li key={item.id}>
                       {/^https?:\/\//i.test(item.href.trim()) ? (
@@ -301,7 +299,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                   ))}
                 </ul>
               ) : (
-                <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1 lg:gap-x-8 xl:gap-x-10">
+                <ul className="dm-header__nav-list">
                   <li>
                     <NavLink
                       to="/"
@@ -358,7 +356,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
               )}
             </nav>
 
-            <div className="hidden shrink-0 items-center gap-1.5 sm:gap-2 lg:flex">
+            <div className="dm-header__actions">
               <LocaleSelector compact />
               {showLangSwitcher ? (
                 <button
@@ -367,7 +365,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                     closeMega()
                     toggleLang()
                   }}
-                  className="rounded-lg px-2 py-1.5 text-xs font-bold text-brand transition-colors hover:bg-slate-100 sm:text-sm"
+                  className="dm-header__lang-btn transition-colors hover:bg-slate-100"
                 >
                   {langSwitch}
                 </button>
@@ -375,7 +373,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
               {showGetInTouch ? (
                 <CmsLink
                   to={getInTouch!.href.trim()}
-                  className="inline-flex items-center rounded-xl border-2 border-brand px-3 py-1.5 text-xs font-bold text-brand transition-colors hover:bg-orange-50"
+                  className="inline-flex items-center rounded-xl border-2 border-brand px-2.5 py-1 text-[11px] font-bold text-brand transition-colors hover:bg-orange-50"
                   onClick={() => {
                     closeMega()
                     closeMobile()
@@ -387,26 +385,26 @@ export function Header({ onOpenSearch }: HeaderProps) {
               {showSearch ? (
                 <button
                   type="button"
-                  className="rounded-lg p-2 text-slate-900 transition-colors hover:bg-slate-100 hover:text-slate-900"
+                  className="dm-header__search-btn text-slate-900 transition-colors hover:bg-slate-100 hover:text-slate-900"
                   aria-label="Search"
                   onClick={() => {
                     closeMega()
                     onOpenSearch()
                   }}
                 >
-                  <Search className="size-[1.15rem] sm:size-5" strokeWidth={2.25} />
+                  <Search className="size-[1.05rem]" strokeWidth={2.25} />
                 </button>
               ) : null}
               <button
                 type="button"
-                className={`${headerGetDemoButtonClass} min-h-[40px] sm:min-h-[44px]`}
+                className={`${headerGetDemoButtonClass} dm-header__demo-btn`}
                 onClick={handleOpenDemo}
               >
                 Get Demo
               </button>
             </div>
 
-            <div className="flex items-center gap-1 sm:gap-1.5 lg:hidden">
+            <div className="dm-header__mobile">
               {showLangSwitcher ? (
                 <button
                   type="button"
@@ -453,7 +451,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
               </button>
               <button
                 type="button"
-                className="rounded-lg p-2 text-brand transition-colors hover:bg-orange-50 hover:text-brand-dark lg:hidden"
+                className="rounded-lg p-2 text-brand transition-colors hover:bg-orange-50 hover:text-brand-dark"
                 aria-expanded={mobileOpen}
                 aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
                 onClick={() => setMobileOpen((v) => !v)}
@@ -488,7 +486,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
         )}
 
         {mobileOpen && (
-          <div className="animate-fade-up max-h-[min(70dvh,520px)] overflow-y-auto overscroll-contain border-t border-slate-100 bg-white px-3 py-3 motion-reduce:animate-none lg:hidden">
+          <div className="animate-fade-up max-h-[min(70dvh,520px)] overflow-y-auto overscroll-contain border-t border-slate-100 bg-white px-3 py-3 motion-reduce:animate-none min-[1180px]:hidden">
             <nav className="flex flex-col gap-0.5" aria-label="Mobile">
               {navStyle === 'simple' && simpleNavLinks.length > 0
                 ? simpleNavLinks.map((item) => (

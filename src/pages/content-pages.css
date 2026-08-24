@@ -27,7 +27,7 @@
   margin: 0.75rem 0 0;
   font-size: clamp(2rem, 4vw, 2.75rem);
   line-height: 1.1;
-  color: #0f172a;
+  color: #141d38;
 }
 
 .content-page__intro {
@@ -56,9 +56,14 @@
 }
 
 .content-page__filters button.is-active {
-  border-color: #0f4c81;
-  background: #0f4c81;
+  border-color: #141d38;
+  background: #141d38;
   color: #fff;
+}
+
+.content-page__filters button:hover:not(.is-active) {
+  border-color: #f47c4d;
+  color: #f47c4d;
 }
 
 .content-page__grid {

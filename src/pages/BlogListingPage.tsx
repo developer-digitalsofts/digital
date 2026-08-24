@@ -2,8 +2,8 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { useEffect, useMemo, useState } from 'react'
 import { fetchPublicBlogCategories, fetchPublicBlogPosts } from '../cms/contentApi'
 import { useI18n } from '../i18n/I18nProvider'
+import { useLocale } from '../locale/LocaleContext'
 import { BlogCard } from '../components/blog/BlogCard'
-import { useCountry } from '../context/CountryContext'
 import type { ResolvedBlogPost } from '../types/blogContent'
 import './content-pages.css'
 import '../components/blog/blog.css'
@@ -16,7 +16,7 @@ type BlogListResponse = {
 
 export function BlogListingPage() {
   const { t, lang } = useI18n()
-  const { countryCode } = useCountry()
+  const { countryCode, href } = useLocale()
   const [params, setParams] = useSearchParams()
   const category = params.get('category') || ''
   const search = params.get('search') || ''
@@ -55,7 +55,8 @@ export function BlogListingPage() {
   const featured = useMemo(() => data?.items.find((p) => p.featured) || data?.items[0], [data?.items])
   const gridPosts = useMemo(() => (data?.items || []).filter((p) => p.id !== featured?.id), [data?.items, featured?.id])
   const totalPublished = data?.pagination.total ?? 0
-  const showComingSoon = !loading && !error && totalPublished === 1 && featured
+  const showFeatured = Boolean(featured)
+  const showGrid = gridPosts.length > 0
 
   const updateParams = (patch: Record<string, string | null>) => {
     const next = new URLSearchParams(params)
@@ -140,24 +141,22 @@ export function BlogListingPage() {
             </div>
           ) : null}
 
-          {!loading && !error && featured ? (
+          {!loading && !error && showFeatured ? (
             <section className="blog-list__featured" aria-label="Featured article">
-              <BlogCard post={featured} variant="featured" />
+              <BlogCard post={featured!} variant="featured" />
             </section>
           ) : null}
 
-          {!loading && !error && gridPosts.length > 0 ? (
-            <section className="blog-list__grid" aria-label="All articles">
+          {!loading && !error && showGrid ? (
+            <section className="blog-list__grid" aria-label="Latest articles">
               {gridPosts.map((post) => (
                 <BlogCard key={post.id} post={post} variant="grid" />
               ))}
             </section>
           ) : null}
 
-          {showComingSoon ? (
-            <div className="blog-list__coming-soon">
-              <p>More insights are coming soon.</p>
-            </div>
+          {!loading && !error && totalPublished > 0 && !showGrid && showFeatured ? (
+            <p className="blog-list__coming-soon">More articles will appear here as they are published.</p>
           ) : null}
 
           {!loading && !error && totalPublished > 0 && gridPosts.length === 0 && totalPublished > 1 ? (
@@ -189,8 +188,18 @@ export function BlogListingPage() {
               <h2>{t('demoCta.title')}</h2>
               <p>{t('demoCta.desc')}</p>
             </div>
-            <Link to="/contact" className="blog-list__cta-btn">
+            <Link to={href('/contact')} className="blog-list__cta-btn">
               {t('demoCta.button')}
+            </Link>
+          </div>
+        </section>
+
+        <section className="blog-list__newsletter" aria-label="Stay updated">
+          <div className="blog-list__newsletter-inner">
+            <h2>Stay updated on ERP insights</h2>
+            <p>Get practical articles on finance, inventory and operations — or speak with our team for a tailored demo.</p>
+            <Link to={href('/contact')} className="blog-list__newsletter-btn">
+              Contact our team
             </Link>
           </div>
         </section>

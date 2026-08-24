@@ -412,14 +412,17 @@ export const messages = {
     trustStats: {
       title: 'Trusted By Businesses Across UAE & GCC',
       bannerTitle: 'Trusted Results.\nStronger Businesses.',
-      eyebrow: 'Proven Performance',
+      eyebrow: 'WHY BUSINESSES CHOOSE DIGITALMANAGER',
       heading: 'Built on Trust. Proven by Results.',
+      defaultHeading: 'Built for Growing Businesses Across {{country}}',
+      defaultSubheading:
+        'A unified cloud ERP platform designed to support finance, inventory, sales and multi-branch operations.',
       items: {
         experience: { value: 'Cloud', label: 'Native ERP Platform' },
-        softwares: { value: '120+', label: 'Business Solutions' },
-        clients: { value: 'AED', label: 'VAT-Ready Invoicing' },
-        satisfaction: { value: 'Unified', label: 'Connected Operations' },
-        branches: { value: 'UAE', label: 'Focused Implementation' },
+        softwares: { value: 'AED', label: 'Multi-Currency Ready' },
+        clients: { value: 'Unified', label: 'Connected Operations' },
+        satisfaction: { value: 'Multi', label: 'Branch Operations' },
+        branches: { value: 'GCC', label: 'Regional Support' },
       },
     },
     industryListing: {
@@ -1353,14 +1356,17 @@ export const messages = {
     trustStats: {
       title: 'موثوق من الشركات في الإمارات ودول الخليج',
       bannerTitle: 'نتائج موثوقة.\nأعمال أقوى.',
-      eyebrow: 'أداء مثبت',
+      eyebrow: 'لماذا تختار الشركات DigitalManager',
       heading: 'مبني على الثقة. مثبت بالنتائج.',
+      defaultHeading: 'مصمّم للشركات النامية في {{country}}',
+      defaultSubheading:
+        'منصة ERP سحابية موحّدة لدعم المالية والمخزون والمبيعات وعمليات الفروع المتعددة.',
       items: {
         experience: { value: 'Cloud', label: 'منصة ERP سحابية' },
-        softwares: { value: '120+', label: 'حلول أعمال' },
-        clients: { value: 'AED', label: 'فوترة جاهزة لضريبة القيمة المضافة' },
-        satisfaction: { value: 'Unified', label: 'عمليات متصلة' },
-        branches: { value: 'UAE', label: 'تنفيذ مخصص للإمارات' },
+        softwares: { value: 'AED', label: 'جاهزية العملات' },
+        clients: { value: 'Unified', label: 'عمليات متصلة' },
+        satisfaction: { value: 'Multi', label: 'عمليات الفروع' },
+        branches: { value: 'GCC', label: 'دعم إقليمي' },
       },
     },
     industryListing: {

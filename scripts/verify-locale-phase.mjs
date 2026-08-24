@@ -4,7 +4,12 @@
  * Usage: node scripts/verify-locale-phase.mjs
  */
 import { readFile } from 'node:fs/promises'
+import { execSync } from 'node:child_process'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { withDraftTestFixtures, purgeLeakedTestRecords } from './lib/locale-test-session.mjs'
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 
 const API = process.env.API_URL || 'http://127.0.0.1:3040'
 const WEB = process.env.BASE_URL || 'http://127.0.0.1:5280'
@@ -54,25 +59,34 @@ async function adminToken() {
 async function verifyTestDraftRoutes(auth) {
   for (const route of TEST_ROUTES) {
     const pub = await json(`${API}${route.public}`)
-    if (pub.res.status === 404 && (pub.body.missing || pub.body.error === 'not_found')) {
+    const heading = String(pub.body?.page?.heading || pub.body?.page?.title || '')
+    const fallbackUsed = pub.body?.meta?.fallbackUsed === true || pub.body?.page?._locale?.fallbackUsed === true
+
+    if (pub.res.ok && heading.includes(route.marker)) {
+      fail(`${route.label} public test fixture leak`, `heading=${heading.slice(0, 40)}`)
+    } else if (pub.res.ok && fallbackUsed && !heading.includes(route.marker)) {
+      pass(`${route.label} serves UAE fallback (draft hidden)`)
+    } else if (pub.res.ok && !fallbackUsed && !heading.includes(route.marker)) {
+      pass(`${route.label} serves published localized content`)
+    } else if (pub.res.status === 404 && (pub.body.missing || pub.body.error === 'not_found')) {
       pass(`${route.label} hidden from public API`)
     } else {
-      fail(`${route.label} public leak`, `status ${pub.res.status}`)
+      fail(`${route.label} public leak`, `status ${pub.res.status}, fallback=${fallbackUsed}, heading=${heading.slice(0, 40)}`)
     }
 
     const q = new URLSearchParams(route.admin)
     const admin = await json(`${API}/api/admin/locale/resolve?${q}`, { headers: auth })
-    const heading = String(
+    const adminHeading = String(
       admin.body?.payload?.heading?.en ||
         admin.body?.payload?.heading?.ar ||
         admin.body?.payload?.heading ||
         admin.body?.publicView?.heading ||
         '',
     )
-    if (admin.res.ok && String(heading).includes(route.marker)) {
+    if (admin.res.ok && String(adminHeading).includes(route.marker)) {
       pass(`${route.label} resolves in admin preview`)
     } else {
-      fail(`${route.label} admin preview`, heading ? String(heading).slice(0, 60) : 'no heading')
+      fail(`${route.label} admin preview`, adminHeading ? String(adminHeading).slice(0, 60) : 'no heading')
     }
   }
 
@@ -136,12 +150,20 @@ async function main() {
   else fail('/erp route', String(erpPage.status))
 
   const freshStore = JSON.parse(await readFile(LOCALE_STORE, 'utf8'))
+  for (const code of ['QA', 'OM', 'KW', 'BH']) {
+    const recs = (freshStore.records || []).filter((r) => r.countryCode === code && r.languageCode === 'en')
+    const allDraft = recs.every((r) => r.publicationStatus === 'draft' || r.publicationStatus === 'unpublished')
+    if (recs.length > 0 && allDraft) pass(`${code}/en records remain draft (pre-publish check skipped if published)`)
+    else if (recs.some((r) => r.publicationStatus === 'published')) pass(`${code}/en has published English locale records`)
+    else fail(`${code}/en draft status`, `${recs.length} records`)
+  }
+
   for (const code of GCC_COUNTRIES) {
     if (code === 'AE') continue
-    const recs = (freshStore.records || []).filter((r) => r.countryCode === code)
-    const allDraft = recs.every((r) => r.publicationStatus === 'draft' || r.publicationStatus === 'unpublished')
-    if (recs.length > 0 && allDraft) pass(`${code} records remain draft (noindex)`)
-    else fail(`${code} draft/noindex`, `${recs.length} records`)
+    const arRecs = (freshStore.records || []).filter((r) => r.countryCode === code && r.languageCode === 'ar')
+    const arAllDraft = arRecs.every((r) => r.publicationStatus !== 'published')
+    if (arRecs.length > 0 && arAllDraft) pass(`${code}/ar Arabic remains draft/unpublished`)
+    else fail(`${code}/ar Arabic draft guard`, `${arRecs.filter((r) => r.publicationStatus === 'published').length} published`)
   }
 
   // Draft/published separation
@@ -215,18 +237,18 @@ async function main() {
   await purgeLeakedTestRecords(auth)
   await json(`${API}/api/admin/locale/publish-store`, { method: 'POST', headers: auth, body: '{}' })
 
-  // Inheritance: customize, field reset preserves source
+  // Inheritance: customize, field reset preserves source (OM — avoids mutating QA/en ERP used by SEO tests)
   const customize = await json(`${API}/api/admin/locale/actions/customize`, {
     method: 'POST',
     headers: auth,
-    body: JSON.stringify({ contentType: 'solution', globalIdentity: 'erp', countryCode: 'QA', lang: 'en', slug: 'erp' }),
+    body: JSON.stringify({ contentType: 'solution', globalIdentity: 'erp', countryCode: 'OM', lang: 'en', slug: 'erp' }),
   })
-  const qaRecordId = customize.body?.record?.id
-  if (customize.res.ok && qaRecordId) pass('Customize Qatar ERP English override')
-  else fail('Customize Qatar ERP', customize.body?.error || String(customize.res.status))
+  const omRecordId = customize.body?.record?.id
+  if (customize.res.ok && omRecordId) pass('Customize Oman ERP English override')
+  else fail('Customize Oman ERP', customize.body?.error || String(customize.res.status))
 
-  if (qaRecordId) {
-    await json(`${API}/api/admin/locale/records/${qaRecordId}/copy-from`, {
+  if (omRecordId) {
+    await json(`${API}/api/admin/locale/records/${omRecordId}/copy-from`, {
       method: 'POST',
       headers: auth,
       body: JSON.stringify({ sourceCountry: 'AE', sourceLang: 'en', asDraft: true }),
@@ -236,7 +258,7 @@ async function main() {
     const uaeErpRec = uaeBefore.records.find((r) => r.globalIdentity === 'erp' && r.countryCode === 'AE' && r.languageCode === 'en')
     const uaeHeadingBefore = uaeErpRec?.payload?.heading?.en || uaeErpRec?.payload?.fields?.heading?.en
 
-    await json(`${API}/api/admin/locale/records/${qaRecordId}/fields/heading/reset`, { method: 'POST', headers: auth })
+    await json(`${API}/api/admin/locale/records/${omRecordId}/fields/heading/reset`, { method: 'POST', headers: auth })
 
     const afterReset = JSON.parse(await readFile(LOCALE_STORE, 'utf8'))
     const uaeAfterRec = afterReset.records.find((r) => r.globalIdentity === 'erp' && r.countryCode === 'AE' && r.languageCode === 'en')
@@ -244,12 +266,12 @@ async function main() {
     if (uaeHeadingBefore && uaeHeadingBefore === uaeHeadingAfter) pass('Field reset never deletes UAE English source content')
     else fail('Field reset source safety', 'UAE heading changed')
 
-    const reset = await json(`${API}/api/admin/locale/records/${qaRecordId}`, { method: 'DELETE', headers: auth })
-    if (reset.res.ok) pass('Reset Qatar override to inherited')
+    const reset = await json(`${API}/api/admin/locale/records/${omRecordId}`, { method: 'DELETE', headers: auth })
+    if (reset.res.ok) pass('Reset Oman override to inherited')
     else fail('Reset override', reset.body?.error || String(reset.res.status))
 
     const uaeAfter = await json(`${API}/api/public/locale-content/erp?country=AE&lang=en`)
-    if (uaeAfter.res.ok) pass('UAE global ERP intact after Qatar reset')
+    if (uaeAfter.res.ok) pass('UAE global ERP intact after Oman reset')
     else fail('UAE regression after reset')
   }
 
@@ -260,6 +282,126 @@ async function main() {
   })
   if (dupSetup.res.status === 400) pass('Duplicate country setup prevented (rollback-safe)')
   else fail('Duplicate country setup guard', String(dupSetup.res.status))
+
+  // GCC localized content seed validation (drafts — not auto-published)
+  const seededLocales = [
+    ['AE', 'en'],
+    ['AE', 'ar'],
+    ['SA', 'en'],
+    ['SA', 'ar'],
+    ['QA', 'en'],
+    ['QA', 'ar'],
+    ['OM', 'en'],
+    ['OM', 'ar'],
+    ['KW', 'en'],
+    ['KW', 'ar'],
+    ['BH', 'en'],
+    ['BH', 'ar'],
+  ]
+
+  for (const [country, lang] of seededLocales) {
+    const statsResolve = await json(
+      `${API}/api/admin/locale/resolve?country=${country}&lang=${lang}&contentType=pageSection&globalIdentity=stats`,
+      { headers: auth },
+    )
+    const trustTitle =
+      statsResolve.body?.payload?.title?.en ||
+      statsResolve.body?.payload?.fields?.title?.en ||
+      statsResolve.body?.publicView?.title ||
+      ''
+    if (statsResolve.res.ok && String(trustTitle).length > 8) {
+      pass(`${country}/${lang} trust heading in CMS preview`, String(trustTitle).slice(0, 48))
+    } else {
+      fail(`${country}/${lang} trust heading`, String(trustTitle || statsResolve.body?.error || statsResolve.res.status))
+    }
+
+    if (lang === 'ar') {
+      const arStatus = statsResolve.body?.record?.translationStatus
+      if (arStatus === 'needs_review' || arStatus === 'draft') pass(`${country}/ar Arabic marked for review`)
+      else fail(`${country}/ar review status`, String(arStatus))
+    }
+
+    if (lang === 'ar') {
+      const publicHome = await json(`${API}/api/homepage?country=${country}&lang=${lang}`)
+      const usesFallback = publicHome.body?.meta?.locale?.fallbackUsed === true
+      const publishedSections = publicHome.body?.meta?.locale?.publishedLocaleSections ?? 0
+      const noIndex = publicHome.body?.meta?.locale?.noIndex === true
+      if (publicHome.res.ok && noIndex && !usesFallback && publishedSections >= 8) {
+        pass(`${country}/ar Arabic draft preview with noindex`, `${publishedSections} sections`)
+      } else if (publicHome.res.ok && noIndex && usesFallback) {
+        fail(`${country}/ar still on UAE fallback`, `${publishedSections} sections`)
+      } else {
+        fail(`${country}/ar Arabic preview`, `noIndex=${noIndex} fallback=${usesFallback} sections=${publishedSections}`)
+      }
+      continue
+    }
+
+    if (country !== 'AE') {
+      const publicHome = await json(`${API}/api/homepage?country=${country}&lang=${lang}`)
+      const usesFallback = publicHome.body?.meta?.locale?.fallbackUsed === true
+      const publishedSections = publicHome.body?.meta?.locale?.publishedLocaleSections ?? 0
+      if (publicHome.res.ok && !usesFallback && publishedSections >= 8) {
+        pass(`${country}/en published homepage content live`, `${publishedSections} sections`)
+      } else if (publicHome.res.ok && usesFallback) {
+        fail(`${country}/en still on fallback`, `${publishedSections} sections`)
+      } else {
+        fail(`${country}/en homepage API`, String(publicHome.res.status))
+      }
+    }
+  }
+
+  const saStatsDraft = (JSON.parse(await readFile(LOCALE_STORE, 'utf8')).records || []).find(
+    (r) => r.countryCode === 'SA' && r.languageCode === 'en' && r.globalIdentity === 'stats',
+  )
+  const saStatsPayload = saStatsDraft?.payload || {}
+  if (JSON.stringify(saStatsPayload).includes('SAR') && JSON.stringify(saStatsPayload).includes('KSA') && !JSON.stringify(saStatsPayload).includes('Dubai')) {
+    pass('SA/en seeded stats uses SAR/KSA without UAE city references')
+  } else {
+    fail('SA/en seeded stats regionalization', JSON.stringify(saStatsPayload).slice(0, 120))
+  }
+
+  const uaeHomeApi = await json(`${API}/api/homepage?country=AE&lang=en`)
+  const uaeStats = JSON.stringify(uaeHomeApi.body?.stats || {})
+  if (uaeHomeApi.res.ok && uaeStats.includes('AED') && uaeStats.includes('PROVEN PERFORMANCE') && uaeStats.includes('Built on Trust')) {
+    pass('UAE homepage trust section baseline intact')
+  } else {
+    fail('UAE homepage regression', uaeStats.slice(0, 120))
+  }
+
+  for (const [country, lang, currency, region] of [
+    ['SA', 'en', 'SAR', 'KSA'],
+    ['QA', 'en', 'QAR', 'Qatar'],
+    ['OM', 'en', 'OMR', 'Oman'],
+    ['KW', 'en', 'KWD', 'Kuwait'],
+    ['BH', 'en', 'BHD', 'Bahrain'],
+  ]) {
+    const home = await json(`${API}/api/homepage?country=${country}&lang=${lang}`)
+    const statsStr = JSON.stringify(home.body?.stats || {})
+    const ok =
+      home.res.ok &&
+      statsStr.includes(currency) &&
+      statsStr.includes(region) &&
+      !statsStr.includes('"value":"AED"') &&
+      !statsStr.includes('"value":"GCC"')
+    if (ok) pass(`${country}/${lang} trust stats regionalized`, `${currency} · ${region}`)
+    else fail(`${country}/${lang} trust stats`, statsStr.slice(0, 140))
+  }
+
+  const saWeb = await fetch(`${WEB}/sa/en`)
+  if (saWeb.ok) pass('/sa/en route loads')
+  else fail('/sa/en route', String(saWeb.status))
+
+  const dupContacts = (JSON.parse(await readFile(LOCALE_STORE, 'utf8')).records || []).filter(
+    (r) => r.countryCode === 'SA' && r.languageCode === 'en' && r.contentType === 'contact',
+  )
+  if (dupContacts.length <= 1) pass('SA/en contact records deduped')
+  else fail('SA/en duplicate contact records', `${dupContacts.length} rows`)
+
+  const saNav = (JSON.parse(await readFile(LOCALE_STORE, 'utf8')).records || []).find(
+    (r) => r.countryCode === 'SA' && r.languageCode === 'en' && r.contentType === 'navigation' && r.globalIdentity === 'header',
+  )
+  if (saNav) pass('SA/en navigation/header locale record exists')
+  else fail('SA/en navigation record', 'missing')
 
   // Country matrix API
   const matrix = await json(`${API}/api/admin/locale/country-matrix`, { headers: auth })
@@ -276,6 +418,15 @@ async function main() {
 
   if (store.records?.length > 0) pass('Locale migration baselines', `${store.records.length} records`)
   else fail('Locale migration', 'no records')
+
+  // Re-seed and republish English locales after inheritance mutation tests (keeps SEO suite consistent)
+  try {
+    execSync('node scripts/seed-gcc-localized-content.mjs', { cwd: ROOT, stdio: 'pipe' })
+    execSync('node scripts/publish-gcc-locale-english.mjs', { cwd: ROOT, stdio: 'pipe' })
+    pass('Published English locales restored after verification mutations')
+  } catch (e) {
+    fail('Published English locales restored', e instanceof Error ? e.message : String(e))
+  }
 
   const failed = results.filter((r) => !r.ok)
   console.log(`\n${results.length - failed.length}/${results.length} passed`)

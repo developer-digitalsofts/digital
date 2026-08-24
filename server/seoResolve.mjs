@@ -20,6 +20,7 @@ import {
   parseLocalePath,
 } from './seoPaths.mjs'
 import { registryStaticPaths, uaeCorePaths, uaeSoftwarePaths } from './seoRouteCatalog.mjs'
+import { getLocaleHomepageIndexMeta } from './localeHomepage.mjs'
 
 export const PUBLIC_SITE_BASE =
   (process.env.PUBLIC_SITE_URL || 'https://digitalmanager.ae').replace(/\/$/, '')
@@ -77,7 +78,7 @@ export function evaluateIndexability({ record, meta, countryCode, lang, countryE
     return { indexable: false, reason: 'fallback_content' }
   }
   if (meta.fallbackUsed) return { indexable: false, reason: 'fallback_used' }
-  if (!['approved', 'published'].includes(record.translationStatus || '')) {
+  if (language === 'ar' && !['approved', 'published'].includes(record.translationStatus || '')) {
     return { indexable: false, reason: 'translation_not_approved' }
   }
 
@@ -209,6 +210,32 @@ export async function buildIndexablePages(deps) {
     identity: { kind: 'home' },
     indexable: true,
   })
+
+  // Published GCC English homepages
+  for (const countrySlug of GCC_COUNTRY_SLUGS) {
+    if (countrySlug === 'ae') continue
+    const countryCode = normalizeCountryCode(countrySlug.toUpperCase())
+    if (!enabledCodes.has(countryCode)) continue
+    const homeMeta = await getLocaleHomepageIndexMeta(deps, countryCode, 'en')
+    if (!homeMeta.hasPublishedContent) continue
+    const path = buildLocalePath(countrySlug, 'en', '/')
+    tryAddEntry(entries, seen, {
+      internalPath: '/',
+      path,
+      absoluteUrl: absoluteUrl(path),
+      countrySlug,
+      lang: 'en',
+      countryCode,
+      hreflang: hreflangTag(countrySlug, 'en'),
+      ogLocale: ogLocaleTag(countrySlug, 'en'),
+      record: null,
+      meta: { resolvedFrom: RESOLVED_FROM.LOCALE_OVERRIDE },
+      groupKey: 'page:home',
+      lastmod: homeLastmod,
+      identity: { kind: 'home', countryCode, lang: 'en' },
+      indexable: true,
+    })
+  }
 
   // Static registry pages (erp, contact, industries list, etc.)
   for (const route of LOCALE_ROUTE_REGISTRY) {

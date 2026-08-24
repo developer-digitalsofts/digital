@@ -21,31 +21,60 @@ export function isPublishedTestimonial(item: TestimonialRecord | null | undefine
   return Boolean(readText(item.quote, 'en') && readText(item.customerName, 'en'))
 }
 
-export function mapTestimonialRecord(item: TestimonialRecord, lang: Lang): ResolvedTestimonial | null {
-  if (!isPublishedTestimonial(item)) return null
-  const quote = readText(item.quote, lang)
-  const customerName = readText(item.customerName, lang)
+export function mapTestimonialRecord(item: TestimonialRecord | ResolvedTestimonial | Record<string, unknown>, lang: Lang): ResolvedTestimonial | null {
+  // Public API already returns published items with resolved string fields.
+  if (typeof item.quote === 'string' && typeof item.customerName === 'string') {
+    const quote = item.quote.trim()
+    const customerName = item.customerName.trim()
+    if (!quote || !customerName) return null
+    return {
+      id: String(item.id || ''),
+      quote,
+      customerName,
+      designation: typeof item.designation === 'string' ? item.designation : '',
+      company: typeof item.company === 'string' ? item.company : '',
+      companyLogo: typeof item.companyLogo === 'string' ? item.companyLogo.trim() : '',
+      companyLogoAlt: typeof item.companyLogoAlt === 'string' ? item.companyLogoAlt : '',
+      image: typeof item.image === 'string' ? item.image.trim() : '',
+      imageAlt: typeof item.imageAlt === 'string' ? item.imageAlt : customerName,
+      productService: typeof item.productService === 'string' ? item.productService : '',
+      industry: typeof item.industry === 'string' ? item.industry : '',
+      city: typeof item.city === 'string' ? item.city : '',
+      country: typeof item.country === 'string' ? item.country : '',
+      rating: typeof item.rating === 'number' ? item.rating : undefined,
+      verified: item.verified === true,
+      caseStudyUrl: typeof item.caseStudyUrl === 'string' ? item.caseStudyUrl.trim() : '',
+      solutionUrl: typeof item.solutionUrl === 'string' ? item.solutionUrl.trim() : '',
+      featuredOnHomepage: item.featuredOnHomepage === true,
+      countryCode: typeof item.countryCode === 'string' ? item.countryCode.trim() : '',
+    }
+  }
+
+  const record = item as TestimonialRecord
+  if (!isPublishedTestimonial(record)) return null
+  const quote = readText(record.quote, lang)
+  const customerName = readText(record.customerName, lang)
   if (!quote || !customerName) return null
   return {
-    id: item.id,
+    id: record.id,
     quote,
     customerName,
-    designation: readText(item.designation, lang),
-    company: readText(item.company, lang),
-    companyLogo: item.companyLogo?.trim() || '',
-    companyLogoAlt: readText(item.companyLogoAlt, lang),
-    image: item.image?.trim() || '',
-    imageAlt: readText(item.imageAlt, lang) || customerName,
-    productService: readText(item.productService, lang),
-    industry: item.industry || '',
-    city: item.city || '',
-    country: item.country || '',
-    rating: typeof item.rating === 'number' ? item.rating : undefined,
-    verified: item.verified === true,
-    caseStudyUrl: item.caseStudyUrl?.trim() || '',
-    solutionUrl: item.solutionUrl?.trim() || '',
-    featuredOnHomepage: item.featuredOnHomepage === true,
-    countryCode: item.countryCode?.trim() || '',
+    designation: readText(record.designation, lang),
+    company: readText(record.company, lang),
+    companyLogo: record.companyLogo?.trim() || '',
+    companyLogoAlt: readText(record.companyLogoAlt, lang),
+    image: record.image?.trim() || '',
+    imageAlt: readText(record.imageAlt, lang) || customerName,
+    productService: readText(record.productService, lang),
+    industry: record.industry || '',
+    city: record.city || '',
+    country: record.country || '',
+    rating: typeof record.rating === 'number' ? record.rating : undefined,
+    verified: record.verified === true,
+    caseStudyUrl: record.caseStudyUrl?.trim() || '',
+    solutionUrl: record.solutionUrl?.trim() || '',
+    featuredOnHomepage: record.featuredOnHomepage === true,
+    countryCode: record.countryCode?.trim() || '',
   }
 }
 
@@ -68,6 +97,7 @@ export function resolveTestimonialsDoc(doc: TestimonialsContentDoc | undefined, 
     selectionMode: section.selectionMode === 'manual' ? 'manual' as const : 'featured' as const,
     manualIds: Array.isArray(section.manualIds) ? section.manualIds : [],
     pageEnabled: page.enabled !== false,
+    pageEyebrow: readText(page.eyebrow, lang),
     pageTitle: readText(page.title, lang),
     pageIntro: readText(page.intro, lang),
     seoTitle: readText(page.seoTitle, lang),

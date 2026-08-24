@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { resolveBlogFeaturedImage } from '../../cms/blogMedia'
+import { useLocale } from '../../locale/LocaleContext'
 import type { ResolvedBlogPost } from '../../types/blogContent'
 
 function formatPublishDate(value: string): string {
@@ -16,46 +17,55 @@ type BlogCardProps = {
 }
 
 export function BlogCard({ post, variant = 'grid' }: BlogCardProps) {
+  const navigate = useNavigate()
+  const { href } = useLocale()
+  const slug = String(post.slug || '').replace(/^\/+|\/+$/g, '')
+  const articleHref = href(`/blog/${slug}`)
   const image = resolveBlogFeaturedImage(post.featuredImage)
   const alt = post.featuredImageAlt || post.title
   const date = formatPublishDate(post.publishDate)
   const metaParts = [post.author, date, post.readingMinutes ? `${post.readingMinutes} min read` : ''].filter(Boolean)
+  const isFeatured = variant === 'featured'
 
-  if (variant === 'featured') {
-    return (
-      <article className="blog-card blog-card--featured">
-        <Link to={`/blog/${post.slug}`} className="blog-card__media-link" tabIndex={-1} aria-hidden="true">
-          <img src={image} alt={alt} className="blog-card__image blog-card__image--featured" loading="eager" />
-        </Link>
-        <div className="blog-card__body blog-card__body--featured">
-          {post.categoryName ? <p className="blog-card__category">{post.categoryName}</p> : null}
-          <h2 className="blog-card__title">
-            <Link to={`/blog/${post.slug}`}>{post.title}</Link>
-          </h2>
-          {post.excerpt ? <p className="blog-card__excerpt">{post.excerpt}</p> : null}
-          {metaParts.length ? <p className="blog-card__meta">{metaParts.join(' · ')}</p> : null}
-          <Link to={`/blog/${post.slug}`} className="blog-card__action blog-card__action--featured">
-            Read Article
-            <ArrowRight className="blog-card__action-icon" aria-hidden strokeWidth={2.25} />
-          </Link>
-        </div>
-      </article>
-    )
+  const openArticle = () => {
+    if (!slug) return
+    navigate(articleHref)
   }
 
   return (
-    <article className="blog-card blog-card--grid">
-      <Link to={`/blog/${post.slug}`} className="blog-card__media-link" tabIndex={-1} aria-hidden="true">
-        <img src={image} alt={alt} className="blog-card__image" loading="lazy" />
-      </Link>
-      <div className="blog-card__body">
+    <article
+      className={`blog-card ${isFeatured ? 'blog-card--featured' : 'blog-card--grid'}`}
+      onClick={openArticle}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          openArticle()
+        }
+      }}
+      role="link"
+      tabIndex={0}
+      aria-label={`Read article: ${post.title}`}
+    >
+      <div className="blog-card__media">
+        <img
+          src={image}
+          alt={alt}
+          className={`blog-card__image${isFeatured ? ' blog-card__image--featured' : ''}`}
+          loading={isFeatured ? 'eager' : 'lazy'}
+        />
+      </div>
+      <div className={`blog-card__body${isFeatured ? ' blog-card__body--featured' : ''}`}>
         {post.categoryName ? <p className="blog-card__category">{post.categoryName}</p> : null}
-        <h2 className="blog-card__title">
-          <Link to={`/blog/${post.slug}`}>{post.title}</Link>
-        </h2>
+        <h2 className="blog-card__title">{post.title}</h2>
         {post.excerpt ? <p className="blog-card__excerpt">{post.excerpt}</p> : null}
         {metaParts.length ? <p className="blog-card__meta">{metaParts.join(' · ')}</p> : null}
-        <Link to={`/blog/${post.slug}`} className="blog-card__action">
+        <Link
+          to={articleHref}
+          className={`blog-card__action${isFeatured ? ' blog-card__action--featured' : ''}`}
+          onClick={(e) => {
+            e.stopPropagation()
+          }}
+        >
           Read Article
           <ArrowRight className="blog-card__action-icon" aria-hidden strokeWidth={2.25} />
         </Link>

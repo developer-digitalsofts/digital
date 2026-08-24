@@ -105,11 +105,6 @@ export function LocaleSlugPage({ slug }: Props) {
 
   return (
     <main className="content-page">
-      {page._locale?.fallbackUsed ? (
-        <div className="border-b border-amber-200 bg-amber-50 px-4 py-2 text-center text-xs text-amber-950">
-          Showing inherited content — localized version for {countryCode} · {lang.toUpperCase()} is not published yet.
-        </div>
-      ) : null}
       <div className="content-page__container">
         <header className="content-page__header">
           <h1>{page.heading || page.title}</h1>

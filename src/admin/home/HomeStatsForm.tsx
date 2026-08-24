@@ -16,7 +16,9 @@ type StatItem = {
 }
 
 type StatsDoc = {
+  eyebrow: Bilingual
   title: Bilingual
+  subheading: Bilingual
   items: StatItem[]
   _meta?: Record<string, unknown>
 }
@@ -34,7 +36,12 @@ export function HomeStatsForm() {
 
   useEffect(() => {
     if (!sec.data) return
-    const s = { ...sec.data, items: sortItems(sec.data.items || []) }
+    const s = {
+      ...sec.data,
+      eyebrow: sec.data.eyebrow || { en: '', ar: '' },
+      subheading: sec.data.subheading || { en: '', ar: '' },
+      items: sortItems(sec.data.items || []),
+    }
     setLocal(s)
     setBaseline(JSON.stringify(s))
   }, [sec.data])
@@ -73,7 +80,9 @@ export function HomeStatsForm() {
   return (
     <div className="space-y-6">
       {sec.error ? <p className="text-sm text-red-700">{sec.error}</p> : null}
-      <BilingualInputs labelEn="Section title (EN)" labelAr="Section title (AR)" value={local.title} onChange={(title) => setLocal({ ...local, title })} />
+      <BilingualInputs labelEn="Trust eyebrow (EN)" labelAr="Trust eyebrow (AR)" value={local.eyebrow || { en: '', ar: '' }} onChange={(eyebrow) => setLocal({ ...local, eyebrow })} />
+      <BilingualInputs labelEn="Trust heading (EN)" labelAr="Trust heading (AR)" value={local.title} onChange={(title) => setLocal({ ...local, title })} />
+      <BilingualInputs labelEn="Trust subheading (EN)" labelAr="Trust subheading (AR)" value={local.subheading || { en: '', ar: '' }} onChange={(subheading) => setLocal({ ...local, subheading })} />
 
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-bold text-slate-900">Stat cards</h3>

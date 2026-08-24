@@ -58,6 +58,11 @@ export function AdminLocaleEditorBanner({ contentType, globalIdentity, slug, com
           method: 'POST',
           body: JSON.stringify({ contentType, globalIdentity, countryCode, lang }),
         })
+      } else if (action === 'copy-uae-structure') {
+        await adminFetch('/api/admin/locale/actions/copy-uae-structure', {
+          method: 'POST',
+          body: JSON.stringify({ countryCode, lang, regionalize: true }),
+        })
       } else if (action === 'copy-uae') {
         const targetId = await ensureOverride()
         await adminFetch(`/api/admin/locale/records/${targetId}/copy-from`, {
@@ -117,6 +122,11 @@ export function AdminLocaleEditorBanner({ contentType, globalIdentity, slug, com
 
   return (
     <div className={`mb-4 space-y-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs ${compact ? '' : 'shadow-sm'}`}>
+      {!isDefault && meta?.fallbackUsed ? (
+        <div className="rounded-md border border-amber-300 bg-amber-50 px-2 py-1.5 font-medium text-amber-950">
+          UAE fallback content is in use for this locale preview. Publish localized content before it appears on the public site.
+        </div>
+      ) : null}
       <div className="flex flex-wrap items-center gap-2">
         <span className="font-semibold text-slate-700">
           Editing: {countryLabel} · {langLabel}
@@ -157,8 +167,15 @@ export function AdminLocaleEditorBanner({ contentType, globalIdentity, slug, com
             <button type="button" className="rounded border border-slate-200 px-2 py-0.5 hover:bg-slate-50" onClick={() => void runAction('customize')}>
               Customize for This Country
             </button>
+            <button
+              type="button"
+              className="rounded border border-brand/30 px-2 py-0.5 font-semibold text-brand hover:bg-brand/5"
+              onClick={() => void runAction('copy-uae-structure')}
+            >
+              Copy UAE structure as {countryLabel} draft
+            </button>
             <button type="button" className="rounded border border-slate-200 px-2 py-0.5 hover:bg-slate-50" onClick={() => void runAction('copy-uae')}>
-              Copy from UAE English
+              Copy this record from UAE English
             </button>
             {lang === 'ar' ? (
               <button type="button" className="rounded border border-slate-200 px-2 py-0.5 hover:bg-slate-50" onClick={() => void runAction('copy-country-en')}>

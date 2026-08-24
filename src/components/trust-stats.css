@@ -1,4 +1,4 @@
-/* Scoped trust statistics bar — import only from TrustStatsSection */
+/* Scoped trust statistics bar - import only from TrustStatsSection */
 
 .dm-trust-stats__bar {
   position: relative;
@@ -28,13 +28,7 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-}
-
-@media (min-width: 640px) {
-  .dm-trust-stats__bar {
-    padding: 1.375rem 1.375rem;
-  }
+  gap: 1.25rem;
 }
 
 @media (min-width: 1024px) {
@@ -56,23 +50,19 @@
 .dm-trust-stats__intro {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
-  gap: 0.625rem;
+  gap: 0.5rem;
   min-width: 0;
+  text-align: start;
 }
 
 @media (min-width: 1024px) {
   .dm-trust-stats__intro {
-    flex: 0 0 min(100%, 17.5rem);
-    padding-right: 1.75rem;
-    border-right: 1px solid rgba(255, 255, 255, 0.12);
-  }
-}
-
-@media (max-width: 1023px) {
-  .dm-trust-stats__intro {
-    padding-bottom: 0.25rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    flex: 0 0 24%;
+    max-width: 24%;
+    padding-inline-end: 1.5rem;
+    border-inline-end: 1px solid rgba(255, 255, 255, 0.12);
   }
 }
 
@@ -99,6 +89,7 @@
   line-height: 1.28;
   letter-spacing: -0.02em;
   color: #fff;
+  white-space: pre-line;
 }
 
 @media (min-width: 640px) {
@@ -124,6 +115,16 @@
 
 .dm-trust-stats__grid > .dm-trust-stats__stat:last-child:nth-child(odd) {
   grid-column: 1 / -1;
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .dm-trust-stats__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .dm-trust-stats__grid > .dm-trust-stats__stat:last-child:nth-child(odd) {
+    grid-column: auto;
+  }
 }
 
 @media (min-width: 1024px) {

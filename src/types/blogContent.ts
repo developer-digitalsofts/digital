@@ -22,6 +22,12 @@ export type BlogCategory = {
   enabled?: boolean
 }
 
+export type BlogFaqItem = {
+  id: string
+  question: Bilingual
+  answer: Bilingual
+}
+
 export type BlogPostSeo = {
   title?: Bilingual
   description?: Bilingual
@@ -29,7 +35,11 @@ export type BlogPostSeo = {
   ogTitle?: Bilingual
   ogDescription?: Bilingual
   ogImage?: string
+  robotsIndex?: boolean
+  robotsFollow?: boolean
 }
+
+export type BlogTranslationStatus = 'draft' | 'needs_review' | 'approved' | 'published'
 
 export type BlogPostRecord = {
   id: string
@@ -45,7 +55,13 @@ export type BlogPostRecord = {
   authorRole?: Bilingual
   authorImage?: string
   body: BlogBlock[]
+  faq?: BlogFaqItem[]
+  relatedPostIds?: string[]
   relatedSolutionUrl?: string
+  translationPairId?: string
+  translationStatus?: BlogTranslationStatus
+  primaryKeyword?: string
+  searchIntent?: string
   ctaHeading?: Bilingual
   ctaDescription?: Bilingual
   ctaLabel?: Bilingual
@@ -60,6 +76,7 @@ export type BlogPostRecord = {
   countryCode?: string
   languageCode?: string
   seo?: BlogPostSeo
+  _seedVersion?: string
 }
 
 export type BlogPostsDoc = {
@@ -107,6 +124,8 @@ export type ResolvedBlogPost = {
   authorRole: string
   authorImage: string
   body: BlogBlock[]
+  faq: { id: string; question: string; answer: string }[]
+  relatedPostIds: string[]
   relatedSolutionUrl: string
   ctaHeading: string
   ctaDescription: string
@@ -123,5 +142,7 @@ export type ResolvedBlogPost = {
     ogTitle: string
     ogDescription: string
     ogImage: string
+    robotsIndex: boolean
+    robotsFollow: boolean
   }
 }

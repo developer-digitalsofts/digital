@@ -29,3 +29,15 @@ export const ADMIN_EDITOR_LOCALE: Record<string, LocaleSectionRef> = {
   testimonials: { contentType: 'testimonial', globalIdentity: 'testimonials', slug: 'testimonials' },
   blog: { contentType: 'blog', globalIdentity: 'blog', slug: 'blog' },
 }
+
+/** Maps legacy admin section keys to locale records when editing non-UAE locales. */
+export const ADMIN_SECTION_LOCALE: Record<string, LocaleSectionRef> = {
+  ...Object.fromEntries(
+    Object.entries(HOME_TAB_LOCALE).filter(([, v]) => v).map(([k, v]) => [k, v!]),
+  ),
+  header: ADMIN_EDITOR_LOCALE.header,
+  footer: ADMIN_EDITOR_LOCALE.footer,
+  seo: ADMIN_EDITOR_LOCALE.seo,
+  contact: ADMIN_EDITOR_LOCALE.contact,
+  faqs: HOME_TAB_LOCALE.faqs!,
+}

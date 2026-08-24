@@ -1,21 +1,25 @@
 {
   "eyebrow": {
-    "en": "Proven Performance",
-    "ar": "أداء مثبت"
+    "en": "PROVEN PERFORMANCE",
+    "ar": "أداء مُثبت"
   },
   "title": {
-    "en": "Built on Trust. Proven by Results.",
-    "ar": "مبني على الثقة. مثبت بالنتائج."
+    "en": "Built on Trust.\nProven by Results.",
+    "ar": "مبني على الثقة.\nمثبت بالنتائج."
+  },
+  "subheading": {
+    "en": "A unified cloud ERP platform designed to support finance, inventory, sales and multi-branch operations. Serving teams in Dubai, Abu Dhabi and Sharjah.",
+    "ar": "منصة ERP سحابية موحّدة لدعم المالية والمخزون والمبيعات وعمليات الفروع المتعددة. لخدمة الفرق في دبي وأبوظبي والشارقة."
   },
   "items": [
     {
       "id": "s-cloud",
-      "value": "Cluad",
+      "value": "Cloud",
       "label": {
-        "en": "Based",
-        "ar": "سحابي"
+        "en": "Native ERP Platform",
+        "ar": "منصة ERP سحابية"
       },
-      "icon": "Cloud",
+      "icon": "Award",
       "accentColor": "#f47c4d",
       "sortOrder": 0,
       "active": true
@@ -33,13 +37,13 @@
       "active": true
     },
     {
-      "id": "s-vat",
+      "id": "s-currency",
       "value": "AED",
       "label": {
-        "en": "Ready",
-        "ar": "جاهز"
+        "en": "VAT-Ready Invoicing",
+        "ar": "فوترة جاهزة للضريبة"
       },
-      "icon": "FileCheck",
+      "icon": "Users",
       "accentColor": "#f47c4d",
       "sortOrder": 2,
       "active": true
@@ -48,22 +52,22 @@
       "id": "s-unified",
       "value": "Unified",
       "label": {
-        "en": "Platform",
-        "ar": "منصة"
+        "en": "Connected Operations",
+        "ar": "عمليات متصلة"
       },
-      "icon": "Workflow",
+      "icon": "HeartHandshake",
       "accentColor": "#f47c4d",
       "sortOrder": 3,
       "active": true
     },
     {
-      "id": "s-uae",
+      "id": "s-region",
       "value": "UAE",
       "label": {
-        "en": "Focused",
-        "ar": "مخصص للإمارات"
+        "en": "Focused Implementation",
+        "ar": "تنفيذ مركّز"
       },
-      "icon": "MapPin",
+      "icon": "GitBranch",
       "accentColor": "#f47c4d",
       "sortOrder": 4,
       "active": true
@@ -71,7 +75,7 @@
   ],
   "_meta": {
     "createdAt": "2026-08-12T08:31:16.124Z",
-    "updatedAt": "2026-08-19T06:45:45.053Z",
-    "updatedBy": "admin@admin.com"
+    "updatedAt": "2026-08-24T06:42:01.599Z",
+    "updatedBy": "seed-gcc-localized-content"
   }
 }

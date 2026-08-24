@@ -54,9 +54,11 @@ export function AdminBlogPostEditor({ mode }: { mode: 'new' | 'edit' }) {
         updatedDate: new Date().toISOString(),
         status: 'draft',
         enabled: true,
-        countryCode: 'AE',
+        countryCode: 'GCC',
         languageCode: 'en',
-        seo: { title: emptyBi(), description: emptyBi(), canonicalUrl: '', ogTitle: emptyBi(), ogDescription: emptyBi(), ogImage: '' },
+        translationStatus: 'draft',
+        faq: [],
+        seo: { title: emptyBi(), description: emptyBi(), canonicalUrl: '', ogTitle: emptyBi(), ogDescription: emptyBi(), ogImage: '', robotsIndex: false, robotsFollow: true },
       })
       return
     }
@@ -169,6 +171,70 @@ export function AdminBlogPostEditor({ mode }: { mode: 'new' | 'edit' }) {
             <option value="published">Published</option>
           </select>
         </label>
+      </section>
+
+      <BilingualInputs labelEn="SEO description" labelAr="SEO description (AR)" multiline rows={2} value={local.seo?.description || emptyBi()} onChange={(description) => setLocal({ ...local, seo: { ...(local.seo || {}), description } })} />
+
+      <section className="grid gap-3 md:grid-cols-2">
+        <label className="block text-sm">
+          Country scope
+          <select className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" value={local.countryCode || 'GCC'} onChange={(e) => setLocal({ ...local, countryCode: e.target.value })}>
+            <option value="GCC">Shared GCC</option>
+            <option value="AE">UAE</option>
+            <option value="SA">Saudi Arabia</option>
+            <option value="KW">Kuwait</option>
+            <option value="QA">Qatar</option>
+            <option value="OM">Oman</option>
+            <option value="BH">Bahrain</option>
+          </select>
+        </label>
+        <label className="block text-sm">
+          Language
+          <select className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" value={local.languageCode || 'en'} onChange={(e) => setLocal({ ...local, languageCode: e.target.value })}>
+            <option value="en">English</option>
+            <option value="ar">Arabic</option>
+          </select>
+        </label>
+        <label className="block text-sm md:col-span-2">
+          Tags (comma-separated)
+          <input className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" value={(local.tags || []).join(', ')} onChange={(e) => setLocal({ ...local, tags: e.target.value.split(',').map((t) => t.trim()).filter(Boolean) })} />
+        </label>
+        <label className="block text-sm">
+          Translation status
+          <select className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" value={local.translationStatus || 'draft'} onChange={(e) => setLocal({ ...local, translationStatus: e.target.value as BlogPostRecord['translationStatus'] })}>
+            <option value="draft">Draft</option>
+            <option value="needs_review">Needs review</option>
+            <option value="approved">Approved</option>
+            <option value="published">Published</option>
+          </select>
+        </label>
+        <label className="block text-sm">
+          Canonical URL
+          <input className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" value={local.seo?.canonicalUrl || ''} onChange={(e) => setLocal({ ...local, seo: { ...(local.seo || {}), canonicalUrl: e.target.value } })} placeholder="/blog/your-slug" />
+        </label>
+      </section>
+
+      <BilingualInputs labelEn="CTA heading" labelAr="CTA heading (AR)" value={local.ctaHeading || emptyBi()} onChange={(ctaHeading) => setLocal({ ...local, ctaHeading })} />
+      <BilingualInputs labelEn="CTA description" labelAr="CTA description (AR)" multiline rows={2} value={local.ctaDescription || emptyBi()} onChange={(ctaDescription) => setLocal({ ...local, ctaDescription })} />
+      <label className="block text-sm">CTA URL<input className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" value={local.ctaUrl || ''} onChange={(e) => setLocal({ ...local, ctaUrl: e.target.value })} /></label>
+
+      <section className="rounded-xl border border-slate-200 p-4 space-y-3">
+        <h3 className="font-bold">FAQ entries</h3>
+        {(local.faq || []).map((item, index) => (
+          <div key={item.id} className="rounded-lg border border-slate-100 p-3 space-y-2">
+            <BilingualInputs labelEn="Question" labelAr="Question (AR)" value={item.question} onChange={(question) => {
+              const faq = [...(local.faq || [])]
+              faq[index] = { ...faq[index], question }
+              setLocal({ ...local, faq })
+            }} />
+            <BilingualInputs labelEn="Answer" labelAr="Answer (AR)" multiline rows={3} value={item.answer} onChange={(answer) => {
+              const faq = [...(local.faq || [])]
+              faq[index] = { ...faq[index], answer }
+              setLocal({ ...local, faq })
+            }} />
+          </div>
+        ))}
+        <button type="button" className="text-sm font-semibold text-brand" onClick={() => setLocal({ ...local, faq: [...(local.faq || []), { id: `faq-${Date.now()}`, question: emptyBi(), answer: emptyBi() }] })}>Add FAQ</button>
       </section>
 
       <BilingualInputs labelEn="SEO title" labelAr="SEO title (AR)" value={local.seo?.title || emptyBi()} onChange={(title) => setLocal({ ...local, seo: { ...(local.seo || {}), title } })} />
