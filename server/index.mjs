@@ -21,8 +21,14 @@ import {
 import { createPublishStore } from './publishStore.mjs'
 import { migrateCmsSchemaV2 } from './cmsSchemaMigrate.mjs'
 import { registerContentRoutes, ensureBlogBootstrap, ensureCountriesBootstrap } from './contentRoutes.mjs'
+import { registerAgenticRoutes, createAgenticSpaFallback } from './agenticRoutes.mjs'
+import { notFoundError, internalError } from './publicApiErrors.mjs'
 import { createLocaleStorage } from './localeStorage.mjs'
 import { registerLocaleRoutes } from './localeApi.mjs'
+import { buildLocaleHomepagePayload } from './localeHomepage.mjs'
+import { createLocalePublishHelpers } from './localePublish.mjs'
+import { normalizeCountryCode } from './countryHelpers.mjs'
+import { normalizeLocaleLang } from './localeContentModel.mjs'
 import { ensureLocaleBaselines } from './localeMigrate.mjs'
 import {
   clearJsonCache,
@@ -129,7 +135,7 @@ const SOFTWARE_DETAILS_FILE = 'softwareDetails.json'
 const PAGE_TYPES = new Set(['home', 'about', 'services', 'projects', 'blog', 'contact', 'residential', 'custom'])
 const PAGE_STATUSES = new Set(['published', 'draft'])
 const PAGE_LANG_MODES = new Set(['en', 'ar', 'both'])
-const RESERVED_PAGE_SLUGS = new Set(['api', 'uploads', 'admin', 'contact', 'software', 'blog', 'testimonials', 'industries'])
+const RESERVED_PAGE_SLUGS = new Set(['api', 'uploads', 'admin', 'about', 'privacy', 'contact', 'software', 'blog', 'testimonials', 'industries'])
 const SOFTWARE_KINDS = new Set(['module', 'industry'])
 const ACCENT_COLORS = new Set(['orange', 'green', 'blue', 'purple', 'teal'])
 
@@ -213,12 +219,22 @@ const localeStorage = createLocaleStorage({
   safeReadJson,
 })
 
+const localePublish = createLocalePublishHelpers({ localeStorage, publishStore })
+
 const PUBLIC_CACHE_HEADERS = {
   'Cache-Control': 'no-store',
   Pragma: 'no-cache',
 }
 
 function sendPublicJson(res, payload, status = 200) {
+  if (status === 404 && payload?.error && typeof payload.error === 'string' && !payload.error.code) {
+    notFoundError(res, payload.error)
+    return
+  }
+  if (status >= 500 && payload?.error && typeof payload.error === 'string') {
+    internalError(res, payload.error)
+    return
+  }
   res.set(PUBLIC_CACHE_HEADERS)
   res.status(status).json(payload)
 }
@@ -1450,9 +1466,30 @@ function isStorageTimeoutError(e) {
   return msg.includes('_TIMEOUT') || msg.includes('DATA_DIR')
 }
 
-app.get('/api/homepage', async (_req, res) => {
+app.get('/api/homepage', async (req, res) => {
   try {
-    const out = await loadPublishedHomepagePayload()
+    const countryCode = normalizeCountryCode(req.query.country || req.query.countryCode || 'AE')
+    const lang = normalizeLocaleLang(req.query.lang || req.query.language || 'en')
+    let out
+    if (countryCode === 'AE' && lang === 'en') {
+      out = await loadPublishedHomepagePayload()
+    } else {
+      out = await buildLocaleHomepagePayload(
+        {
+          publishStore,
+          readPublishedLocaleStore: () => localePublish.readPublishedStore(),
+          loadPublishedHomepagePayload,
+          dataFiles: DATA_FILES,
+          extraHomepageFiles: EXTRA_HOMEPAGE_FILES,
+        },
+        countryCode,
+        lang,
+        {
+          buildNavigation: (homepage) => buildPublishedNavigation(homepage),
+          buildMeta: () => buildHomepageMeta(),
+        },
+      )
+    }
     sendPublicJson(res, out)
   } catch (e) {
     if (isStorageTimeoutError(e)) {
@@ -3363,18 +3400,45 @@ registerLocaleRoutes(app, {
   localeStorage,
   publishStore,
   safeReadJson,
+  invalidateJsonCache,
   logActivity: appendActivity,
 })
 
+if (SERVE_STATIC) {
+  registerAgenticRoutes(app, {
+    distIndex: DIST_INDEX,
+    publishStore,
+    localePublish,
+    loadPublishedHomepagePayload,
+    buildPublishedNavigation,
+    buildHomepageMeta,
+    readPagesStore,
+    dataFiles: DATA_FILES,
+    extraHomepageFiles: EXTRA_HOMEPAGE_FILES,
+    seoDeps: () => ({ localePublish, publishStore }),
+  })
+}
+
 // Unmatched /api/* → JSON 404 (never SPA index.html)
 app.use('/api', (_req, res) => {
-  res.status(404).json({ error: 'API route not found' })
+  notFoundError(res, 'API route not found.')
 })
 
 if (SERVE_STATIC) {
   app.use(express.static(DIST_DIR))
-  // SPA fallback — never for /api or /uploads
-  app.get(/^(?!\/api|\/uploads|\/sitemap\.xml|\/robots\.txt).*/, (_req, res) => {
+  app.use(createAgenticSpaFallback({
+    distIndex: DIST_INDEX,
+    publishStore,
+    localePublish,
+    loadPublishedHomepagePayload,
+    buildPublishedNavigation,
+    buildHomepageMeta,
+    readPagesStore,
+    dataFiles: DATA_FILES,
+    extraHomepageFiles: EXTRA_HOMEPAGE_FILES,
+    seoDeps: () => ({ localePublish, publishStore }),
+  }))
+  app.get(/^(?!\/api|\/uploads|\/sitemap\.xml|\/robots\.txt|\/llms\.txt|\/llms-full\.txt|\/openapi\.json).*/, (_req, res) => {
     res.sendFile(DIST_INDEX)
   })
 } else {

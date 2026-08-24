@@ -3,6 +3,8 @@ import { Layout } from './components/Layout'
 import { HomePage } from './pages/HomePage'
 import { IndustriesPage } from './pages/IndustriesPage'
 import { ContactPage } from './pages/ContactPage'
+import { AboutPage } from './pages/AboutPage'
+import { PrivacyPage } from './pages/PrivacyPage'
 import { SoftwarePage } from './pages/SoftwarePage'
 import { CmsPage } from './pages/CmsPage'
 import { AdminLogin } from './admin/AdminLogin'
@@ -109,6 +111,8 @@ export default function App() {
       <Route element={<Layout />}>
         {/* UAE English root — preserved exactly */}
         <Route index element={<HomePage />} />
+        <Route path="about" element={<AboutPage />} />
+        <Route path="privacy" element={<PrivacyPage />} />
         <Route path="industries" element={<IndustriesPage />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="testimonials" element={<TestimonialsPage />} />
@@ -127,6 +131,8 @@ export default function App() {
       <Route path=":country/:lang" element={<LocaleGuard />}>
         <Route element={<Layout />}>
           <Route index element={<HomePage />} />
+          <Route path="about" element={<AboutPage />} />
+          <Route path="privacy" element={<PrivacyPage />} />
           <Route path="industries" element={<IndustriesPage />} />
           <Route path="industries/:slug" element={<LocaleIndustrySlugPage />} />
           <Route path="contact" element={<ContactLocalePage />} />

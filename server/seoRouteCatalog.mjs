@@ -55,5 +55,5 @@ export function uaeSoftwarePaths() {
 }
 
 export function uaeCorePaths() {
-  return ['/', '/contact', '/blog', '/industries', ...registryStaticPaths()]
+  return ['/', '/about', '/contact', '/privacy', '/blog', '/industries', '/testimonials', ...registryStaticPaths()]
 }
