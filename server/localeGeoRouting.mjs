@@ -17,9 +17,12 @@ const BOT_UA_FRAGMENTS = [
   'chatgpt-user',
   'gptbot',
   'claudebot',
+  'anthropic-ai',
   'google-extended',
   'deepseekbot',
   'ora-agent',
+  'facebookexternalhit',
+  'slurp',
 ]
 
 const COUNTRY_TO_SLUG = {
@@ -40,6 +43,19 @@ function parseCookies(header) {
     out[part.slice(0, idx).trim()] = decodeURIComponent(part.slice(idx + 1).trim())
   }
   return out
+}
+
+export function buildLocalePrefSetCookie(countrySlug, lang, manual = false) {
+  const payload = encodeURIComponent(
+    JSON.stringify({
+      country: String(countrySlug || '').toLowerCase(),
+      lang: lang === 'ar' ? 'ar' : 'en',
+      manual: manual === true,
+    }),
+  )
+  let cookie = `${LOCALE_PREF_COOKIE}=${payload}; Path=/; Max-Age=${LOCALE_PREF_MAX_AGE_SEC}; SameSite=Lax`
+  if (process.env.NODE_ENV === 'production') cookie += '; Secure'
+  return cookie
 }
 
 export function parseLocalePrefCookie(cookieHeader) {
@@ -154,7 +170,7 @@ export async function resolveGeoRedirect(deps, req) {
   const doc = deps.publishStore.stripMeta(countriesDoc) ?? { items: [] }
 
   let countryCode
-  if (pref?.manual && pref.country) {
+  if (pref?.country) {
     countryCode = normalizeCountryCode(pref.country.toUpperCase())
   } else {
     countryCode = detectCountryFromRequest(req) || 'AE'
@@ -177,15 +193,18 @@ export async function resolveGeoRedirect(deps, req) {
   const countrySlug = COUNTRY_TO_SLUG[countryCode]
   if (!countrySlug) return { redirect: null, reason: 'unknown_country' }
 
-  const lang = await resolveLanguage(deps, countryCode, countryItem, req, pref?.manual ? pref.lang : null)
+  const lang = await resolveLanguage(deps, countryCode, countryItem, req, pref ? pref.lang : null)
   const target = buildLocalePath(countrySlug, lang, '/')
   if (target === '/') return { redirect: null, reason: 'already_default' }
 
+  const manual = pref?.manual === true
   return {
     redirect: target,
-    reason: pref?.manual ? 'manual_preference' : 'geo_detected',
+    reason: manual ? 'manual_preference' : pref ? 'remembered_locale' : 'geo_detected',
     countryCode,
     lang,
+    countrySlug,
+    setPrefCookie: buildLocalePrefSetCookie(countrySlug, lang, manual),
   }
 }
 
@@ -225,7 +244,9 @@ export function registerLocaleGeoRouting(app, deps) {
     try {
       const result = await resolveGeoRedirect(deps, req)
       if (!result.redirect) return next()
-      res.status(302).set({ Location: result.redirect, ...geoRedirectCacheHeaders() }).end()
+      const headers = { Location: result.redirect, ...geoRedirectCacheHeaders() }
+      if (result.setPrefCookie) headers['Set-Cookie'] = result.setPrefCookie
+      res.status(302).set(headers).end()
     } catch (e) {
       console.error('[geo-routing]', e)
       next()

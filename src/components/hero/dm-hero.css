@@ -33,16 +33,6 @@
   }
 }
 
-@keyframes dmHeroProgress {
-  from {
-    width: 0;
-  }
-
-  to {
-    width: 100%;
-  }
-}
-
 /* —— Section shell —— */
 .dm-hero {
   --dm-hero-navy: #111936;
@@ -53,10 +43,7 @@
   position: relative;
   overflow: hidden;
   padding-block: 0;
-  background:
-    radial-gradient(circle at 18% 44%, rgba(255, 113, 72, 0.09), transparent 34%),
-    radial-gradient(circle at 82% 45%, rgba(73, 117, 182, 0.07), transparent 38%),
-    #ffffff;
+  background: #ffffff;
 }
 
 /* Connect hero to trust metrics strip below */
@@ -100,15 +87,6 @@
     max-width: 600px;
     width: 100%;
     text-align: left;
-  }
-
-  .dm-hero__copy::before {
-    content: '';
-    position: absolute;
-    inset: -8% 0 -8% -18%;
-    z-index: -1;
-    pointer-events: none;
-    background: radial-gradient(circle at 28% 52%, rgba(255, 113, 72, 0.07), transparent 72%);
   }
 
   .dm-hero__carousel {
@@ -266,6 +244,14 @@
   word-break: normal;
   text-wrap: balance;
   text-align: start;
+  text-shadow: none;
+  filter: none;
+}
+
+.dm-hero__title::before,
+.dm-hero__title::after {
+  display: none;
+  content: none;
 }
 
 .dm-hero__title--balanced .dm-hero__title-line--mid {
@@ -274,12 +260,16 @@
 
 .dm-hero__title-line {
   display: block;
+  text-shadow: none;
+  filter: none;
 }
 
 .dm-hero__title-line--accent {
   color: var(--dm-hero-orange);
   max-width: 100%;
   text-wrap: balance;
+  text-shadow: none;
+  filter: none;
 }
 
 .dm-hero__body {
@@ -319,14 +309,12 @@
 
 .dm-hero__btn--primary:focus-visible,
 .dm-hero__btn--secondary:focus-visible,
-.dm-hero__tab:focus-visible,
-.dm-hero__progress-track:focus-visible {
+.dm-hero__tab:focus-visible {
   outline: 2px solid var(--dm-hero-orange);
   outline-offset: 2px;
 }
 
 .dm-hero__tab:focus:not(:focus-visible),
-.dm-hero__progress-track:focus:not(:focus-visible),
 .dm-hero__btn:focus:not(:focus-visible) {
   outline: none;
 }
@@ -405,10 +393,6 @@
   }
 }
 
-.dm-hero--paused .dm-hero__progress-fill {
-  animation-play-state: paused;
-}
-
 /* —— Carousel stage —— */
 .dm-hero__carousel {
   position: relative;
@@ -435,42 +419,6 @@
   gap: 0;
   width: 100%;
   min-width: 0;
-}
-
-.dm-hero__progress {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  max-width: 100%;
-  margin: 0 0 10px;
-}
-
-.dm-hero__progress-track {
-  position: relative;
-  width: 40px;
-  height: 3px;
-  padding: 0;
-  border: 0;
-  overflow: hidden;
-  border-radius: 999px;
-  background: #e2e8f0;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.dm-hero__progress-track.is-active {
-  background: #e2e8f0;
-}
-
-.dm-hero__progress-fill {
-  display: block;
-  width: 0;
-  height: 100%;
-  border-radius: inherit;
-  background: #ff714a;
-  animation: dmHeroProgress linear forwards;
 }
 
 .dm-hero__stage,
@@ -1375,7 +1323,7 @@
   flex-shrink: 0;
   width: 100%;
   max-width: 100%;
-  margin: 0 0 10px;
+  margin: 0 0 8px;
 }
 
 .dm-hero__controls-bar {
@@ -1521,12 +1469,7 @@
 @media (prefers-reduced-motion: reduce) {
   .dm-hero__slide-enter,
   .dm-hero__slide--enter,
-  .dm-hero__bar-rise,
-  .dm-hero__progress-fill {
+  .dm-hero__bar-rise {
     animation: none !important;
-  }
-
-  .dm-hero__progress-fill {
-    width: 100%;
   }
 }

@@ -21,43 +21,15 @@ export function HeroCarouselDeck({
   activeIndex,
   animKey,
   reducedMotion,
-  durationMs,
-  autoplayEpoch,
   onSelect,
   onTouchStart,
   onTouchEnd,
 }: Props) {
   const { lang } = useI18n()
-  const progressKey = `${activeIndex}-${autoplayEpoch}`
 
   return (
     <div className="dm-hero__deck" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
       <div className="dm-hero__right-stack">
-        <div className="dm-hero__progress" aria-hidden={slides.length <= 1}>
-          {slides.map((slide, i) => {
-            const active = i === activeIndex
-            const label = pick(slide.navLabel, lang)
-            return (
-              <button
-                key={slide.id}
-                type="button"
-                className={`dm-hero__progress-track ${active ? 'is-active' : ''}`}
-                onClick={() => onSelect(i)}
-                aria-label={`Show ${label} dashboard`}
-                aria-current={active ? 'true' : undefined}
-              >
-                {active && !reducedMotion ? (
-                  <span
-                    key={progressKey}
-                    className="dm-hero__progress-fill"
-                    style={{ animationDuration: `${durationMs}ms` }}
-                  />
-                ) : null}
-              </button>
-            )
-          })}
-        </div>
-
         <div className="dm-hero__controls">
           <div className="dm-hero__controls-bar">
             <div className="dm-hero__nav" role="tablist" aria-label="Module navigation">

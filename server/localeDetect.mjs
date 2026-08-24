@@ -20,11 +20,7 @@ export function detectCountryFromRequest(req) {
   const testHeader = fromTrustedTestHeader(req)
   if (testHeader) return testHeader
 
-  const header =
-    req.headers['cf-ipcountry'] ||
-    req.headers['x-country-code'] ||
-    req.headers['x-vercel-ip-country'] ||
-    req.headers['cloudfront-viewer-country']
+  const header = req.headers['cf-ipcountry'] || req.headers['x-country-code']
   const code = typeof header === 'string' ? header.trim().toUpperCase() : ''
   return ALLOWED.has(code) ? code : null
 }

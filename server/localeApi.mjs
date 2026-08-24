@@ -28,6 +28,8 @@ import { getCountryRoutingStatus } from './localeGeoRouting.mjs'
 import { listFieldMeta } from './localeFieldHelpers.mjs'
 import { productionErrorMessage } from './localeStorage.mjs'
 import { localeContentNotFound, validationError, internalError } from './publicApiErrors.mjs'
+import { registerCityLocaleRoutes } from './cityLocaleApi.mjs'
+import * as cityRegistry from './cityRegistry.mjs'
 
 function parseLocaleQuery(req) {
   const countryCode = normalizeCountryCode(req.query.country || req.query.countryCode || 'AE')
@@ -84,6 +86,8 @@ export function registerLocaleRoutes(app, deps) {
     await localePublish.markLocaleDraftSaved(email)
     if (syncPublished) await localePublish.syncLocalePublishedSnapshot(email)
   }
+
+  registerCityLocaleRoutes(app, { ...deps, localePublish, upsertLocaleRecord, localeContentNotFound, cityRegistry })
 
   app.get('/api/public/locale-content/:slug', async (req, res) => {
     try {

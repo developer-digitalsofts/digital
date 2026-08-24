@@ -21,6 +21,9 @@ import {
 } from './seoPaths.mjs'
 import { registryStaticPaths, uaeCorePaths, uaeSoftwarePaths } from './seoRouteCatalog.mjs'
 import { getLocaleHomepageIndexMeta } from './localeHomepage.mjs'
+import { CITY_PAGE_SLUG, getCitiesForCountry } from './cityRegistry.mjs'
+import { buildCityPagePath, parseCityPagePath } from './cityPaths.mjs'
+import { evaluateCityIndexability, resolveCityContent } from './cityLocaleApi.mjs'
 
 export const PUBLIC_SITE_BASE =
   (process.env.PUBLIC_SITE_URL || 'https://digitalmanager.ae').replace(/\/$/, '')
@@ -70,8 +73,12 @@ export function evaluateIndexability({ record, meta, countryCode, lang, countryE
   const can = canPublishRecord(record, { countryEnabled })
   if (!can.ok) return { indexable: false, reason: can.reason }
 
-  if (country === 'AE' && language === 'en') {
+  if (country === 'AE' && language === 'en' && !record?.citySlug) {
     return { indexable: true, reason: 'uae_english_canonical' }
+  }
+
+  if (meta?.resolvedFrom === RESOLVED_FROM.CITY_OVERRIDE && record?.citySlug) {
+    return evaluateCityIndexability({ record, meta, countryCode, lang, countryEnabled })
   }
 
   if (meta.resolvedFrom !== RESOLVED_FROM.LOCALE_OVERRIDE) {
@@ -470,6 +477,57 @@ export async function buildIndexablePages(deps) {
     )
   }
 
+  // Published city ERP pages (/dubai/erp-software, /sa/en/riyadh/erp-software, …)
+  for (const countrySlug of GCC_COUNTRY_SLUGS) {
+    const countryCode = normalizeCountryCode(countrySlug.toUpperCase())
+    if (!enabledCodes.has(countryCode)) continue
+    for (const city of getCitiesForCountry(countryCode)) {
+      for (const lang of GCC_LANGS) {
+        const resolved = resolveContent(
+          localeStore,
+          {
+            contentType: 'cityPage',
+            globalIdentity: `city:${city.slug}:${CITY_PAGE_SLUG}`,
+            slug: CITY_PAGE_SLUG,
+            citySlug: city.slug,
+            countryCode,
+            lang,
+          },
+          {
+            context: 'public',
+            countryEnabled: enabledCodes.has(countryCode),
+            allowGlobalFallback: false,
+            allowFallback: false,
+            citySlug: city.slug,
+          },
+        )
+        const check = evaluateCityIndexability({
+          record: resolved.record,
+          meta: resolved.meta,
+          countryCode,
+          lang,
+          countryEnabled: enabledCodes.has(countryCode),
+        })
+        if (!check.indexable) continue
+        const internalPath = `/${city.slug}/${CITY_PAGE_SLUG}`
+        tryAddEntry(
+          entries,
+          seen,
+          makePageEntry({
+            internalPath,
+            countrySlug,
+            lang,
+            record: resolved.record,
+            meta: resolved.meta,
+            groupKey: groupKeyForRecord(resolved.record) || `city:${city.slug}:${CITY_PAGE_SLUG}`,
+            lastmod: pickLastmod(resolved.record?.updatedAt, resolved.record?.publishedAt),
+            identity: { kind: 'city-page', citySlug: city.slug, slug: CITY_PAGE_SLUG },
+          }),
+        )
+      }
+    }
+  }
+
   return { entries, enabledCodes, seoDoc, countriesDoc }
 }
 
@@ -591,6 +649,43 @@ export async function resolveSeoForPath(deps, pathname) {
   const match = matchEntryForPath(withAlternates, pathname)
 
   if (!match) {
+    const cityParsed = parseCityPagePath(pathname)
+    if (cityParsed.isCityPage && cityParsed.citySlug && cityParsed.pageSlug) {
+      const full = await resolveCityContent(deps, {
+        citySlug: cityParsed.citySlug,
+        pageSlug: cityParsed.pageSlug,
+        countryCode: cityParsed.countryCode,
+        lang: cityParsed.lang,
+        context: 'public',
+      })
+      const check = evaluateCityIndexability({
+        record: full.record,
+        meta: full.meta,
+        countryCode: cityParsed.countryCode,
+        lang: cityParsed.lang,
+        countryEnabled: true,
+      })
+      const seo = full.record?.seo || {}
+      const titleFromRecord = readBilingualText(seo.title || seo.pageTitle, cityParsed.lang)
+      const descFromRecord = readBilingualText(seo.description || seo.metaDescription, cityParsed.lang)
+      const canonical = absoluteUrl(buildCityPagePath(cityParsed.country, cityParsed.lang, cityParsed.citySlug, cityParsed.pageSlug))
+      const noIndex = !check.indexable || full.meta?.fallbackUsed || full.meta?.cityFallback
+      return {
+        path: buildCityPagePath(cityParsed.country, cityParsed.lang, cityParsed.citySlug, cityParsed.pageSlug),
+        canonical,
+        noIndex,
+        robots: noIndex ? 'noindex, follow' : 'index, follow',
+        lang: cityParsed.lang,
+        dir: cityParsed.lang === 'ar' ? 'rtl' : 'ltr',
+        title: titleFromRecord || readBilingualText(seoDoc?.pageTitle, cityParsed.lang) || 'DigitalManager',
+        description: descFromRecord || readBilingualText(seoDoc?.metaDescription, cityParsed.lang) || '',
+        ogLocale: ogLocaleTag(cityParsed.country, cityParsed.lang),
+        ogUrl: canonical,
+        alternates: [{ hreflang: 'x-default', href: absoluteUrl(buildLocalePath('ae', 'en', '/')) }],
+        xDefault: absoluteUrl(buildLocalePath('ae', 'en', '/')),
+        indexable: !noIndex,
+      }
+    }
     return fallbackSeoForPath(pathname, seoDoc)
   }
 

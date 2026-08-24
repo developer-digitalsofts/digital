@@ -19,6 +19,7 @@ export const CONTENT_TYPES = new Set([
   'seo',
   'blog',
   'testimonial',
+  'cityPage',
 ])
 
 export const INHERITANCE_MODES = new Set(['global', 'inherit', 'override'])
@@ -37,6 +38,7 @@ export const SLUG_ROUTED_CONTENT_TYPES = new Set([
   'faq',
   'blog',
   'testimonial',
+  'cityPage',
 ])
 
 /** Supported country → languages */
@@ -154,9 +156,10 @@ export function validateLocaleRecord(record, opts = {}) {
       x.contentType === r.contentType &&
       x.globalIdentity === r.globalIdentity &&
       normalizeCountryCode(x.countryCode) === country &&
-      normalizeLocaleLang(x.languageCode) === lang,
+      normalizeLocaleLang(x.languageCode) === lang &&
+      (x.citySlug || null) === (r.citySlug || null),
   )
-  if (dup) errors.push(`Duplicate record for ${r.contentType}/${r.globalIdentity} at ${country}/${lang}`)
+  if (dup) errors.push(`Duplicate record for ${r.contentType}/${r.globalIdentity} at ${country}/${lang}${r.citySlug ? `/${r.citySlug}` : ''}`)
 
   if (r.slug && typeof r.slug === 'string' && SLUG_ROUTED_CONTENT_TYPES.has(String(r.contentType))) {
     const slugDup = existing.find(
@@ -165,9 +168,10 @@ export function validateLocaleRecord(record, opts = {}) {
         x.slug === r.slug &&
         SLUG_ROUTED_CONTENT_TYPES.has(String(x.contentType)) &&
         normalizeCountryCode(x.countryCode) === country &&
-        normalizeLocaleLang(x.languageCode) === lang,
+        normalizeLocaleLang(x.languageCode) === lang &&
+        (x.citySlug || null) === (r.citySlug || null),
     )
-    if (slugDup) errors.push(`Duplicate slug "${r.slug}" within ${country}/${lang}`)
+    if (slugDup) errors.push(`Duplicate slug "${r.slug}" within ${country}/${lang}${r.citySlug ? `/${r.citySlug}` : ''}`)
   }
 
   return { ok: errors.length === 0, errors }
@@ -221,15 +225,17 @@ export function detectInheritanceLoop(record, records, visited = new Set()) {
   return detectInheritanceLoop(source, records, visited)
 }
 
-export function findRecordByIdentity(records, contentType, globalIdentity, countryCode, lang) {
+export function findRecordByIdentity(records, contentType, globalIdentity, countryCode, lang, citySlug = null) {
   const country = normalizeCountryCode(countryCode)
   const language = normalizeLocaleLang(lang)
+  const city = citySlug || null
   return (records || []).find(
     (r) =>
       r.contentType === contentType &&
       r.globalIdentity === globalIdentity &&
       normalizeCountryCode(r.countryCode) === country &&
-      normalizeLocaleLang(r.languageCode) === language,
+      normalizeLocaleLang(r.languageCode) === language &&
+      (r.citySlug || null) === city,
   )
 }
 

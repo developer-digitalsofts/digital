@@ -1,20 +1,39 @@
 .dm-locale-select__reset {
-  appearance: none;
-  border: 1px solid #cbd5e1;
-  border-radius: 999px;
-  background: #f8fafc;
-  color: #475569;
-  font-size: 0.625rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  padding: 0.38rem 0.55rem;
-  cursor: pointer;
+  display: none;
 }
 
-.dm-locale-select__reset:hover {
-  border-color: #f47c4d;
-  color: #c2410c;
+.dm-locale-utility {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  max-width: 100%;
+}
+
+.dm-locale-utility__title {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #0f172a;
+}
+
+.dm-locale-utility__hint {
+  margin: 0;
+  max-width: 28rem;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: #64748b;
+}
+
+.dm-locale-utility__select {
+  flex-wrap: wrap;
+}
+
+@media (min-width: 1180px) {
+  .dm-locale-utility--header-only {
+    display: none;
+  }
 }
 
 .dm-locale-select__group {

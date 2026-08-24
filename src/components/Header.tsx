@@ -15,7 +15,7 @@ import { useRegionalSettings } from '../cms/useRegionalSettings'
 import { pick } from '../cms/pick'
 import { isTopBarVisibleFromSections, parsePageSections } from '../cms/pageSections'
 import type { CmsHeader, CmsHeaderNavLink } from '../cms/types'
-import { LocaleSelector } from './LocaleSelector'
+import { RegionLanguageUtility } from './RegionLanguageUtility'
 import './header-layout.css'
 
 type MegaKey = 'module' | 'industry'
@@ -251,8 +251,8 @@ export function Header({ onOpenSearch }: HeaderProps) {
                 src={logoSrc}
                 alt={brandName && (brandName.en || brandName.ar) ? pick(brandName, lang) : 'DigitalManager'}
                 className="dm-header__logo-img bg-transparent rtl:object-right"
-                width={200}
-                height={58}
+                width={185}
+                height={54}
                 loading="eager"
                 decoding="async"
               />
@@ -357,7 +357,6 @@ export function Header({ onOpenSearch }: HeaderProps) {
             </nav>
 
             <div className="dm-header__actions">
-              <LocaleSelector compact />
               {showLangSwitcher ? (
                 <button
                   type="button"
@@ -644,7 +643,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                 )}
             </nav>
             <div className="mt-3 border-t border-slate-100 pt-3">
-              <LocaleSelector />
+              <RegionLanguageUtility />
             </div>
           </div>
         )}
