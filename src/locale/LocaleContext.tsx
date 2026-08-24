@@ -4,7 +4,7 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useState,
+  useRef,
   type ReactNode,
 } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -17,7 +17,6 @@ import type { GccCountryCode } from '../config/gccCountries'
 import {
   GCC_COUNTRY_FLAGS,
   LOCALE_STORAGE_KEY,
-  LOCALE_SUGGEST_DISMISS_KEY,
   codeToCountrySlug,
   countrySlugToCode,
   isDefaultLocale,
@@ -26,6 +25,7 @@ import {
   type LocaleLang,
 } from './localeConfig'
 import { buildLocalizedHref, localePathFromQueryCountry, parseLocalePath } from './localePaths'
+import { clearLocalePref, readLocalePref, writeLocalePref } from './localePref'
 
 type LocaleContextValue = {
   country: LocaleCountrySlug
@@ -38,11 +38,10 @@ type LocaleContextValue = {
   editorialStatus: 'draft' | 'published'
   noIndex: boolean
   setLocale: (country: LocaleCountrySlug, lang: LocaleLang, opts?: { replace?: boolean }) => void
+  resetAutoLocale: () => void
+  hasManualLocalePref: boolean
   href: (internalPath: string) => string
   loading: boolean
-  suggestCountry: LocaleCountrySlug | null
-  dismissCountrySuggest: () => void
-  acceptCountrySuggest: () => void
 }
 
 const LocaleContext = createContext<LocaleContextValue | null>(null)
@@ -76,17 +75,19 @@ function resolveProfile(item: CountryProfile, lang: LocaleLang, fallback?: Resol
 }
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
-  const { data } = useCms()
+  const { data, localeMeta } = useCms()
   const { lang: i18nLang, setLang } = useI18n()
   const location = useLocation()
   const navigate = useNavigate()
   const parsed = useMemo(() => parseLocalePath(location.pathname), [location.pathname])
+  const autoRoutingChecked = useRef(false)
 
   const doc = (data?.countries ?? { items: [] }) as CountriesDoc
   const lang = parsed.hasLocalePrefix ? parsed.lang : (i18nLang as LocaleLang)
   const country = parsed.country
   const countryCode = countrySlugToCode(country)
   const defaults = localeDefaultsForCountry(country)
+  const manualPref = useMemo(() => readLocalePref(), [location.pathname, location.key])
 
   const countries = useMemo(() => {
     const raw = [...(doc.items || [])]
@@ -96,8 +97,6 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     const defaultResolved = defaultItem ? resolveProfile(defaultItem, lang) : null
     return raw.map((item) => resolveProfile(item, lang, defaultResolved ?? undefined))
   }, [doc.items, lang])
-
-  const [suggestCountry, setSuggestCountry] = useState<LocaleCountrySlug | null>(null)
 
   useEffect(() => {
     if (parsed.hasLocalePrefix && parsed.lang !== i18nLang) setLang(parsed.lang)
@@ -122,52 +121,35 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   }, [country, lang])
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
-    if (localStorage.getItem(LOCALE_SUGGEST_DISMISS_KEY)) return
-    if (!isDefaultLocale(country, lang)) return
+    if (autoRoutingChecked.current) return
+    if (location.pathname !== '/') return
+    autoRoutingChecked.current = true
 
-    const hinted = (window as Window & { __DM_COUNTRY_HINT__?: string }).__DM_COUNTRY_HINT__
-    if (hinted) {
-      queueMicrotask(() => {
-        const slug = codeToCountrySlug(hinted)
-        if (slug !== 'ae') setSuggestCountry(slug)
-      })
-      return
-    }
-
-    fetch('/api/public/locale-hint')
+    fetch('/api/public/locale-routing?path=/', { credentials: 'same-origin' })
       .then((r) => (r.ok ? r.json() : null))
-      .then((data: { countryCode?: string } | null) => {
-        if (!data?.countryCode) return
-        ;(window as Window & { __DM_COUNTRY_HINT__?: string }).__DM_COUNTRY_HINT__ = data.countryCode
-        const slug = codeToCountrySlug(data.countryCode)
-        if (slug !== 'ae') setSuggestCountry(slug)
+      .then((payload: { redirect?: string | null } | null) => {
+        const target = payload?.redirect
+        if (target && target !== '/' && location.pathname === '/') {
+          navigate(target, { replace: true })
+        }
       })
       .catch(() => {})
-  }, [country, lang])
+  }, [location.pathname, navigate])
 
   const setLocale = useCallback(
     (nextCountry: LocaleCountrySlug, nextLang: LocaleLang, opts?: { replace?: boolean }) => {
+      writeLocalePref({ country: nextCountry, lang: nextLang, manual: true })
       navigate(buildLocalizedHref(nextCountry, nextLang, parsed.restPath), { replace: opts?.replace ?? false })
       setLang(nextLang)
     },
     [navigate, parsed.restPath, setLang],
   )
 
-  const dismissCountrySuggest = useCallback(() => {
-    try {
-      localStorage.setItem(LOCALE_SUGGEST_DISMISS_KEY, String(Date.now()))
-    } catch {
-      /* ignore */
-    }
-    setSuggestCountry(null)
-  }, [])
-
-  const acceptCountrySuggest = useCallback(() => {
-    if (!suggestCountry) return
-    setLocale(suggestCountry, lang, { replace: true })
-    setSuggestCountry(null)
-  }, [suggestCountry, lang, setLocale])
+  const resetAutoLocale = useCallback(() => {
+    clearLocalePref()
+    autoRoutingChecked.current = false
+    navigate('/', { replace: true })
+  }, [navigate])
 
   const activeCountry = useMemo(
     () => countries.find((c) => c.code === countryCode) || countries.find((c) => c.isDefault) || countries[0] || null,
@@ -183,16 +165,15 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
       activeCountry,
       isDefaultLocaleRoute: isDefaultLocale(country, lang),
       localePrefix: isDefaultLocale(country, lang) ? '' : `/${country}/${lang}`,
-      editorialStatus: defaults.editorialStatus,
-      noIndex: defaults.noIndex,
+      editorialStatus: localeMeta?.fallbackUsed ? ('draft' as const) : defaults.editorialStatus,
+      noIndex: localeMeta?.noIndex ?? defaults.noIndex,
       setLocale,
+      resetAutoLocale,
+      hasManualLocalePref: manualPref?.manual === true,
       href: (internalPath: string) => buildLocalizedHref(country, lang, internalPath),
       loading: !data,
-      suggestCountry,
-      dismissCountrySuggest,
-      acceptCountrySuggest,
     }),
-    [country, lang, countryCode, countries, activeCountry, defaults, setLocale, data, suggestCountry, dismissCountrySuggest, acceptCountrySuggest],
+    [country, lang, countryCode, countries, activeCountry, defaults, setLocale, resetAutoLocale, manualPref, data, localeMeta],
   )
 
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>

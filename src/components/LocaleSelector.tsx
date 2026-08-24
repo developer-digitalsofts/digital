@@ -6,19 +6,31 @@ import './locale-selector.css'
 
 const LANG_LABELS: Record<LocaleLang, string> = { en: 'EN', ar: 'AR' }
 
+/** Stable short labels — never show raw country codes (AE, SA, …) in the header UI. */
+const COUNTRY_LABELS: Record<LocaleCountrySlug, string> = {
+  ae: 'UAE',
+  sa: 'KSA',
+  kw: 'Kuwait',
+  qa: 'Qatar',
+  om: 'Oman',
+  bh: 'Bahrain',
+}
+
 type LocaleSelectorProps = { compact?: boolean; className?: string }
 
 export function LocaleSelector({ compact = false, className = '' }: LocaleSelectorProps) {
-  const { country, lang, countries, setLocale } = useLocale()
+  const { country, lang, countries, setLocale, resetAutoLocale, hasManualLocalePref } = useLocale()
   const flag = useCountryFlag(countries.find((c) => codeToCountrySlug(c.code) === country)?.code ?? 'AE')
 
   return (
     <div className={`dm-locale-select ${compact ? 'dm-locale-select--compact' : ''} ${className}`.trim()}>
       <label className="dm-locale-select__group">
         <span className="sr-only">Country</span>
-        <span className="dm-locale-select__flag" aria-hidden>
-          {flag}
-        </span>
+        {!compact ? (
+          <span className="dm-locale-select__flag" aria-hidden>
+            {flag}
+          </span>
+        ) : null}
         <select
           className="dm-locale-select__input"
           value={country}
@@ -27,9 +39,10 @@ export function LocaleSelector({ compact = false, className = '' }: LocaleSelect
         >
           {LOCALE_COUNTRY_SLUGS.map((slug) => {
             const profile = countries.find((c) => codeToCountrySlug(c.code) === slug)
+            const label = profile?.shortName || COUNTRY_LABELS[slug]
             return (
               <option key={slug} value={slug}>
-                {profile?.shortName || slug.toUpperCase()}
+                {label}
               </option>
             )
           })}
@@ -50,6 +63,12 @@ export function LocaleSelector({ compact = false, className = '' }: LocaleSelect
         </select>
         <ChevronDown className="dm-locale-select__chevron" aria-hidden strokeWidth={2.25} />
       </label>
+
+      {hasManualLocalePref ? (
+        <button type="button" className="dm-locale-select__reset" onClick={resetAutoLocale}>
+          Auto
+        </button>
+      ) : null}
     </div>
   )
 }

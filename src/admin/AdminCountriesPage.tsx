@@ -6,6 +6,13 @@ import { useAdminSection } from './hooks/useAdminSection'
 import { useAdminToast } from './AdminToastContext'
 import { BilingualInputs } from './cms/BilingualInputs'
 import { AdminFormActions } from './cms/AdminFormActions'
+import { adminFetch } from './adminApi'
+
+type RoutingStatus = {
+  countryCode: string
+  englishPublished: boolean
+  arabicPublished: boolean
+}
 
 const emptyBi = (): Bilingual => ({ en: '', ar: '' })
 
@@ -18,6 +25,7 @@ export function AdminCountriesPage() {
   const sec = useAdminSection<CountriesDoc>('countries')
   const [local, setLocal] = useState<CountriesDoc | null>(null)
   const [baseline, setBaseline] = useState('')
+  const [routingStatus, setRoutingStatus] = useState<RoutingStatus[]>([])
 
   useEffect(() => {
     if (!sec.data) return
@@ -25,6 +33,14 @@ export function AdminCountriesPage() {
     setLocal(d)
     setBaseline(JSON.stringify(d))
   }, [sec.data])
+
+  useEffect(() => {
+    adminFetch<{ items?: RoutingStatus[] }>('/api/admin/locale/routing-status')
+      .then((payload) => {
+        if (payload?.items) setRoutingStatus(payload.items)
+      })
+      .catch(() => {})
+  }, [])
 
   const dirty = useMemo(() => (local ? JSON.stringify(local) !== baseline : false), [local, baseline])
 
@@ -120,6 +136,52 @@ export function AdminCountriesPage() {
             </div>
             <BilingualInputs labelEn="Office address" labelAr="Office address (AR)" multiline rows={2} value={item.officeAddress || emptyBi()} onChange={(officeAddress: Bilingual) => updateItem(item.code, { officeAddress })} />
             <BilingualInputs labelEn="Working hours" labelAr="Working hours (AR)" value={item.workingHours || emptyBi()} onChange={(workingHours: Bilingual) => updateItem(item.code, { workingHours })} />
+
+            <div className="rounded-lg border border-slate-100 bg-slate-50/80 p-3 space-y-2">
+              <h4 className="text-sm font-bold text-slate-900">Automatic routing</h4>
+              <p className="text-xs text-slate-600">
+                Controls whether visitors opening the site root are redirected to this country&apos;s published locale.
+              </p>
+              <div className="flex flex-wrap gap-4 text-sm">
+                <label className="flex items-center gap-2 font-semibold">
+                  <input
+                    type="checkbox"
+                    checked={item.autoDetectEnabled !== false}
+                    onChange={(e) => updateItem(item.code, { autoDetectEnabled: e.target.checked })}
+                  />
+                  Auto-detect enabled
+                </label>
+                <label className="flex items-center gap-2 font-semibold">
+                  <input
+                    type="checkbox"
+                    checked={item.allowAutoRedirect !== false}
+                    onChange={(e) => updateItem(item.code, { allowAutoRedirect: e.target.checked })}
+                  />
+                  Allow auto-redirect
+                </label>
+                <label className="text-sm">
+                  Default language
+                  <select
+                    className="mt-1 block rounded-lg border border-slate-200 px-2 py-1.5"
+                    value={item.defaultLanguage || 'en'}
+                    onChange={(e) => updateItem(item.code, { defaultLanguage: e.target.value as 'en' | 'ar' })}
+                  >
+                    <option value="en">English</option>
+                    <option value="ar">Arabic</option>
+                  </select>
+                </label>
+              </div>
+              {(() => {
+                const status = routingStatus.find((row) => row.countryCode === item.code)
+                if (!status) return null
+                return (
+                  <p className="text-xs text-slate-600">
+                    English published: {status.englishPublished ? 'Yes' : 'No'} · Arabic approved/public:{' '}
+                    {status.arabicPublished ? 'Yes' : 'No'}
+                  </p>
+                )
+              })()}
+            </div>
           </section>
         ))}
       </div>

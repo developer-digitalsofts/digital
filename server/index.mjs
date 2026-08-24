@@ -22,6 +22,7 @@ import { createPublishStore } from './publishStore.mjs'
 import { migrateCmsSchemaV2 } from './cmsSchemaMigrate.mjs'
 import { registerContentRoutes, ensureBlogBootstrap, ensureCountriesBootstrap } from './contentRoutes.mjs'
 import { registerAgenticRoutes, createAgenticSpaFallback } from './agenticRoutes.mjs'
+import { registerLocaleGeoRouting } from './localeGeoRouting.mjs'
 import { notFoundError, internalError } from './publicApiErrors.mjs'
 import { createLocaleStorage } from './localeStorage.mjs'
 import { registerLocaleRoutes } from './localeApi.mjs'
@@ -3403,6 +3404,8 @@ registerLocaleRoutes(app, {
   invalidateJsonCache,
   logActivity: appendActivity,
 })
+
+registerLocaleGeoRouting(app, { publishStore, localePublish })
 
 if (SERVE_STATIC) {
   registerAgenticRoutes(app, {

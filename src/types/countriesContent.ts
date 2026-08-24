@@ -18,6 +18,9 @@ export type CountryProfile = {
   officeAddress?: Bilingual
   workingHours?: Bilingual
   sortOrder?: number
+  autoDetectEnabled?: boolean
+  allowAutoRedirect?: boolean
+  defaultLanguage?: 'en' | 'ar'
 }
 
 export type CountriesDoc = {

@@ -24,7 +24,10 @@
         "en": "Sat - Thu : 10.00 am - 9.00 pm",
         "ar": "السبت–الخميس: ١٠ ص – ٩ م"
       },
-      "sortOrder": 0
+      "sortOrder": 0,
+      "autoDetectEnabled": false,
+      "allowAutoRedirect": false,
+      "defaultLanguage": "en"
     },
     {
       "code": "SA",
@@ -34,7 +37,10 @@
       "currency": "SAR",
       "phoneCode": "+966",
       "primaryEmail": "info@digitalmanager.ae",
-      "sortOrder": 1
+      "sortOrder": 1,
+      "autoDetectEnabled": true,
+      "allowAutoRedirect": true,
+      "defaultLanguage": "en"
     },
     {
       "code": "KW",
@@ -44,7 +50,10 @@
       "currency": "KWD",
       "phoneCode": "+965",
       "primaryEmail": "info@digitalmanager.ae",
-      "sortOrder": 2
+      "sortOrder": 2,
+      "autoDetectEnabled": true,
+      "allowAutoRedirect": true,
+      "defaultLanguage": "en"
     },
     {
       "code": "QA",
@@ -54,7 +63,10 @@
       "currency": "QAR",
       "phoneCode": "+974",
       "primaryEmail": "info@digitalmanager.ae",
-      "sortOrder": 3
+      "sortOrder": 3,
+      "autoDetectEnabled": true,
+      "allowAutoRedirect": true,
+      "defaultLanguage": "en"
     },
     {
       "code": "BH",
@@ -64,7 +76,10 @@
       "currency": "BHD",
       "phoneCode": "+973",
       "primaryEmail": "info@digitalmanager.ae",
-      "sortOrder": 4
+      "sortOrder": 4,
+      "autoDetectEnabled": true,
+      "allowAutoRedirect": true,
+      "defaultLanguage": "en"
     },
     {
       "code": "OM",
@@ -74,7 +89,10 @@
       "currency": "OMR",
       "phoneCode": "+968",
       "primaryEmail": "info@digitalmanager.ae",
-      "sortOrder": 5
+      "sortOrder": 5,
+      "autoDetectEnabled": true,
+      "allowAutoRedirect": true,
+      "defaultLanguage": "en"
     }
   ],
   "_meta": {

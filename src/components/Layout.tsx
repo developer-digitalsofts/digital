@@ -7,7 +7,6 @@ import { FloatingWhatsApp } from './FloatingWhatsApp'
 import { SearchModal } from './SearchModal'
 import { ScrollToTop } from './ScrollToTop'
 import { SeoHead } from './SeoHead'
-import { CountrySuggestModal } from './CountrySuggestModal'
 import { useCms } from '../cms/CmsContext'
 import { isSectionVisible, parsePageSections } from '../cms/pageSections'
 
@@ -33,7 +32,6 @@ export function Layout() {
         </div>
         {showFooter ? <Footer /> : null}
         <FloatingWhatsApp />
-        <CountrySuggestModal />
         <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
       </div>
     </GetDemoProvider>

@@ -20,8 +20,11 @@ import {
   archiveLocaleRecord,
   resetLocaleField,
   copyLocaleField,
+  copyUaeStructureAsCountryDraft,
+  repairCountryLocaleRecords,
 } from './localeActions.mjs'
 import { createLocalePublishHelpers } from './localePublish.mjs'
+import { getCountryRoutingStatus } from './localeGeoRouting.mjs'
 import { listFieldMeta } from './localeFieldHelpers.mjs'
 import { productionErrorMessage } from './localeStorage.mjs'
 
@@ -32,7 +35,7 @@ function parseLocaleQuery(req) {
 }
 
 export function registerLocaleRoutes(app, deps) {
-  const { authMiddleware, localeStorage, publishStore, logActivity } = deps
+  const { authMiddleware, localeStorage, publishStore, invalidateJsonCache, logActivity } = deps
   const localePublish = createLocalePublishHelpers({ localeStorage, publishStore })
 
   async function loadBaseline(record) {
@@ -72,7 +75,7 @@ export function registerLocaleRoutes(app, deps) {
       store,
       { slug, countryCode, lang, contentType: candidate?.contentType, globalIdentity: candidate?.globalIdentity },
       baseline,
-      { context, countryEnabled: true, allowGlobalFallback: countryCode === 'AE' },
+      { context, countryEnabled: true, allowGlobalFallback: true, allowArabicDraftPreview: lang === 'ar' },
     )
   }
 
@@ -123,7 +126,7 @@ export function registerLocaleRoutes(app, deps) {
         store,
         { ...parsed, countryCode, lang },
         baseline,
-        { context: 'public', countryEnabled: true, allowGlobalFallback: countryCode === 'AE' },
+        { context: 'public', countryEnabled: true, allowGlobalFallback: true, allowArabicDraftPreview: lang === 'ar' },
       )
       if (!full.publicView) {
         res.status(404).json({
@@ -157,6 +160,8 @@ export function registerLocaleRoutes(app, deps) {
 
   app.post('/api/admin/locale/publish-store', authMiddleware, async (req, res) => {
     try {
+      invalidateJsonCache?.('localeRecords.json')
+      invalidateJsonCache?.('published/localeRecords.json')
       await localePublish.syncLocalePublishedSnapshot(req.user?.email)
       const status = await localePublish.getLocalePublishStatus()
       res.json({ ok: true, publishStatus: status })
@@ -239,6 +244,20 @@ export function registerLocaleRoutes(app, deps) {
     }
   })
 
+  app.get('/api/admin/locale/routing-status', authMiddleware, async (_req, res) => {
+    try {
+      const codes = ['AE', 'SA', 'QA', 'OM', 'KW', 'BH']
+      const items = await Promise.all(
+        codes.map(async (countryCode) => ({
+          ...(await getCountryRoutingStatus({ publishStore, localePublish }, countryCode)),
+        })),
+      )
+      res.json({ items })
+    } catch (e) {
+      res.status(500).json({ error: productionErrorMessage(e) })
+    }
+  })
+
   app.put('/api/admin/locale/records/:id', authMiddleware, async (req, res) => {
     try {
       const store = await localePublish.readDraftStore()
@@ -259,6 +278,7 @@ export function registerLocaleRoutes(app, deps) {
 
   app.post('/api/admin/locale/records/:id/publish', authMiddleware, async (req, res) => {
     try {
+      invalidateJsonCache?.('localeRecords.json')
       const store = await localePublish.readDraftStore()
       const existing = (store.records || []).find((r) => r.id === req.params.id)
       if (!existing) {
@@ -392,6 +412,41 @@ export function registerLocaleRoutes(app, deps) {
       await afterLocaleMutation(req.user?.email, { syncPublished: true })
       logActivity?.({ action: 'locale_reset', description: `Reset locale override ${req.params.id}`, section: 'localeRecords' })
       res.json(result)
+    } catch (e) {
+      res.status(400).json({ error: productionErrorMessage(e) })
+    }
+  })
+
+  app.post('/api/admin/locale/actions/copy-uae-structure', authMiddleware, async (req, res) => {
+    try {
+      const { countryCode, lang = 'en', regionalize = true } = req.body || {}
+      if (!countryCode) {
+        res.status(400).json({ error: 'countryCode is required' })
+        return
+      }
+      const report = await copyUaeStructureAsCountryDraft(deps, { countryCode, lang, regionalize: regionalize !== false })
+      await afterLocaleMutation(req.user?.email)
+      logActivity?.({
+        action: 'locale_bulk_copy',
+        description: `Copy UAE structure → ${countryCode}/${lang}`,
+        section: 'localeRecords',
+      })
+      res.json({ ok: true, report })
+    } catch (e) {
+      res.status(400).json({ error: productionErrorMessage(e) })
+    }
+  })
+
+  app.post('/api/admin/locale/actions/repair-country', authMiddleware, async (req, res) => {
+    try {
+      const { countryCode, lang = 'en' } = req.body || {}
+      if (!countryCode) {
+        res.status(400).json({ error: 'countryCode is required' })
+        return
+      }
+      const report = await repairCountryLocaleRecords(deps, countryCode, lang)
+      await afterLocaleMutation(req.user?.email)
+      res.json({ ok: true, report })
     } catch (e) {
       res.status(400).json({ error: productionErrorMessage(e) })
     }
