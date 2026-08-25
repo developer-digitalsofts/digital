@@ -10,8 +10,6 @@ import { AdminToastProvider } from './admin/AdminToastContext'
 
 function markAppReady() {
   document.documentElement.classList.add('dm-ready')
-  document.getElementById('seo-bootstrap')?.remove()
-  document.getElementById('dm-app-loader')?.remove()
 }
 
 const rootEl = document.getElementById('root')!

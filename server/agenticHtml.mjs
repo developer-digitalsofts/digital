@@ -410,24 +410,43 @@ export function renderAgenticBody(content) {
   }
 }
 
-/** Inline boot styles — navy shell + loader until React adds html.dm-ready (not display:none on the page). */
-const CRITICAL_BOOT_CSS = `
-html:not(.dm-ready) body { margin: 0; background: #111936; }
-html:not(.dm-ready) #seo-bootstrap {
-  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
-}
-html:not(.dm-ready) #root { min-height: 100vh; }
-html:not(.dm-ready) #dm-app-loader {
-  position: fixed; inset: 0; z-index: 9998; display: flex; align-items: center; justify-content: center;
+/** Critical above-the-fold CSS — brands SSR hero instantly; full Tailwind bundle completes styling after load. */
+const CRITICAL_SSR_CSS = `
+body { margin: 0; background: #111936; }
+html:not(.dm-ready) #root .dm-ssr-shell,
+html:not(.dm-ready) #root .agentic-prerender {
   background: #111936;
+  color: #e2e8f0;
+  min-height: 100vh;
+  font-family: Inter, system-ui, sans-serif;
+  line-height: 1.65;
+  max-width: none;
+  margin: 0;
+  padding: 0;
 }
-html:not(.dm-ready) #dm-app-loader::after {
-  content: ''; width: 40px; height: 40px; border: 3px solid rgba(255, 113, 74, 0.25);
-  border-top-color: #ff714a; border-radius: 50%; animation: dm-spin 0.8s linear infinite;
+html:not(.dm-ready) #root .agentic-prerender header {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 3rem 1.25rem 2rem;
 }
-@keyframes dm-spin { to { transform: rotate(360deg); } }
-html.dm-ready #dm-app-loader { visibility: hidden; pointer-events: none; }
+html:not(.dm-ready) #root .agentic-prerender h1 {
+  color: #ffffff;
+  font-family: Sora, Inter, system-ui, sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 1rem;
+}
+html:not(.dm-ready) #root .agentic-prerender header > p {
+  color: #cbd5e1;
+  font-size: 1.05rem;
+  max-width: 42rem;
+  margin: 0;
+}
+html:not(.dm-ready) #root .agentic-prerender nav,
+html:not(.dm-ready) #root .agentic-prerender > section {
+  display: none;
+}
 `.trim()
 
 const NOSCRIPT_SHELL_CSS =
@@ -482,25 +501,20 @@ export function injectAgenticHtml(templateHtml, content) {
 }
 
 /**
- * Browser shell: SEO/agent text in #seo-bootstrap (DOM-only for audits), empty #root for React,
- * critical boot CSS + loader to prevent unstyled prerender flash before hydration.
+ * Browser shell: SSR/agent content inside #root with critical branded CSS and Vite assets.
+ * React replaces #root on mount — SEO text stays in initial HTML; no clipped/hidden bootstrap.
  */
 export function injectBrowserShellHtml(templateHtml, content) {
   const body = renderAgenticBody(content)
-  const criticalStyle = `<style id="dm-critical">${CRITICAL_BOOT_CSS}</style>`
+  const criticalStyle = `<style id="dm-critical">${CRITICAL_SSR_CSS}</style>`
   let html = applyShellHead(templateHtml, content)
-  html = html.replace(
-    '<head>',
-    `<head>\n    ${criticalStyle}`,
-  )
+  html = html.replace('<head>', `<head>\n    ${criticalStyle}`)
   const shellBody = `
-    <div id="seo-bootstrap" data-agentic-prerender="true" aria-hidden="true">${body}</div>
     <noscript>
       <style>${NOSCRIPT_SHELL_CSS}</style>
       <div class="dm-noscript-shell">${body}</div>
     </noscript>
-    <div id="dm-app-loader" aria-hidden="true"></div>
-    <div id="root"></div>`
+    <div id="root"><div class="dm-ssr-shell">${body}</div></div>`
   html = html.replace('<div id="root"></div>', shellBody)
   html = html.replace('<div id="root"><\/div>', shellBody)
   return html

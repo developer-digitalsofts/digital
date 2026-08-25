@@ -77,13 +77,17 @@ async function main() {
     pass('Browser homepage includes Organization and SoftwareApplication JSON-LD')
   } else fail('Browser homepage includes Organization and SoftwareApplication JSON-LD')
 
-  if (browserHome.text.includes('id="seo-bootstrap"') && browserHome.text.includes('id="dm-critical"')) {
-    pass('Browser homepage uses SEO bootstrap + critical boot CSS')
-  } else fail('Browser homepage uses SEO bootstrap + critical boot CSS')
+  if (browserHome.text.includes('id="dm-critical"') && browserHome.text.includes('dm-ssr-shell')) {
+    pass('Browser homepage includes critical SSR CSS and styled shell wrapper')
+  } else fail('Browser homepage includes critical SSR CSS and styled shell wrapper')
 
-  if (/<div id="root">\s*<\/div>/i.test(browserHome.text)) {
-    pass('Browser #root is empty for React mount (no duplicate SSR in root)')
-  } else fail('Browser #root is empty for React mount (no duplicate SSR in root)')
+  if (
+    browserHome.text.includes('data-agentic-prerender="true"') &&
+    browserHome.text.includes('<div id="root">') &&
+    browserHome.text.includes('<h1')
+  ) {
+    pass('Browser SSR content lives inside #root with H1 (agent-readable, React replaces on mount)')
+  } else fail('Browser SSR content inside #root with H1')
 
   const cssPos = browserHome.text.search(/href="\/assets\/[^"]+\.css"/)
   const jsPos = browserHome.text.search(/src="\/assets\/[^"]+\.js"/)
