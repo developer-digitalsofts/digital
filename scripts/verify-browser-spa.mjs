@@ -63,9 +63,30 @@ async function main() {
     pass('Browser homepage references /assets JS or CSS')
   } else fail('Browser homepage references /assets JS or CSS')
 
-  if (!browserHome.text.includes('data-agentic-prerender="true"')) {
-    pass('Browser homepage does not include agent prerender markup')
-  } else fail('Browser homepage does not include agent prerender markup')
+  const browserVisible = browserHome.text
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+  if (browserVisible.length >= 500 && /<h1[^>]*>/i.test(browserHome.text)) {
+    pass('Browser homepage raw HTML includes H1 and 500+ visible chars', `${browserVisible.length} chars`)
+  } else fail('Browser homepage raw HTML includes H1 and 500+ visible chars', `${browserVisible.length} chars`)
+
+  if (browserHome.text.includes('"@type":"Organization"') && browserHome.text.includes('"@type":"SoftwareApplication"')) {
+    pass('Browser homepage includes Organization and SoftwareApplication JSON-LD')
+  } else fail('Browser homepage includes Organization and SoftwareApplication JSON-LD')
+
+  const defaultFetch = await fetchProbe(`${BASE}/`, { Accept: 'text/html' })
+  const defaultVisible = defaultFetch.text
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+  if (defaultFetch.status === 200 && defaultVisible.length >= 500 && /<h1[^>]*>/i.test(defaultFetch.text)) {
+    pass('Default Accept:text/html fetch includes H1 and 500+ visible chars', `${defaultVisible.length} chars`)
+  } else fail('Default Accept:text/html fetch includes H1 and 500+ visible chars', `${defaultVisible.length} chars`)
 
   const agentHome = await fetchProbe(`${BASE}/`, AGENT_HEADERS)
   if (agentHome.status === 200) pass('Agent GET / HTTP 200')

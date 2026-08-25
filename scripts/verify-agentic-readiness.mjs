@@ -232,20 +232,33 @@ async function main() {
   if (locale404.status === 404 && locale404Json?.error?.code === 'RESOURCE_NOT_FOUND') pass('Locale content 404 structured JSON')
   else fail('Locale content 404 structured JSON', locale404.text.slice(0, 120))
 
+  function browserShellOk(text) {
+    return (
+      text.includes('<div id="root">') &&
+      text.includes('type="module"') &&
+      /\/assets\/[^"']+\.(js|css)/.test(text) &&
+      /<h1[^>]*>/i.test(text) &&
+      visibleText(text).length >= 500
+    )
+  }
+
   const locale = await fetchProbe(`${BASE}/sa/en`, BROWSER_HTML_HEADERS)
-  if (locale.status === 200 && !locale.text.includes('data-agentic-prerender="true"')) {
-    pass('Locale route /sa/en loads React shell for browser')
-  } else if (locale.status === 200) fail('Locale route /sa/en loads React shell for browser', 'agent prerender leaked')
+  if (locale.status === 200 && browserShellOk(locale.text)) pass('Locale route /sa/en loads React shell for browser')
   else fail('Locale route /sa/en loads React shell for browser', String(locale.status))
 
   const blog = await fetchProbe(`${BASE}/blog`, BROWSER_HTML_HEADERS)
-  if (blog.status === 200 && !blog.text.includes('data-agentic-prerender="true"')) pass('Blog listing loads React shell for browser')
+  if (blog.status === 200 && blog.text.includes('type="module"')) pass('Blog listing loads React shell for browser')
   else fail('Blog listing loads React shell for browser', String(blog.status))
 
   const testimonials = await fetchProbe(`${BASE}/testimonials`, BROWSER_HTML_HEADERS)
-  if (testimonials.status === 200 && !testimonials.text.includes('data-agentic-prerender="true"')) {
+  if (testimonials.status === 200 && testimonials.text.includes('type="module"')) {
     pass('Testimonials page loads React shell for browser')
   } else fail('Testimonials page loads React shell for browser', String(testimonials.status))
+
+  const defaultHtml = await fetchProbe(`${BASE}/`, { Accept: 'text/html' })
+  if (defaultHtml.status === 200 && visibleText(defaultHtml.text).length >= 500 && /<h1[^>]*>/i.test(defaultHtml.text)) {
+    pass('Default Accept:text/html homepage has 500+ raw chars and H1', `${visibleText(defaultHtml.text).length} chars`)
+  } else fail('Default Accept:text/html homepage has 500+ raw chars and H1', `${visibleText(defaultHtml.text).length} chars`)
 
   const failed = results.filter((r) => !r.ok)
   console.log(`\n${results.length - failed.length}/${results.length} passed`)

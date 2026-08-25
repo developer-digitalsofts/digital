@@ -2,7 +2,12 @@
  * Agentic readiness routes: prerender HTML, markdown negotiation, llms.txt, openapi, 404.
  */
 import fs from 'node:fs/promises'
-import { resolvePublicPath, isMarkdownPreferred, isAgentHtmlRequest } from './agenticPathResolver.mjs'
+import {
+  resolvePublicPath,
+  isMarkdownPreferred,
+  isAgentHtmlRequest,
+  prefersHtmlDocument,
+} from './agenticPathResolver.mjs'
 import { loadAgenticPageContent } from './agenticContentLoader.mjs'
 import { injectAgenticHtml, render404Html } from './agenticHtml.mjs'
 import { renderAgenticMarkdown, render404Markdown } from './agenticMarkdown.mjs'
@@ -164,7 +169,11 @@ export function createAgenticSpaFallback(deps) {
   }
 }
 
-/** Serve dist/index.html only for known human-facing SPA routes; real 404 for unknown paths. */
+/**
+ * Serve the React shell with server-injected SEO (H1, body copy, JSON-LD) for HTML clients.
+ * Crawlers are handled upstream; browsers and generic Accept:text/html fetchers get the same
+ * published CMS semantics inside #root while CSS/JS assets load the styled SPA.
+ */
 export function createSpaShellHandler(deps) {
   return async (req, res, next) => {
     if (req.method !== 'GET' && req.method !== 'HEAD') return next()
@@ -172,6 +181,7 @@ export function createSpaShellHandler(deps) {
     if (AGENTIC_EXCLUDED.test(pathname)) return next()
     if (pathname === '/robots.txt' || pathname === '/sitemap.xml') return next()
     if (isMarkdownPreferred(req) || isAgentHtmlRequest(req)) return next()
+    if (!prefersHtmlDocument(req)) return next()
 
     try {
       const routeInfo = await resolvePublicPath(deps, pathname)
@@ -183,6 +193,17 @@ export function createSpaShellHandler(deps) {
         res.status(404).type('text/html; charset=utf-8').send('<!doctype html><title>Not found</title><h1>Page not found</h1>')
         return
       }
+
+      varyHeader(res)
+
+      if (NEGOTIABLE_PAGE_KINDS.has(routeInfo.kind)) {
+        const content = await loadAgenticPageContent(deps, pathname, routeInfo)
+        const template = await readTemplate(deps.distIndex)
+        const html = injectAgenticHtml(template, content)
+        res.status(200).type('text/html; charset=utf-8').send(html)
+        return
+      }
+
       res.sendFile(deps.distIndex)
     } catch (err) {
       console.error('[spa-shell]', err)
