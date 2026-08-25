@@ -212,7 +212,7 @@ export function geoRedirectCacheHeaders() {
   return {
     'Cache-Control': 'private, no-store, max-age=0',
     Pragma: 'no-cache',
-    Vary: 'Accept-Language, Cookie, CF-IPCountry, X-Country-Code, X-Vercel-IP-Country, CloudFront-Viewer-Country',
+    Vary: 'CF-IPCountry, X-Country-Code, Cookie, Accept-Language',
   }
 }
 

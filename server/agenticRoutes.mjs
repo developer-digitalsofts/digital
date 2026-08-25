@@ -2,7 +2,7 @@
  * Agentic readiness routes: prerender HTML, markdown negotiation, llms.txt, openapi, 404.
  */
 import fs from 'node:fs/promises'
-import { resolvePublicPath, isMarkdownPreferred } from './agenticPathResolver.mjs'
+import { resolvePublicPath, isMarkdownPreferred, isAgentHtmlRequest } from './agenticPathResolver.mjs'
 import { loadAgenticPageContent } from './agenticContentLoader.mjs'
 import { injectAgenticHtml, render404Html } from './agenticHtml.mjs'
 import { renderAgenticMarkdown, render404Markdown } from './agenticMarkdown.mjs'
@@ -46,6 +46,12 @@ function varyHeader(res) {
   res.set('Vary', 'Accept, Accept-Encoding')
 }
 
+async function sendAgent404(req, res, deps, pathname, lang) {
+  const template = await readTemplate(deps.distIndex)
+  varyHeader(res)
+  res.status(404).type('text/html; charset=utf-8').send(render404Html(template, pathname, lang))
+}
+
 export function registerAgenticRoutes(app, deps) {
   app.get('/llms.txt', (_req, res) => {
     res.set({
@@ -80,11 +86,14 @@ export function registerAgenticRoutes(app, deps) {
     if (pathname === '/robots.txt' || pathname === '/sitemap.xml') return next()
     if (AGENTIC_EXCLUDED.test(pathname)) return next()
 
+    const wantsMarkdown = isMarkdownPreferred(req)
+    const wantsAgentHtml = isAgentHtmlRequest(req)
+    if (!wantsMarkdown && !wantsAgentHtml) return next()
+
     try {
       const routeInfo = await resolvePublicPath(deps, pathname)
       const parsed = parseLocalePath(pathname)
       const lang = parsed.lang || 'en'
-      const wantsMarkdown = isMarkdownPreferred(req)
 
       if (!routeInfo.known) {
         if (wantsMarkdown) {
@@ -92,9 +101,7 @@ export function registerAgenticRoutes(app, deps) {
           res.status(404).type('text/markdown; charset=utf-8').send(render404Markdown(pathname, lang))
           return
         }
-        const template = await readTemplate(deps.distIndex)
-        varyHeader(res)
-        res.status(404).type('text/html; charset=utf-8').send(render404Html(template, pathname, lang))
+        await sendAgent404(req, res, deps, pathname, lang)
         return
       }
 
@@ -116,10 +123,6 @@ export function registerAgenticRoutes(app, deps) {
         return
       }
 
-      const accept = String(req.headers.accept || '').toLowerCase()
-      const prefersHtml = !accept || accept.includes('text/html') || accept.includes('*/*')
-      if (!prefersHtml) return next()
-
       const template = await readTemplate(deps.distIndex)
       const html = injectAgenticHtml(template, content)
       varyHeader(res)
@@ -137,24 +140,53 @@ export function createAgenticSpaFallback(deps) {
     const pathname = req.path || '/'
     if (AGENTIC_EXCLUDED.test(pathname)) return next()
 
+    const wantsMarkdown = isMarkdownPreferred(req)
+    const wantsAgentHtml = isAgentHtmlRequest(req)
+    if (!wantsMarkdown && !wantsAgentHtml) return next()
+
     try {
       const routeInfo = await resolvePublicPath(deps, pathname)
       if (!routeInfo.known) {
         const parsed = parseLocalePath(pathname)
         const lang = parsed.lang || 'en'
-        if (isMarkdownPreferred(req)) {
+        if (wantsMarkdown) {
           varyHeader(res)
           res.status(404).type('text/markdown; charset=utf-8').send(render404Markdown(pathname, lang))
           return
         }
-        const template = await readTemplate(deps.distIndex)
-        varyHeader(res)
-        res.status(404).type('text/html; charset=utf-8').send(render404Html(template, pathname, lang))
+        await sendAgent404(req, res, deps, pathname, lang)
         return
       }
     } catch (err) {
       console.error('[agentic-fallback]', err)
     }
     next()
+  }
+}
+
+/** Serve dist/index.html only for known human-facing SPA routes; real 404 for unknown paths. */
+export function createSpaShellHandler(deps) {
+  return async (req, res, next) => {
+    if (req.method !== 'GET' && req.method !== 'HEAD') return next()
+    const pathname = req.path || '/'
+    if (AGENTIC_EXCLUDED.test(pathname)) return next()
+    if (pathname === '/robots.txt' || pathname === '/sitemap.xml') return next()
+    if (isMarkdownPreferred(req) || isAgentHtmlRequest(req)) return next()
+
+    try {
+      const routeInfo = await resolvePublicPath(deps, pathname)
+      if (routeInfo.kind === 'redirect' && routeInfo.redirectTo) {
+        res.redirect(302, routeInfo.redirectTo)
+        return
+      }
+      if (!routeInfo.known) {
+        res.status(404).type('text/html; charset=utf-8').send('<!doctype html><title>Not found</title><h1>Page not found</h1>')
+        return
+      }
+      res.sendFile(deps.distIndex)
+    } catch (err) {
+      console.error('[spa-shell]', err)
+      next(err)
+    }
   }
 }

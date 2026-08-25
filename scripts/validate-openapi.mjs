@@ -23,11 +23,11 @@ function validateSpec(spec) {
       ops.push(op)
     }
   }
-  const requiredPaths = ['/api/health', '/api/leads', '/api/public/testimonials', '/openapi.json']
+  const requiredPaths = ['/api/public/v1/health', '/api/public/v1/leads', '/api/public/v1/testimonials', '/openapi.json']
   for (const p of requiredPaths) {
     if (!spec.paths?.[p]) errors.push(`Missing required path: ${p}`)
   }
-  if (JSON.stringify(spec).includes('/api/admin')) errors.push('Spec mentions /api/admin')
+  if (JSON.stringify(spec).includes('"/api/admin')) errors.push('Spec documents /api/admin paths')
   return { errors, operationCount: ops.length, operationIds: [...ids] }
 }
 

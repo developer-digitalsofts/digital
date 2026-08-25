@@ -21,7 +21,7 @@ import {
 import { createPublishStore } from './publishStore.mjs'
 import { migrateCmsSchemaV2 } from './cmsSchemaMigrate.mjs'
 import { registerContentRoutes, ensureBlogBootstrap, ensureCountriesBootstrap } from './contentRoutes.mjs'
-import { registerAgenticRoutes, createAgenticSpaFallback } from './agenticRoutes.mjs'
+import { registerAgenticRoutes, createAgenticSpaFallback, createSpaShellHandler } from './agenticRoutes.mjs'
 import { registerLocaleGeoRouting } from './localeGeoRouting.mjs'
 import { isValidCityForCountry } from './cityRegistry.mjs'
 import {
@@ -32,6 +32,17 @@ import {
   conflictError,
   serviceUnavailableError,
 } from './publicApiErrors.mjs'
+import {
+  checkLeadRateLimit,
+  createPublicGetRateLimitMiddleware,
+  LEAD_RATE_LIMIT_MAX,
+  LEAD_RATE_LIMIT_WINDOW_MS,
+  setRateLimitHeaders,
+} from './publicApiRateLimit.mjs'
+import {
+  publicApiDeprecationMiddleware,
+  publicApiV1RewriteMiddleware,
+} from './publicApiVersioning.mjs'
 import { createLocaleStorage } from './localeStorage.mjs'
 import { registerLocaleRoutes } from './localeApi.mjs'
 import { buildLocaleHomepagePayload } from './localeHomepage.mjs'
@@ -159,9 +170,6 @@ const DEMO_REQUEST_STATUSES = new Set([
   'Closed',
 ])
 const DEMO_DUPLICATE_WINDOW_MS = 5 * 60 * 1000
-const LEAD_RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000
-const LEAD_RATE_LIMIT_MAX = 12
-const leadSubmitBuckets = new Map()
 const recentDemoFingerprints = new Map()
 const MAX_ACTIVITY = 500
 const IMAGE_MIMES = new Set(['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml', 'image/x-icon', 'image/vnd.microsoft.icon'])
@@ -642,26 +650,9 @@ function clientIp(req) {
 }
 
 function pruneLeadProtectionMaps(now = Date.now()) {
-  for (const [k, v] of leadSubmitBuckets) {
-    if (!v || now >= v.resetAt) leadSubmitBuckets.delete(k)
-  }
   for (const [k, at] of recentDemoFingerprints) {
     if (now - at > DEMO_DUPLICATE_WINDOW_MS) recentDemoFingerprints.delete(k)
   }
-}
-
-function checkLeadRateLimit(req) {
-  pruneLeadProtectionMaps()
-  const ip = clientIp(req)
-  const now = Date.now()
-  const bucket = leadSubmitBuckets.get(ip) || { count: 0, resetAt: now + LEAD_RATE_LIMIT_WINDOW_MS }
-  if (now >= bucket.resetAt) {
-    bucket.count = 0
-    bucket.resetAt = now + LEAD_RATE_LIMIT_WINDOW_MS
-  }
-  bucket.count += 1
-  leadSubmitBuckets.set(ip, bucket)
-  return bucket.count <= LEAD_RATE_LIMIT_MAX
 }
 
 function demoSubmissionFingerprint(phone, email, topic) {
@@ -1431,6 +1422,10 @@ app.use('/api', (req, res, next) => {
   next()
 })
 
+app.use(publicApiV1RewriteMiddleware)
+app.use(publicApiDeprecationMiddleware)
+app.use(createPublicGetRateLimitMiddleware(clientIp))
+
 app.get('/api/health', async (_req, res) => {
   const t0 = Date.now()
   let dataDirReadable = false
@@ -1635,10 +1630,17 @@ const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 app.post('/api/leads', async (req, res) => {
   try {
-    if (!checkLeadRateLimit(req)) {
-      rateLimitedError(res, 'Too many submissions. Please wait a few minutes and try again.')
+    const leadLimit = checkLeadRateLimit(req, clientIp)
+    if (!leadLimit.allowed) {
+      rateLimitedError(res, 'Too many submissions. Please wait a few minutes and try again.', {
+        retryAfterSeconds: leadLimit.retryAfterSeconds,
+        limit: leadLimit.limit,
+        remaining: 0,
+        resetAt: leadLimit.resetAt,
+      })
       return
     }
+    setRateLimitHeaders(res, leadLimit)
     const { name, email, phone, message, topic, company, sourcePage, source, productService, countryCode, localeCountry, localeLang } = req.body ?? {}
     const emailStr = typeof email === 'string' ? email.trim() : ''
     const phoneStr = typeof phone === 'string' ? phone.trim() : ''
@@ -3426,19 +3428,26 @@ app.get(/^\/ae\/en\/([^/]+)\/([^/]+)\/?$/, (req, res, next) => {
   next()
 })
 
+const agenticDeps = () => ({
+  distIndex: DIST_INDEX,
+  publishStore,
+  localePublish,
+  loadPublishedHomepagePayload,
+  buildPublishedNavigation,
+  buildHomepageMeta,
+  readPagesStore,
+  dataFiles: DATA_FILES,
+  extraHomepageFiles: EXTRA_HOMEPAGE_FILES,
+  seoDeps: () => ({ localePublish, publishStore }),
+})
+
 if (SERVE_STATIC) {
-  registerAgenticRoutes(app, {
-    distIndex: DIST_INDEX,
-    publishStore,
-    localePublish,
-    loadPublishedHomepagePayload,
-    buildPublishedNavigation,
-    buildHomepageMeta,
-    readPagesStore,
-    dataFiles: DATA_FILES,
-    extraHomepageFiles: EXTRA_HOMEPAGE_FILES,
-    seoDeps: () => ({ localePublish, publishStore }),
-  })
+  // 1) Static assets first — never intercepted by agent or SPA handlers.
+  app.use('/assets', express.static(path.join(DIST_DIR, 'assets'), { index: false, fallthrough: false }))
+  // Do not auto-serve index.html for `/` — negotiation runs on downstream routes.
+  app.use(express.static(DIST_DIR, { index: false }))
+
+  registerAgenticRoutes(app, agenticDeps())
 }
 
 // Unmatched /api/* → JSON 404 (never SPA index.html)
@@ -3447,22 +3456,11 @@ app.use('/api', (_req, res) => {
 })
 
 if (SERVE_STATIC) {
-  app.use(express.static(DIST_DIR))
-  app.use(createAgenticSpaFallback({
-    distIndex: DIST_INDEX,
-    publishStore,
-    localePublish,
-    loadPublishedHomepagePayload,
-    buildPublishedNavigation,
-    buildHomepageMeta,
-    readPagesStore,
-    dataFiles: DATA_FILES,
-    extraHomepageFiles: EXTRA_HOMEPAGE_FILES,
-    seoDeps: () => ({ localePublish, publishStore }),
-  }))
-  app.get(/^(?!\/api|\/uploads|\/sitemap\.xml|\/robots\.txt|\/llms\.txt|\/llms-full\.txt|\/openapi\.json).*/, (_req, res) => {
-    res.sendFile(DIST_INDEX)
-  })
+  app.use(createAgenticSpaFallback(agenticDeps()))
+  app.get(
+    /^(?!\/api|\/uploads|\/sitemap\.xml|\/robots\.txt|\/llms\.txt|\/llms-full\.txt|\/openapi\.json).*/,
+    createSpaShellHandler(agenticDeps()),
+  )
 } else {
   app.get('/', (_req, res) => {
     res.status(404).type('text').send(

@@ -3,6 +3,13 @@
  * Admin/CMS/auth/leads listing routes are excluded.
  */
 import { PUBLIC_SITE_BASE } from './seoResolve.mjs'
+import { PUBLIC_API_VERSION_POLICY, PUBLIC_API_V1_SUNSET, openApiV1Path } from './publicApiVersioning.mjs'
+import {
+  PUBLIC_GET_RATE_LIMIT_MAX,
+  PUBLIC_GET_RATE_LIMIT_WINDOW_MS,
+  LEAD_RATE_LIMIT_MAX,
+  LEAD_RATE_LIMIT_WINDOW_MS,
+} from './publicApiRateLimit.mjs'
 import {
   PUBLIC_API_ERROR,
   HEALTH_RESPONSE,
@@ -23,7 +30,7 @@ const registrySlugs = ['erp', 'solutions', 'business-models', 'faqs', 'contact',
 
 function getOp(description, operationId, tag, extra = {}) {
   return {
-    summary: extra.summary || description,
+    summary: extra.summary || description.split('\n')[0],
     description,
     operationId,
     tags: [tag],
@@ -31,24 +38,95 @@ function getOp(description, operationId, tag, extra = {}) {
   }
 }
 
+const RATE_LIMIT_HEADERS = {
+  'RateLimit-Limit': { schema: { type: 'integer', example: PUBLIC_GET_RATE_LIMIT_MAX } },
+  'RateLimit-Remaining': { schema: { type: 'integer', example: PUBLIC_GET_RATE_LIMIT_MAX - 1 } },
+  'RateLimit-Reset': { schema: { type: 'integer', example: Math.floor(Date.now() / 1000) + 60 } },
+}
+
+function augmentPathsWithV1(paths) {
+  const out = { ...paths }
+  const apiPaths = Object.keys(paths).filter(
+    (p) =>
+      p.startsWith('/api/public/') ||
+      p === '/api/health' ||
+      p === '/api/site-settings' ||
+      p === '/api/homepage' ||
+      p === '/api/leads' ||
+      p.startsWith('/api/page/') ||
+      p.startsWith('/api/software-detail/'),
+  )
+
+  for (const legacyPath of apiPaths) {
+    const v1 = openApiV1Path(legacyPath)
+    if (!v1) continue
+    const methods = paths[legacyPath]
+    out[legacyPath] = {}
+    for (const [method, op] of Object.entries(methods || {})) {
+      out[legacyPath][method] = {
+        ...op,
+        deprecated: true,
+        description: `${op.description}\n\n**Deprecated alias.** Prefer \`${v1}\`. Sunset: ${PUBLIC_API_V1_SUNSET}.`,
+      }
+      if (!out[v1]) out[v1] = {}
+      out[v1][method] = {
+        ...op,
+        operationId: `${op.operationId}V1`,
+        description: `${op.description}\n\nStable **v1** route under \`/api/public/v1/\`.`,
+      }
+    }
+  }
+  return out
+}
+
 export function buildPublicOpenApiSpec() {
   const jsonOk = (desc, schema, example) => ({ 200: jsonResponse(desc, schema, example) })
   const jsonErr = (codes) =>
     Object.fromEntries(codes.map(([status, desc, example]) => [status, errorResponse(desc, example)]))
 
+  const jsonErrWithRateLimit = (codes) => ({
+    ...jsonErr(codes),
+    429: {
+      description: 'Rate limit exceeded.',
+      headers: {
+        ...RATE_LIMIT_HEADERS,
+        'Retry-After': { schema: { type: 'integer', example: 60 } },
+      },
+      content: {
+        'application/json': {
+          schema: { $ref: '#/components/schemas/PublicApiError' },
+          example: {
+            error: {
+              code: 'RATE_LIMITED',
+              message: 'Too many public API requests. Please wait before retrying.',
+              resolution: 'Wait and retry after Retry-After seconds.',
+            },
+          },
+        },
+      },
+    },
+  })
+
   return {
     openapi: '3.1.0',
     info: {
       title: 'DigitalManager Public Content API',
-      version: '1.1.0',
+      version: '1.0.0',
       description: [
         'Read-only published marketing content, localized GCC pages, blog/testimonials, SEO metadata, and public demo/contact submission.',
         '',
-        '**Not included:** admin CMS mutations, authentication, lead/customer/financial records, ERP tenant data, API keys, or MCP integrations.',
+        '**Stable routes:** `/api/public/v1/*` (documented below with `V1` operationIds).',
+        '',
+        PUBLIC_API_VERSION_POLICY,
+        '',
+        `GET rate limit: ${PUBLIC_GET_RATE_LIMIT_MAX} requests per IP per ${PUBLIC_GET_RATE_LIMIT_WINDOW_MS / 1000}s.`,
+        `POST /api/public/v1/leads rate limit: ${LEAD_RATE_LIMIT_MAX} submissions per IP per ${LEAD_RATE_LIMIT_WINDOW_MS / 60000} minutes.`,
+        '',
+        '**Not included:** admin CMS mutations, authentication, lead/customer/financial records, ERP tenant data, API keys, MCP, or webhooks.',
         '',
         'Human overview: [/developers](/developers). Machine-readable agent guide: [/llms.txt](/llms.txt).',
         '',
-        'Pricing is not exposed as a dedicated pricing API. If a pricing CMS page is published, use `GET /api/public/pages/{slug}`.',
+        'Pricing is not exposed as a dedicated pricing API. If a pricing CMS page is published, use `GET /api/public/v1/pages/{slug}`.',
       ].join('\n'),
       contact: {
         name: 'DigitalManager',
@@ -56,7 +134,7 @@ export function buildPublicOpenApiSpec() {
         email: 'info@digitalmanager.ae',
       },
     },
-    servers: [{ url: PUBLIC_SITE_BASE, description: 'Production website origin' }],
+    servers: [{ url: PUBLIC_SITE_BASE, description: 'Production website origin (canonical)' }],
     tags: [
       { name: 'health', description: 'Service availability' },
       { name: 'company', description: 'Company and site settings' },
@@ -84,7 +162,7 @@ export function buildPublicOpenApiSpec() {
         QueryLang: queryLang,
       },
     },
-    paths: {
+    paths: augmentPathsWithV1({
       '/api/health': {
         get: {
           ...getOp('Returns API process health for uptime checks.', 'getHealth', 'health'),
@@ -436,7 +514,34 @@ export function buildPublicOpenApiSpec() {
           }),
           responses: {
             ...jsonOk('SEO metadata.', { $ref: '#/components/schemas/SeoPageResponse' }),
-            ...jsonErr([[503, 'SEO resolver unavailable.'], [500, 'Unexpected server error.']]),
+            ...jsonErrWithRateLimit([[503, 'SEO resolver unavailable.'], [500, 'Unexpected server error.']]),
+          },
+        },
+      },
+      '/api/public/cities': {
+        get: {
+          ...getOp('Published city registry for UAE and GCC locale pages.', 'listCities', 'locale', {
+            parameters: [queryCountry, queryLang],
+          }),
+          responses: {
+            ...jsonOk('City list.', { type: 'object', additionalProperties: true }),
+            ...jsonErrWithRateLimit([[500, 'Unexpected server error.']]),
+          },
+        },
+      },
+      '/api/public/locale-content/city/{citySlug}/{pageSlug}': {
+        get: {
+          ...getOp('Published city landing page content.', 'getCityLocaleContent', 'locale', {
+            parameters: [
+              { name: 'citySlug', in: 'path', required: true, schema: { type: 'string', example: 'dubai' } },
+              { name: 'pageSlug', in: 'path', required: true, schema: { type: 'string', example: 'erp-software' } },
+              queryCountry,
+              queryLang,
+            ],
+          }),
+          responses: {
+            ...jsonOk('City page content.', { $ref: '#/components/schemas/LocaleContentResponse' }),
+            ...jsonErrWithRateLimit([[404, 'City page not found.'], [500, 'Unexpected server error.']]),
           },
         },
       },
@@ -458,10 +563,21 @@ export function buildPublicOpenApiSpec() {
             ...jsonErr([
               [400, 'Validation failed (email, phone, or required demo fields).'],
               [409, 'Duplicate demo submission within cooldown window.'],
-              [429, 'Too many submissions from this IP.'],
               [503, 'Storage temporarily unavailable.'],
               [500, 'Unexpected server error.'],
             ]),
+            429: {
+              description: `Too many submissions (${LEAD_RATE_LIMIT_MAX} per ${LEAD_RATE_LIMIT_WINDOW_MS / 60000} minutes per IP).`,
+              headers: {
+                ...RATE_LIMIT_HEADERS,
+                'Retry-After': { schema: { type: 'integer', example: 120 } },
+              },
+              content: {
+                'application/json': {
+                  schema: { $ref: '#/components/schemas/PublicApiError' },
+                },
+              },
+            },
           },
         },
       },
@@ -505,6 +621,6 @@ export function buildPublicOpenApiSpec() {
           },
         },
       },
-    },
+    }),
   }
 }

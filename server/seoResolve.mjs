@@ -26,7 +26,7 @@ import { buildCityPagePath, parseCityPagePath } from './cityPaths.mjs'
 import { evaluateCityIndexability, resolveCityContent } from './cityLocaleApi.mjs'
 
 export const PUBLIC_SITE_BASE =
-  (process.env.PUBLIC_SITE_URL || 'https://digitalmanager.ae').replace(/\/$/, '')
+  (process.env.PUBLIC_SITE_URL || 'https://www.digitalmanager.ae').replace(/\/$/, '')
 
 const GCC_COUNTRY_SLUGS = ['ae', 'sa', 'kw', 'qa', 'om', 'bh']
 const GCC_LANGS = ['en', 'ar']
@@ -217,6 +217,33 @@ export async function buildIndexablePages(deps) {
     identity: { kind: 'home' },
     indexable: true,
   })
+
+  // UAE English trust and developer pages
+  const trustPages = [
+    { path: '/developers', kind: 'developers', title: 'DigitalManager Developer Platform' },
+    { path: '/about', kind: 'about', title: 'About DigitalManager' },
+    { path: '/contact', kind: 'contact', title: 'Contact DigitalManager' },
+    { path: '/privacy', kind: 'privacy', title: 'DigitalManager Privacy Policy' },
+  ]
+  for (const page of trustPages) {
+    tryAddEntry(entries, seen, {
+      internalPath: page.path,
+      path: page.path,
+      absoluteUrl: absoluteUrl(page.path),
+      countrySlug: 'ae',
+      lang: 'en',
+      countryCode: 'AE',
+      hreflang: hreflangTag('ae', 'en'),
+      ogLocale: ogLocaleTag('ae', 'en'),
+      record: null,
+      meta: { resolvedFrom: RESOLVED_FROM.GLOBAL },
+      groupKey: `page:${page.kind}`,
+      lastmod: homeLastmod,
+      identity: { kind: page.kind },
+      indexable: true,
+      seoTitle: page.title,
+    })
+  }
 
   // Published GCC English homepages
   for (const countrySlug of GCC_COUNTRY_SLUGS) {
@@ -697,7 +724,7 @@ export async function resolveSeoForPath(deps, pathname) {
   const globalTitle = readBilingualText(seoDoc?.pageTitle, lang)
   const globalDesc = readBilingualText(seoDoc?.metaDescription, lang)
 
-  const title = titleFromRecord || globalTitle || 'DigitalManager'
+  const title = titleFromRecord || match.seoTitle || globalTitle || 'DigitalManager'
   const description = descFromRecord || globalDesc || ''
   const noIndex = !match.indexable
   const robotsIndex = seo.robotsIndex === 'noindex' || noIndex ? 'noindex' : 'index'

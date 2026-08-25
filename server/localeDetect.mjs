@@ -20,7 +20,14 @@ export function detectCountryFromRequest(req) {
   const testHeader = fromTrustedTestHeader(req)
   if (testHeader) return testHeader
 
-  const header = req.headers['cf-ipcountry'] || req.headers['x-country-code']
-  const code = typeof header === 'string' ? header.trim().toUpperCase() : ''
+  const cf = req.headers['cf-ipcountry']
+  const xcc = req.headers['x-country-code']
+  const raw =
+    typeof cf === 'string' && cf.trim()
+      ? cf
+      : typeof xcc === 'string' && xcc.trim()
+        ? xcc
+        : ''
+  const code = raw.trim().toUpperCase()
   return ALLOWED.has(code) ? code : null
 }

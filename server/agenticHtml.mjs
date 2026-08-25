@@ -57,10 +57,17 @@ function buildOrganizationJsonLd(content) {
     }
   }
   if (sameAs.length) org.sameAs = sameAs
+  else {
+    org.sameAs = [
+      'https://www.facebook.com/Digitalsoftsltd',
+      'https://www.linkedin.com/company/digitalsofts/',
+    ]
+  }
   return org
 }
 
 function buildSoftwareApplicationJsonLd(content) {
+  const site = content.siteSettings || {}
   return {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
@@ -69,9 +76,24 @@ function buildSoftwareApplicationJsonLd(content) {
     operatingSystem: 'Web',
     url: PUBLIC_SITE_BASE,
     description:
-      readBilingualText(content.siteSettings?.defaultMetaDescription, content.lang) ||
+      readBilingualText(site.defaultMetaDescription, content.lang) ||
       readBilingualText(content.hero?.body, content.lang) ||
       'Cloud ERP for accounts, inventory, POS, payroll, and industry programmes.',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'AED',
+      description: 'Contact DigitalManager for commercial ERP licensing and implementation.',
+      url: `${PUBLIC_SITE_BASE}/contact`,
+    },
+    featureList: [
+      'Financial management and VAT-ready invoicing',
+      'Inventory and warehouse control',
+      'Retail POS and branch operations',
+      'Payroll and HRM',
+      'CRM and customer operations',
+      'Multi-branch GCC localization',
+    ],
   }
 }
 
@@ -344,7 +366,7 @@ function renderDevelopersBody(content) {
   const lang = content.lang
   const sections = (copy.sections || []).filter((s) => s.heading !== 'Examples')
   return `
-    <article class="agentic-prerender" data-agentic-prerender="true">
+    <article class="agentic-prerender" data-agentic-prerender="true" id="versioning">
       <h1>${escapeHtml(content.title)}</h1>
       <p>${textBlock(content.description)}</p>
       ${sections

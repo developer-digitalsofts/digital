@@ -156,3 +156,44 @@ export function isMarkdownPreferred(req) {
   const mdQ = mdWeight ? Number(mdWeight) : 1
   return mdQ >= htmlQ
 }
+
+/** Approved crawler/agent User-Agent fragments (shared with geo-routing bot skip list). */
+export const APPROVED_CRAWLER_UA =
+  /googlebot|bingbot|duckduckbot|baiduspider|yandexbot|gptbot|chatgpt-user|claudebot|anthropic-ai|google-extended|bytespider|petalbot|cohere-ai|ia_archiver|facebookexternalhit|linkedinbot|twitterbot|applebot|slackbot|whatsapp|discordbot|amazonbot|perplexitybot|deepseekbot|ora-agent|mediapartners|slurp|semrush|ahrefs|mj12bot|dotbot|rogerbot|embedly|outbrain|pinterest/i
+
+/** True for real browser document navigations — never treat as an AI/crawler HTML client. */
+export function isNormalBrowser(req) {
+  const ua = String(req.headers['user-agent'] || '')
+  if (!ua.trim()) return false
+
+  const lower = ua.toLowerCase()
+  if (APPROVED_CRAWLER_UA.test(lower)) return false
+  if (/\b(bot|crawl|spider|slurp|archiver)\b/.test(lower)) return false
+
+  // Modern browser navigation signals (Chromium, Firefox, Safari, Edge)
+  if (req.headers['sec-fetch-mode'] === 'navigate' || req.headers['sec-fetch-dest'] === 'document') {
+    return true
+  }
+  if (req.headers['sec-ch-ua'] || req.headers['sec-ch-ua-mobile'] != null) return true
+
+  // Typical human browser engines (desktop + mobile WebKit/Chromium)
+  if (/mozilla\/|applewebkit|chrome|crios|fxios|safari|firefox|edg\/|samsungbrowser|opera/i.test(lower)) {
+    return true
+  }
+
+  return false
+}
+
+/**
+ * Prerender semantic HTML only for approved crawlers/agents — not normal browsers.
+ * Browsers must receive the empty React shell via static/SPA fallback.
+ */
+export function isAgentHtmlRequest(req) {
+  if (isNormalBrowser(req)) return false
+  if (isMarkdownPreferred(req)) return false
+
+  if (String(req.headers['x-agent-prerender'] || '').trim() === '1') return true
+
+  const ua = String(req.headers['user-agent'] || '')
+  return APPROVED_CRAWLER_UA.test(ua)
+}

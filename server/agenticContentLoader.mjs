@@ -124,6 +124,7 @@ export async function loadAgenticPageContent(deps, pathname, routeInfo) {
       pageType: 'developers',
       title: copy.title,
       description: copy.intro,
+      seo: { title: copy.metaTitle, description: copy.intro },
       developers: copy,
       siteSettings,
     }

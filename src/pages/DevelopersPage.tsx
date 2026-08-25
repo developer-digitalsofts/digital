@@ -3,13 +3,13 @@ import { useI18n } from '../i18n/I18nProvider'
 import { pageShellClass } from '../ui/pageShell'
 import { sectionPad } from '../ui/saas'
 
-const BASE = typeof window !== 'undefined' ? window.location.origin : 'https://digitalmanager.ae'
+const BASE = typeof window !== 'undefined' ? window.location.origin : 'https://www.digitalmanager.ae'
+const TITLE = 'DigitalManager Developer Platform'
 
 export function DevelopersPage() {
   const { lang } = useI18n()
   const en = lang !== 'ar'
 
-  const title = en ? 'Developers & Public API' : 'المطورون وواجهة API العامة'
   const intro = en
     ? 'Read-only access to published DigitalManager marketing content. Admin CMS, ERP tenant data, and customer records are not exposed.'
     : 'وصول للقراءة فقط إلى المحتوى التسويقي المنشور. لا يتم عرض CMS الإداري أو بيانات ERP أو سجلات العملاء.'
@@ -20,46 +20,57 @@ export function DevelopersPage() {
           heading: 'When to use this API',
           items: [
             'Fetch company contact details, homepage content, ERP modules, industries, business models, FAQs, blogs, and testimonials.',
-            'Submit contact or demo requests via POST /api/leads (rate limited; no API key today).',
+            'Submit contact or demo requests via POST /api/public/v1/leads (alias POST /api/leads; rate limited; no API key today).',
             'Resolve SEO metadata and GCC locale routing for public pages.',
           ],
         },
         {
-          heading: 'Authentication',
+          heading: 'Authentication & versioning',
           items: [
             'No API keys are required for documented public endpoints.',
+            'Stable routes live under /api/public/v1/. Legacy unversioned paths remain as backward-compatible aliases with Deprecation headers.',
+            'See #versioning below for the deprecation policy and Sunset date.',
             '/api/admin/* requires CMS login and is excluded from the public OpenAPI document.',
-            'No hosted sandbox — use local SERVE_STATIC=true or production after deployment.',
           ],
         },
         {
           heading: 'Rate limits',
           items: [
-            'GET public JSON endpoints: use reasonably; most return Cache-Control: no-store.',
-            'POST /api/leads: ~5 submissions per 15 minutes per IP (HTTP 429 when exceeded).',
+            'GET public JSON endpoints: 120 requests per IP per minute with RateLimit-* response headers.',
+            'POST /api/public/v1/leads: 12 submissions per IP per 10 minutes (HTTP 429 with Retry-After when exceeded).',
+            'Default limits use an in-memory store per server process — configure REDIS_URL for shared limits in multi-instance production.',
           ],
         },
         {
-          heading: 'Key endpoints',
+          heading: 'Key v1 endpoints',
           items: [
-            'GET /api/health',
-            'GET /api/site-settings',
-            'GET /api/homepage?country=AE&lang=en',
-            'GET /api/public/locale-content/erp',
-            'GET /api/public/blog/posts',
-            'GET /api/public/testimonials',
-            'POST /api/leads',
+            'GET /api/public/v1/health',
+            'GET /api/public/v1/site-settings',
+            'GET /api/public/v1/homepage?country=AE&lang=en',
+            'GET /api/public/v1/locale-content/erp',
+            'GET /api/public/v1/blog/posts',
+            'GET /api/public/v1/testimonials',
+            'POST /api/public/v1/leads',
+          ],
+        },
+        {
+          heading: 'Available integrations',
+          items: [
+            'OpenAPI 3.1 at /openapi.json',
+            'Agent instructions at /llms.txt',
+            'Local CLI: node tools/dm-public-cli/bin/dm-public.mjs',
+            'No hosted MCP server, webhooks product, or npm SDK at this time.',
           ],
         },
         {
           heading: 'Pricing',
-          items: ['No dedicated pricing API. Published pricing CMS pages use GET /api/public/pages/{slug}.'],
+          items: ['No dedicated pricing API. Published pricing CMS pages use GET /api/public/v1/pages/{slug}.'],
         },
       ]
     : [
         {
           heading: 'متى تستخدم الواجهة',
-          items: ['محتوى تسويقي منشور، مدونة، شهادات، وPOST /api/leads للتواصل.'],
+          items: ['محتوى تسويقي منشور، مدونة، شهادات، وPOST /api/public/v1/leads للتواصل.'],
         },
         {
           heading: 'المصادقة',
@@ -67,16 +78,16 @@ export function DevelopersPage() {
         },
       ]
 
-  const curlHealth = `curl -sS "${BASE}/api/health"`
-  const curlErp = `curl -sS "${BASE}/api/public/locale-content/erp?country=AE&lang=en"`
-  const jsExample = `const res = await fetch('/api/public/testimonials?country=AE&lang=en');
+  const curlHealth = `curl -sS "${BASE}/api/public/v1/health"`
+  const curlErp = `curl -sS "${BASE}/api/public/v1/locale-content/erp?country=AE&lang=en"`
+  const jsExample = `const res = await fetch('/api/public/v1/testimonials?country=AE&lang=en');
 const data = await res.json();`
 
   return (
     <main className="bg-white">
       <section className="border-b border-slate-200 bg-slate-50/50">
         <div className={`${pageShellClass} ${sectionPad}`}>
-          <h1 className="font-heading text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">{title}</h1>
+          <h1 className="font-heading text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">{TITLE}</h1>
           <p className="mt-4 max-w-3xl text-base leading-[1.65] text-slate-600">{intro}</p>
         </div>
       </section>
@@ -93,6 +104,23 @@ const data = await res.json();`
               </ul>
             </div>
           ))}
+
+          <div id="versioning">
+            <h2 className="font-heading text-lg font-bold text-slate-900">{en ? 'Versioning policy' : 'سياسة الإصدارات'}</h2>
+            <ul className="mt-3 list-disc space-y-2 pl-5 text-base leading-[1.65] text-slate-600">
+              {(en
+                ? [
+                    'Stable public JSON routes live under /api/public/v1/.',
+                    'Legacy unversioned paths remain available as aliases until the published Sunset date.',
+                    'Deprecated aliases respond with Deprecation, Sunset, and Link headers.',
+                    'Breaking changes ship only under a new major prefix (for example /api/public/v2/).',
+                  ]
+                : ['المسارات المستقرة تحت /api/public/v1/.']
+              ).map((item) => (
+                <li key={item.slice(0, 40)}>{item}</li>
+              ))}
+            </ul>
+          </div>
 
           <div>
             <h2 className="font-heading text-lg font-bold text-slate-900">{en ? 'Examples' : 'أمثلة'}</h2>

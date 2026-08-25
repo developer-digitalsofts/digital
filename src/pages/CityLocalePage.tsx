@@ -176,7 +176,7 @@ export function CityLocalePage({ citySlug, pageSlug = CITY_PAGE_SLUG }: Props) {
   const canonical =
     typeof window !== 'undefined'
       ? `${window.location.origin}${cityPath}`
-      : `https://digitalmanager.ae${cityPath}`
+      : `https://www.digitalmanager.ae${cityPath}`
 
   return (
     <main className="content-page">

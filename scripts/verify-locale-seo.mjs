@@ -111,7 +111,7 @@ async function verifySitemapContents(locs) {
     else fail(`Blocked route excluded (${blocked})`)
   }
 
-  const uaePaths = ['/', '/contact', '/blog', '/erp']
+  const uaePaths = ['/', '/contact', '/blog', '/erp', '/developers']
   const uaeOk = uaePaths.every((p) => locs.some((u) => new URL(u).pathname === p))
   if (uaeOk) pass('UAE root routes included', uaePaths.join(', '))
   else fail('UAE root routes included')
@@ -300,7 +300,11 @@ async function verifyUaeRegression() {
 async function verifyRobotsTxt() {
   const res = await fetch(`${API}/robots.txt`)
   const text = await res.text()
-  if (res.ok && text.includes('Sitemap: https://digitalmanager.ae/sitemap.xml') && text.includes('Disallow: /admin')) {
+  if (
+    res.ok &&
+    /Sitemap: https:\/\/(www\.)?digitalmanager\.ae\/sitemap\.xml/.test(text) &&
+    text.includes('Disallow: /admin')
+  ) {
     pass('robots.txt references sitemap and blocks admin')
   } else {
     fail('robots.txt references sitemap and blocks admin', text.slice(0, 120))

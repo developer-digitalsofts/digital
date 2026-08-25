@@ -49,14 +49,22 @@ export function validationError(res, message = 'The request body or parameters a
   )
 }
 
-export function rateLimitedError(res, message = 'Too many requests. Please wait before retrying.') {
-  sendPublicApiError(
-    res,
-    PUBLIC_API_ERROR_CODES.RATE_LIMITED,
-    message,
-    'Wait a few minutes before submitting again.',
-    429,
-  )
+export function rateLimitedError(
+  res,
+  message = 'Too many requests. Please wait before retrying.',
+  { retryAfterSeconds = 60, limit, remaining = 0, resetAt } = {},
+) {
+  const headers = {
+    'Cache-Control': 'no-store',
+    Pragma: 'no-cache',
+    'Content-Type': 'application/json; charset=utf-8',
+    'Retry-After': String(Math.max(1, retryAfterSeconds)),
+  }
+  if (limit != null) headers['RateLimit-Limit'] = String(limit)
+  if (remaining != null) headers['RateLimit-Remaining'] = String(Math.max(0, remaining))
+  if (resetAt != null) headers['RateLimit-Reset'] = String(Math.max(0, Math.ceil(resetAt / 1000)))
+  res.set(headers)
+  res.status(429).json(publicApiErrorBody(PUBLIC_API_ERROR_CODES.RATE_LIMITED, message, 'Wait and retry after Retry-After seconds.'))
 }
 
 export function conflictError(res, message = 'The request conflicts with a recent submission.') {
