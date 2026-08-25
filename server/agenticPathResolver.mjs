@@ -157,6 +157,15 @@ export function isMarkdownPreferred(req) {
   return mdQ >= htmlQ
 }
 
+/** True when the client prefers an HTML document over Markdown (Accept negotiation). */
+export function prefersHtmlDocument(req) {
+  if (isMarkdownPreferred(req)) return false
+  if (isNormalBrowser(req)) return true
+  const accept = String(req.headers.accept || '').toLowerCase().trim()
+  if (!accept) return true
+  return accept.includes('text/html') || accept.includes('*/*')
+}
+
 /** Approved crawler/agent User-Agent fragments (shared with geo-routing bot skip list). */
 export const APPROVED_CRAWLER_UA =
   /googlebot|bingbot|duckduckbot|baiduspider|yandexbot|gptbot|chatgpt-user|claudebot|anthropic-ai|google-extended|bytespider|petalbot|cohere-ai|ia_archiver|facebookexternalhit|linkedinbot|twitterbot|applebot|slackbot|whatsapp|discordbot|amazonbot|perplexitybot|deepseekbot|ora-agent|mediapartners|slurp|semrush|ahrefs|mj12bot|dotbot|rogerbot|embedly|outbrain|pinterest/i
@@ -190,7 +199,7 @@ export function isNormalBrowser(req) {
  */
 export function isAgentHtmlRequest(req) {
   if (isNormalBrowser(req)) return false
-  if (isMarkdownPreferred(req)) return false
+  if (!prefersHtmlDocument(req)) return false
 
   if (String(req.headers['x-agent-prerender'] || '').trim() === '1') return true
 

@@ -37,6 +37,7 @@ screenshots/
 verify-seo-run.txt
 *.verify-run.txt
 server/data/*.tmp
+server/data/**/*.tmp
 server/data/backups/
 server/data/published/backups/
 server/data/published/publishMeta.json
