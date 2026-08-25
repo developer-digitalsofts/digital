@@ -410,19 +410,99 @@ export function renderAgenticBody(content) {
   }
 }
 
-export function injectAgenticHtml(templateHtml, content) {
+/** Inline boot styles — navy shell + loader until React adds html.dm-ready (not display:none on the page). */
+const CRITICAL_BOOT_CSS = `
+html:not(.dm-ready) body { margin: 0; background: #111936; }
+html:not(.dm-ready) #seo-bootstrap {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+html:not(.dm-ready) #root { min-height: 100vh; }
+html:not(.dm-ready) #dm-app-loader {
+  position: fixed; inset: 0; z-index: 9998; display: flex; align-items: center; justify-content: center;
+  background: #111936;
+}
+html:not(.dm-ready) #dm-app-loader::after {
+  content: ''; width: 40px; height: 40px; border: 3px solid rgba(255, 113, 74, 0.25);
+  border-top-color: #ff714a; border-radius: 50%; animation: dm-spin 0.8s linear infinite;
+}
+@keyframes dm-spin { to { transform: rotate(360deg); } }
+html.dm-ready #dm-app-loader { visibility: hidden; pointer-events: none; }
+`.trim()
+
+const NOSCRIPT_SHELL_CSS =
+  '.dm-noscript-shell{font-family:Inter,system-ui,sans-serif;color:#0f172a;line-height:1.65;max-width:52rem;margin:0 auto;padding:1.5rem 1.25rem}'
+
+function extractViteAssets(templateHtml) {
+  const cssHref = templateHtml.match(/<link[^>]+href="(\/assets\/[^"]+\.css)"[^>]*>/i)?.[1]
+  const jsSrc = templateHtml.match(/<script[^>]+src="(\/assets\/[^"]+\.js)"[^>]*>/i)?.[1]
+  return { cssHref, jsSrc }
+}
+
+function stripViteAssetTags(html) {
+  return html
+    .replace(/<script[^>]+src="\/assets\/[^"]+\.js"[^>]*>\s*<\/script>\s*/i, '')
+    .replace(/<link[^>]+href="\/assets\/[^"]+\.css"[^>]*>\s*/i, '')
+}
+
+/** CSS before JS — preload hashed Vite assets from the current build. */
+function buildViteAssetTags(templateHtml) {
+  const { cssHref, jsSrc } = extractViteAssets(templateHtml)
+  const tags = []
+  if (cssHref) {
+    tags.push(`<link rel="preload" href="${cssHref}" as="style" crossorigin />`)
+    tags.push(`<link rel="stylesheet" crossorigin href="${cssHref}">`)
+  }
+  if (jsSrc) {
+    tags.push(`<link rel="modulepreload" crossorigin href="${jsSrc}">`)
+    tags.push(`<script type="module" crossorigin src="${jsSrc}"></script>`)
+  }
+  return tags.join('\n    ')
+}
+
+function applyShellHead(html, content) {
   const lang = content.lang || 'en'
   const dir = content.dir || (lang === 'ar' ? 'rtl' : 'ltr')
   const headMeta = buildHeadMeta(content)
-  const body = renderAgenticBody(content)
+  const assetTags = buildViteAssetTags(html)
+  let out = stripViteAssetTags(html)
+  out = out.replace(/<html[^>]*>/i, `<html lang="${escapeHtml(lang)}" dir="${dir}">`)
+  out = out.replace(/<title>[\s\S]*?<\/title>/i, '')
+  out = out.replace(/<meta\s+name="description"[^>]*>/i, '')
+  out = out.replace('<head>', `<head>\n    ${headMeta}\n    ${assetTags}`)
+  return out
+}
 
-  let html = templateHtml
-  html = html.replace(/<html[^>]*>/i, `<html lang="${escapeHtml(lang)}" dir="${dir}">`)
-  html = html.replace(/<title>[\s\S]*?<\/title>/i, '')
-  html = html.replace(/<meta\s+name="description"[^>]*>/i, '')
-  html = html.replace('<head>', `<head>\n    ${headMeta}`)
+export function injectAgenticHtml(templateHtml, content) {
+  const body = renderAgenticBody(content)
+  let html = applyShellHead(templateHtml, content)
   html = html.replace('<div id="root"></div>', `<div id="root">${body}</div>`)
   html = html.replace('<div id="root"><\/div>', `<div id="root">${body}</div>`)
+  return html
+}
+
+/**
+ * Browser shell: SEO/agent text in #seo-bootstrap (DOM-only for audits), empty #root for React,
+ * critical boot CSS + loader to prevent unstyled prerender flash before hydration.
+ */
+export function injectBrowserShellHtml(templateHtml, content) {
+  const body = renderAgenticBody(content)
+  const criticalStyle = `<style id="dm-critical">${CRITICAL_BOOT_CSS}</style>`
+  let html = applyShellHead(templateHtml, content)
+  html = html.replace(
+    '<head>',
+    `<head>\n    ${criticalStyle}`,
+  )
+  const shellBody = `
+    <div id="seo-bootstrap" data-agentic-prerender="true" aria-hidden="true">${body}</div>
+    <noscript>
+      <style>${NOSCRIPT_SHELL_CSS}</style>
+      <div class="dm-noscript-shell">${body}</div>
+    </noscript>
+    <div id="dm-app-loader" aria-hidden="true"></div>
+    <div id="root"></div>`
+  html = html.replace('<div id="root"></div>', shellBody)
+  html = html.replace('<div id="root"><\/div>', shellBody)
   return html
 }
 

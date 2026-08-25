@@ -8,7 +8,15 @@ import { CmsProvider } from './cms/CmsContext'
 import { LocaleProvider } from './locale/LocaleContext'
 import { AdminToastProvider } from './admin/AdminToastContext'
 
-createRoot(document.getElementById('root')!).render(
+function markAppReady() {
+  document.documentElement.classList.add('dm-ready')
+  document.getElementById('seo-bootstrap')?.remove()
+  document.getElementById('dm-app-loader')?.remove()
+}
+
+const rootEl = document.getElementById('root')!
+const root = createRoot(rootEl)
+root.render(
   <StrictMode>
     <BrowserRouter>
       <AdminToastProvider>
@@ -23,3 +31,9 @@ createRoot(document.getElementById('root')!).render(
     </BrowserRouter>
   </StrictMode>,
 )
+
+if (typeof requestAnimationFrame === 'function') {
+  requestAnimationFrame(() => requestAnimationFrame(markAppReady))
+} else {
+  markAppReady()
+}

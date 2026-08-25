@@ -235,6 +235,8 @@ async function main() {
   function browserShellOk(text) {
     return (
       text.includes('<div id="root">') &&
+      /<div id="root">\s*<\/div>/i.test(text) &&
+      text.includes('id="seo-bootstrap"') &&
       text.includes('type="module"') &&
       /\/assets\/[^"']+\.(js|css)/.test(text) &&
       /<h1[^>]*>/i.test(text) &&

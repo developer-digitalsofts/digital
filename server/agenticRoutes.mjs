@@ -7,9 +7,10 @@ import {
   isMarkdownPreferred,
   isAgentHtmlRequest,
   prefersHtmlDocument,
+  isNormalBrowser,
 } from './agenticPathResolver.mjs'
 import { loadAgenticPageContent } from './agenticContentLoader.mjs'
-import { injectAgenticHtml, render404Html } from './agenticHtml.mjs'
+import { injectAgenticHtml, injectBrowserShellHtml, render404Html } from './agenticHtml.mjs'
 import { renderAgenticMarkdown, render404Markdown } from './agenticMarkdown.mjs'
 import { buildLlmsTxt, buildLlmsFullTxt } from './agenticLlms.mjs'
 import { buildPublicOpenApiSpec } from './agenticOpenApi.mjs'
@@ -199,7 +200,9 @@ export function createSpaShellHandler(deps) {
       if (NEGOTIABLE_PAGE_KINDS.has(routeInfo.kind)) {
         const content = await loadAgenticPageContent(deps, pathname, routeInfo)
         const template = await readTemplate(deps.distIndex)
-        const html = injectAgenticHtml(template, content)
+        const html = isNormalBrowser(req)
+          ? injectBrowserShellHtml(template, content)
+          : injectAgenticHtml(template, content)
         res.status(200).type('text/html; charset=utf-8').send(html)
         return
       }

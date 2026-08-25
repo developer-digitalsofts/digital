@@ -77,6 +77,25 @@ async function main() {
     pass('Browser homepage includes Organization and SoftwareApplication JSON-LD')
   } else fail('Browser homepage includes Organization and SoftwareApplication JSON-LD')
 
+  if (browserHome.text.includes('id="seo-bootstrap"') && browserHome.text.includes('id="dm-critical"')) {
+    pass('Browser homepage uses SEO bootstrap + critical boot CSS')
+  } else fail('Browser homepage uses SEO bootstrap + critical boot CSS')
+
+  if (/<div id="root">\s*<\/div>/i.test(browserHome.text)) {
+    pass('Browser #root is empty for React mount (no duplicate SSR in root)')
+  } else fail('Browser #root is empty for React mount (no duplicate SSR in root)')
+
+  const cssPos = browserHome.text.search(/href="\/assets\/[^"]+\.css"/)
+  const jsPos = browserHome.text.search(/src="\/assets\/[^"]+\.js"/)
+  if (cssPos >= 0 && jsPos >= 0 && cssPos < jsPos) {
+    pass('Browser homepage loads CSS before module JS')
+  } else fail('Browser homepage loads CSS before module JS')
+
+  const browserVary = String(browserHome.headers.vary || browserHome.headers.Vary || '').toLowerCase()
+  if (browserVary.includes('accept') && browserVary.includes('accept-encoding')) {
+    pass('Browser homepage Vary Accept, Accept-Encoding')
+  } else fail('Browser homepage Vary header', browserHome.headers.vary || browserHome.headers.Vary || 'missing')
+
   const defaultFetch = await fetchProbe(`${BASE}/`, { Accept: 'text/html' })
   const defaultVisible = defaultFetch.text
     .replace(/<script[\s\S]*?<\/script>/gi, '')
