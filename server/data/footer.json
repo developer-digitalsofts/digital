@@ -183,7 +183,14 @@
       "en": "Privacy",
       "ar": "الخصوصية"
     },
-    "href": "#"
+    "href": "/privacy"
+  },
+  "developers": {
+    "label": {
+      "en": "Developers",
+      "ar": "المطورون"
+    },
+    "href": "/developers"
   },
   "terms": {
     "label": {

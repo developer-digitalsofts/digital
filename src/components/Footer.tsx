@@ -12,6 +12,7 @@ import { footerResourceLinks } from '../data/footerResourceLinks'
 import { megaIndustryLabel, megaModuleLabel } from '../i18n/megaLabels'
 import { apiBase, fetchWithTimeout } from '../cms/api'
 import { CmsLink } from './CmsLink'
+import { RegionLanguageUtility } from './RegionLanguageUtility'
 import './footer.css'
 
 const companyKeys = ['coAbout', 'coWorkflow', 'coFaq', 'coContact'] as const
@@ -28,6 +29,7 @@ type FooterCms = {
   columnProduct?: Bilingual
   columnIndustries?: Bilingual
   columnCompany?: Bilingual
+  columnResources?: Bilingual
   columnContact?: Bilingual
   productLinks?: FooterLink[]
   industryLinks?: FooterLink[]
@@ -44,6 +46,7 @@ type FooterCms = {
   rightsSuffix?: Bilingual
   copyrightLine?: Bilingual
   privacy?: { label?: Bilingual; href?: string }
+  developers?: { label?: Bilingual; href?: string }
   terms?: { label?: Bilingual; href?: string }
   sitemap?: { label?: Bilingual; href?: string }
 }
@@ -53,6 +56,21 @@ function sortFooterLinks(rows: FooterLink[] | undefined) {
   return [...rows]
     .filter((r) => r.active !== false)
     .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+}
+
+/** Locale merges may flatten bilingual CMS fields to plain strings — never surface undefined/null. */
+function resolveFooterText(value: unknown, lang: 'en' | 'ar', fallback: string): string {
+  if (value == null) return fallback
+  if (typeof value === 'string') {
+    const trimmed = value.trim()
+    if (!trimmed || trimmed === 'undefined' || trimmed === 'null') return fallback
+    return trimmed
+  }
+  if (typeof value === 'object' && !Array.isArray(value) && ('en' in value || 'ar' in value)) {
+    const picked = pick(value as Bilingual, lang).trim()
+    return picked && picked !== 'undefined' && picked !== 'null' ? picked : fallback
+  }
+  return fallback
 }
 
 function mergeFooterRows(base: FooterLink[], extra: FooterLink[]) {
@@ -68,7 +86,7 @@ function FooterBrandLogo({ src }: { src: string }) {
     <Link
       to="/"
       dir="ltr"
-      className="relative inline-block aspect-[274/62] h-12 max-w-[min(300px,85vw)] shrink-0 bg-transparent transition-opacity duration-200 hover:opacity-90 sm:h-[3.25rem] md:h-14"
+      className="dm-footer__brand-logo relative inline-block shrink-0 bg-transparent transition-opacity duration-200 hover:opacity-90"
       aria-label="DigitalManager"
     >
       <img
@@ -104,7 +122,8 @@ function FooterNewsletter() {
   const onSubmit = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
-      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+      const trimmed = email.trim()
+      const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)
       if (!emailOk) {
         setErrorMsg(t('footer.newsletter.error'))
         setStatus('error')
@@ -163,7 +182,22 @@ function FooterNewsletter() {
           autoComplete="email"
           required
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => {
+            setEmail(e.target.value)
+            if (status === 'error') {
+              setStatus('idle')
+              setErrorMsg(null)
+            }
+          }}
+          onBlur={() => {
+            const trimmed = email.trim()
+            if (!trimmed) return
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+              setErrorMsg(t('footer.newsletter.error'))
+              setStatus('error')
+            }
+          }}
+          aria-invalid={status === 'error' ? true : undefined}
           className="dm-footer__newsletter-input"
           placeholder={t('footer.newsletter.placeholder')}
         />
@@ -219,20 +253,22 @@ export function Footer() {
   const f = data?.footer as FooterCms | undefined
 
   const logo = f?.logoUrl?.trim() || SITE_LOGO_SRC
-  const tagline = f?.tagline ? pick(f.tagline, lang) : t('footer.tagline')
-  const colP = f?.columnProduct ? pick(f.columnProduct, lang) : t('footer.colProduct')
-  const colI = f?.columnIndustries ? pick(f.columnIndustries, lang) : t('footer.colIndustries')
-  const colC = f?.columnCompany ? pick(f.columnCompany, lang) : t('footer.colCompany')
-  const colR = t('footer.colResources')
+  const tagline = resolveFooterText(f?.tagline, lang, t('footer.tagline'))
+  const colP = resolveFooterText(f?.columnProduct, lang, t('footer.colProduct'))
+  const colI = resolveFooterText(f?.columnIndustries, lang, t('footer.colIndustries'))
+  const colC = resolveFooterText(f?.columnCompany, lang, t('footer.colCompany'))
+  const colR = resolveFooterText(f?.columnResources, lang, t('footer.colResources'))
 
-  const addr = f?.contact?.address ? pick(f.contact.address, lang) : t('footer.address')
+  const addr = resolveFooterText(f?.contact?.address, lang, t('footer.address'))
   const phoneDisplay = f?.contact?.phoneDisplay ?? '+971 6 536 6786'
   const phoneHref = f?.contact?.phoneHref ?? 'tel:+97165366786'
   const email = f?.contact?.email ?? 'info@digitalmanager.ae'
 
-  const rights = f?.rightsSuffix ? pick(f.rightsSuffix, lang) : t('footer.rights')
-  const privacyLabel = f?.privacy?.label ? pick(f.privacy.label, lang) : t('footer.privacy')
+  const rightsFallback = t('footer.rights')
+  const privacyLabel = resolveFooterText(f?.privacy?.label, lang, t('footer.privacy'))
   const privacyHref = f?.privacy?.href ?? '#'
+  const developersLabel = f?.developers?.label ? pick(f.developers.label, lang) : 'Developers'
+  const developersHref = f?.developers?.href ?? '/developers'
   const termsLabel = f?.terms?.label ? pick(f.terms.label, lang) : t('footer.terms')
   const termsHref = f?.terms?.href ?? '#'
 
@@ -324,11 +360,13 @@ export function Footer() {
 
   const copyrightText = useMemo(() => {
     const year = new Date().getFullYear()
-    if (f?.copyrightLine?.en || f?.copyrightLine?.ar) {
-      return `© ${year} ${pick(f.copyrightLine, lang)}`
+    const rights = resolveFooterText(f?.rightsSuffix, lang, rightsFallback)
+    const customLine = resolveFooterText(f?.copyrightLine, lang, '')
+    if (customLine) {
+      return customLine.includes('©') ? customLine : `© ${year} ${customLine}`
     }
     return `© ${year} DigitalManager (Pvt.) Limited. ${rights}`
-  }, [f?.copyrightLine, lang, rights])
+  }, [f?.copyrightLine, f?.rightsSuffix, lang, rightsFallback])
 
   const waHref = f?.contact?.whatsappHref?.trim()
   const waLabel =
@@ -416,10 +454,16 @@ export function Footer() {
         </div>
 
         <div className="dm-footer__bottom">
-          <p className="dm-footer__copyright">{copyrightText}</p>
+          <div className="dm-footer__bottom-main">
+            <p className="dm-footer__copyright">{copyrightText}</p>
+            <RegionLanguageUtility className="dm-footer__locale-utility" hint={false} />
+          </div>
           <nav className="dm-footer__legal" aria-label={t('footer.legalNav')}>
             <a href={privacyHref} className="dm-footer__legal-link">
               {privacyLabel}
+            </a>
+            <a href={developersHref} className="dm-footer__legal-link">
+              {developersLabel}
             </a>
             <a href={termsHref} className="dm-footer__legal-link">
               {termsLabel}

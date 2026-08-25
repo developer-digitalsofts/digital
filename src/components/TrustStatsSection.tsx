@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { useI18n } from '../i18n/I18nProvider'
 import { useCms } from '../cms/CmsContext'
+import { useLocale } from '../locale/LocaleContext'
 import { pick } from '../cms/pick'
 import type { Bilingual } from '../cms/types'
 import { useInViewOnce } from '../hooks/useInViewOnce'
@@ -30,6 +31,7 @@ type StatItem = {
 type StatsCms = {
   eyebrow?: Bilingual
   title?: Bilingual
+  subheading?: Bilingual
   items?: StatItem[]
 }
 
@@ -37,12 +39,17 @@ type StatsCms = {
 export function TrustStatsSection() {
   const { t, lang } = useI18n()
   const { data, loading } = useCms()
+  const { activeCountry } = useLocale()
   const stats = data?.stats as StatsCms | undefined
   const { ref, visible } = useInViewOnce<HTMLDivElement>()
 
-  const eyebrow = stats?.eyebrow ? pick(stats.eyebrow, lang) : t('trustStats.eyebrow')
-  const heading = stats?.title ? pick(stats.title, lang) : t('trustStats.heading')
-
+  const countryName = activeCountry?.name || 'UAE'
+  const defaultHeadingTemplate = t('trustStats.defaultHeading')
+  const eyebrow = stats?.eyebrow?.en || stats?.eyebrow?.ar ? pick(stats.eyebrow, lang) : t('trustStats.eyebrow')
+  const heading =
+    stats?.title?.en || stats?.title?.ar
+      ? pick(stats.title, lang)
+      : defaultHeadingTemplate.replace('{{country}}', countryName)
   const items = useMemo(() => {
     if (!stats?.items?.length) return null
     return [...stats.items]

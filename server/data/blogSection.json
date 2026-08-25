@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "section": {
+    "enabled": true,
+    "eyebrow": { "en": "LATEST INSIGHTS", "ar": "أحدث الرؤى" },
+    "heading": { "en": "Business Insights & ERP Guides", "ar": "رؤى الأعمال وأدلة ERP" },
+    "supportingText": {
+      "en": "Practical articles on cloud ERP, inventory, finance, multi-branch operations and digital transformation for growing GCC businesses.",
+      "ar": "مقالات عملية حول ERP السحابي والمخزون والمالية وعمليات الفروع والتحول الرقمي للشركات النامية في الخليج."
+    },
+    "limit": 3,
+    "selectionMode": "recent",
+    "manualIds": [],
+    "viewAllLabel": { "en": "View All Insights", "ar": "عرض كل الرؤى" },
+    "viewAllUrl": "/blog"
+  },
+  "_meta": {
+    "createdAt": "2026-08-21T10:00:00.000Z",
+    "updatedAt": "2026-08-21T11:30:00.000Z",
+    "updatedBy": "content-bootstrap"
+  }
+}

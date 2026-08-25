@@ -1,0 +1,13 @@
+{
+  "name": "dm-public-cli",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Local-only CLI for DigitalManager public read API (not published to npm/PyPI)",
+  "type": "module",
+  "bin": {
+    "dm-public": "./bin/dm-public.mjs"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  }
+}

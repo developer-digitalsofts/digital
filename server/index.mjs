@@ -20,6 +20,25 @@ import {
 } from './envConfig.mjs'
 import { createPublishStore } from './publishStore.mjs'
 import { migrateCmsSchemaV2 } from './cmsSchemaMigrate.mjs'
+import { registerContentRoutes, ensureBlogBootstrap, ensureCountriesBootstrap } from './contentRoutes.mjs'
+import { registerAgenticRoutes, createAgenticSpaFallback } from './agenticRoutes.mjs'
+import { registerLocaleGeoRouting } from './localeGeoRouting.mjs'
+import { isValidCityForCountry } from './cityRegistry.mjs'
+import {
+  notFoundError,
+  internalError,
+  validationError,
+  rateLimitedError,
+  conflictError,
+  serviceUnavailableError,
+} from './publicApiErrors.mjs'
+import { createLocaleStorage } from './localeStorage.mjs'
+import { registerLocaleRoutes } from './localeApi.mjs'
+import { buildLocaleHomepagePayload } from './localeHomepage.mjs'
+import { createLocalePublishHelpers } from './localePublish.mjs'
+import { normalizeCountryCode } from './countryHelpers.mjs'
+import { normalizeLocaleLang } from './localeContentModel.mjs'
+import { ensureLocaleBaselines } from './localeMigrate.mjs'
 import {
   clearJsonCache,
   invalidateJsonCache,
@@ -87,8 +106,25 @@ const DATA_FILES = {
   seo: 'seo.json',
 }
 
+const EXTRA_HOMEPAGE_FILES = {
+  siteSettings: 'siteSettings.json',
+  whatsappSettings: 'whatsappSettings.json',
+  pageSections: 'pageSections.json',
+  megaMenus: 'megaMenus.json',
+  blogSection: 'blogSection.json',
+  countries: 'countries.json',
+}
+
+const CONTENT_FILES = {
+  blogPosts: 'blogPosts.json',
+  blogCategories: 'blogCategories.json',
+  blogSection: 'blogSection.json',
+}
+
 const ADMIN_KEYS = new Set([
   ...Object.keys(DATA_FILES),
+  ...Object.keys(EXTRA_HOMEPAGE_FILES),
+  ...Object.keys(CONTENT_FILES),
   'siteSettings',
   'whatsappSettings',
   'emailSettings',
@@ -96,13 +132,6 @@ const ADMIN_KEYS = new Set([
   'pages',
   'megaMenus',
 ])
-
-const EXTRA_HOMEPAGE_FILES = {
-  siteSettings: 'siteSettings.json',
-  whatsappSettings: 'whatsappSettings.json',
-  pageSections: 'pageSections.json',
-  megaMenus: 'megaMenus.json',
-}
 
 const ACTIVITY_FILE = 'activityLog.json'
 const CONTENT_META_FILE = 'contentMeta.json'
@@ -115,7 +144,7 @@ const SOFTWARE_DETAILS_FILE = 'softwareDetails.json'
 const PAGE_TYPES = new Set(['home', 'about', 'services', 'projects', 'blog', 'contact', 'residential', 'custom'])
 const PAGE_STATUSES = new Set(['published', 'draft'])
 const PAGE_LANG_MODES = new Set(['en', 'ar', 'both'])
-const RESERVED_PAGE_SLUGS = new Set(['api', 'uploads', 'admin', 'contact', 'software'])
+const RESERVED_PAGE_SLUGS = new Set(['api', 'uploads', 'admin', 'about', 'privacy', 'developers', 'contact', 'software', 'blog', 'testimonials', 'industries'])
 const SOFTWARE_KINDS = new Set(['module', 'industry'])
 const ACCENT_COLORS = new Set(['orange', 'green', 'blue', 'purple', 'teal'])
 
@@ -192,12 +221,29 @@ const publishStore = createPublishStore({
   readJsonFile,
 })
 
+const localeStorage = createLocaleStorage({
+  dataDir: DATA_DIR,
+  writeJsonFile,
+  readJsonFile,
+  safeReadJson,
+})
+
+const localePublish = createLocalePublishHelpers({ localeStorage, publishStore })
+
 const PUBLIC_CACHE_HEADERS = {
   'Cache-Control': 'no-store',
   Pragma: 'no-cache',
 }
 
 function sendPublicJson(res, payload, status = 200) {
+  if (status === 404 && payload?.error && typeof payload.error === 'string' && !payload.error.code) {
+    notFoundError(res, payload.error)
+    return
+  }
+  if (status >= 500 && payload?.error && typeof payload.error === 'string') {
+    internalError(res, payload.error)
+    return
+  }
   res.set(PUBLIC_CACHE_HEADERS)
   res.status(status).json(payload)
 }
@@ -205,6 +251,7 @@ function sendPublicJson(res, payload, status = 200) {
 function dataFileForKey(key) {
   if (DATA_FILES[key]) return DATA_FILES[key]
   if (EXTRA_HOMEPAGE_FILES[key]) return EXTRA_HOMEPAGE_FILES[key]
+  if (CONTENT_FILES[key]) return CONTENT_FILES[key]
   if (key === 'pages') return PAGES_FILE
   if (key === 'mediaIndex') return MEDIA_INDEX_FILE
   return null
@@ -213,6 +260,7 @@ function dataFileForKey(key) {
 const PUBLISHABLE_KEYS = new Set([
   ...Object.keys(DATA_FILES),
   ...Object.keys(EXTRA_HOMEPAGE_FILES),
+  ...Object.keys(CONTENT_FILES),
 ])
 
 let homepagePayloadCache = null
@@ -553,6 +601,9 @@ function normalizeLead(row) {
     ...row,
     internalNote: row.internalNote ?? '',
     sourcePage: row.sourcePage ?? '',
+    countryCode: row.countryCode ?? '',
+    localeCountry: row.localeCountry ?? '',
+    localeLang: row.localeLang ?? '',
     source: row.source ?? '',
     company: row.company ?? '',
     productService: row.productService ?? '',
@@ -837,6 +888,30 @@ async function ensureBootstrapFiles() {
     }
   } catch (err) {
     console.error('[cms-migrate] schema v2 migration failed — previous content retained', err?.message || err)
+  }
+
+  try {
+    await ensureBlogBootstrap({ safeReadJson, writeJsonFile, defaultDataMeta })
+  } catch (err) {
+    console.error('[bootstrap] blog content files failed', err?.message || err)
+  }
+
+  try {
+    await ensureCountriesBootstrap({ safeReadJson, writeJsonFile, defaultDataMeta })
+  } catch (err) {
+    console.error('[bootstrap] countries content files failed', err?.message || err)
+  }
+
+  try {
+    await ensureLocaleBaselines({
+      localeStorage,
+      publishStore,
+      safeReadJson,
+      writeJsonFile,
+      logActivity: appendActivity,
+    })
+  } catch (err) {
+    console.error('[bootstrap] locale baselines failed', err?.message || err)
   }
 }
 
@@ -1400,9 +1475,30 @@ function isStorageTimeoutError(e) {
   return msg.includes('_TIMEOUT') || msg.includes('DATA_DIR')
 }
 
-app.get('/api/homepage', async (_req, res) => {
+app.get('/api/homepage', async (req, res) => {
   try {
-    const out = await loadPublishedHomepagePayload()
+    const countryCode = normalizeCountryCode(req.query.country || req.query.countryCode || 'AE')
+    const lang = normalizeLocaleLang(req.query.lang || req.query.language || 'en')
+    let out
+    if (countryCode === 'AE' && lang === 'en') {
+      out = await loadPublishedHomepagePayload()
+    } else {
+      out = await buildLocaleHomepagePayload(
+        {
+          publishStore,
+          readPublishedLocaleStore: () => localePublish.readPublishedStore(),
+          loadPublishedHomepagePayload,
+          dataFiles: DATA_FILES,
+          extraHomepageFiles: EXTRA_HOMEPAGE_FILES,
+        },
+        countryCode,
+        lang,
+        {
+          buildNavigation: (homepage) => buildPublishedNavigation(homepage),
+          buildMeta: () => buildHomepageMeta(),
+        },
+      )
+    }
     sendPublicJson(res, out)
   } catch (e) {
     if (isStorageTimeoutError(e)) {
@@ -1540,10 +1636,10 @@ const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 app.post('/api/leads', async (req, res) => {
   try {
     if (!checkLeadRateLimit(req)) {
-      res.status(429).json({ error: 'Too many submissions. Please wait a few minutes and try again.' })
+      rateLimitedError(res, 'Too many submissions. Please wait a few minutes and try again.')
       return
     }
-    const { name, email, phone, message, topic, company, sourcePage, source, productService } = req.body ?? {}
+    const { name, email, phone, message, topic, company, sourcePage, source, productService, countryCode, localeCountry, localeLang } = req.body ?? {}
     const emailStr = typeof email === 'string' ? email.trim() : ''
     const phoneStr = typeof phone === 'string' ? phone.trim() : ''
     const sourceStr = typeof source === 'string' ? source.trim() : ''
@@ -1551,19 +1647,19 @@ app.post('/api/leads', async (req, res) => {
     const isDetailPageRequest = sourceStr === 'Detail Page Request'
     const isDemo = topicStr.toLowerCase() === 'demo' || sourceStr.toLowerCase().includes('get demo')
     if (!emailRe.test(emailStr)) {
-      res.status(400).json({ error: 'Valid email is required' })
+      validationError(res, 'Valid email is required.')
       return
     }
     if (!isDetailPageRequest && (!phoneStr || phoneStr.length < 6)) {
-      res.status(400).json({ error: 'Phone is required' })
+      validationError(res, 'Phone is required.')
       return
     }
     if (isDemo && typeof name === 'string' && !name.trim()) {
-      res.status(400).json({ error: 'Name is required' })
+      validationError(res, 'Name is required for demo requests.')
       return
     }
     if (isDemo && isDuplicateDemoSubmission(phoneStr, emailStr, topicStr)) {
-      res.status(409).json({ error: 'A demo request with this phone number was just submitted. Please wait a few minutes.' })
+      conflictError(res, 'A demo request with this phone number was just submitted. Please wait a few minutes.')
       return
     }
     const leads = (await readLeads()).map(normalizeLead)
@@ -1579,6 +1675,9 @@ app.post('/api/leads', async (req, res) => {
       productService: typeof productService === 'string' ? productService.trim() : '',
       source: sourceStr,
       sourcePage: typeof sourcePage === 'string' ? sourcePage.trim().slice(0, 500) : '',
+      countryCode: typeof countryCode === 'string' ? countryCode.trim().toUpperCase().slice(0, 3) : '',
+      localeCountry: typeof localeCountry === 'string' ? localeCountry.trim().toLowerCase().slice(0, 3) : '',
+      localeLang: typeof localeLang === 'string' && localeLang.trim() === 'ar' ? 'ar' : typeof localeLang === 'string' ? 'en' : '',
       status: 'New',
       internalNote: '',
       assignedTo: '',
@@ -1594,11 +1693,11 @@ app.post('/api/leads', async (req, res) => {
     res.status(201).json({ ok: true, id: row.id })
   } catch (e) {
     if (isStorageTimeoutError(e)) {
-      res.status(503).json({ error: 'Could not save lead — storage temporarily unavailable' })
+      serviceUnavailableError(res, 'Could not save lead — storage temporarily unavailable.')
       return
     }
     console.error(e)
-    res.status(500).json({ error: 'Could not save lead' })
+    internalError(res, 'Could not save lead.')
   }
 })
 
@@ -3293,15 +3392,75 @@ app.post('/api/admin/backup/import', authMiddleware, async (req, res) => {
   }
 })
 
+registerContentRoutes(app, {
+  authMiddleware,
+  publishStore,
+  localeStorage,
+  readJsonFile,
+  safeReadJson,
+  writeJsonFile,
+  sendPublicJson,
+  invalidatePublishedContentCaches,
+  logActivity: appendActivity,
+})
+
+registerLocaleRoutes(app, {
+  authMiddleware,
+  localeStorage,
+  publishStore,
+  safeReadJson,
+  invalidateJsonCache,
+  logActivity: appendActivity,
+})
+
+registerLocaleGeoRouting(app, { publishStore, localePublish })
+
+/** Canonicalize UAE English city URLs: /ae/en/dubai/erp-software → /dubai/erp-software */
+app.get(/^\/ae\/en\/([^/]+)\/([^/]+)\/?$/, (req, res, next) => {
+  const citySlug = String(req.params[0] || '').toLowerCase()
+  const pageSlug = String(req.params[1] || '').toLowerCase()
+  if (isValidCityForCountry(citySlug, 'AE')) {
+    res.redirect(302, `/${citySlug}/${pageSlug}`)
+    return
+  }
+  next()
+})
+
+if (SERVE_STATIC) {
+  registerAgenticRoutes(app, {
+    distIndex: DIST_INDEX,
+    publishStore,
+    localePublish,
+    loadPublishedHomepagePayload,
+    buildPublishedNavigation,
+    buildHomepageMeta,
+    readPagesStore,
+    dataFiles: DATA_FILES,
+    extraHomepageFiles: EXTRA_HOMEPAGE_FILES,
+    seoDeps: () => ({ localePublish, publishStore }),
+  })
+}
+
 // Unmatched /api/* → JSON 404 (never SPA index.html)
 app.use('/api', (_req, res) => {
-  res.status(404).json({ error: 'API route not found' })
+  notFoundError(res, 'API route not found.')
 })
 
 if (SERVE_STATIC) {
   app.use(express.static(DIST_DIR))
-  // SPA fallback — never for /api or /uploads
-  app.get(/^(?!\/api|\/uploads).*/, (_req, res) => {
+  app.use(createAgenticSpaFallback({
+    distIndex: DIST_INDEX,
+    publishStore,
+    localePublish,
+    loadPublishedHomepagePayload,
+    buildPublishedNavigation,
+    buildHomepageMeta,
+    readPagesStore,
+    dataFiles: DATA_FILES,
+    extraHomepageFiles: EXTRA_HOMEPAGE_FILES,
+    seoDeps: () => ({ localePublish, publishStore }),
+  }))
+  app.get(/^(?!\/api|\/uploads|\/sitemap\.xml|\/robots\.txt|\/llms\.txt|\/llms-full\.txt|\/openapi\.json).*/, (_req, res) => {
     res.sendFile(DIST_INDEX)
   })
 } else {
@@ -3315,9 +3474,14 @@ if (SERVE_STATIC) {
   })
 }
 
-app.use((err, _req, res, _next) => {
+app.use((err, req, res, _next) => {
   console.error(err)
-  if (!res.headersSent) res.status(500).json({ error: 'Server error' })
+  if (res.headersSent) return
+  if (String(req.originalUrl || req.url || '').startsWith('/api')) {
+    internalError(res, 'An unexpected server error occurred.')
+    return
+  }
+  res.status(500).type('text/plain').send('Server error')
 })
 
 app.listen(PORT, HOST, () => {

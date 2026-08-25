@@ -4,6 +4,8 @@ import { ExternalLink, LogOut, Menu, X } from 'lucide-react'
 import { getAdminToken, setAdminToken, adminFetch } from './adminApi'
 import { ADMIN_LOGOUT_ITEM, ADMIN_NAV_ITEMS, getAdminPageTitle, isAdminNavActive } from './adminNavConfig'
 import { AdminSidebarBrand } from './AdminSidebarBrand'
+import { AdminLocaleProvider } from './AdminLocaleContext'
+import { AdminLocaleContextBar } from './AdminLocaleContextBar'
 import { interceptPublicHashLinksInAdmin } from './adminHomeHashGuard'
 
 export function AdminLayout() {
@@ -72,6 +74,7 @@ export function AdminLayout() {
   )
 
   return (
+    <AdminLocaleProvider>
     <div className="flex min-h-screen bg-[#f4f6f8] text-slate-900">
       <aside className="fixed inset-y-0 left-0 z-[120] hidden w-[15.5rem] flex-col bg-[#141d38] md:flex">
         <div className="border-b border-white/10 bg-transparent px-4 py-4">
@@ -138,9 +141,11 @@ export function AdminLayout() {
         ) : null}
 
         <main className="flex-1 overflow-auto p-4 md:p-6 lg:p-8">
+          <AdminLocaleContextBar />
           <Outlet />
         </main>
       </div>
     </div>
+    </AdminLocaleProvider>
   )
 }

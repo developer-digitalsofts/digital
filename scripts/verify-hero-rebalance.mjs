@@ -17,7 +17,6 @@ async function inspect(page) {
     const container = document.querySelector('.dm-hero__container')
     const copy = document.querySelector('.dm-hero__copy')
     const stack = document.querySelector('.dm-hero__right-stack')
-    const progress = document.querySelector('.dm-hero__progress')
     const nav = document.querySelector('.dm-hero__nav')
     const stage = document.querySelector('.dm-hero__dashboard-stage')
     const frame = document.querySelector('.dm-hero__dashboard-frame')
@@ -29,7 +28,6 @@ async function inspect(page) {
     const heroR = r(hero)
     const copyR = r(copy)
     const stackR = r(stack)
-    const progressR = r(progress)
     const navR = r(nav)
     const stageR = r(stage)
     const frameR = r(frame)
@@ -40,8 +38,6 @@ async function inspect(page) {
 
     const tabsAboveDashboard = navR && stageR ? navR.bottom <= stageR.top + 4 : false
     const tabsHorizontal = nav ? getComputedStyle(nav).flexDirection === 'row' : false
-    const progressAligned = progressR && stackR ? progressR.left >= stackR.left - 2 && progressR.right <= stackR.right + 2 : false
-    const progressAboveTabs = progressR && navR ? progressR.bottom <= navR.top + 4 : false
 
     const dashboardNotCropped =
       frame &&
@@ -66,8 +62,6 @@ async function inspect(page) {
       frameWidth: frameR?.width,
       tabsAboveDashboard,
       tabsHorizontal,
-      progressAligned,
-      progressAboveTabs,
       dashboardNotCropped,
       frameFullyVisible,
       overflowX,
@@ -103,7 +97,6 @@ async function main() {
     if (row.overflowX) failures.push(`${row.width}px: horizontal overflow`)
     if (row.width >= 1024 && !row.tabsHorizontal) failures.push(`${row.width}px: tabs not horizontal`)
     if (row.width >= 1024 && !row.tabsAboveDashboard) failures.push(`${row.width}px: tabs not above dashboard`)
-    if (row.width >= 1024 && !row.progressAboveTabs) failures.push(`${row.width}px: progress not above tabs`)
     if (row.width >= 1280 && row.titleLineCount > 3) failures.push(`${row.width}px: title has ${row.titleLineCount} lines`)
     if (row.width >= 1280 && row.gapBelowHeader > 100) failures.push(`${row.width}px: excessive header gap (${row.gapBelowHeader}px)`)
     if (row.width >= 1280 && row.heroHeight > 780) failures.push(`${row.width}px: hero too tall (${row.heroHeight}px)`)

@@ -31,3 +31,13 @@ server/.env.*.local
 *.njsproj
 *.sln
 *.sw?
+
+# Generated verification artifacts & runtime temp/backup data
+screenshots/
+verify-seo-run.txt
+*.verify-run.txt
+server/data/*.tmp
+server/data/backups/
+server/data/published/backups/
+server/data/published/publishMeta.json
+server/data/.test-fixtures/

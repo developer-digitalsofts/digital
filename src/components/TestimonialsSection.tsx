@@ -1,9 +1,13 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useCms } from '../cms/CmsContext'
 import { resolveTestimonialsCms } from '../cms/resolveHomepageCms'
+import { useCountry } from '../context/CountryContext'
+import { useLocale } from '../locale/LocaleContext'
 import { useI18n } from '../i18n/I18nProvider'
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
+import { resolvePublicMediaUrl } from '../cms/publicMediaUrl'
 import { ScrollReveal } from './ScrollReveal'
 import { sectionWhite } from '../ui/saas'
 import './testimonials.css'
@@ -41,8 +45,9 @@ function pairSlides(items: ResolvedTestimonial[]): ResolvedTestimonial[][] {
 function TestimonialAvatar({ name, src, alt }: { name: string; src: string; alt: string }) {
   const [failed, setFailed] = useState(false)
   const initials = initialsFromName(name)
+  const url = resolvePublicMediaUrl(src)
 
-  if (failed || !src.trim()) {
+  if (failed || !url) {
     return (
       <div className="testimonial-card__avatar" aria-hidden="true">
         <span className="testimonial-card__avatar-initials">{initials || '?'}</span>
@@ -53,7 +58,7 @@ function TestimonialAvatar({ name, src, alt }: { name: string; src: string; alt:
   return (
     <div className="testimonial-card__avatar">
       <img
-        src={src}
+        src={url}
         alt={alt || name}
         loading="lazy"
         decoding="async"
@@ -90,7 +95,9 @@ function TestimonialCard({ item }: { item: ResolvedTestimonial }) {
 export function TestimonialsSection() {
   const { t, lang } = useI18n()
   const { data } = useCms()
-  const copy = useMemo(() => resolveTestimonialsCms(data ?? undefined, t, lang), [data, t, lang])
+  const { countryCode } = useCountry()
+  const { href } = useLocale()
+  const copy = useMemo(() => resolveTestimonialsCms(data ?? undefined, t, lang, countryCode), [data, t, lang, countryCode])
   const reducedMotion = usePrefersReducedMotion()
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
@@ -103,9 +110,11 @@ export function TestimonialsSection() {
   const items = copy.items
   const pairSlideList = useMemo(() => pairSlides(items), [items])
   const slideCount = pairMode ? pairSlideList.length : items.length
+  const viewAllHref = href(copy.viewAllUrl || '/testimonials')
 
   const goTo = useCallback(
     (next: number) => {
+      if (slideCount <= 0) return
       setIndex((next + slideCount) % slideCount)
       setTimerEpoch((e) => e + 1)
     },
@@ -146,7 +155,9 @@ export function TestimonialsSection() {
       <div className="industries-section__container">
         <ScrollReveal>
           <header className="dm-testimonials__header">
-            <p className="dm-testimonials__eyebrow">{copy.eyebrow}</p>
+            {copy.eyebrow ? <p className="dm-testimonials__eyebrow">{copy.eyebrow}</p> : null}
+            {copy.title ? <h2 className="dm-testimonials__title">{copy.title}</h2> : null}
+            {copy.supportingText ? <p className="dm-testimonials__lead">{copy.supportingText}</p> : null}
           </header>
         </ScrollReveal>
 
@@ -154,7 +165,7 @@ export function TestimonialsSection() {
           <div
             className={`dm-testimonials__carousel ${pairMode ? 'dm-testimonials__carousel--pair' : 'dm-testimonials__carousel--single'}`}
             aria-roledescription="carousel"
-            aria-label={copy.eyebrow}
+            aria-label={copy.title || copy.eyebrow || 'Testimonials'}
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
             onFocusCapture={() => setPaused(true)}
@@ -205,6 +216,12 @@ export function TestimonialsSection() {
             ) : null}
           </div>
         </ScrollReveal>
+
+        {copy.showViewAll && copy.viewAllLabel ? (
+          <p className="dm-testimonials__view-all">
+            <Link to={viewAllHref}>{copy.viewAllLabel}</Link>
+          </p>
+        ) : null}
       </div>
     </section>
   )

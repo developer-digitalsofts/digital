@@ -132,6 +132,8 @@ export async function fetchJson<T>(path: string, init?: RequestInit, timeoutMs =
 export type FetchHomepageOptions = {
   /** Skip any in-memory reuse and bust intermediaries with a unique query param. */
   bustCache?: boolean
+  countryCode?: string
+  lang?: string
 }
 
 /**
@@ -139,8 +141,12 @@ export type FetchHomepageOptions = {
  * Always uses no-store — never serves a stale in-memory copy after publish.
  */
 export async function fetchHomepage<T>(opts?: FetchHomepageOptions): Promise<T> {
-  const bust = opts?.bustCache ? `?v=${encodeURIComponent(String(Date.now()))}` : ''
-  const path = `/api/homepage${bust}`
+  const params = new URLSearchParams()
+  if (opts?.countryCode) params.set('country', opts.countryCode)
+  if (opts?.lang) params.set('lang', opts.lang)
+  if (opts?.bustCache) params.set('v', String(Date.now()))
+  const qs = params.toString()
+  const path = `/api/homepage${qs ? `?${qs}` : ''}`
 
   if (import.meta.env.DEV) {
     console.debug('[cms] fetch homepage', apiUrl(path))

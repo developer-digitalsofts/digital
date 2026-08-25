@@ -1,8 +1,11 @@
-import { Route, Routes, Navigate } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { HomePage } from './pages/HomePage'
 import { IndustriesPage } from './pages/IndustriesPage'
 import { ContactPage } from './pages/ContactPage'
+import { AboutPage } from './pages/AboutPage'
+import { PrivacyPage } from './pages/PrivacyPage'
+import { DevelopersPage } from './pages/DevelopersPage'
 import { SoftwarePage } from './pages/SoftwarePage'
 import { CmsPage } from './pages/CmsPage'
 import { AdminLogin } from './admin/AdminLogin'
@@ -28,6 +31,22 @@ import { PageSectionsManager } from './admin/pages/PageSectionsManager'
 import { AdminSoftwareDetailForm } from './admin/AdminSoftwareDetailForm'
 import { AdminUsers } from './admin/AdminUsers'
 import { AdminMegaMenusPage } from './admin/AdminMegaMenusPage'
+import { TestimonialsPage } from './pages/TestimonialsPage'
+import { BlogListingPage } from './pages/BlogListingPage'
+import { BlogDetailPage } from './pages/BlogDetailPage'
+import { AdminTestimonialsPage } from './admin/content/AdminTestimonialsPage'
+import { AdminBlogPostsPage } from './admin/content/AdminBlogPostsPage'
+import { AdminBlogPostEditor } from './admin/content/AdminBlogPostEditor'
+import { AdminBlogCategoriesPage } from './admin/content/AdminBlogCategoriesPage'
+import { AdminCountriesPage } from './admin/AdminCountriesPage'
+import { AdminCountrySetupPage } from './admin/AdminCountrySetupPage'
+import { AdminCitiesPage } from './admin/AdminCitiesPage'
+import { LocaleGuard } from './routes/LocaleGuard'
+import { ErpLocalePage, ContactLocalePage, SolutionsLocalePage, BusinessModelsLocalePage, FaqsLocalePage } from './pages/LocaleSlugPage'
+import { LocaleSoftwarePage, LocaleIndustrySlugPage } from './pages/LocaleSoftwarePage'
+import { LocaleFallbackPage } from './pages/LocaleFallbackPage'
+import { CityPageGuard } from './routes/CityPageGuard'
+import { AeEnCityRedirect } from './routes/CityPageGuard'
 
 export default function App() {
   return (
@@ -54,6 +73,15 @@ export default function App() {
           <Route path="layout/header" element={<AdminHeaderEditor />} />
           <Route path="layout/footer" element={<AdminFooterEditor />} />
           <Route path="layout/navigation" element={<Navigate to="/admin/layout/header" replace />} />
+
+          <Route path="content/testimonials" element={<AdminTestimonialsPage />} />
+          <Route path="content/blog" element={<AdminBlogPostsPage />} />
+          <Route path="content/blog/categories" element={<AdminBlogCategoriesPage />} />
+          <Route path="content/blog/new" element={<AdminBlogPostEditor mode="new" />} />
+          <Route path="content/blog/:id/edit" element={<AdminBlogPostEditor mode="edit" />} />
+          <Route path="content/countries" element={<AdminCountriesPage />} />
+          <Route path="content/countries/setup" element={<AdminCountrySetupPage />} />
+          <Route path="content/cities" element={<AdminCitiesPage />} />
 
           <Route path="mega-menus" element={<AdminMegaMenusPage />} />
           <Route path="site-settings" element={<AdminSiteSettingsPage />} />
@@ -86,13 +114,52 @@ export default function App() {
         </Route>
       </Route>
       <Route element={<Layout />}>
+        {/* UAE English root — preserved exactly */}
         <Route index element={<HomePage />} />
+        <Route path="about" element={<AboutPage />} />
+        <Route path="privacy" element={<PrivacyPage />} />
+        <Route path="developers" element={<DevelopersPage />} />
         <Route path="industries" element={<IndustriesPage />} />
         <Route path="contact" element={<ContactPage />} />
+        <Route path="testimonials" element={<TestimonialsPage />} />
+        <Route path="blog" element={<BlogListingPage />} />
+        <Route path="blog/:slug" element={<BlogDetailPage />} />
+        <Route path="erp" element={<ErpLocalePage />} />
+        <Route path="solutions" element={<SolutionsLocalePage />} />
+        <Route path="business-models" element={<BusinessModelsLocalePage />} />
+        <Route path="faqs" element={<FaqsLocalePage />} />
         <Route path="software/:flatSlug" element={<SoftwarePage />} />
         <Route path="software/:kind/:slug" element={<SoftwarePage />} />
+        <Route path=":citySlug/:pageSlug" element={<CityPageGuard />} />
         <Route path=":slug" element={<CmsPage />} />
       </Route>
+
+      {/* GCC locale routes — /ae/ar, /sa/en, /qa/en/insights, etc. */}
+      <Route path=":country/:lang" element={<LocaleGuard />}>
+        <Route element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="about" element={<AboutPage />} />
+          <Route path="privacy" element={<PrivacyPage />} />
+          <Route path="developers" element={<DevelopersPage />} />
+          <Route path="industries" element={<IndustriesPage />} />
+          <Route path="industries/:slug" element={<LocaleIndustrySlugPage />} />
+          <Route path="contact" element={<ContactLocalePage />} />
+          <Route path="testimonials" element={<TestimonialsPage />} />
+          <Route path="insights" element={<BlogListingPage />} />
+          <Route path="insights/:slug" element={<BlogDetailPage />} />
+          <Route path="erp" element={<ErpLocalePage />} />
+          <Route path="solutions" element={<SolutionsLocalePage />} />
+          <Route path="business-models" element={<BusinessModelsLocalePage />} />
+          <Route path="faqs" element={<FaqsLocalePage />} />
+          <Route path="software/:flatSlug" element={<LocaleSoftwarePage />} />
+          <Route path="software/:kind/:slug" element={<LocaleSoftwarePage />} />
+          <Route path=":citySlug/:pageSlug" element={<CityPageGuard />} />
+          <Route path=":slug" element={<CmsPage />} />
+          <Route path="*" element={<LocaleFallbackPage />} />
+        </Route>
+      </Route>
+
+      <Route path="ae/en/*" element={<AeEnCityRedirect />} />
     </Routes>
   )
 }

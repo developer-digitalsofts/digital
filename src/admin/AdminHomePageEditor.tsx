@@ -15,6 +15,8 @@ import { HomeFaqsForm } from './home/HomeFaqsForm'
 import { HomeVisibilityForm } from './home/HomeVisibilityForm'
 import { AdminPanelErrorBoundary } from './cms/AdminPanelErrorBoundary'
 import { AdminButtonTabs } from './cms/AdminButtonTabs'
+import { AdminLocaleEditorBanner } from './AdminLocaleEditorBanner'
+import { HOME_TAB_LOCALE } from './adminLocaleSections'
 import {
   adminHomeEditorContextFromPath,
   defaultTabForContext,
@@ -160,9 +162,13 @@ export function AdminHomePageEditor() {
   }, [])
 
   const active = visibleTabs.find((t) => t.tab === activeTab) ?? visibleTabs[0]
+  const localeRef = HOME_TAB_LOCALE[activeTab]
 
   return (
     <div className="mx-auto max-w-5xl space-y-6">
+      {localeRef ? (
+        <AdminLocaleEditorBanner contentType={localeRef.contentType} globalIdentity={localeRef.globalIdentity} slug={localeRef.slug} />
+      ) : null}
       <header className="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm">
         <h1 className="text-2xl font-bold tracking-tight text-slate-900">{PAGE_TITLES[context]}</h1>
         <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-600">

@@ -1,6 +1,9 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { adminFetch, friendlyAdminApiMessage } from './adminApi'
 import { useAdminToast } from './AdminToastContext'
+import { useAdminLocale } from './AdminLocaleContext'
+import { AdminLocaleEditorBanner } from './AdminLocaleEditorBanner'
+import { ADMIN_EDITOR_LOCALE } from './adminLocaleSections'
 import type { Bilingual } from '../cms/types'
 
 type SeoState = {
@@ -79,14 +82,16 @@ function BiFields({
 
 export function AdminSeo() {
   const toast = useAdminToast()
+  const { setDirty: setLocaleDirty } = useAdminLocale()
   const [doc, setDoc] = useState<SeoState | null>(null)
+  const [baseline, setBaseline] = useState('')
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     adminFetch<Record<string, unknown>>('/api/admin/data/seo')
       .then((raw) => {
-        setDoc({
+        const next: SeoState = {
           pageTitle: normBi(raw.pageTitle),
           metaDescription: normBi(raw.metaDescription),
           metaKeywords: normBi(raw.metaKeywords),
@@ -100,24 +105,34 @@ export function AdminSeo() {
           robotsIndex: raw.robotsIndex === 'noindex' ? 'noindex' : 'index',
           robotsFollow: raw.robotsFollow === 'nofollow' ? 'nofollow' : 'follow',
           _meta: raw._meta as SeoState['_meta'],
-        })
+        }
+        setDoc(next)
+        setBaseline(JSON.stringify(next))
       })
       .catch((e: Error) => toast.push(friendlyAdminApiMessage(e.message), 'error'))
       .finally(() => setLoading(false))
   }, [toast])
+
+  const dirty = useMemo(() => (doc ? JSON.stringify(doc) !== baseline : false), [doc, baseline])
+
+  useEffect(() => {
+    setLocaleDirty(dirty)
+  }, [dirty, setLocaleDirty])
 
   const save = useCallback(async () => {
     if (!doc) return
     setSaving(true)
     try {
       await adminFetch('/api/admin/data/seo', { method: 'PUT', body: JSON.stringify(doc) })
+      setBaseline(JSON.stringify(doc))
+      setLocaleDirty(false)
       toast.push('SEO settings saved', 'success')
     } catch (e) {
       toast.push(e instanceof Error ? friendlyAdminApiMessage(e.message) : 'Save failed', 'error')
     } finally {
       setSaving(false)
     }
-  }, [doc, toast])
+  }, [doc, toast, setLocaleDirty])
 
   if (loading || !doc) {
     return (
@@ -134,6 +149,7 @@ export function AdminSeo() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-6 pb-24">
+      <AdminLocaleEditorBanner {...ADMIN_EDITOR_LOCALE.seo} />
       <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">SEO</h1>

@@ -1,96 +1,427 @@
 {
-  "schemaVersion": 2,
-  "eyebrow": {
-    "en": "Loved by Businesses Like Yours",
-    "ar": "محبوب من شركات مثل شركتك"
+  "schemaVersion": 3,
+  "section": {
+    "enabled": true,
+    "eyebrow": {
+      "en": "CLIENT SUCCESS",
+      "ar": "نجاح العملاء"
+    },
+    "heading": {
+      "en": "What Our Clients Say",
+      "ar": "ماذا يقول عملاؤنا"
+    },
+    "supportingText": {
+      "en": "When verified client feedback is published in the CMS, it appears here. Sample drafts stay private until customer approval.",
+      "ar": "عند نشر آراء العملاء الموثقة في نظام المحتوى تظهر هنا. تظل المسودات النموذجية خاصة حتى موافقة العميل."
+    },
+    "limit": 6,
+    "selectionMode": "featured",
+    "manualIds": [],
+    "viewAllLabel": {
+      "en": "View All Testimonials",
+      "ar": "عرض كل الشهادات"
+    },
+    "viewAllUrl": "/testimonials",
+    "showViewAll": true
   },
-  "title": {
-    "en": "What Our Clients Say",
-    "ar": "ماذا يقول عملاؤنا"
+  "page": {
+    "enabled": true,
+    "eyebrow": {
+      "en": "CLIENT SUCCESS",
+      "ar": "نجاح العملاء"
+    },
+    "title": {
+      "en": "What Our Clients Say",
+      "ar": "ماذا يقول عملاؤنا"
+    },
+    "intro": {
+      "en": "Approved client testimonials will appear on this page after CMS publication. Editable sample drafts are stored privately until real customer approval is confirmed.",
+      "ar": "ستظهر شهادات العملاء المعتمدة في هذه الصفحة بعد النشر من نظام المحتوى. تُحفظ المسودات النموذجية بشكل خاص حتى تأكيد موافقة العميل الحقيقية."
+    },
+    "seoTitle": {
+      "en": "Client Testimonials | DigitalManager",
+      "ar": "شهادات العملاء | ديجيتال مانجر"
+    },
+    "seoDescription": {
+      "en": "Read approved client feedback about DigitalManager ERP for growing GCC businesses.",
+      "ar": "اقرأ آراء العملاء المعتمدة حول DigitalManager ERP للشركات النامية في الخليج."
+    }
   },
   "items": [
     {
-      "id": "fahad",
+      "id": "sample-ae-finance",
+      "internalTitle": "SAMPLE — Finance Director (UAE Trading)",
       "quote": {
         "en": "DigitalManager gave us one connected view of finance, inventory and sales. Month-end close is faster and branch reporting is finally reliable.",
         "ar": "منحنا ديجيتال مانجر رؤية موحدة للمالية والمخزون والمبيعات. إغلاق الشهر أسرع وتقارير الفروع أصبحت موثوقة."
       },
       "customerName": {
-        "en": "Fahad Al Mazrouei",
-        "ar": "فهد المزروعي"
+        "en": "Sample Client A",
+        "ar": "عميل نموذجي أ"
       },
       "designation": {
         "en": "Finance Director",
         "ar": "مدير المالية"
       },
       "company": {
-        "en": "UAE Trading Group",
-        "ar": "مجموعة الإمارات التجارية"
+        "en": "[SAMPLE] Trading Group",
+        "ar": "[نموذج] مجموعة تجارية"
       },
-      "image": "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=150&h=150&q=80",
+      "image": "",
       "imageAlt": {
-        "en": "Fahad Al Mazrouei",
-        "ar": "فهد المزروعي"
+        "en": "Sample avatar placeholder",
+        "ar": "صورة نموذجية"
       },
+      "industry": "Trading",
+      "country": "UAE",
       "sortOrder": 0,
-      "enabled": true
+      "enabled": true,
+      "status": "draft",
+      "isSample": true,
+      "featuredOnHomepage": false,
+      "verified": false,
+      "verificationNote": "Sample draft only. Replace with approved customer quote before publishing.",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "solutionUrl": "/erp"
     },
     {
-      "id": "ayesha",
+      "id": "sample-ae-ops",
+      "internalTitle": "SAMPLE — Operations Manager (UAE Retail)",
       "quote": {
         "en": "We replaced spreadsheets with one ERP platform. Inventory, POS and accounts now stay in sync across our stores.",
         "ar": "استبدلنا جداول البيانات بمنصة ERP واحدة. المخزون ونقطة البيع والحسابات متزامنة الآن عبر فروعنا."
       },
       "customerName": {
-        "en": "Ayesha Khan",
-        "ar": "عائشة خان"
+        "en": "Sample Client B",
+        "ar": "عميلة نموذجية ب"
       },
       "designation": {
         "en": "Operations Manager",
         "ar": "مديرة العمليات"
       },
       "company": {
-        "en": "Retail Chain",
-        "ar": "سلسلة تجزئة"
+        "en": "[SAMPLE] Retail Chain",
+        "ar": "[نموذج] سلسلة تجزئة"
       },
-      "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&h=150&q=80",
+      "image": "",
       "imageAlt": {
-        "en": "Ayesha Khan",
-        "ar": "عائشة خان"
+        "en": "Sample avatar placeholder",
+        "ar": "صورة نموذجية"
       },
-      "sortOrder": 0,
-      "enabled": true
+      "industry": "Retail",
+      "country": "UAE",
+      "sortOrder": 1,
+      "enabled": true,
+      "status": "draft",
+      "isSample": true,
+      "featuredOnHomepage": false,
+      "verified": false,
+      "verificationNote": "Sample draft only. Replace with approved customer quote before publishing.",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "solutionUrl": "/software/inventory-management-software"
     },
     {
-      "id": "usman",
+      "id": "sample-ae-gm",
+      "internalTitle": "SAMPLE — General Manager (UAE Manufacturing)",
       "quote": {
         "en": "Implementation was structured and the team understood UAE business workflows. Payroll and attendance are much easier to manage now.",
-        "ar": "كان التنفيذ منظمًا وفهم الفريق سير عمل الأعمال في الإمارات. الرواتب والحضور أصبحت أسهل في الإدارة."
+        "ar": "كان التنفيذ منظمًا وفهم الفريق سير عمل الأعمال في الإمارات. الرواتب والحضور أصبحا أسهل في الإدارة."
       },
       "customerName": {
-        "en": "Usman Ali",
-        "ar": "عثمان علي"
+        "en": "Sample Client C",
+        "ar": "عميل نموذجي ج"
       },
       "designation": {
         "en": "General Manager",
         "ar": "المدير العام"
       },
       "company": {
-        "en": "Manufacturing Co.",
-        "ar": "شركة تصنيع"
+        "en": "[SAMPLE] Manufacturing Co.",
+        "ar": "[نموذج] شركة تصنيع"
       },
-      "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&h=150&q=80",
+      "image": "",
       "imageAlt": {
-        "en": "Usman Ali",
-        "ar": "عثمان علي"
+        "en": "Sample avatar placeholder",
+        "ar": "صورة نموذجية"
       },
-      "sortOrder": 0,
-      "enabled": true
+      "industry": "Manufacturing",
+      "country": "UAE",
+      "sortOrder": 2,
+      "enabled": true,
+      "status": "draft",
+      "isSample": true,
+      "featuredOnHomepage": false,
+      "verified": false,
+      "verificationNote": "Sample draft only. Replace with approved customer quote before publishing.",
+      "countryCode": "AE",
+      "languageCode": "en",
+      "solutionUrl": "/software/payroll-management-software"
+    },
+    {
+      "id": "sample-gcc-shared",
+      "internalTitle": "SAMPLE — Shared GCC (Multi-branch)",
+      "quote": {
+        "en": "Having one ERP across branches reduced reconciliation work. Stock transfers and sales reports finally use the same numbers.",
+        "ar": "وجود نظام ERP واحد عبر الفروع قلّل أعمال المطابقة. تحويلات المخزون وتقارير المبيعات تستخدم الأرقام نفسها أخيراً."
+      },
+      "customerName": {
+        "en": "Sample Client D",
+        "ar": "عميل نموذجي د"
+      },
+      "designation": {
+        "en": "Head of Operations",
+        "ar": "رئيس العمليات"
+      },
+      "company": {
+        "en": "[SAMPLE] GCC Distribution Co.",
+        "ar": "[نموذج] شركة توزيع خليجية"
+      },
+      "image": "",
+      "imageAlt": {
+        "en": "Sample avatar placeholder",
+        "ar": "صورة نموذجية"
+      },
+      "industry": "Distribution",
+      "country": "GCC",
+      "sortOrder": 3,
+      "enabled": true,
+      "status": "draft",
+      "isSample": true,
+      "featuredOnHomepage": false,
+      "verified": false,
+      "verificationNote": "Shared GCC sample draft. Do not publish without approved customer feedback.",
+      "countryCode": "GCC",
+      "languageCode": "en",
+      "solutionUrl": "/erp"
+    },
+    {
+      "id": "sample-sa-retail",
+      "internalTitle": "SAMPLE — Retail Lead (Saudi Arabia)",
+      "quote": {
+        "en": "We needed clearer stock and sales visibility across Riyadh and Jeddah stores. A connected ERP approach made daily decisions easier for managers.",
+        "ar": "احتجنا رؤية أوضح للمخزون والمبيعات عبر متاجر الرياض وجدة. نهج ERP متصل سهّل القرارات اليومية للمديرين."
+      },
+      "customerName": {
+        "en": "Sample Client E",
+        "ar": "عميل نموذجي هـ"
+      },
+      "designation": {
+        "en": "Retail Operations Lead",
+        "ar": "مسؤول عمليات التجزئة"
+      },
+      "company": {
+        "en": "[SAMPLE] KSA Retail Group",
+        "ar": "[نموذج] مجموعة تجزئة سعودية"
+      },
+      "image": "",
+      "imageAlt": {
+        "en": "Sample avatar placeholder",
+        "ar": "صورة نموذجية"
+      },
+      "industry": "Retail",
+      "country": "Saudi Arabia",
+      "sortOrder": 4,
+      "enabled": true,
+      "status": "draft",
+      "isSample": true,
+      "featuredOnHomepage": false,
+      "verified": false,
+      "verificationNote": "Saudi sample draft only. Requires real customer approval before publishing.",
+      "countryCode": "SA",
+      "languageCode": "en",
+      "solutionUrl": "/erp"
+    },
+    {
+      "id": "sample-kw-wholesale",
+      "internalTitle": "SAMPLE — Wholesale Manager (Kuwait)",
+      "quote": {
+        "en": "Pricing lists, stock levels and invoices used to live in separate files. Connecting finance and inventory reduced daily follow-ups between teams.",
+        "ar": "كانت قوائم الأسعار ومستويات المخزون والفواتير في ملفات منفصلة. ربط المالية والمخزون قلّل المتابعات اليومية بين الفرق."
+      },
+      "customerName": {
+        "en": "Sample Client F",
+        "ar": "عميل نموذجي و"
+      },
+      "designation": {
+        "en": "Wholesale Manager",
+        "ar": "مدير الجملة"
+      },
+      "company": {
+        "en": "[SAMPLE] Kuwait Wholesale Co.",
+        "ar": "[نموذج] شركة جملة كويتية"
+      },
+      "image": "",
+      "imageAlt": {
+        "en": "Sample avatar placeholder",
+        "ar": "صورة نموذجية"
+      },
+      "industry": "Wholesale",
+      "country": "Kuwait",
+      "sortOrder": 5,
+      "enabled": true,
+      "status": "draft",
+      "isSample": true,
+      "featuredOnHomepage": false,
+      "verified": false,
+      "verificationNote": "Kuwait sample draft only. Requires real customer approval before publishing.",
+      "countryCode": "KW",
+      "languageCode": "en",
+      "solutionUrl": "/software/inventory-management-software"
+    },
+    {
+      "id": "sample-qa-projects",
+      "internalTitle": "SAMPLE — Project Controller (Qatar)",
+      "quote": {
+        "en": "Project costs and purchase commitments were hard to track together. A single operational system helped finance and site teams share one status view.",
+        "ar": "كانت تكاليف المشاريع والتزامات الشراء صعبة التتبع معاً. نظام تشغيلي واحد ساعد المالية وفرق المواقع على مشاركة رؤية حالة واحدة."
+      },
+      "customerName": {
+        "en": "Sample Client G",
+        "ar": "عميل نموذجي ز"
+      },
+      "designation": {
+        "en": "Project Controller",
+        "ar": "مراقب مشاريع"
+      },
+      "company": {
+        "en": "[SAMPLE] Qatar Contracting SME",
+        "ar": "[نموذج] مؤسسة مقاولات قطرية"
+      },
+      "image": "",
+      "imageAlt": {
+        "en": "Sample avatar placeholder",
+        "ar": "صورة نموذجية"
+      },
+      "industry": "Construction",
+      "country": "Qatar",
+      "sortOrder": 6,
+      "enabled": true,
+      "status": "draft",
+      "isSample": true,
+      "featuredOnHomepage": false,
+      "verified": false,
+      "verificationNote": "Qatar sample draft only. Requires real customer approval before publishing.",
+      "countryCode": "QA",
+      "languageCode": "en",
+      "solutionUrl": "/erp"
+    },
+    {
+      "id": "sample-om-distribution",
+      "internalTitle": "SAMPLE — Distribution Lead (Oman)",
+      "quote": {
+        "en": "Coordinating Muscat and regional stock was slow on spreadsheets. Central inventory with branch visibility made replenishment planning clearer.",
+        "ar": "كان تنسيق مخزون مسقط والمناطق بطيئاً على الجداول. مخزون مركزي مع رؤية الفروع جعل تخطيط التوريد أوضح."
+      },
+      "customerName": {
+        "en": "Sample Client H",
+        "ar": "عميل نموذجي ح"
+      },
+      "designation": {
+        "en": "Distribution Lead",
+        "ar": "مسؤول التوزيع"
+      },
+      "company": {
+        "en": "[SAMPLE] Oman Distribution Ltd",
+        "ar": "[نموذج] شركة توزيع عُمانية"
+      },
+      "image": "",
+      "imageAlt": {
+        "en": "Sample avatar placeholder",
+        "ar": "صورة نموذجية"
+      },
+      "industry": "Distribution",
+      "country": "Oman",
+      "sortOrder": 7,
+      "enabled": true,
+      "status": "draft",
+      "isSample": true,
+      "featuredOnHomepage": false,
+      "verified": false,
+      "verificationNote": "Oman sample draft only. Requires real customer approval before publishing.",
+      "countryCode": "OM",
+      "languageCode": "en",
+      "solutionUrl": "/software/inventory-management-software"
+    },
+    {
+      "id": "sample-bh-sme",
+      "internalTitle": "SAMPLE — Finance Lead (Bahrain)",
+      "quote": {
+        "en": "As a growing SME we needed cleaner invoicing and inventory without adding complexity. A unified cloud ERP kept day-to-day work practical.",
+        "ar": "كمنشأة صغيرة نامية احتجنا فوترة ومخزوناً أوضح دون تعقيد إضافي. ERP سحابي موحّد أبقى العمل اليومي عملياً."
+      },
+      "customerName": {
+        "en": "Sample Client I",
+        "ar": "عميل نموذجي ط"
+      },
+      "designation": {
+        "en": "Finance Lead",
+        "ar": "مسؤول المالية"
+      },
+      "company": {
+        "en": "[SAMPLE] Bahrain Trading SME",
+        "ar": "[نموذج] منشأة تجارية بحرينية"
+      },
+      "image": "",
+      "imageAlt": {
+        "en": "Sample avatar placeholder",
+        "ar": "صورة نموذجية"
+      },
+      "industry": "Trading",
+      "country": "Bahrain",
+      "sortOrder": 8,
+      "enabled": true,
+      "status": "draft",
+      "isSample": true,
+      "featuredOnHomepage": false,
+      "verified": false,
+      "verificationNote": "Bahrain sample draft only. Requires real customer approval before publishing.",
+      "countryCode": "BH",
+      "languageCode": "en",
+      "solutionUrl": "/erp"
+    },
+    {
+      "id": "sample-ae-finance-ar",
+      "internalTitle": "SAMPLE AR — Finance Director (UAE) needs_review",
+      "quote": {
+        "en": "DigitalManager gave us one connected view of finance, inventory and sales. Month-end close is faster and branch reporting is finally reliable.",
+        "ar": "منحنا ديجيتال مانجر رؤية موحدة للمالية والمخزون والمبيعات. إغلاق الشهر أسرع وتقارير الفروع أصبحت موثوقة."
+      },
+      "customerName": {
+        "en": "Sample Client A",
+        "ar": "عميل نموذجي أ"
+      },
+      "designation": {
+        "en": "Finance Director",
+        "ar": "مدير المالية"
+      },
+      "company": {
+        "en": "[SAMPLE] Trading Group",
+        "ar": "[نموذج] مجموعة تجارية"
+      },
+      "image": "",
+      "imageAlt": {
+        "en": "Sample avatar placeholder",
+        "ar": "صورة نموذجية"
+      },
+      "industry": "Trading",
+      "country": "UAE",
+      "sortOrder": 9,
+      "enabled": true,
+      "status": "draft",
+      "isSample": true,
+      "featuredOnHomepage": false,
+      "verified": false,
+      "verificationNote": "Arabic sample draft — needs_review. Do not publish without language and customer approval.",
+      "countryCode": "AE",
+      "languageCode": "ar",
+      "solutionUrl": "/erp"
     }
   ],
   "_meta": {
     "createdAt": "2026-08-19T06:10:35.214Z",
-    "updatedAt": "2026-08-19T06:10:35.214Z",
-    "updatedBy": "cms-schema-migrate-v2"
+    "updatedAt": "2026-08-22T12:00:18.531Z",
+    "updatedBy": "admin@admin.com"
   }
 }

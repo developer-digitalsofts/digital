@@ -5,6 +5,7 @@ import { WhatsAppIcon } from '../components/WhatsAppIcon'
 import { useI18n } from '../i18n/I18nProvider'
 import { useSiteSettings } from '../cms/useSiteSettings'
 import { apiBase, fetchWithTimeout } from '../cms/api'
+import { useLocaleSubmission } from '../locale/useLocaleSubmission'
 import { pageShellClass } from '../ui/pageShell'
 import { sectionPad } from '../ui/saas'
 
@@ -14,6 +15,7 @@ export function ContactPage() {
   const { t } = useI18n()
   const site = useSiteSettings()
   const location = useLocation()
+  const localeMeta = useLocaleSubmission()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
@@ -44,6 +46,9 @@ export function ContactPage() {
             topic: topic || '',
             message: message.trim(),
             sourcePage: `${location.pathname}${location.search}`.slice(0, 500),
+            localeCountry: localeMeta.localeCountry,
+            localeLang: localeMeta.localeLang,
+            countryCode: localeMeta.countryCode,
           }),
         })
         if (!res.ok) {
