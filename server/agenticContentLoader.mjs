@@ -148,7 +148,7 @@ export async function loadAgenticPageContent(deps, pathname, routeInfo) {
       pageType: 'developers',
       title: copy.title,
       description: copy.intro,
-      seo: { title: copy.metaTitle, description: copy.intro },
+      seo: { title: copy.metaTitle, description: copy.intro, robots: 'index, follow' },
       developers: copy,
       siteSettings,
     }
@@ -191,9 +191,11 @@ export async function loadAgenticPageContent(deps, pathname, routeInfo) {
       pageType: 'software',
       title:
         localeSeo?.title ||
+        seo.title ||
         (lang === 'ar' ? 'برمجيات DigitalManager' : 'DigitalManager Software'),
       description:
         localeSeo?.description ||
+        seo.description ||
         (lang === 'ar'
           ? 'وحدات ERP سحابية للحسابات والمخزون ونقطة البيع والرواتب والعمليات.'
           : 'Cloud ERP modules for accounts, inventory, POS, payroll, and operations.'),

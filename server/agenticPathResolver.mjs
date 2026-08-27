@@ -194,6 +194,15 @@ export function isNormalBrowser(req) {
 }
 
 /**
+ * Prerender semantic HTML for non-browser HTML clients (crawlers, agents, Accept: text/html tools).
+ * Normal browsers receive the React SEO shell via createSpaShellHandler.
+ */
+export function isHtmlAgentClient(req) {
+  if (isNormalBrowser(req)) return false
+  return prefersHtmlDocument(req)
+}
+
+/**
  * Prerender semantic HTML only for approved crawlers/agents — not normal browsers.
  * Browsers must receive the empty React shell via static/SPA fallback.
  */
@@ -205,4 +214,9 @@ export function isAgentHtmlRequest(req) {
 
   const ua = String(req.headers['user-agent'] || '')
   return APPROVED_CRAWLER_UA.test(ua)
+}
+
+/** True when the response should include full server-rendered HTML (agents + markdown/HTML tools). */
+export function wantsAgenticHtml(req) {
+  return isAgentHtmlRequest(req) || isHtmlAgentClient(req)
 }

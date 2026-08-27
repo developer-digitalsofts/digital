@@ -29,6 +29,9 @@ function buildOrganizationJsonLd(content) {
   const sameAs = [site.facebookUrl, site.linkedinUrl, site.instagramUrl, site.youtubeUrl, site.tiktokUrl].filter(
     (u) => typeof u === 'string' && u.startsWith('http'),
   )
+  const addressText =
+    readBilingualText(site.officeAddress, content.lang) ||
+    'Dubai, United Arab Emirates'
   const org = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -39,23 +42,18 @@ function buildOrganizationJsonLd(content) {
       readBilingualText(site.defaultMetaDescription, content.lang) ||
       readBilingualText(site.websiteTagline, content.lang) ||
       'Cloud ERP platform for finance, inventory, POS, payroll, and operations.',
-  }
-  if (site.primaryEmail) {
-    org.contactPoint = {
+    contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer support',
-      email: site.primaryEmail,
-      telephone: site.phoneDisplay || undefined,
+      email: site.primaryEmail || 'info@digitalmanager.ae',
+      telephone: site.phoneDisplay || '+971 58 117 4911',
       availableLanguage: ['English', 'Arabic'],
-    }
-  }
-  const addressText = readBilingualText(site.officeAddress, content.lang)
-  if (addressText) {
-    org.address = {
+    },
+    address: {
       '@type': 'PostalAddress',
       streetAddress: addressText,
-      addressCountry: 'AE',
-    }
+      addressCountry: content.countryCode || 'AE',
+    },
   }
   if (sameAs.length) org.sameAs = sameAs
   else {
@@ -76,7 +74,7 @@ function buildSoftwareApplicationJsonLd(content) {
     name: 'DigitalManager',
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
-    url: PUBLIC_SITE_BASE,
+    url: content.canonical || PUBLIC_SITE_BASE,
     description:
       readBilingualText(site.defaultMetaDescription, content.lang) ||
       readBilingualText(content.hero?.body, content.lang) ||
@@ -166,13 +164,16 @@ export function buildJsonLdBlocks(content) {
 }
 
 function buildHeadMeta(content) {
-  const seo = content.seo || {}
-  const title = seo.title || content.title || 'DigitalManager'
-  const description = seo.description || content.description || ''
-  const robots = seo.robots || (seo.noIndex ? 'noindex, nofollow' : 'index, follow')
+  const resolvedSeo =
+    content.seo && typeof content.seo === 'object' && ('title' in content.seo || 'canonical' in content.seo)
+      ? content.seo
+      : null
+  const title = resolvedSeo?.title || content.title || 'DigitalManager'
+  const description = resolvedSeo?.description || content.description || ''
+  const robots = resolvedSeo?.robots || (resolvedSeo?.noIndex ? 'noindex, follow' : 'index, follow')
   const ogImage = absoluteAsset(content.siteSettings?.ogImageUrl || content.siteSettings?.faviconUrl || '/digitalmanager-favicon.png')
   const ogType = content.pageType === 'blog-post' ? 'article' : 'website'
-  const alternates = seo.alternates || []
+  const alternates = resolvedSeo?.alternates || []
 
   const tags = [
     `<title>${escapeHtml(title)}</title>`,
@@ -387,6 +388,48 @@ function renderDevelopersBody(content) {
     </article>`
 }
 
+function renderSoftwareBody(content) {
+  const lang = content.lang
+  const site = content.siteSettings || {}
+  const features =
+    lang === 'ar'
+      ? [
+          'إدارة علاقات العملاء والمبيعات',
+          'تتبع الفرص والعروض والمتابعات',
+          'تكامل مع الحسابات والمخزون ونقطة البيع',
+          'تقارير أداء الفريق والفروع',
+          'دعم متعدد الفروع في دول الخليج',
+        ]
+      : [
+          'Customer and sales relationship management',
+          'Lead, quote, and follow-up tracking',
+          'Integration with accounts, inventory, and POS',
+          'Branch and team performance reporting',
+          'Multi-branch GCC localization support',
+        ]
+  const featureHtml = features.map((f) => `<li>${escapeHtml(f)}</li>`).join('\n          ')
+  return `
+    <article class="agentic-prerender" data-agentic-prerender="true">
+      <h1>${escapeHtml(content.title)}</h1>
+      <p>${textBlock(content.description)}</p>
+      <section>
+        <h2>${lang === 'ar' ? 'الميزات الرئيسية' : 'Key capabilities'}</h2>
+        <ul>${featureHtml}</ul>
+      </section>
+      <section>
+        <h2>${lang === 'ar' ? 'لماذا DigitalManager' : 'Why DigitalManager'}</h2>
+        <p>${lang === 'ar' ? 'DigitalManager منصة ERP سحابية للحسابات والمخزون ونقطة البيع والرواتب والعمليات متعددة الفروع — مع وحدات برمجية متخصصة لقطاعات الأعمال في دول الخليج.' : 'DigitalManager is a cloud ERP platform for accounts, inventory, POS, payroll, and multi-branch operations — with specialized software modules for GCC industries.'}</p>
+        <p>${lang === 'ar' ? 'اطلب عرضاً توضيحياً لمناقشة متطلباتك وتكامل هذه الوحدة مع باقي عملياتك.' : 'Request a demo to discuss your requirements and how this module integrates with your broader ERP operations.'}</p>
+      </section>
+      <section>
+        <h2>${lang === 'ar' ? 'تواصل' : 'Contact'}</h2>
+        ${site.phoneDisplay ? `<p>${lang === 'ar' ? 'الهاتف' : 'Phone'}: ${escapeHtml(site.phoneDisplay)}</p>` : ''}
+        ${site.primaryEmail ? `<p>${lang === 'ar' ? 'البريد' : 'Email'}: ${escapeHtml(site.primaryEmail)}</p>` : ''}
+        <p><a href="/contact">${lang === 'ar' ? 'صفحة الاتصال' : 'Contact page'}</a> · <a href="/">${lang === 'ar' ? 'الرئيسية' : 'Homepage'}</a></p>
+      </section>
+    </article>`
+}
+
 function renderGenericBody(content) {
   return `
     <article class="agentic-prerender" data-agentic-prerender="true">
@@ -408,9 +451,18 @@ export function renderAgenticBody(content) {
       return renderPrivacyBody(content)
     case 'developers':
       return renderDevelopersBody(content)
+    case 'software':
+      return renderSoftwareBody(content)
     default:
       return renderGenericBody(content)
   }
+}
+
+/** Noscript fallback: same semantic content without in-root prerender markers. */
+export function renderNoscriptFallbackBody(content) {
+  return renderAgenticBody(content)
+    .replace(/\s*data-agentic-prerender="true"/g, '')
+    .replace(/\bagentic-prerender\b/g, 'dm-noscript-shell')
 }
 
 /** Critical above-the-fold CSS — brands SSR hero instantly; full Tailwind bundle completes styling after load. */
@@ -504,17 +556,14 @@ export function injectAgenticHtml(templateHtml, content) {
 }
 
 /**
- * Browser shell: SEO meta + JSON-LD in <head>, Vite CSS/JS, empty #root.
- * React mounts immediately with no agent/prerender body flash before hydration.
+ * Browser shell: SEO meta + JSON-LD in <head>, Vite CSS/JS, empty #root for React.
+ * Full semantic homepage copy lives in <noscript> for no-JS crawlers and agent audits.
  */
 export function injectBrowserSeoShellHtml(templateHtml, content) {
   let html = applyShellHead(templateHtml, content)
-  const noscriptMsg =
-    content.lang === 'ar'
-      ? 'يتطلب هذا الموقع JavaScript للحصول على أفضل تجربة. تواصل معنا عبر صفحة الاتصال.'
-      : 'This site requires JavaScript for the full experience. Contact us via the contact page.'
+  const staticBody = renderNoscriptFallbackBody(content)
   const shell = `
-    <noscript><p class="dm-noscript-note">${escapeHtml(noscriptMsg)} <a href="/contact">${content.lang === 'ar' ? 'اتصل بنا' : 'Contact us'}</a></p></noscript>
+    <noscript>${staticBody}</noscript>
     <div id="root"></div>`
   html = html.replace('<div id="root"></div>', shell)
   html = html.replace('<div id="root"><\/div>', shell)

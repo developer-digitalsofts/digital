@@ -77,6 +77,14 @@ async function main() {
     pass('Browser homepage includes Organization and SoftwareApplication JSON-LD')
   } else fail('Browser homepage includes Organization and SoftwareApplication JSON-LD')
 
+  const noscriptMatch = browserHome.text.match(/<noscript>([\s\S]*?)<\/noscript>/i)
+  const noscriptVisible = noscriptMatch
+    ? noscriptMatch[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+    : ''
+  if (noscriptVisible.length >= 500) {
+    pass('Browser homepage noscript fallback 500+ chars for no-JS clients', `${noscriptVisible.length} chars`)
+  } else fail('Browser homepage noscript fallback 500+ chars', `${noscriptVisible.length} chars`)
+
   if (browserHome.text.includes('type="module"') && /href="\/assets\/[^"]+\.css"/.test(browserHome.text)) {
     pass('Browser homepage includes Vite CSS and module JS in head')
   } else fail('Browser homepage includes Vite CSS and module JS in head')

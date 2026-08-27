@@ -57,6 +57,18 @@ function hasJsonLd(html) {
   return /<script type="application\/ld\+json">/i.test(html)
 }
 
+function parseJsonLdBlocks(html) {
+  const blocks = []
+  for (const match of html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/gi)) {
+    try {
+      blocks.push(JSON.parse(match[1]))
+    } catch {
+      /* ignore */
+    }
+  }
+  return blocks
+}
+
 async function main() {
   console.log(`\n=== Agentic Readiness Verification ===`)
   console.log(`Base: ${BASE}\n`)
@@ -87,6 +99,10 @@ async function main() {
   else fail('Homepage og:image')
   if (hasJsonLd(home.text)) pass('Homepage JSON-LD present')
   else fail('Homepage JSON-LD present')
+  const orgBlock = parseJsonLdBlocks(home.text).find((block) => block['@type'] === 'Organization')
+  if (orgBlock?.contactPoint?.email && orgBlock?.address?.addressCountry) {
+    pass('Organization JSON-LD includes contactPoint and address')
+  } else fail('Organization JSON-LD includes contactPoint and address')
   const vary = String(home.headers.vary || home.headers.Vary || '').toLowerCase()
   if (vary.includes('accept')) pass('Homepage Vary Accept', home.headers.vary || home.headers.Vary)
   else fail('Homepage Vary Accept', vary || 'missing')
@@ -116,12 +132,18 @@ async function main() {
   else fail('Homepage markdown content-type', homeMd.headers['content-type'])
   if (homeMd.text.startsWith('# ')) pass('Homepage markdown H1 heading')
   else fail('Homepage markdown H1 heading')
+  const homeMdVary = String(homeMd.headers.vary || homeMd.headers.Vary || '').toLowerCase()
+  if (homeMdVary.includes('accept') && homeMdVary.includes('accept-encoding')) {
+    pass('Homepage markdown Vary Accept, Accept-Encoding')
+  } else fail('Homepage markdown Vary header', homeMd.headers.vary || homeMd.headers.Vary || 'missing')
 
   const llms = await fetchProbe(`${BASE}/llms.txt`)
   if (llms.status === 200) pass('llms.txt HTTP 200')
   else fail('llms.txt HTTP 200', String(llms.status))
   if (llms.text.includes('DigitalManager') && llms.text.includes('private')) pass('llms.txt identity and privacy note')
   else fail('llms.txt content')
+  if (llms.text.includes('DigitalManager Developer Platform')) pass('llms.txt names DigitalManager Developer Platform')
+  else fail('llms.txt names DigitalManager Developer Platform')
 
   const robots = await fetchProbe(`${BASE}/robots.txt`)
   if (robots.status === 200 && robots.text.includes('Sitemap:')) pass('robots.txt valid')
@@ -255,6 +277,12 @@ async function main() {
   if (testimonials.status === 200 && testimonials.text.includes('type="module"')) {
     pass('Testimonials page loads React shell for browser')
   } else fail('Testimonials page loads React shell for browser', String(testimonials.status))
+
+  const browserHome = await fetchProbe(`${BASE}/`, BROWSER_HTML_HEADERS)
+  const browserNoJs = visibleText(browserHome.text)
+  if (browserHome.status === 200 && browserNoJs.length >= 500 && /<h1[^>]*>/i.test(browserHome.text)) {
+    pass('Browser homepage no-JS raw text 500+ chars (noscript fallback)', `${browserNoJs.length} chars`)
+  } else fail('Browser homepage no-JS raw text 500+ chars', `${browserNoJs.length} chars`)
 
   const defaultHtml = await fetchProbe(`${BASE}/`, { Accept: 'text/html' })
   if (defaultHtml.status === 200 && defaultHtml.text.includes('data-agentic-prerender="true"') && visibleText(defaultHtml.text).length >= 500 && /<h1[^>]*>/i.test(defaultHtml.text)) {

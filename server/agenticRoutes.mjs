@@ -5,7 +5,7 @@ import fs from 'node:fs/promises'
 import {
   resolvePublicPath,
   isMarkdownPreferred,
-  isAgentHtmlRequest,
+  wantsAgenticHtml,
   prefersHtmlDocument,
   isNormalBrowser,
 } from './agenticPathResolver.mjs'
@@ -52,6 +52,13 @@ function varyHeader(res) {
   res.set('Vary', 'Accept, Accept-Encoding')
 }
 
+function negotiableCacheHeaders(res) {
+  res.set({
+    'Cache-Control': 'private, no-store, max-age=0',
+    Pragma: 'no-cache',
+  })
+}
+
 async function sendAgent404(req, res, deps, pathname, lang) {
   const template = await readTemplate(deps.distIndex)
   varyHeader(res)
@@ -93,7 +100,7 @@ export function registerAgenticRoutes(app, deps) {
     if (AGENTIC_EXCLUDED.test(pathname)) return next()
 
     const wantsMarkdown = isMarkdownPreferred(req)
-    const wantsAgentHtml = isAgentHtmlRequest(req)
+    const wantsAgentHtml = wantsAgenticHtml(req)
     if (!wantsMarkdown && !wantsAgentHtml) return next()
 
     try {
@@ -104,6 +111,7 @@ export function registerAgenticRoutes(app, deps) {
       if (!routeInfo.known) {
         if (wantsMarkdown) {
           varyHeader(res)
+          negotiableCacheHeaders(res)
           res.status(404).type('text/markdown; charset=utf-8').send(render404Markdown(pathname, lang))
           return
         }
@@ -125,6 +133,7 @@ export function registerAgenticRoutes(app, deps) {
 
       if (wantsMarkdown) {
         varyHeader(res)
+        negotiableCacheHeaders(res)
         res.status(200).type('text/markdown; charset=utf-8').send(renderAgenticMarkdown(content))
         return
       }
@@ -132,6 +141,7 @@ export function registerAgenticRoutes(app, deps) {
       const template = await readTemplate(deps.distIndex)
       const html = injectAgenticHtml(template, content)
       varyHeader(res)
+      negotiableCacheHeaders(res)
       res.status(200).type('text/html; charset=utf-8').send(html)
     } catch (err) {
       console.error('[agentic]', err)
@@ -147,7 +157,7 @@ export function createAgenticSpaFallback(deps) {
     if (AGENTIC_EXCLUDED.test(pathname)) return next()
 
     const wantsMarkdown = isMarkdownPreferred(req)
-    const wantsAgentHtml = isAgentHtmlRequest(req)
+    const wantsAgentHtml = wantsAgenticHtml(req)
     if (!wantsMarkdown && !wantsAgentHtml) return next()
 
     try {
@@ -157,6 +167,7 @@ export function createAgenticSpaFallback(deps) {
         const lang = parsed.lang || 'en'
         if (wantsMarkdown) {
           varyHeader(res)
+          negotiableCacheHeaders(res)
           res.status(404).type('text/markdown; charset=utf-8').send(render404Markdown(pathname, lang))
           return
         }
@@ -181,7 +192,7 @@ export function createSpaShellHandler(deps) {
     const pathname = req.path || '/'
     if (AGENTIC_EXCLUDED.test(pathname)) return next()
     if (pathname === '/robots.txt' || pathname === '/sitemap.xml') return next()
-    if (isMarkdownPreferred(req) || isAgentHtmlRequest(req)) return next()
+    if (isMarkdownPreferred(req) || wantsAgenticHtml(req)) return next()
     if (!prefersHtmlDocument(req)) return next()
 
     try {
@@ -196,6 +207,7 @@ export function createSpaShellHandler(deps) {
       }
 
       varyHeader(res)
+      negotiableCacheHeaders(res)
 
       if (NEGOTIABLE_PAGE_KINDS.has(routeInfo.kind)) {
         const content = await loadAgenticPageContent(deps, pathname, routeInfo)
