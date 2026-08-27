@@ -44,7 +44,7 @@ async function main() {
   console.log(`Base: ${BASE}\n`)
 
   const cases = [
-    ['AE', '/'],
+    ['AE', '/ae/en'],
     ['QA', '/qa/en'],
     ['SA', '/sa/en'],
     ['OM', '/om/en'],
@@ -55,16 +55,24 @@ async function main() {
   for (const [code, expected] of cases) {
     const res = await fetchRaw(`${BASE}/`, geoHeaders(code))
     const location = res.headers.location || ''
-    if (code === 'AE') {
-      if (res.status === 200) pass(`UAE / stays 200`)
-      else fail(`UAE / stays 200`, String(res.status))
-    } else if (res.status === 302 && location === expected) {
+    if (res.status === 302 && location === expected) {
       pass(`${code} / → ${expected}`, '302')
     } else {
       fail(`${code} / redirect`, `${res.status} location=${location}`)
     }
     if (res.headers['cache-control']?.includes('no-store')) pass(`${code} redirect not cacheable`)
-    else if (code !== 'AE') fail(`${code} redirect cache-control`, res.headers['cache-control'])
+    else fail(`${code} redirect cache-control`, res.headers['cache-control'])
+  }
+
+  const unknownIp = await fetchRaw(`${BASE}/`, {
+    Accept: 'text/html',
+    'User-Agent': BROWSER_UA,
+    'Sec-Fetch-Mode': 'navigate',
+  })
+  if (unknownIp.status === 302 && unknownIp.headers.location === '/ae/en') {
+    pass('Unknown IP / → /ae/en default')
+  } else {
+    fail('Unknown IP default UAE redirect', `${unknownIp.status} location=${unknownIp.headers.location || ''}`)
   }
 
   const cfQa = await fetchRaw(`${BASE}/`, geoHeaders('QA'))

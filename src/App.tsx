@@ -159,7 +159,7 @@ export default function App() {
         </Route>
       </Route>
 
-      <Route path="ae/en/*" element={<AeEnCityRedirect />} />
+      <Route path="ae/en/:citySlug/:pageSlug" element={<AeEnCityRedirect />} />
     </Routes>
   )
 }

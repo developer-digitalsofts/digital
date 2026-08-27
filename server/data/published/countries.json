@@ -25,8 +25,8 @@
         "ar": "السبت–الخميس: ١٠ ص – ٩ م"
       },
       "sortOrder": 0,
-      "autoDetectEnabled": false,
-      "allowAutoRedirect": false,
+      "autoDetectEnabled": true,
+      "allowAutoRedirect": true,
       "defaultLanguage": "en"
     },
     {

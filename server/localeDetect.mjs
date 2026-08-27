@@ -29,5 +29,6 @@ export function detectCountryFromRequest(req) {
         ? xcc
         : ''
   const code = raw.trim().toUpperCase()
-  return ALLOWED.has(code) ? code : null
+  if (ALLOWED.has(code)) return code
+  return null
 }
