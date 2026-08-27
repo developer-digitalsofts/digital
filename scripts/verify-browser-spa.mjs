@@ -1,5 +1,6 @@
 /**
- * Regression: browsers receive React SPA; agents/crawlers receive prerender HTML.
+ * Regression: all Accept:text/html clients receive the same styled React shell;
+ * Accept:text/markdown receives Markdown only.
  * Usage: node scripts/verify-browser-spa.mjs [baseUrl]
  */
 import fs from 'node:fs'
@@ -19,10 +20,7 @@ const BROWSER_HEADERS = {
   'Sec-Fetch-Site': 'none',
 }
 
-const AGENT_HEADERS = {
-  Accept: 'text/html',
-  'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
-}
+const HTML_ACCEPT = { Accept: 'text/html' }
 
 const results = []
 
@@ -42,33 +40,44 @@ async function fetchProbe(url, headers = {}) {
   return { status: res.status, headers: Object.fromEntries(res.headers.entries()), text }
 }
 
+function visibleText(html) {
+  return html
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 function findAsset(ext) {
   if (!fs.existsSync(DIST_ASSETS)) return null
   return fs.readdirSync(DIST_ASSETS).find((f) => f.endsWith(ext)) || null
 }
 
+function styledShellOk(text) {
+  return (
+    text.includes('<div id="root">') &&
+    /<div id="root">\s*<\/div>/i.test(text) &&
+    text.includes('data-agentic-semantic="true"') &&
+    !text.includes('data-agentic-prerender="true"') &&
+    !text.includes('<noscript>') &&
+    text.includes('type="module"') &&
+    /\/assets\/[^"']+\.(js|css)/.test(text)
+  )
+}
+
 async function main() {
-  console.log(`\n=== Browser SPA / Agent Prerender Regression ===`)
+  console.log(`\n=== Browser SPA / Accept Negotiation Regression ===`)
   console.log(`Base: ${BASE}\n`)
 
   const browserHome = await fetchProbe(`${BASE}/`, BROWSER_HEADERS)
   if (browserHome.status === 200) pass('Browser GET / HTTP 200')
   else fail('Browser GET / HTTP 200', String(browserHome.status))
 
-  if (browserHome.text.includes('<div id="root">') && browserHome.text.includes('type="module"')) {
-    pass('Browser homepage is React shell (root + module script)')
-  } else fail('Browser homepage is React shell (root + module script)')
+  if (styledShellOk(browserHome.text)) pass('Browser homepage is styled React shell with hidden semantic block')
+  else fail('Browser homepage is styled React shell with hidden semantic block')
 
-  if (/\/assets\/[^"']+\.(js|css)/.test(browserHome.text)) {
-    pass('Browser homepage references /assets JS or CSS')
-  } else fail('Browser homepage references /assets JS or CSS')
-
-  const browserVisible = browserHome.text
-    .replace(/<script[\s\S]*?<\/script>/gi, '')
-    .replace(/<style[\s\S]*?<\/style>/gi, '')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
+  const browserVisible = visibleText(browserHome.text)
   if (browserHome.text.includes('<title>') && browserHome.text.includes('meta name="description"')) {
     pass('Browser homepage includes title and meta description in head', `${browserVisible.length} visible chars`)
   } else fail('Browser homepage includes title and meta description in head')
@@ -77,25 +86,13 @@ async function main() {
     pass('Browser homepage includes Organization and SoftwareApplication JSON-LD')
   } else fail('Browser homepage includes Organization and SoftwareApplication JSON-LD')
 
-  const noscriptMatch = browserHome.text.match(/<noscript>([\s\S]*?)<\/noscript>/i)
-  const noscriptVisible = noscriptMatch
-    ? noscriptMatch[1].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
-    : ''
-  if (noscriptVisible.length >= 500) {
-    pass('Browser homepage noscript fallback 500+ chars for no-JS clients', `${noscriptVisible.length} chars`)
-  } else fail('Browser homepage noscript fallback 500+ chars', `${noscriptVisible.length} chars`)
+  if (browserVisible.length >= 500) {
+    pass('Browser homepage raw semantic text 500+ chars', `${browserVisible.length} chars`)
+  } else fail('Browser homepage raw semantic text 500+ chars', `${browserVisible.length} chars`)
 
   if (browserHome.text.includes('type="module"') && /href="\/assets\/[^"]+\.css"/.test(browserHome.text)) {
     pass('Browser homepage includes Vite CSS and module JS in head')
   } else fail('Browser homepage includes Vite CSS and module JS in head')
-
-  if (!browserHome.text.includes('data-agentic-prerender="true"') && /<div id="root">\s*<\/div>/i.test(browserHome.text)) {
-    pass('Browser homepage has empty #root (no agent prerender flash)')
-  } else fail('Browser homepage has empty #root (no agent prerender flash)')
-
-  if (!browserHome.text.includes('Back to homepage') && !browserHome.text.includes('dm-ssr-shell')) {
-    pass('Browser homepage free of agent fallback body copy')
-  } else fail('Browser homepage free of agent fallback body copy')
 
   const cssPos = browserHome.text.search(/href="\/assets\/[^"]+\.css"/)
   const jsPos = browserHome.text.search(/src="\/assets\/[^"]+\.js"/)
@@ -108,35 +105,34 @@ async function main() {
     pass('Browser homepage Vary Accept, Accept-Encoding')
   } else fail('Browser homepage Vary header', browserHome.headers.vary || browserHome.headers.Vary || 'missing')
 
-  const defaultFetch = await fetchProbe(`${BASE}/`, { Accept: 'text/html' })
-  if (defaultFetch.status === 200 && defaultFetch.text.includes('data-agentic-prerender="true"') && /<h1[^>]*>/i.test(defaultFetch.text)) {
-    pass('Default Accept:text/html fetch receives agent prerender with H1')
-  } else fail('Default Accept:text/html fetch receives agent prerender with H1')
+  const htmlAccept = await fetchProbe(`${BASE}/`, HTML_ACCEPT)
+  if (htmlAccept.status === 200 && styledShellOk(htmlAccept.text) && visibleText(htmlAccept.text).length >= 500) {
+    pass('Accept:text/html returns styled HTML shell with 500+ raw chars')
+  } else fail('Accept:text/html returns styled HTML shell', `${visibleText(htmlAccept.text).length} chars`)
+
+  const botHtml = await fetchProbe(`${BASE}/`, {
+    ...HTML_ACCEPT,
+    'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+  })
+  if (htmlAccept.text.length === botHtml.text.length) pass('Accept:text/html response is User-Agent invariant')
+  else fail('Accept:text/html response is User-Agent invariant', `${htmlAccept.text.length} vs ${botHtml.text.length}`)
 
   const softwareBrowser = await fetchProbe(`${BASE}/software/crm-software`, BROWSER_HEADERS)
-  if (softwareBrowser.status === 200 && !softwareBrowser.text.includes('Back to homepage') && !softwareBrowser.text.includes('data-agentic-prerender="true"')) {
-    pass('Browser /software/crm-software has no agent fallback in HTML shell')
-  } else fail('Browser /software/crm-software has no agent fallback in HTML shell')
-
-  const agentHome = await fetchProbe(`${BASE}/`, AGENT_HEADERS)
-  if (agentHome.status === 200) pass('Agent GET / HTTP 200')
-  else fail('Agent GET / HTTP 200', String(agentHome.status))
-
-  if (agentHome.text.includes('data-agentic-prerender="true"') && /<h1[^>]*>/i.test(agentHome.text)) {
-    pass('Agent homepage includes semantic prerender H1')
-  } else fail('Agent homepage includes semantic prerender H1')
+  if (softwareBrowser.status === 200 && styledShellOk(softwareBrowser.text)) {
+    pass('Browser /software/crm-software uses styled HTML shell')
+  } else fail('Browser /software/crm-software uses styled HTML shell')
 
   const homeMd = await fetchProbe(`${BASE}/`, { Accept: 'text/markdown' })
   const mdType = homeMd.headers['content-type'] || ''
-  if (homeMd.status === 200 && mdType.includes('text/markdown') && mdType.includes('charset=utf-8')) {
+  if (homeMd.status === 200 && mdType.includes('text/markdown') && !mdType.includes('text/html')) {
     pass('Markdown Accept returns text/markdown; charset=utf-8')
   } else fail('Markdown Accept content-type', mdType)
   const mdVary = String(homeMd.headers.vary || homeMd.headers.Vary || '').toLowerCase()
   if (mdVary.includes('accept') && mdVary.includes('accept-encoding')) {
     pass('Markdown Vary Accept, Accept-Encoding')
   } else fail('Markdown Vary header', homeMd.headers.vary || homeMd.headers.Vary || 'missing')
-  if (homeMd.text.startsWith('# ')) pass('Markdown homepage starts with H1')
-  else fail('Markdown homepage starts with H1')
+  if (homeMd.text.startsWith('# ') && !homeMd.text.includes('<html')) pass('Markdown homepage starts with H1 and is not HTML')
+  else fail('Markdown homepage starts with H1 and is not HTML')
 
   const cssFile = findAsset('.css')
   const jsFile = findAsset('.js')
@@ -159,10 +155,10 @@ async function main() {
   if (unknownBrowser.status === 404) pass('Unknown browser route returns HTTP 404')
   else fail('Unknown browser route returns HTTP 404', String(unknownBrowser.status))
 
-  const unknownAgent = await fetchProbe(`${BASE}/this-route-does-not-exist-spa-xyz`, AGENT_HEADERS)
-  if (unknownAgent.status === 404 && unknownAgent.text.includes('not found')) {
-    pass('Unknown agent route returns HTTP 404 prerender')
-  } else fail('Unknown agent route returns HTTP 404 prerender', String(unknownAgent.status))
+  const unknownHtml = await fetchProbe(`${BASE}/this-route-does-not-exist-spa-xyz`, HTML_ACCEPT)
+  if (unknownHtml.status === 404 && unknownHtml.text.includes('not found')) {
+    pass('Unknown Accept:text/html route returns HTTP 404 HTML')
+  } else fail('Unknown Accept:text/html route returns HTTP 404 HTML', String(unknownHtml.status))
 
   const failed = results.filter((r) => !r.ok)
   console.log(`\n${results.length - failed.length}/${results.length} passed`)

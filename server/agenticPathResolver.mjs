@@ -160,7 +160,6 @@ export function isMarkdownPreferred(req) {
 /** True when the client prefers an HTML document over Markdown (Accept negotiation). */
 export function prefersHtmlDocument(req) {
   if (isMarkdownPreferred(req)) return false
-  if (isNormalBrowser(req)) return true
   const accept = String(req.headers.accept || '').toLowerCase().trim()
   if (!accept) return true
   return accept.includes('text/html') || accept.includes('*/*')

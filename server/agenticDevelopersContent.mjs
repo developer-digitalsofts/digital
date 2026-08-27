@@ -5,7 +5,7 @@ import { PUBLIC_SITE_BASE } from './seoResolve.mjs'
 import { PUBLIC_API_VERSION_POLICY, PUBLIC_API_V1_SUNSET } from './publicApiVersioning.mjs'
 import { publicRateLimitPolicyText } from './publicApiRateLimit.mjs'
 
-export const DEVELOPERS_PAGE_TITLE = 'DigitalManager Developer Platform'
+export const DEVELOPERS_PAGE_TITLE = 'DigitalManager Developers'
 
 export function developersPageCopy(lang = 'en') {
   const en = {

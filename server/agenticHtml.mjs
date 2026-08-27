@@ -458,13 +458,6 @@ export function renderAgenticBody(content) {
   }
 }
 
-/** Noscript fallback: same semantic content without in-root prerender markers. */
-export function renderNoscriptFallbackBody(content) {
-  return renderAgenticBody(content)
-    .replace(/\s*data-agentic-prerender="true"/g, '')
-    .replace(/\bagentic-prerender\b/g, 'dm-noscript-shell')
-}
-
 /** Critical above-the-fold CSS — brands SSR hero instantly; full Tailwind bundle completes styling after load. */
 const CRITICAL_SSR_CSS = `
 body { margin: 0; background: #111936; }
@@ -504,8 +497,8 @@ html:not(.dm-ready) #root .agentic-prerender > section {
 }
 `.trim()
 
-const NOSCRIPT_SHELL_CSS =
-  '.dm-noscript-shell{font-family:Inter,system-ui,sans-serif;color:#0f172a;line-height:1.65;max-width:52rem;margin:0 auto;padding:1.5rem 1.25rem}'
+const AGENTIC_SR_ONLY_CSS =
+  '.dm-agentic-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}'
 
 function extractViteAssets(templateHtml) {
   const cssHref = templateHtml.match(/<link[^>]+href="(\/assets\/[^"]+\.css)"[^>]*>/i)?.[1]
@@ -543,7 +536,10 @@ function applyShellHead(html, content) {
   out = out.replace(/<html[^>]*>/i, `<html lang="${escapeHtml(lang)}" dir="${dir}">`)
   out = out.replace(/<title>[\s\S]*?<\/title>/i, '')
   out = out.replace(/<meta\s+name="description"[^>]*>/i, '')
-  out = out.replace('<head>', `<head>\n    ${headMeta}\n    ${assetTags}`)
+  out = out.replace(
+    '<head>',
+    `<head>\n    <style>${AGENTIC_SR_ONLY_CSS}</style>\n    ${headMeta}\n    ${assetTags}`,
+  )
   return out
 }
 
@@ -555,18 +551,24 @@ export function injectAgenticHtml(templateHtml, content) {
   return html
 }
 
+/** Semantic copy for machine readers — no in-root prerender markers. */
+export function renderNoscriptFallbackBody(content) {
+  return renderAgenticBody(content)
+    .replace(/\s*data-agentic-prerender="true"/g, '')
+    .replace(/\bagentic-prerender\b/g, 'dm-agentic-sr-only')
+}
+
 /**
  * Browser shell: SEO meta + JSON-LD in <head>, Vite CSS/JS, empty #root for React.
- * Full semantic homepage copy lives in <noscript> for no-JS crawlers and agent audits.
+ * Machine-readable copy lives in a visually hidden block after #root (not before it).
  */
 export function injectBrowserSeoShellHtml(templateHtml, content) {
   let html = applyShellHead(templateHtml, content)
-  const staticBody = renderNoscriptFallbackBody(content)
+  const semanticBody = renderNoscriptFallbackBody(content)
   const shell = `
-    <noscript>${staticBody}</noscript>
-    <div id="root"></div>`
-  html = html.replace('<div id="root"></div>', shell)
-  html = html.replace('<div id="root"><\/div>', shell)
+    <div id="root"></div>
+    <div class="dm-agentic-sr-only" aria-hidden="true" data-agentic-semantic="true">${semanticBody}</div>`
+  html = html.replace(/<div id="root">\s*<\/div>/i, shell)
   return html
 }
 

@@ -18,10 +18,7 @@ function fail(name, detail = '') {
   console.error(`✗ ${name}${detail ? ` — ${detail}` : ''}`)
 }
 
-const AGENT_HTML_HEADERS = {
-  Accept: 'text/html',
-  'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
-}
+const AGENT_HTML_HEADERS = { Accept: 'text/html' }
 
 const BROWSER_HTML_HEADERS = {
   Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -103,6 +100,16 @@ async function main() {
   if (orgBlock?.contactPoint?.email && orgBlock?.address?.addressCountry) {
     pass('Organization JSON-LD includes contactPoint and address')
   } else fail('Organization JSON-LD includes contactPoint and address')
+  const jsonLdTypes = parseJsonLdBlocks(home.text).map((b) => b['@type']).filter(Boolean)
+  if (jsonLdTypes.includes('Organization') && jsonLdTypes.includes('WebSite') && jsonLdTypes.includes('SoftwareApplication')) {
+    pass('Homepage JSON-LD includes Organization, WebSite, SoftwareApplication')
+  } else fail('Homepage JSON-LD schema trio', jsonLdTypes.join(', '))
+  if (home.text.includes('type="module"') && /\/assets\/[^"']+\.(js|css)/.test(home.text)) {
+    pass('Homepage HTML includes production CSS and JS assets')
+  } else fail('Homepage HTML includes production CSS and JS assets')
+  if (!home.text.includes('data-agentic-prerender="true"') && /<div id="root">\s*<\/div>/i.test(home.text)) {
+    pass('Homepage HTML keeps empty #root (no prerender flash)')
+  } else fail('Homepage HTML keeps empty #root')
   const vary = String(home.headers.vary || home.headers.Vary || '').toLowerCase()
   if (vary.includes('accept')) pass('Homepage Vary Accept', home.headers.vary || home.headers.Vary)
   else fail('Homepage Vary Accept', vary || 'missing')
@@ -191,7 +198,7 @@ async function main() {
   const devChars = visibleText(developers.text).length
   if (developers.status === 200 && devChars >= 500) pass('/developers page 500+ raw chars', `${devChars}`)
   else fail('/developers page 500+ raw chars', `${developers.status}, ${devChars}`)
-  if (developers.text.includes('DigitalManager Developer Platform')) pass('/developers title in raw HTML')
+  if (developers.text.includes('DigitalManager Developers')) pass('/developers title in raw HTML')
   else fail('/developers title in raw HTML')
 
   const devMd = await fetchProbe(`${BASE}/developers`, { Accept: 'text/markdown' })
@@ -258,7 +265,7 @@ async function main() {
     return (
       text.includes('<div id="root">') &&
       !text.includes('data-agentic-prerender="true"') &&
-      !text.includes('dm-ssr-shell') &&
+      text.includes('data-agentic-semantic="true"') &&
       text.includes('type="module"') &&
       /\/assets\/[^"']+\.(js|css)/.test(text) &&
       hasJsonLd(text)
@@ -279,15 +286,30 @@ async function main() {
   } else fail('Testimonials page loads React shell for browser', String(testimonials.status))
 
   const browserHome = await fetchProbe(`${BASE}/`, BROWSER_HTML_HEADERS)
-  const browserNoJs = visibleText(browserHome.text)
-  if (browserHome.status === 200 && browserNoJs.length >= 500 && /<h1[^>]*>/i.test(browserHome.text)) {
-    pass('Browser homepage no-JS raw text 500+ chars (noscript fallback)', `${browserNoJs.length} chars`)
-  } else fail('Browser homepage no-JS raw text 500+ chars', `${browserNoJs.length} chars`)
+  const browserVisible = visibleText(browserHome.text)
+  if (browserHome.status === 200 && browserVisible.length >= 500 && countTag(browserHome.text, 'h1') >= 1) {
+    pass('Browser homepage raw text 500+ chars with H1', `${browserVisible.length} chars`)
+  } else fail('Browser homepage raw text 500+ chars with H1', `${browserVisible.length} chars`)
 
   const defaultHtml = await fetchProbe(`${BASE}/`, { Accept: 'text/html' })
-  if (defaultHtml.status === 200 && defaultHtml.text.includes('data-agentic-prerender="true"') && visibleText(defaultHtml.text).length >= 500 && /<h1[^>]*>/i.test(defaultHtml.text)) {
-    pass('Default Accept:text/html homepage has agent prerender H1 and 500+ raw chars', `${visibleText(defaultHtml.text).length} chars`)
-  } else fail('Default Accept:text/html homepage has agent prerender H1 and 500+ raw chars', `${visibleText(defaultHtml.text).length} chars`)
+  if (
+    defaultHtml.status === 200 &&
+    defaultHtml.text.includes('type="module"') &&
+    !defaultHtml.text.includes('data-agentic-prerender="true"') &&
+    visibleText(defaultHtml.text).length >= 500 &&
+    countTag(defaultHtml.text, 'h1') >= 1
+  ) {
+    pass('Accept:text/html returns styled HTML shell with H1 and 500+ raw chars', `${visibleText(defaultHtml.text).length} chars`)
+  } else fail('Accept:text/html returns styled HTML shell', `${visibleText(defaultHtml.text).length} chars`)
+
+  const uaHtmlA = await fetchProbe(`${BASE}/`, { Accept: 'text/html', 'User-Agent': 'curl/8.0' })
+  const uaHtmlB = await fetchProbe(`${BASE}/`, {
+    Accept: 'text/html',
+    'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+  })
+  if (uaHtmlA.text.length === uaHtmlB.text.length && uaHtmlA.text.includes('data-agentic-semantic="true"')) {
+    pass('Accept:text/html HTML body is User-Agent invariant')
+  } else fail('Accept:text/html HTML body is User-Agent invariant', `${uaHtmlA.text.length} vs ${uaHtmlB.text.length}`)
 
   const failed = results.filter((r) => !r.ok)
   console.log(`\n${results.length - failed.length}/${results.length} passed`)

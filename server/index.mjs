@@ -21,7 +21,7 @@ import {
 import { createPublishStore } from './publishStore.mjs'
 import { migrateCmsSchemaV2 } from './cmsSchemaMigrate.mjs'
 import { registerContentRoutes, ensureBlogBootstrap, ensureCountriesBootstrap } from './contentRoutes.mjs'
-import { registerAgenticRoutes, createAgenticSpaFallback, createSpaShellHandler } from './agenticRoutes.mjs'
+import { registerAgenticRoutes, createSpaShellHandler } from './agenticRoutes.mjs'
 import { registerLocaleGeoRouting } from './localeGeoRouting.mjs'
 import { isValidCityForCountry } from './cityRegistry.mjs'
 import {
@@ -3456,7 +3456,6 @@ app.use('/api', (_req, res) => {
 })
 
 if (SERVE_STATIC) {
-  app.use(createAgenticSpaFallback(agenticDeps()))
   app.get(
     /^(?!\/api|\/uploads|\/sitemap\.xml|\/robots\.txt|\/llms\.txt|\/llms-full\.txt|\/openapi\.json).*/,
     createSpaShellHandler(agenticDeps()),
