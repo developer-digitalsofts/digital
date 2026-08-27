@@ -113,12 +113,14 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   }, [location.search, location.pathname, lang, navigate])
 
   useEffect(() => {
+    const pref = readLocalePref()
+    if (!pref) return
     try {
-      localStorage.setItem(LOCALE_STORAGE_KEY, JSON.stringify({ country, lang }))
+      localStorage.setItem(LOCALE_STORAGE_KEY, JSON.stringify(pref))
     } catch {
       /* ignore */
     }
-  }, [country, lang])
+  }, [country, lang, location.pathname])
 
   useEffect(() => {
     if (autoRoutingChecked.current) return

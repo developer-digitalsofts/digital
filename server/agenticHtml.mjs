@@ -54,7 +54,7 @@ function buildOrganizationJsonLd(content) {
     org.address = {
       '@type': 'PostalAddress',
       streetAddress: addressText,
-      addressCountry: 'AE',
+      addressCountry: content.countryCode || 'AE',
     }
   }
   if (sameAs.length) org.sameAs = sameAs
@@ -76,7 +76,7 @@ function buildSoftwareApplicationJsonLd(content) {
     name: 'DigitalManager',
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
-    url: PUBLIC_SITE_BASE,
+    url: content.canonical || PUBLIC_SITE_BASE,
     description:
       readBilingualText(site.defaultMetaDescription, content.lang) ||
       readBilingualText(content.hero?.body, content.lang) ||
@@ -166,13 +166,16 @@ export function buildJsonLdBlocks(content) {
 }
 
 function buildHeadMeta(content) {
-  const seo = content.seo || {}
-  const title = seo.title || content.title || 'DigitalManager'
-  const description = seo.description || content.description || ''
-  const robots = seo.robots || (seo.noIndex ? 'noindex, nofollow' : 'index, follow')
+  const resolvedSeo =
+    content.seo && typeof content.seo === 'object' && ('canonical' in content.seo || 'title' in content.seo)
+      ? content.seo
+      : null
+  const title = resolvedSeo?.title || content.title || 'DigitalManager'
+  const description = resolvedSeo?.description || content.description || ''
+  const robots = resolvedSeo?.robots || (resolvedSeo?.noIndex ? 'noindex, follow' : 'index, follow')
   const ogImage = absoluteAsset(content.siteSettings?.ogImageUrl || content.siteSettings?.faviconUrl || '/digitalmanager-favicon.png')
   const ogType = content.pageType === 'blog-post' ? 'article' : 'website'
-  const alternates = seo.alternates || []
+  const alternates = resolvedSeo?.alternates || []
 
   const tags = [
     `<title>${escapeHtml(title)}</title>`,

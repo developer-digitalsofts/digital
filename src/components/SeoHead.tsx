@@ -150,10 +150,13 @@ export function SeoHead() {
     if (twImg) setTw('twitter:image', twImg.startsWith('http') ? twImg : `${window.location.origin}${twImg}`)
     setTw('twitter:card', 'summary_large_image')
 
-    const noIndex = localeNoIndex || resolved?.noIndex || seo?.robotsIndex === 'noindex'
+    const noIndex =
+      resolved != null
+        ? resolved.noIndex === true
+        : localeNoIndex || seo?.robotsIndex === 'noindex'
     const robots =
       resolved?.robots ||
-      `${noIndex || seo?.robotsIndex === 'noindex' ? 'noindex' : 'index'}, ${seo?.robotsFollow === 'nofollow' ? 'nofollow' : 'follow'}`
+      `${noIndex ? 'noindex' : 'index'}, ${seo?.robotsFollow === 'nofollow' ? 'nofollow' : 'follow'}`
     setMeta('robots', robots)
 
     const origin = window.location.origin

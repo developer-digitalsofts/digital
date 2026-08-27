@@ -1,6 +1,7 @@
 import {
   LOCALE_PREF_COOKIE,
   LOCALE_PREF_MAX_AGE_SEC,
+  LOCALE_STORAGE_KEY,
   type LocaleCountrySlug,
   type LocaleLang,
 } from './localeConfig'
@@ -14,19 +15,29 @@ export type LocalePref = {
 export function readLocalePref(): LocalePref | null {
   if (typeof document === 'undefined') return null
   const match = document.cookie.match(new RegExp(`(?:^|; )${LOCALE_PREF_COOKIE}=([^;]*)`))
-  if (!match) {
+  if (match) {
     try {
-      const raw = localStorage.getItem(LOCALE_PREF_COOKIE)
-      if (!raw) return null
-      return JSON.parse(raw) as LocalePref
+      return JSON.parse(decodeURIComponent(match[1])) as LocalePref
     } catch {
       return null
     }
   }
   try {
-    return JSON.parse(decodeURIComponent(match[1])) as LocalePref
+    const raw = localStorage.getItem(LOCALE_PREF_COOKIE)
+    if (!raw) return null
+    const parsed = JSON.parse(raw) as LocalePref
+    return { ...parsed, manual: parsed.manual === true }
   } catch {
     return null
+  }
+}
+
+export function clearLocaleStoragePref() {
+  try {
+    localStorage.removeItem(LOCALE_PREF_COOKIE)
+    localStorage.removeItem(LOCALE_STORAGE_KEY)
+  } catch {
+    /* ignore */
   }
 }
 
@@ -49,9 +60,5 @@ export function writeLocalePref(pref: LocalePref) {
 
 export function clearLocalePref() {
   document.cookie = `${LOCALE_PREF_COOKIE}=; Path=/; Max-Age=0; SameSite=Lax`
-  try {
-    localStorage.removeItem(LOCALE_PREF_COOKIE)
-  } catch {
-    /* ignore */
-  }
+  clearLocaleStoragePref()
 }
