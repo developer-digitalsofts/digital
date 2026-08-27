@@ -8,7 +8,7 @@ import { evaluateIndexability } from './seoResolve.mjs'
 import { findLocaleRecord, resolveLocaleRecord } from './localeHelpers.mjs'
 
 export const LOCALE_PREF_COOKIE = 'dm_locale_pref'
-export const LOCALE_PREF_MAX_AGE_SEC = 604800 // 7 days
+export const LOCALE_PREF_MAX_AGE_SEC = 15552000
 
 const BOT_UA_FRAGMENTS = [
   'googlebot',
