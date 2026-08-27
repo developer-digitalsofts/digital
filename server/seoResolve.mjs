@@ -28,22 +28,6 @@ import { evaluateCityIndexability, resolveCityContent } from './cityLocaleApi.mj
 export const PUBLIC_SITE_BASE =
   (process.env.PUBLIC_SITE_URL || 'https://www.digitalmanager.ae').replace(/\/$/, '')
 
-const COUNTRY_TITLE_TOKENS = {
-  AE: 'uae',
-  SA: 'saudi',
-  QA: 'qatar',
-  OM: 'oman',
-  KW: 'kuwait',
-  BH: 'bahrain',
-}
-
-function titleNeedsCountryBoost(title, countryCode) {
-  const code = normalizeCountryCode(countryCode)
-  if (!title || code === 'AE') return false
-  const token = COUNTRY_TITLE_TOKENS[code]
-  return token ? !String(title).toLowerCase().includes(token) : false
-}
-
 const GCC_COUNTRY_SLUGS = ['ae', 'sa', 'kw', 'qa', 'om', 'bh']
 const GCC_LANGS = ['en', 'ar']
 
@@ -72,34 +56,6 @@ function pickLastmod(...candidates) {
 function recordSeoNoIndex(record) {
   const seo = record?.seo || {}
   return seo.noIndex === true || seo.robotsIndex === 'noindex'
-}
-
-async function resolveHomepageLocaleRecord(deps, countryCode, lang) {
-  const store = await deps.localePublish.readPublishedStore()
-  const matches = findLocaleRecord(store.records || [], {
-    contentType: 'seo',
-    globalIdentity: 'site',
-    countryCode: normalizeCountryCode(countryCode),
-    lang: normalizeLocaleLang(lang),
-  })
-  return resolveLocaleRecord(null, matches, {
-    context: 'public',
-    allowFallback: false,
-    allowGlobalFallback: false,
-  })
-}
-
-function entryIsIndexable(match) {
-  if (match.meta?.resolvedFrom === RESOLVED_FROM.GLOBAL && !match.record) return true
-  if (!match.record) return match.indexable === true
-  const check = evaluateIndexability({
-    record: match.record,
-    meta: match.meta,
-    countryCode: match.countryCode,
-    lang: match.lang,
-    countryEnabled: true,
-  })
-  return check.indexable
 }
 
 /**
@@ -296,15 +252,7 @@ export async function buildIndexablePages(deps) {
     if (!enabledCodes.has(countryCode)) continue
     const homeMeta = await getLocaleHomepageIndexMeta(deps, countryCode, 'en')
     if (!homeMeta.hasPublishedContent) continue
-    const seoResolved = await resolveHomepageLocaleRecord(deps, countryCode, 'en')
     const path = buildLocalePath(countrySlug, 'en', '/')
-    const indexable = entryIsIndexable({
-      record: seoResolved.record,
-      meta: seoResolved.meta,
-      countryCode,
-      lang: 'en',
-      indexable: homeMeta.hasPublishedContent,
-    })
     tryAddEntry(entries, seen, {
       internalPath: '/',
       path,
@@ -314,12 +262,12 @@ export async function buildIndexablePages(deps) {
       countryCode,
       hreflang: hreflangTag(countrySlug, 'en'),
       ogLocale: ogLocaleTag(countrySlug, 'en'),
-      record: seoResolved.record,
-      meta: seoResolved.meta?.resolvedFrom ? seoResolved.meta : { resolvedFrom: RESOLVED_FROM.LOCALE_OVERRIDE },
+      record: null,
+      meta: { resolvedFrom: RESOLVED_FROM.LOCALE_OVERRIDE },
       groupKey: 'page:home',
       lastmod: homeLastmod,
       identity: { kind: 'home', countryCode, lang: 'en' },
-      indexable,
+      indexable: true,
     })
   }
 
@@ -772,23 +720,13 @@ export async function resolveSeoForPath(deps, pathname) {
   const lang = parsed.lang
   const seo = match.record?.seo || {}
   const titleFromRecord = readBilingualText(seo.title || seo.pageTitle, lang)
-  const titleFromPayload =
-    readBilingualText(match.record?.payload?.heading, lang) ||
-    readBilingualText(match.record?.payload?.title, lang)
   const descFromRecord = readBilingualText(seo.description || seo.metaDescription, lang)
-  const descFromPayload =
-    readBilingualText(match.record?.payload?.shortDescription, lang) ||
-    readBilingualText(match.record?.payload?.metaDescription, lang)
   const globalTitle = readBilingualText(seoDoc?.pageTitle, lang)
   const globalDesc = readBilingualText(seoDoc?.metaDescription, lang)
 
-  const title =
-    titleNeedsCountryBoost(titleFromRecord, match.countryCode) && titleFromPayload
-      ? titleFromPayload
-      : titleFromRecord || titleFromPayload || match.seoTitle || globalTitle || 'DigitalManager'
-  const description = descFromRecord || descFromPayload || globalDesc || ''
-  const indexable = entryIsIndexable(match)
-  const noIndex = !indexable
+  const title = titleFromRecord || match.seoTitle || globalTitle || 'DigitalManager'
+  const description = descFromRecord || globalDesc || ''
+  const noIndex = !match.indexable
   const robotsIndex = seo.robotsIndex === 'noindex' || noIndex ? 'noindex' : 'index'
   const robotsFollow = seo.robotsFollow === 'nofollow' ? 'nofollow' : 'follow'
 
@@ -805,7 +743,7 @@ export async function resolveSeoForPath(deps, pathname) {
     ogUrl: match.canonical,
     alternates: match.alternates,
     xDefault: match.xDefault,
-    indexable,
+    indexable: match.indexable,
     hreflang: match.hreflang,
   }
 }

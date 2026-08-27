@@ -2,7 +2,7 @@
  * GCC automatic country/language routing for root entry only.
  */
 import { normalizeCountryCode } from './countryHelpers.mjs'
-import { detectCountryFromRequest, geoHeaderDiagnostics } from './localeDetect.mjs'
+import { detectCountryFromRequest } from './localeDetect.mjs'
 import { getLocaleHomepageIndexMeta } from './localeHomepage.mjs'
 import { evaluateIndexability } from './seoResolve.mjs'
 import { findLocaleRecord, resolveLocaleRecord } from './localeHelpers.mjs'
@@ -217,15 +217,13 @@ export async function resolveGeoRedirect(deps, req) {
   if (!target || target === '/') return { redirect: null, reason: 'already_default' }
 
   const manual = pref?.manual === true
-  const refreshManual = manual ? true : false
   return {
     redirect: target,
     reason: manual ? 'manual_preference' : detectSource,
     countryCode,
     lang,
     countrySlug,
-    geoHeaders: geoHeaderDiagnostics(req),
-    setPrefCookie: buildLocalePrefSetCookie(countrySlug, lang, refreshManual),
+    setPrefCookie: buildLocalePrefSetCookie(countrySlug, lang, manual),
   }
 }
 
@@ -233,7 +231,7 @@ export function geoRedirectCacheHeaders() {
   return {
     'Cache-Control': 'private, no-store, max-age=0',
     Pragma: 'no-cache',
-    Vary: 'CF-IPCountry, X-Country-Code, X-Vercel-IP-Country, Cookie, Accept-Language',
+    Vary: 'CF-IPCountry, X-Country-Code, Cookie, Accept-Language',
   }
 }
 
@@ -252,7 +250,6 @@ export function registerLocaleGeoRouting(app, deps) {
         reason: result.reason,
         countryCode: result.countryCode || null,
         lang: result.lang || null,
-        geoHeaders: result.geoHeaders || null,
       })
     } catch (e) {
       console.error(e)

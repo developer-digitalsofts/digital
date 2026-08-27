@@ -1,4 +1,4 @@
-/** Geo country detection from trusted proxy request headers. */
+/** Geo country detection from trusted request headers. */
 const ALLOWED = new Set(['AE', 'SA', 'KW', 'QA', 'BH', 'OM'])
 
 function fromTestEnv() {
@@ -13,31 +13,6 @@ function fromTrustedTestHeader(req) {
   return ALLOWED.has(code) ? code : null
 }
 
-/** Trust proxy geo headers unless explicitly disabled with TRUST_GEO_HEADERS=0. */
-export function trustGeoHeaders() {
-  return process.env.TRUST_GEO_HEADERS !== '0'
-}
-
-function readHeader(req, name) {
-  const value = req.headers[name]
-  return typeof value === 'string' ? value.trim().toUpperCase() : ''
-}
-
-function fromProxyHeaders(req) {
-  if (!trustGeoHeaders()) return null
-
-  const candidates = [
-    readHeader(req, 'cf-ipcountry'),
-    readHeader(req, 'x-country-code'),
-    readHeader(req, 'x-vercel-ip-country'),
-  ].filter(Boolean)
-
-  for (const code of candidates) {
-    if (ALLOWED.has(code)) return code
-  }
-  return null
-}
-
 export function detectCountryFromRequest(req) {
   const testEnv = fromTestEnv()
   if (testEnv) return testEnv
@@ -45,15 +20,15 @@ export function detectCountryFromRequest(req) {
   const testHeader = fromTrustedTestHeader(req)
   if (testHeader) return testHeader
 
-  return fromProxyHeaders(req)
-}
-
-export function geoHeaderDiagnostics(req) {
-  return {
-    trustGeoHeaders: trustGeoHeaders(),
-    cfIpCountry: readHeader(req, 'cf-ipcountry') || null,
-    xCountryCode: readHeader(req, 'x-country-code') || null,
-    xVercelIpCountry: readHeader(req, 'x-vercel-ip-country') || null,
-    detected: detectCountryFromRequest(req),
-  }
+  const cf = req.headers['cf-ipcountry']
+  const xcc = req.headers['x-country-code']
+  const raw =
+    typeof cf === 'string' && cf.trim()
+      ? cf
+      : typeof xcc === 'string' && xcc.trim()
+        ? xcc
+        : ''
+  const code = raw.trim().toUpperCase()
+  if (ALLOWED.has(code)) return code
+  return null
 }
