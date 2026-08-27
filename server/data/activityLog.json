@@ -1,5 +1,410 @@
 [
   {
+    "id": "SxwU2M1L9OjZ",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-27T09:25:55.729Z"
+  },
+  {
+    "id": "KuV9iJmYqtMG",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-27T07:08:22.973Z"
+  },
+  {
+    "id": "Vd_NcD80z1Bu",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-27T06:48:19.044Z"
+  },
+  {
+    "id": "gV0VKf-fjF_g",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-27T06:47:14.118Z"
+  },
+  {
+    "id": "faksYH8A-lTV",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-27T06:40:20.801Z"
+  },
+  {
+    "id": "GeQ3GdMdyolj",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-27T06:15:52.614Z"
+  },
+  {
+    "id": "_Vl5MR7HxQ2I",
+    "action": "locale_reset",
+    "section": "localeRecords",
+    "description": "Reset locale override loc_test_kw_inventory-management-software_ar",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:15:51.507Z"
+  },
+  {
+    "id": "6HiZcF-HRVqS",
+    "action": "locale_reset",
+    "section": "localeRecords",
+    "description": "Reset locale override loc_test_om_retail-management-software_en",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:15:51.437Z"
+  },
+  {
+    "id": "7yLLvdqCCCLO",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_-a_wDtRC6o1C",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:15:51.344Z"
+  },
+  {
+    "id": "AvxlY8yfMR0_",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_-a_wDtRC6o1C",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:15:51.307Z"
+  },
+  {
+    "id": "ZfDCNY56irzB",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc__-E1VEXtyfjs",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:15:51.260Z"
+  },
+  {
+    "id": "Mp2xonyVX5rh",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc__-E1VEXtyfjs",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:15:51.191Z"
+  },
+  {
+    "id": "S4LdMdyi5QJL",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_dekelaYe9bXC",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:15:51.158Z"
+  },
+  {
+    "id": "Fl15DYMm7hh3",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_dekelaYe9bXC",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:15:51.104Z"
+  },
+  {
+    "id": "N-vetqHErA7l",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_dekelaYe9bXC",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:15:50.996Z"
+  },
+  {
+    "id": "dukKpP01DCUD",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_dekelaYe9bXC",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:15:50.955Z"
+  },
+  {
+    "id": "z9Qawn9tB9yb",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc__-E1VEXtyfjs",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:15:50.744Z"
+  },
+  {
+    "id": "nKBjug2zJD_D",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc__-E1VEXtyfjs",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:15:50.698Z"
+  },
+  {
+    "id": "KqHMCh_x57ZP",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_-a_wDtRC6o1C",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:15:50.655Z"
+  },
+  {
+    "id": "yX4EECB0UFRD",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_-a_wDtRC6o1C",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:15:50.608Z"
+  },
+  {
+    "id": "TkVeGNyMRxum",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_global_erp_en",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:15:50.397Z"
+  },
+  {
+    "id": "aCjk9DIN8SKI",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_global_erp_en",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:15:50.345Z"
+  },
+  {
+    "id": "x_R_D19yAcsm",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_global_erp_en",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:15:50.296Z"
+  },
+  {
+    "id": "1nck7drye023",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_global_erp_en",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:15:50.234Z"
+  },
+  {
+    "id": "mOClB5g_Zz_Q",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-27T06:15:50.030Z"
+  },
+  {
+    "id": "8fTD6L1LIbkc",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_global_erp_ar",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:14:49.771Z"
+  },
+  {
+    "id": "9DZLR079Sp7o",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_global_erp_ar",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:14:49.722Z"
+  },
+  {
+    "id": "o4H2qe2mHUbq",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_global_erp_ar",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:14:49.599Z"
+  },
+  {
+    "id": "4cGOBE6NzW9q",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_global_erp_ar",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:14:49.530Z"
+  },
+  {
+    "id": "D-KYsA-N1SKi",
+    "action": "locale_reset",
+    "section": "localeRecords",
+    "description": "Reset locale override loc_test_kw_inventory-management-software_ar",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:14:49.478Z"
+  },
+  {
+    "id": "K5d2508TW_3N",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_-a_wDtRC6o1C",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:14:49.310Z"
+  },
+  {
+    "id": "NKC76yTD-ZUr",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_-a_wDtRC6o1C",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:14:49.276Z"
+  },
+  {
+    "id": "0t8SwkPWAslP",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc__-E1VEXtyfjs",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:14:49.219Z"
+  },
+  {
+    "id": "AuuX84HeKKX7",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc__-E1VEXtyfjs",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:14:49.167Z"
+  },
+  {
+    "id": "CalGefZcPQXO",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_dekelaYe9bXC",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:14:49.120Z"
+  },
+  {
+    "id": "B6N2mXeEmr4P",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_dekelaYe9bXC",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:14:49.066Z"
+  },
+  {
+    "id": "HrK1K6xzOphY",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_dekelaYe9bXC",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:14:48.767Z"
+  },
+  {
+    "id": "ssq2eEButc3J",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_dekelaYe9bXC",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:14:48.715Z"
+  },
+  {
+    "id": "gPKF7CJYRfvd",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc__-E1VEXtyfjs",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:14:48.486Z"
+  },
+  {
+    "id": "o9DT08x1Ds0q",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc__-E1VEXtyfjs",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:14:48.437Z"
+  },
+  {
+    "id": "iq4mwd4N0LKv",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_-a_wDtRC6o1C",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:14:48.381Z"
+  },
+  {
+    "id": "KZo_OeADFB3P",
+    "action": "locale_save",
+    "section": "localeRecords",
+    "description": "Saved locale record loc_-a_wDtRC6o1C",
+    "adminEmail": "",
+    "adminName": "",
+    "at": "2026-08-27T06:14:48.323Z"
+  },
+  {
+    "id": "8oZj3GvCMp3P",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-27T06:14:47.677Z"
+  },
+  {
+    "id": "niHYTJgnrJe1",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-27T06:10:37.736Z"
+  },
+  {
+    "id": "1RRsIHXeIxhx",
+    "action": "login",
+    "section": "auth",
+    "description": "Admin signed in",
+    "adminEmail": "admin@admin.com",
+    "adminName": "Super Admin",
+    "at": "2026-08-27T06:06:32.919Z"
+  },
+  {
     "id": "ZUicHICFobr4",
     "action": "login",
     "section": "auth",
@@ -4093,410 +4498,5 @@
     "adminEmail": "",
     "adminName": "",
     "at": "2026-08-22T09:36:49.258Z"
-  },
-  {
-    "id": "QRSnVb9U6WqN",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_dekelaYe9bXC",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:49.103Z"
-  },
-  {
-    "id": "cfWueKR6u8SS",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc__-E1VEXtyfjs",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:48.991Z"
-  },
-  {
-    "id": "Y7Lf6LwsMg-2",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_-a_wDtRC6o1C",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:48.949Z"
-  },
-  {
-    "id": "6VTcMb-K9DR2",
-    "action": "login",
-    "section": "auth",
-    "description": "Admin signed in",
-    "adminEmail": "admin@admin.com",
-    "adminName": "Super Admin",
-    "at": "2026-08-22T09:36:48.591Z"
-  },
-  {
-    "id": "pCvuzOs75gDx",
-    "action": "locale_bulk_copy",
-    "section": "localeRecords",
-    "description": "Copy UAE structure → SA/en",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:47.185Z"
-  },
-  {
-    "id": "EEyXyrq_7XLJ",
-    "action": "locale_bulk_copy",
-    "section": "localeRecords",
-    "description": "Copied UAE structure to SA/en — 17 records",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:47.180Z"
-  },
-  {
-    "id": "WZ3CBzdCnLg-",
-    "action": "locale_reset",
-    "section": "localeRecords",
-    "description": "Reset locale override loc_-a_wDtRC6o1C",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:46.635Z"
-  },
-  {
-    "id": "m6b-ragh7Z7p",
-    "action": "locale_reset",
-    "section": "localeRecords",
-    "description": "Reset locale override loc_test_kw_inventory-management-software_ar",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:46.441Z"
-  },
-  {
-    "id": "SuCbM_kmqqUV",
-    "action": "locale_reset",
-    "section": "localeRecords",
-    "description": "Reset locale override loc_test_om_retail-management-software_en",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:46.385Z"
-  },
-  {
-    "id": "tfeWRm4W0e2e",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_-a_wDtRC6o1C",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:46.340Z"
-  },
-  {
-    "id": "K8ZVU7LHFqBd",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc__-E1VEXtyfjs",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:46.300Z"
-  },
-  {
-    "id": "y8RAkG267Wlo",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_dekelaYe9bXC",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:46.273Z"
-  },
-  {
-    "id": "BOROaHEEfBN1",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_dekelaYe9bXC",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:46.199Z"
-  },
-  {
-    "id": "pskpv9TPQxjm",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc__-E1VEXtyfjs",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:46.119Z"
-  },
-  {
-    "id": "oSmc4Pj9AQWp",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_-a_wDtRC6o1C",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:46.091Z"
-  },
-  {
-    "id": "r7lMvt-Mo8DT",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_global_erp_en",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:45.792Z"
-  },
-  {
-    "id": "9H2jBJf8fXqk",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_global_erp_en",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:45.749Z"
-  },
-  {
-    "id": "r27-uKFsF4Uy",
-    "action": "login",
-    "section": "auth",
-    "description": "Admin signed in",
-    "adminEmail": "admin@admin.com",
-    "adminName": "Super Admin",
-    "at": "2026-08-22T09:36:45.484Z"
-  },
-  {
-    "id": "bhNnHL7iZ-sB",
-    "action": "locale_bulk_copy",
-    "section": "localeRecords",
-    "description": "Copy UAE structure → SA/en",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:21.489Z"
-  },
-  {
-    "id": "vc8VdAper6Aj",
-    "action": "locale_bulk_copy",
-    "section": "localeRecords",
-    "description": "Copied UAE structure to SA/en — 17 records",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:21.479Z"
-  },
-  {
-    "id": "m0Zdw0s7PHSm",
-    "action": "locale_reset",
-    "section": "localeRecords",
-    "description": "Reset locale override loc_-a_wDtRC6o1C",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:20.913Z"
-  },
-  {
-    "id": "z6GxA7DoeLAN",
-    "action": "locale_reset",
-    "section": "localeRecords",
-    "description": "Reset locale override loc_test_kw_inventory-management-software_ar",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:20.588Z"
-  },
-  {
-    "id": "rFxz1jIX-DPZ",
-    "action": "locale_reset",
-    "section": "localeRecords",
-    "description": "Reset locale override loc_test_om_retail-management-software_en",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:20.514Z"
-  },
-  {
-    "id": "F671MzaHBsZv",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_-a_wDtRC6o1C",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:20.464Z"
-  },
-  {
-    "id": "ogIyyJFYU7DP",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc__-E1VEXtyfjs",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:20.431Z"
-  },
-  {
-    "id": "jLlhwRe4tQcH",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_dekelaYe9bXC",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:20.393Z"
-  },
-  {
-    "id": "9M_A-42APxAE",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_dekelaYe9bXC",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:20.300Z"
-  },
-  {
-    "id": "w43ZnE-7doEa",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc__-E1VEXtyfjs",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:20.200Z"
-  },
-  {
-    "id": "CIRa7Dp3Ia3L",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_-a_wDtRC6o1C",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:20.170Z"
-  },
-  {
-    "id": "19rhRVjaRcDS",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_global_erp_en",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:19.865Z"
-  },
-  {
-    "id": "yz1He4WtJ979",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_global_erp_en",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:36:19.807Z"
-  },
-  {
-    "id": "EyPIdw9BCowZ",
-    "action": "login",
-    "section": "auth",
-    "description": "Admin signed in",
-    "adminEmail": "admin@admin.com",
-    "adminName": "Super Admin",
-    "at": "2026-08-22T09:36:19.464Z"
-  },
-  {
-    "id": "6ZDvtDh6C6zJ",
-    "action": "locale_bulk_copy",
-    "section": "localeRecords",
-    "description": "Copy UAE structure → SA/en",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:34:51.481Z"
-  },
-  {
-    "id": "VXoggGBZNTfr",
-    "action": "locale_bulk_copy",
-    "section": "localeRecords",
-    "description": "Copied UAE structure to SA/en — 16 records",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:34:51.475Z"
-  },
-  {
-    "id": "it60N7r1IN_P",
-    "action": "locale_reset",
-    "section": "localeRecords",
-    "description": "Reset locale override loc_-a_wDtRC6o1C",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:34:51.153Z"
-  },
-  {
-    "id": "FX5CR73Xwk1I",
-    "action": "locale_reset",
-    "section": "localeRecords",
-    "description": "Reset locale override loc_test_kw_inventory-management-software_ar",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:34:51.015Z"
-  },
-  {
-    "id": "SpHFZCMO8MWV",
-    "action": "locale_reset",
-    "section": "localeRecords",
-    "description": "Reset locale override loc_test_om_retail-management-software_en",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:34:50.978Z"
-  },
-  {
-    "id": "Zui_AbDeq5n7",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_-a_wDtRC6o1C",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:34:50.938Z"
-  },
-  {
-    "id": "GYAXz7z1qd48",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc__-E1VEXtyfjs",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:34:50.905Z"
-  },
-  {
-    "id": "j9d7bvqFD5B0",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_dekelaYe9bXC",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:34:50.879Z"
-  },
-  {
-    "id": "RXqoZP87pvkb",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_dekelaYe9bXC",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:34:50.812Z"
-  },
-  {
-    "id": "69fjOfYDjCyQ",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc__-E1VEXtyfjs",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:34:50.746Z"
-  },
-  {
-    "id": "O3gqJbcPH7wB",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_-a_wDtRC6o1C",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:34:50.725Z"
-  },
-  {
-    "id": "ufSdj_VrPKC1",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_global_erp_en",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:34:50.493Z"
-  },
-  {
-    "id": "O1MbdPp3nPxW",
-    "action": "locale_save",
-    "section": "localeRecords",
-    "description": "Saved locale record loc_global_erp_en",
-    "adminEmail": "",
-    "adminName": "",
-    "at": "2026-08-22T09:34:50.461Z"
   }
 ]

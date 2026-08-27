@@ -235,12 +235,11 @@ async function main() {
   function browserShellOk(text) {
     return (
       text.includes('<div id="root">') &&
-      text.includes('dm-ssr-shell') &&
-      text.includes('data-agentic-prerender="true"') &&
+      !text.includes('data-agentic-prerender="true"') &&
+      !text.includes('dm-ssr-shell') &&
       text.includes('type="module"') &&
       /\/assets\/[^"']+\.(js|css)/.test(text) &&
-      /<h1[^>]*>/i.test(text) &&
-      visibleText(text).length >= 500
+      hasJsonLd(text)
     )
   }
 
@@ -258,9 +257,9 @@ async function main() {
   } else fail('Testimonials page loads React shell for browser', String(testimonials.status))
 
   const defaultHtml = await fetchProbe(`${BASE}/`, { Accept: 'text/html' })
-  if (defaultHtml.status === 200 && visibleText(defaultHtml.text).length >= 500 && /<h1[^>]*>/i.test(defaultHtml.text)) {
-    pass('Default Accept:text/html homepage has 500+ raw chars and H1', `${visibleText(defaultHtml.text).length} chars`)
-  } else fail('Default Accept:text/html homepage has 500+ raw chars and H1', `${visibleText(defaultHtml.text).length} chars`)
+  if (defaultHtml.status === 200 && defaultHtml.text.includes('data-agentic-prerender="true"') && visibleText(defaultHtml.text).length >= 500 && /<h1[^>]*>/i.test(defaultHtml.text)) {
+    pass('Default Accept:text/html homepage has agent prerender H1 and 500+ raw chars', `${visibleText(defaultHtml.text).length} chars`)
+  } else fail('Default Accept:text/html homepage has agent prerender H1 and 500+ raw chars', `${visibleText(defaultHtml.text).length} chars`)
 
   const failed = results.filter((r) => !r.ok)
   console.log(`\n${results.length - failed.length}/${results.length} passed`)

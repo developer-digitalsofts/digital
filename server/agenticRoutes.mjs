@@ -10,7 +10,7 @@ import {
   isNormalBrowser,
 } from './agenticPathResolver.mjs'
 import { loadAgenticPageContent } from './agenticContentLoader.mjs'
-import { injectAgenticHtml, injectBrowserShellHtml, render404Html } from './agenticHtml.mjs'
+import { injectAgenticHtml, injectBrowserSeoShellHtml, render404Html } from './agenticHtml.mjs'
 import { renderAgenticMarkdown, render404Markdown } from './agenticMarkdown.mjs'
 import { buildLlmsTxt, buildLlmsFullTxt } from './agenticLlms.mjs'
 import { buildPublicOpenApiSpec } from './agenticOpenApi.mjs'
@@ -171,9 +171,9 @@ export function createAgenticSpaFallback(deps) {
 }
 
 /**
- * Serve the React shell with server-injected SEO (H1, body copy, JSON-LD) for HTML clients.
- * Crawlers are handled upstream; browsers and generic Accept:text/html fetchers get the same
- * published CMS semantics inside #root while CSS/JS assets load the styled SPA.
+ * Serve the React shell with server-injected SEO in <head> for HTML browser clients.
+ * Crawlers/agents receive full prerender HTML upstream; browsers get an empty #root
+ * so styled React content appears immediately without agent fallback flash.
  */
 export function createSpaShellHandler(deps) {
   return async (req, res, next) => {
@@ -201,7 +201,7 @@ export function createSpaShellHandler(deps) {
         const content = await loadAgenticPageContent(deps, pathname, routeInfo)
         const template = await readTemplate(deps.distIndex)
         const html = isNormalBrowser(req)
-          ? injectBrowserShellHtml(template, content)
+          ? injectBrowserSeoShellHtml(template, content)
           : injectAgenticHtml(template, content)
         res.status(200).type('text/html; charset=utf-8').send(html)
         return

@@ -159,8 +159,8 @@ export function buildValueChain(profile) {
     eyebrow: bi('End-to-End Control', 'تحكم شامل'),
     title: bi('One Platform Across Your Value Chain', 'منصة واحدة عبر سلسلة القيمة'),
     subheading: bi(
-      `Connect procurement, inventory, sales and finance for teams operating in ${profile.fullName.en}.`,
-      `اربط المشتريات والمخزون والمبيعات والمالية للفرق العاملة في ${profile.fullName.ar}.`,
+      `Connect procurement, inventory, sales and finance for ${profile.currency} operations across ${profile.cityPhrase.en}.`,
+      `اربط المشتريات والمخزون والمبيعات والمالية لعمليات ${profile.currencyName.ar} في ${profile.cityPhrase.ar}.`,
     ),
   }
 }
@@ -343,8 +343,8 @@ export function buildRoutePage(profile, kind) {
       title: bi('Contact DigitalManager', 'تواصل مع DigitalManager'),
       heading: bi('Talk to Our ERP Specialists', 'تحدث إلى متخصصي ERP'),
       shortDescription: bi(
-        `Request a demo or support for ${profile.fullName.en}. Regional GCC enquiries are handled from our UAE team.`,
-        `اطلب عرضاً أو دعماً لـ${profile.fullName.ar}. تُعالَج استفسارات الخليج من فريقنا في الإمارات.`,
+        `Request a demo or ${profile.currency} ERP support for teams in ${profile.cityPhrase.en}. Regional GCC enquiries are handled from our UAE team.`,
+        `اطلب عرضاً أو دعم ERP بـ${profile.currencyName.ar} للفرق في ${profile.cityPhrase.ar}. تُعالَج استفسارات الخليج من فريقنا في الإمارات.`,
       ),
     },
     industries: {

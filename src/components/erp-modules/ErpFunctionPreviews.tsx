@@ -1,16 +1,18 @@
 /** Decorative mini-dashboard previews for the ERP function grid cards. */
+import { useDashboardRegionalData } from '../hero/dashboards/useDashboardRegionalData'
 
 const accountBars = [
   42, 58, 48, 72, 55, 68, 62, 78, 70, 82, 65, 74, 88, 76, 80, 72, 85, 68, 90, 78, 82, 70, 86, 74, 80, 68, 76, 84, 72, 78,
 ] as const
 
 export function AccountsFinancePreview() {
+  const { modulePreviewCashFlow } = useDashboardRegionalData()
   return (
     <div className="erp-function-grid__preview-panel" aria-hidden>
       <div className="erp-function-grid__preview-kpi">
         <span className="erp-function-grid__preview-kpi-label">Cash Flow This Month</span>
         <div className="erp-function-grid__preview-kpi-row">
-          <strong className="erp-function-grid__preview-kpi-value">AED 46.32M</strong>
+          <strong className="erp-function-grid__preview-kpi-value">{modulePreviewCashFlow}</strong>
           <span className="erp-function-grid__preview-trend erp-function-grid__preview-trend--up">+12.6% vs last month</span>
         </div>
       </div>
@@ -61,12 +63,13 @@ export function InventoryPreview() {
 }
 
 export function PosPreview() {
+  const { modulePreviewPosSales } = useDashboardRegionalData()
   return (
     <div className="erp-function-grid__preview-panel" aria-hidden>
       <div className="erp-function-grid__preview-kpi">
         <span className="erp-function-grid__preview-kpi-label">Today&apos;s Sales</span>
         <div className="erp-function-grid__preview-kpi-row">
-          <strong className="erp-function-grid__preview-kpi-value">AED 1.24M</strong>
+          <strong className="erp-function-grid__preview-kpi-value">{modulePreviewPosSales}</strong>
           <span className="erp-function-grid__preview-trend erp-function-grid__preview-trend--up">+18.3%</span>
         </div>
       </div>
@@ -136,12 +139,13 @@ export function ProductionPreview() {
 }
 
 export function PayrollPreview() {
+  const { modulePreviewPayroll } = useDashboardRegionalData()
   return (
     <div className="erp-function-grid__preview-panel erp-function-grid__preview-panel--compact" aria-hidden>
       <div className="erp-function-grid__preview-split">
         <div className="erp-function-grid__preview-metric">
           <span className="erp-function-grid__preview-metric-label">Total Payroll</span>
-          <strong className="erp-function-grid__preview-metric-value">AED 6.45M This Month</strong>
+          <strong className="erp-function-grid__preview-metric-value">{modulePreviewPayroll} This Month</strong>
         </div>
         <div className="erp-function-grid__preview-avatar" aria-hidden>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">

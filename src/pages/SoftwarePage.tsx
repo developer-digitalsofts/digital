@@ -3,6 +3,12 @@ import { Link, useParams } from 'react-router-dom'
 import { ModuleDetailTemplate } from '../components/software/ModuleDetailTemplate'
 import { IndustryDetailTemplate } from '../components/software/IndustryDetailTemplate'
 import { applyCmsToDetailPage, applyCmsToRichPage } from '../cms/applySoftwareDetailCms'
+import {
+  applyLocaleToDetailPage,
+  applyLocaleToRichPage,
+  hasPublishedLocaleRegional,
+  type LocaleSoftwareDetailPage,
+} from '../cms/applyLocaleSoftwareDetail'
 import { fetchJson } from '../cms/api'
 import type { SoftwareDetailCmsRecord } from '../cms/softwareDetailTypes'
 import { buildAccountsManagementSoftwareDetail } from '../data/softwareDetail/accountsManagementDetail'
@@ -14,6 +20,11 @@ import { getModuleRichPage, type ModuleRichPage } from '../data/moduleRichPages'
 import { useI18n } from '../i18n/I18nProvider'
 import { megaIndustryLabel, megaModuleLabel } from '../i18n/megaLabels'
 import { pick } from '../cms/pick'
+import { useLocale } from '../locale/LocaleContext'
+import { SoftwareDetailRegionalProvider } from '../locale/SoftwareDetailRegionalContext'
+import { regionalizeRichPage, regionalizeSoftwareDetailPage } from '../locale/regionalizeSoftwareDetail'
+import { getDashboardRegionalData } from '../components/hero/dashboards/dashboardRegionalData'
+import { useLocaleDashboardRegional } from '../components/hero/dashboards/useDashboardRegionalData'
 
 function fallbackModulePage(name: string, t: (path: string) => string): ModuleRichPage {
   return {
@@ -35,20 +46,32 @@ function fallbackModulePage(name: string, t: (path: string) => string): ModuleRi
   }
 }
 
-export function SoftwarePage() {
+export function SoftwarePage({
+  forceKind,
+  forceSlug,
+}: {
+  forceKind?: 'module' | 'industry'
+  forceSlug?: string
+} = {}) {
   const params = useParams<{ flatSlug?: string; kind?: string; slug?: string }>()
   const { lang, t } = useI18n()
+  const { countryCode } = useLocale()
   const [cmsRecord, setCmsRecord] = useState<SoftwareDetailCmsRecord | null>(null)
   const [cmsFetchDone, setCmsFetchDone] = useState(false)
+  const [localePage, setLocalePage] = useState<LocaleSoftwareDetailPage | null>(null)
+  const [localeFetchDone, setLocaleFetchDone] = useState(false)
 
   const routeKind: 'module' | 'industry' | undefined =
-    params.flatSlug ? 'module' : params.kind === 'module' || params.kind === 'industry' ? params.kind : undefined
-  const routeSlug = params.flatSlug ?? params.slug
+    forceKind ??
+    (params.flatSlug ? 'module' : params.kind === 'module' || params.kind === 'industry' ? params.kind : undefined)
+  const routeSlug = forceSlug ?? params.flatSlug ?? params.slug
 
   const staticMenuItem = routeSlug
-    ? params.flatSlug
-      ? findSoftwareBySlug(params.flatSlug, 'module')
-      : findSoftwareBySlug(params.slug, routeKind)
+    ? forceSlug
+      ? findSoftwareBySlug(forceSlug, forceKind ?? routeKind)
+      : params.flatSlug
+        ? findSoftwareBySlug(params.flatSlug, 'module')
+        : findSoftwareBySlug(params.slug, routeKind)
     : undefined
 
   useEffect(() => {
@@ -76,9 +99,40 @@ export function SoftwarePage() {
     }
   }, [routeKind, routeSlug])
 
-  const menuItem = staticMenuItem
+  useEffect(() => {
+    let cancelled = false
+    const controller = new AbortController()
+    setLocaleFetchDone(!routeKind || !routeSlug)
+    setLocalePage(null)
+    if (!routeKind || !routeSlug) return
 
+    fetchJson<{ page?: LocaleSoftwareDetailPage; meta?: LocaleSoftwareDetailPage['_locale'] }>(
+      `/api/public/locale-content/software/${routeKind}/${encodeURIComponent(routeSlug)}?country=${encodeURIComponent(countryCode)}&lang=${encodeURIComponent(lang)}`,
+      { signal: controller.signal },
+    )
+      .then((data) => {
+        if (cancelled) return
+        const page = data?.page ?? null
+        if (page && data?.meta) page._locale = data.meta
+        setLocalePage(page)
+      })
+      .catch(() => {
+        if (!cancelled) setLocalePage(null)
+      })
+      .finally(() => {
+        if (!cancelled) setLocaleFetchDone(true)
+      })
+
+    return () => {
+      cancelled = true
+      controller.abort()
+    }
+  }, [routeKind, routeSlug, countryCode, lang])
+
+  const menuItem = staticMenuItem
   const customCms = cmsRecord?.isCustom && cmsRecord.active !== false ? cmsRecord : null
+  const useLocaleCms = hasPublishedLocaleRegional(localePage)
+  const shouldRegionalizeFallback = countryCode !== 'AE' && !useLocaleCms
 
   const item =
     menuItem ??
@@ -98,11 +152,13 @@ export function SoftwarePage() {
   const displayName =
     item == null
       ? ''
-      : cmsRecord && (cmsRecord.label.en || cmsRecord.label.ar)
-        ? pick(cmsRecord.label, lang)
-        : treatAsModule
-          ? megaModuleLabel(lang, item.slug, item.labelEn)
-          : megaIndustryLabel(lang, item.slug, item.labelEn)
+      : localePage?.label?.trim()
+        ? localePage.label
+        : cmsRecord && (cmsRecord.label.en || cmsRecord.label.ar)
+          ? pick(cmsRecord.label, lang)
+          : treatAsModule
+            ? megaModuleLabel(lang, item.slug, item.labelEn)
+            : megaIndustryLabel(lang, item.slug, item.labelEn)
 
   const canonicalSlug = item?.slug
 
@@ -120,10 +176,12 @@ export function SoftwarePage() {
 
   const baseRich = moduleRich ?? industryRich ?? (customCms ? fallbackModulePage(displayName, t) : undefined)
 
-  const rich = useMemo(
-    () => (baseRich ? applyCmsToRichPage(baseRich, cmsRecord, lang) : undefined),
-    [baseRich, cmsRecord, lang],
-  )
+  const rich = useMemo(() => {
+    let merged = baseRich ? applyCmsToRichPage(baseRich, cmsRecord, lang) : undefined
+    if (merged && localePage) merged = applyLocaleToRichPage(merged, localePage, lang)
+    if (merged && shouldRegionalizeFallback) merged = regionalizeRichPage(merged, countryCode)
+    return merged
+  }, [baseRich, cmsRecord, localePage, lang, countryCode, shouldRegionalizeFallback])
 
   const isModule = treatAsModule || customCms?.kind === 'module'
 
@@ -141,10 +199,30 @@ export function SoftwarePage() {
           )
     if (cmsRecord?.active === false && cmsRecord.isCustom) return null
     built = applyCmsToDetailPage(built, cmsRecord, lang)
+    if (localePage) built = applyLocaleToDetailPage(built, localePage, lang)
+    if (shouldRegionalizeFallback) built = regionalizeSoftwareDetailPage(built, countryCode)
     return built
-  }, [canonicalSlug, treatAsModule, isModule, displayName, rich, lang, cmsRecord])
+  }, [
+    canonicalSlug,
+    treatAsModule,
+    isModule,
+    displayName,
+    rich,
+    lang,
+    cmsRecord,
+    localePage,
+    countryCode,
+    shouldRegionalizeFallback,
+  ])
 
-  if (!staticMenuItem && !cmsFetchDone) {
+  const localeRegionalPack = useLocaleDashboardRegional(localePage?.regional, countryCode)
+  const fallbackRegionalPack = useMemo(() => {
+    if (localeRegionalPack) return localeRegionalPack
+    if (countryCode !== 'AE') return getDashboardRegionalData(countryCode)
+    return null
+  }, [localeRegionalPack, countryCode])
+
+  if (!staticMenuItem && (!cmsFetchDone || !localeFetchDone)) {
     return (
       <main className="flex min-h-[40vh] items-center justify-center text-sm text-slate-600">
         <span className="size-5 animate-spin rounded-full border-2 border-brand border-t-transparent" aria-hidden />
@@ -179,21 +257,18 @@ export function SoftwarePage() {
   }
 
   const crumbMid = isModule ? t('softwarePage.crumbModules') : t('softwarePage.crumbIndustries')
+  const regionalValue = localeRegionalPack ?? fallbackRegionalPack
 
-  if (isModule) {
-    return (
-      <ModuleDetailTemplate
-        detail={detail}
-        displayName={displayName}
-        crumbMid={crumbMid}
-        crumbHome={t('softwarePage.crumbHome')}
-        slug={canonicalSlug!}
-        showBreadcrumb={false}
-      />
-    )
-  }
-
-  return (
+  const pageBody = isModule ? (
+    <ModuleDetailTemplate
+      detail={detail}
+      displayName={displayName}
+      crumbMid={crumbMid}
+      crumbHome={t('softwarePage.crumbHome')}
+      slug={canonicalSlug!}
+      showBreadcrumb={false}
+    />
+  ) : (
     <IndustryDetailTemplate
       detail={detail}
       displayName={displayName}
@@ -202,5 +277,9 @@ export function SoftwarePage() {
       slug={canonicalSlug!}
       showBreadcrumb={false}
     />
+  )
+
+  return (
+    <SoftwareDetailRegionalProvider value={regionalValue}>{pageBody}</SoftwareDetailRegionalProvider>
   )
 }

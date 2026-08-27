@@ -1,12 +1,12 @@
 import { memo } from 'react'
 import { DashboardBody, DashboardFrame } from '../DashboardFrame'
-import { hrDepartmentDonut, hrLeaveRequests } from '../dashboardData'
-
+import { useDashboardRegionalData } from '../useDashboardRegionalData'
 import { DonutWidget, KpiStrip, LeaveList, Panel } from '../mockupParts'
-
 import type { DashboardMockupProps } from '../types'
 
 export const HrDashboardMockup = memo(function HrDashboardMockup(_props: DashboardMockupProps) {
+  const data = useDashboardRegionalData()
+
   return (
     <DashboardFrame moduleType="hr" title="HR Overview" subtitle="Workforce, attendance and payroll">
       <DashboardBody>
@@ -19,10 +19,10 @@ export const HrDashboardMockup = memo(function HrDashboardMockup(_props: Dashboa
         />
         <div className="dm-hero__split dm-hero__split--2">
           <Panel title="Department Distribution">
-            <DonutWidget center="128 staff" centerSub="5 departments" segments={hrDepartmentDonut} size={76} />
+            <DonutWidget center="128 staff" centerSub="5 departments" segments={data.hrDepartmentDonut} size={76} />
           </Panel>
           <Panel title="Leave Requests">
-            <LeaveList rows={hrLeaveRequests.slice(0, 5)} />
+            <LeaveList rows={data.hrLeaveRequests.slice(0, 5)} />
           </Panel>
         </div>
       </DashboardBody>

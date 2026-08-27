@@ -13,57 +13,12 @@ import {
   Wallet,
   Users,
 } from 'lucide-react'
+import { useDashboardRegionalData } from './hero/dashboards/useDashboardRegionalData'
 
 type DashboardMockupProps = {
   frameClassName?: string
   premium?: boolean
 }
-
-const kpis = [
-  {
-    label: 'Revenue',
-    val: 'AED 2.4M',
-    chip: '+8.2% this month',
-    chipClass: 'border-emerald-200/80 bg-emerald-50 text-emerald-700',
-    accent: '#16a34a',
-    tint: 'rgba(22,163,74,0.09)',
-    icon: TrendingUp,
-  },
-  {
-    label: 'Invoices',
-    val: '1,284',
-    chip: 'MTD',
-    chipClass: 'border-blue-200/80 bg-blue-50 text-blue-700',
-    accent: '#2563eb',
-    tint: 'rgba(37,99,235,0.09)',
-    icon: FileText,
-  },
-  {
-    label: 'Stock Health',
-    val: '97%',
-    chip: 'On target',
-    chipClass: 'border-teal-200/80 bg-teal-50 text-teal-700',
-    accent: '#0d9488',
-    tint: 'rgba(13,148,136,0.09)',
-    icon: Package,
-  },
-  {
-    label: 'Branches',
-    val: '12',
-    chip: 'Active',
-    chipClass: 'border-violet-200/80 bg-violet-50 text-violet-700',
-    accent: '#7c3aed',
-    tint: 'rgba(124,58,237,0.09)',
-    icon: Building2,
-  },
-] as const
-
-const tableRows = [
-  { d: 'SO-20481', b: 'Dubai', a: 'AED 42,900', s: 'Posted', sClass: 'border-emerald-200 bg-emerald-50 text-emerald-700' },
-  { d: 'GRN-8832', b: 'Riyadh', a: 'SAR 18,200', s: 'Approved', sClass: 'border-blue-200 bg-blue-50 text-blue-700' },
-  { d: 'INV-9910', b: 'Doha', a: 'QAR 9,450', s: 'Sent', sClass: 'border-amber-200 bg-amber-50 text-amber-700' },
-  { d: 'PO-4421', b: 'Manama', a: 'BHD 6,780', s: 'Cleared', sClass: 'border-slate-200 bg-slate-50 text-slate-600' },
-] as const
 
 const bars = [42, 58, 48, 72, 55, 68, 82, 61, 74, 50, 88, 94]
 
@@ -108,6 +63,61 @@ function ErpTopBar() {
 }
 
 function DashboardBody({ premium }: { premium?: boolean }) {
+  const data = useDashboardRegionalData()
+  const docs = data.erpDocuments.rows
+  const statusClasses = [
+    'border-emerald-200 bg-emerald-50 text-emerald-700',
+    'border-blue-200 bg-blue-50 text-blue-700',
+    'border-amber-200 bg-amber-50 text-amber-700',
+    'border-slate-200 bg-slate-50 text-slate-600',
+  ]
+  const tableRows = docs.map((row, i) => ({
+    d: String(row.doc),
+    b: String(row.branch),
+    a: String(row.amount),
+    s: typeof row.status === 'object' && row.status ? String(row.status.text) : 'Posted',
+    sClass: statusClasses[i] || statusClasses[0],
+  }))
+
+  const kpis = [
+    {
+      label: 'Revenue',
+      val: data.erpRevenueKpi,
+      chip: '+8.2% this month',
+      chipClass: 'border-emerald-200/80 bg-emerald-50 text-emerald-700',
+      accent: '#16a34a',
+      tint: 'rgba(22,163,74,0.09)',
+      icon: TrendingUp,
+    },
+    {
+      label: 'Invoices',
+      val: '1,284',
+      chip: 'MTD',
+      chipClass: 'border-blue-200/80 bg-blue-50 text-blue-700',
+      accent: '#2563eb',
+      tint: 'rgba(37,99,235,0.09)',
+      icon: FileText,
+    },
+    {
+      label: 'Stock Health',
+      val: '97%',
+      chip: 'On target',
+      chipClass: 'border-teal-200/80 bg-teal-50 text-teal-700',
+      accent: '#0d9488',
+      tint: 'rgba(13,148,136,0.09)',
+      icon: Package,
+    },
+    {
+      label: 'Branches',
+      val: '12',
+      chip: 'Active',
+      chipClass: 'border-violet-200/80 bg-violet-50 text-violet-700',
+      accent: '#7c3aed',
+      tint: 'rgba(124,58,237,0.09)',
+      icon: Building2,
+    },
+  ] as const
+
   return (
     <>
       <div className="grid grid-cols-2 gap-1.5 border-b border-slate-200/80 bg-slate-50/30 p-2 sm:grid-cols-4 sm:gap-2 sm:p-2.5">

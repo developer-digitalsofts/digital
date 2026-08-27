@@ -18,8 +18,28 @@ import {
   SEO_PAGE_RESPONSE,
   LOCALE_CONTENT_RESPONSE,
   LOCALE_CONTENT_NOT_FOUND,
+  LOCALE_PAGE,
+  LOCALE_META,
+  PAGE_SEO,
+  PAGE_SECTION,
   PAGINATION,
   BILINGUAL_STRING,
+  SITE_SETTINGS_BUNDLE,
+  HOMEPAGE_BUNDLE,
+  NAVIGATION_RESPONSE,
+  PUBLIC_PAGES_LIST,
+  PUBLIC_PAGE_DETAIL,
+  TESTIMONIALS_RESPONSE,
+  BLOG_CATEGORY,
+  BLOG_POSTS_LIST,
+  BLOG_POST_DETAIL,
+  BLOG_HOMEPAGE_PREVIEW,
+  SOFTWARE_DETAIL,
+  COUNTRIES_LIST,
+  CITIES_LIST,
+  LOCALE_HINT,
+  LOCALE_ROUTING,
+  OPENAPI_DOCUMENT,
   jsonResponse,
   errorResponse,
   queryCountry,
@@ -27,6 +47,21 @@ import {
 } from './agenticOpenApiSchemas.mjs'
 
 const registrySlugs = ['erp', 'solutions', 'business-models', 'faqs', 'contact', 'industries']
+
+function jsonOkWithRateLimit(desc, schema, example) {
+  return {
+    200: {
+      description: desc,
+      headers: RATE_LIMIT_HEADERS,
+      content: {
+        'application/json': {
+          schema,
+          ...(example ? { example } : {}),
+        },
+      },
+    },
+  }
+}
 
 function getOp(description, operationId, tag, extra = {}) {
   return {
@@ -154,8 +189,28 @@ export function buildPublicOpenApiSpec() {
         LeadResponse: LEAD_RESPONSE,
         SeoPageResponse: SEO_PAGE_RESPONSE,
         LocaleContentResponse: LOCALE_CONTENT_RESPONSE,
+        LocalePage: LOCALE_PAGE,
+        LocaleMeta: LOCALE_META,
+        PageSeo: PAGE_SEO,
+        PageSection: PAGE_SECTION,
         Pagination: PAGINATION,
         BilingualString: BILINGUAL_STRING,
+        SiteSettingsBundle: SITE_SETTINGS_BUNDLE,
+        HomepageBundle: HOMEPAGE_BUNDLE,
+        NavigationResponse: NAVIGATION_RESPONSE,
+        PublicPagesList: PUBLIC_PAGES_LIST,
+        PublicPageDetail: PUBLIC_PAGE_DETAIL,
+        TestimonialsResponse: TESTIMONIALS_RESPONSE,
+        BlogCategory: BLOG_CATEGORY,
+        BlogPostsList: BLOG_POSTS_LIST,
+        BlogPostDetail: BLOG_POST_DETAIL,
+        BlogHomepagePreview: BLOG_HOMEPAGE_PREVIEW,
+        SoftwareDetail: SOFTWARE_DETAIL,
+        CountriesList: COUNTRIES_LIST,
+        CitiesList: CITIES_LIST,
+        LocaleHint: LOCALE_HINT,
+        LocaleRouting: LOCALE_ROUTING,
+        OpenApiDocument: OPENAPI_DOCUMENT,
       },
       parameters: {
         QueryCountry: queryCountry,
@@ -167,7 +222,7 @@ export function buildPublicOpenApiSpec() {
         get: {
           ...getOp('Returns API process health for uptime checks.', 'getHealth', 'health'),
           responses: {
-            ...jsonOk('Service is running.', { $ref: '#/components/schemas/HealthResponse' }),
+            ...jsonOkWithRateLimit('Service is running.', { $ref: '#/components/schemas/HealthResponse' }),
             ...jsonErr([[503, 'Storage or dependencies unavailable.']]),
           },
         },
@@ -180,22 +235,7 @@ export function buildPublicOpenApiSpec() {
             'company',
           ),
           responses: {
-            ...jsonOk('Site settings bundle.', {
-              type: 'object',
-              properties: {
-                header: { type: 'object' },
-                seo: { type: 'object' },
-                footer: { type: 'object' },
-                siteSettings: {
-                  type: 'object',
-                  properties: {
-                    primaryEmail: { type: 'string', example: 'info@digitalmanager.ae' },
-                    phoneDisplay: { type: 'string', example: '+971 4 123 4567' },
-                    officeAddress: { $ref: '#/components/schemas/BilingualString' },
-                  },
-                },
-              },
-            }),
+            ...jsonOkWithRateLimit('Site settings bundle.', { $ref: '#/components/schemas/SiteSettingsBundle' }),
             ...jsonErr([[500, 'Unexpected server error.'], [503, 'Published content temporarily unavailable.']]),
           },
         },
@@ -206,10 +246,7 @@ export function buildPublicOpenApiSpec() {
             parameters: [queryLang],
           }),
           responses: {
-            ...jsonOk('Enabled countries.', {
-              type: 'object',
-              properties: { items: { type: 'array', items: { type: 'object' } } },
-            }),
+            ...jsonOk('Enabled countries.', { $ref: '#/components/schemas/CountriesList' }),
             ...jsonErr([[500, 'Unexpected server error.']]),
           },
         },
@@ -223,7 +260,7 @@ export function buildPublicOpenApiSpec() {
             { parameters: [queryCountry, queryLang] },
           ),
           responses: {
-            ...jsonOk('Homepage payload.', { type: 'object', additionalProperties: true }),
+            ...jsonOkWithRateLimit('Homepage payload.', { $ref: '#/components/schemas/HomepageBundle' }),
             ...jsonErr([[503, 'Published content temporarily unavailable.'], [500, 'Unexpected server error.']]),
           },
         },
@@ -232,7 +269,7 @@ export function buildPublicOpenApiSpec() {
         get: {
           ...getOp('Alias of homepage bundle for UAE English legacy clients.', 'getPublicHomepage', 'homepage'),
           responses: {
-            ...jsonOk('Homepage payload.', { type: 'object', additionalProperties: true }),
+            ...jsonOk('Homepage payload.', { $ref: '#/components/schemas/HomepageBundle' }),
             ...jsonErr([[500, 'Unexpected server error.']]),
           },
         },
@@ -241,7 +278,7 @@ export function buildPublicOpenApiSpec() {
         get: {
           ...getOp('Full published site bundle (same shape as homepage).', 'getPublicSite', 'homepage'),
           responses: {
-            ...jsonOk('Site bundle.', { type: 'object', additionalProperties: true }),
+            ...jsonOk('Site bundle.', { $ref: '#/components/schemas/HomepageBundle' }),
             ...jsonErr([[500, 'Unexpected server error.']]),
           },
         },
@@ -250,14 +287,7 @@ export function buildPublicOpenApiSpec() {
         get: {
           ...getOp('Published header/footer navigation links.', 'getNavigation', 'homepage'),
           responses: {
-            ...jsonOk('Navigation payload.', {
-              type: 'object',
-              properties: {
-                headerLinks: { type: 'array', items: { type: 'object' } },
-                footerColumns: { type: 'object' },
-                pages: { type: 'array', items: { type: 'object' } },
-              },
-            }),
+            ...jsonOk('Navigation payload.', { $ref: '#/components/schemas/NavigationResponse' }),
             ...jsonErr([[500, 'Unexpected server error.']]),
           },
         },
@@ -266,10 +296,7 @@ export function buildPublicOpenApiSpec() {
         get: {
           ...getOp('List published CMS marketing pages (excludes admin routes).', 'listPublicPages', 'company'),
           responses: {
-            ...jsonOk('Published pages.', {
-              type: 'object',
-              properties: { items: { type: 'array', items: { type: 'object' } } },
-            }),
+            ...jsonOk('Published pages.', { $ref: '#/components/schemas/PublicPagesList' }),
             ...jsonErr([[500, 'Unexpected server error.']]),
           },
         },
@@ -293,10 +320,7 @@ export function buildPublicOpenApiSpec() {
             },
           ),
           responses: {
-            ...jsonOk('Page payload.', {
-              type: 'object',
-              properties: { page: { type: 'object', additionalProperties: true } },
-            }),
+            ...jsonOk('Page payload.', { $ref: '#/components/schemas/PublicPageDetail' }),
             ...jsonErr([[404, 'Page slug not found or not published.'], [500, 'Unexpected server error.']]),
           },
         },
@@ -371,7 +395,7 @@ export function buildPublicOpenApiSpec() {
             },
           ),
           responses: {
-            ...jsonOk('Software detail document.', { type: 'object', additionalProperties: true }),
+            ...jsonOk('Software detail document.', { $ref: '#/components/schemas/SoftwareDetail' }),
             ...jsonErr([[404, 'Software detail not found.'], [500, 'Unexpected server error.']]),
           },
         },
@@ -382,7 +406,7 @@ export function buildPublicOpenApiSpec() {
             parameters: [queryCountry, queryLang],
           }),
           responses: {
-            ...jsonOk('Testimonials payload.', { type: 'object', additionalProperties: true }),
+            ...jsonOkWithRateLimit('Testimonials payload.', { $ref: '#/components/schemas/TestimonialsResponse' }),
             ...jsonErr([[500, 'Unexpected server error.']]),
           },
         },
@@ -393,7 +417,8 @@ export function buildPublicOpenApiSpec() {
           responses: {
             ...jsonOk('Categories.', {
               type: 'object',
-              properties: { items: { type: 'array', items: { type: 'object' } } },
+              required: ['items'],
+              properties: { items: { type: 'array', items: { $ref: '#/components/schemas/BlogCategory' } } },
             }),
             ...jsonErr([[500, 'Unexpected server error.']]),
           },
@@ -412,14 +437,7 @@ export function buildPublicOpenApiSpec() {
             ],
           }),
           responses: {
-            ...jsonOk('Blog listing.', {
-              type: 'object',
-              properties: {
-                items: { type: 'array', items: { type: 'object' } },
-                pagination: { $ref: '#/components/schemas/Pagination' },
-                section: { type: 'object' },
-              },
-            }),
+            ...jsonOk('Blog listing.', { $ref: '#/components/schemas/BlogPostsList' }),
             ...jsonErr([[500, 'Unexpected server error.']]),
           },
         },
@@ -434,15 +452,7 @@ export function buildPublicOpenApiSpec() {
             ],
           }),
           responses: {
-            ...jsonOk('Blog post detail.', {
-              type: 'object',
-              properties: {
-                post: { type: 'object' },
-                related: { type: 'array', items: { type: 'object' } },
-                prev: { type: 'object', nullable: true },
-                next: { type: 'object', nullable: true },
-              },
-            }),
+            ...jsonOk('Blog post detail.', { $ref: '#/components/schemas/BlogPostDetail' }),
             ...jsonErr([[404, 'Blog post not found.'], [500, 'Unexpected server error.']]),
           },
         },
@@ -457,7 +467,7 @@ export function buildPublicOpenApiSpec() {
             ],
           }),
           responses: {
-            ...jsonOk('Homepage blog section.', { type: 'object', additionalProperties: true }),
+            ...jsonOk('Homepage blog section.', { $ref: '#/components/schemas/BlogHomepagePreview' }),
             ...jsonErr([[500, 'Unexpected server error.']]),
           },
         },
@@ -470,13 +480,7 @@ export function buildPublicOpenApiSpec() {
             'locale',
           ),
           responses: {
-            ...jsonOk('Country hint.', {
-              type: 'object',
-              properties: {
-                countryCode: { type: 'string', example: 'AE' },
-                source: { type: 'string', enum: ['header', 'fallback'], example: 'header' },
-              },
-            }),
+            ...jsonOk('Country hint.', { $ref: '#/components/schemas/LocaleHint' }),
           },
         },
       },
@@ -488,14 +492,7 @@ export function buildPublicOpenApiSpec() {
             'locale',
           ),
           responses: {
-            ...jsonOk('Routing decision.', {
-              type: 'object',
-              properties: {
-                redirect: { type: 'string', nullable: true, example: '/qa/en' },
-                country: { type: 'string', example: 'qa' },
-                lang: { type: 'string', example: 'en' },
-              },
-            }),
+            ...jsonOk('Routing decision.', { $ref: '#/components/schemas/LocaleRouting' }),
           },
         },
       },
@@ -524,7 +521,7 @@ export function buildPublicOpenApiSpec() {
             parameters: [queryCountry, queryLang],
           }),
           responses: {
-            ...jsonOk('City list.', { type: 'object', additionalProperties: true }),
+            ...jsonOkWithRateLimit('City list.', { $ref: '#/components/schemas/CitiesList' }),
             ...jsonErrWithRateLimit([[500, 'Unexpected server error.']]),
           },
         },
@@ -617,7 +614,7 @@ export function buildPublicOpenApiSpec() {
         get: {
           ...getOp('This OpenAPI 3.1 specification.', 'getOpenApiSpec', 'seo'),
           responses: {
-            200: jsonResponse('OpenAPI document.', { type: 'object', additionalProperties: true }),
+            200: jsonResponse('OpenAPI document.', { $ref: '#/components/schemas/OpenApiDocument' }),
           },
         },
       },

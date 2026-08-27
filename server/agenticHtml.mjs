@@ -2,6 +2,7 @@
  * Server-rendered HTML for crawlers — mirrors published CMS content.
  */
 import { readBilingualText } from './contentHelpers.mjs'
+import { getProfile } from './gccLocalizedContent/profiles.mjs'
 import { PUBLIC_SITE_BASE } from './seoResolve.mjs'
 import { navigationLinksFromContent } from './agenticContentLoader.mjs'
 
@@ -68,6 +69,7 @@ function buildOrganizationJsonLd(content) {
 
 function buildSoftwareApplicationJsonLd(content) {
   const site = content.siteSettings || {}
+  const profile = getProfile(content.countryCode || 'AE')
   return {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
@@ -78,11 +80,12 @@ function buildSoftwareApplicationJsonLd(content) {
     description:
       readBilingualText(site.defaultMetaDescription, content.lang) ||
       readBilingualText(content.hero?.body, content.lang) ||
+      content.description ||
       'Cloud ERP for accounts, inventory, POS, payroll, and industry programmes.',
     offers: {
       '@type': 'Offer',
       price: '0',
-      priceCurrency: 'AED',
+      priceCurrency: profile.currency,
       description: 'Contact DigitalManager for commercial ERP licensing and implementation.',
       url: `${PUBLIC_SITE_BASE}/contact`,
     },
@@ -501,23 +504,26 @@ export function injectAgenticHtml(templateHtml, content) {
 }
 
 /**
- * Browser shell: SSR/agent content inside #root with critical branded CSS and Vite assets.
- * React replaces #root on mount — SEO text stays in initial HTML; no clipped/hidden bootstrap.
+ * Browser shell: SEO meta + JSON-LD in <head>, Vite CSS/JS, empty #root.
+ * React mounts immediately with no agent/prerender body flash before hydration.
  */
-export function injectBrowserShellHtml(templateHtml, content) {
-  const body = renderAgenticBody(content)
-  const criticalStyle = `<style id="dm-critical">${CRITICAL_SSR_CSS}</style>`
+export function injectBrowserSeoShellHtml(templateHtml, content) {
   let html = applyShellHead(templateHtml, content)
-  html = html.replace('<head>', `<head>\n    ${criticalStyle}`)
-  const shellBody = `
-    <noscript>
-      <style>${NOSCRIPT_SHELL_CSS}</style>
-      <div class="dm-noscript-shell">${body}</div>
-    </noscript>
-    <div id="root"><div class="dm-ssr-shell">${body}</div></div>`
-  html = html.replace('<div id="root"></div>', shellBody)
-  html = html.replace('<div id="root"><\/div>', shellBody)
+  const noscriptMsg =
+    content.lang === 'ar'
+      ? 'يتطلب هذا الموقع JavaScript للحصول على أفضل تجربة. تواصل معنا عبر صفحة الاتصال.'
+      : 'This site requires JavaScript for the full experience. Contact us via the contact page.'
+  const shell = `
+    <noscript><p class="dm-noscript-note">${escapeHtml(noscriptMsg)} <a href="/contact">${content.lang === 'ar' ? 'اتصل بنا' : 'Contact us'}</a></p></noscript>
+    <div id="root"></div>`
+  html = html.replace('<div id="root"></div>', shell)
+  html = html.replace('<div id="root"><\/div>', shell)
   return html
+}
+
+/** @deprecated Use injectBrowserSeoShellHtml — kept as alias for tests migrating off SSR body injection. */
+export function injectBrowserShellHtml(templateHtml, content) {
+  return injectBrowserSeoShellHtml(templateHtml, content)
 }
 
 export function render404Html(templateHtml, pathname, lang = 'en') {

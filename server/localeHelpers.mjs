@@ -291,7 +291,7 @@ export function shapePublicLocaleView(record, payload, lang, meta) {
   if (!record) return null
   const title = payload.title || payload.heading
   const titleText = typeof title === 'string' ? title : readBilingualText(title, lang)
-  return {
+  const view = {
     id: record.id,
     slug: record.slug,
     contentType: record.contentType,
@@ -313,6 +313,85 @@ export function shapePublicLocaleView(record, payload, lang, meta) {
     sortOrder: record.sortOrder ?? 0,
     citySlug: record.citySlug || payload.citySlug || null,
     _locale: meta,
+  }
+
+  if (payload.template === 'software-detail') {
+    view.kind = payload.kind
+    view.label =
+      payload.label && typeof payload.label === 'object'
+        ? readBilingualText(payload.label, lang)
+        : titleText
+    view.hero = localizeSoftwareDetailBlock(payload.hero, lang)
+    view.demoCta = localizeSoftwareDetailBlock(payload.demoCta, lang)
+    view.fields = localizeSoftwareDetailFields(payload.fields, lang)
+    view.regional = localizeSoftwareDetailRegional(payload.regional, lang)
+  }
+
+  return view
+}
+
+function localizeSoftwareDetailBlock(block, lang) {
+  if (!block || typeof block !== 'object') return null
+  const out = {}
+  for (const [key, value] of Object.entries(block)) {
+    if (value && typeof value === 'object' && ('en' in value || 'ar' in value)) {
+      out[key] = readBilingualText(value, lang)
+    } else {
+      out[key] = value
+    }
+  }
+  return out
+}
+
+function localizeSoftwareDetailFields(fields, lang) {
+  if (!fields || typeof fields !== 'object') return null
+  const out = {}
+  for (const [key, value] of Object.entries(fields)) {
+    out[key] =
+      value && typeof value === 'object' && ('en' in value || 'ar' in value)
+        ? readBilingualText(value, lang)
+        : value
+  }
+  return out
+}
+
+function localizeSoftwareDetailRegional(regional, lang) {
+  if (!regional || typeof regional !== 'object') return null
+  const citiesRaw = regional.cities
+  const companiesRaw = regional.companies
+  const cities = Array.isArray(citiesRaw)
+    ? citiesRaw
+    : citiesRaw && typeof citiesRaw === 'object'
+      ? citiesRaw[lang] || citiesRaw.en || []
+      : []
+  const companies = Array.isArray(companiesRaw)
+    ? companiesRaw
+    : companiesRaw && typeof companiesRaw === 'object'
+      ? companiesRaw[lang] || companiesRaw.en || []
+      : []
+  return {
+    currency: regional.currency,
+    currencyName:
+      regional.currencyName && typeof regional.currencyName === 'object'
+        ? readBilingualText(regional.currencyName, lang)
+        : regional.currencyName,
+    countryCode: regional.countryCode,
+    countryName:
+      regional.countryName && typeof regional.countryName === 'object'
+        ? readBilingualText(regional.countryName, lang)
+        : regional.countryName,
+    cityPhrase:
+      regional.cityPhrase && typeof regional.cityPhrase === 'object'
+        ? readBilingualText(regional.cityPhrase, lang)
+        : regional.cityPhrase,
+    cities,
+    companies,
+    vatLabel:
+      regional.vatLabel && typeof regional.vatLabel === 'object'
+        ? readBilingualText(regional.vatLabel, lang)
+        : regional.vatLabel,
+    dashboard: regional.dashboard || null,
+    branches: Array.isArray(regional.branches) ? regional.branches : [],
   }
 }
 

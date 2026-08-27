@@ -41,6 +41,13 @@ async function main() {
   if (v1Health.res.status === 200 && v1Health.json?.ok === true) pass('GET /api/public/v1/health')
   else fail('GET /api/public/v1/health', String(v1Health.res.status))
 
+  const healthLimit = v1Health.res.headers.get('ratelimit-limit')
+  const healthRemaining = v1Health.res.headers.get('ratelimit-remaining')
+  const healthReset = v1Health.res.headers.get('ratelimit-reset')
+  if (healthLimit && healthRemaining != null && healthReset) {
+    pass('RateLimit headers on /api/public/v1/health', `limit=${healthLimit} remaining=${healthRemaining}`)
+  } else fail('RateLimit headers on /api/public/v1/health', `limit=${healthLimit} remaining=${healthRemaining} reset=${healthReset}`)
+
   const legacyHealth = await fetchJson('/api/health')
   if (legacyHealth.res.status === 200) pass('Legacy GET /api/health alias still works')
   else fail('Legacy GET /api/health alias still works', String(legacyHealth.res.status))

@@ -4,6 +4,7 @@ import {
   getIndustryErpTheme,
   type IndustryVisualVariant,
 } from '../../data/softwareDetail/industryErpThemes'
+import { useLocale } from '../../locale/LocaleContext'
 import { SoftwareColorIcon } from '../SoftwareColorIcon'
 
 type Props = {
@@ -161,7 +162,8 @@ function WorkflowBody({ theme }: { theme: ReturnType<typeof getIndustryErpTheme>
 }
 
 export function IndustryErpVisual({ categoryId, slug, productLabel, variant, className = '' }: Props) {
-  const theme = getIndustryErpTheme(categoryId, slug)
+  const { countryCode } = useLocale()
+  const theme = getIndustryErpTheme(categoryId, slug, countryCode)
 
   if (variant === 'hero' || variant === 'dashboard') {
     return (

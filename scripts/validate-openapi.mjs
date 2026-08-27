@@ -3,6 +3,7 @@
  * Usage: node scripts/validate-openapi.mjs [baseUrl]
  */
 import { buildPublicOpenApiSpec } from '../server/agenticOpenApi.mjs'
+import { countTypedOperations } from '../server/agenticOpenApiSchemas.mjs'
 
 const BASE = (process.argv[2] || process.env.BASE_URL || 'http://127.0.0.1:3040').replace(/\/$/, '')
 
@@ -28,7 +29,11 @@ function validateSpec(spec) {
     if (!spec.paths?.[p]) errors.push(`Missing required path: ${p}`)
   }
   if (JSON.stringify(spec).includes('"/api/admin')) errors.push('Spec documents /api/admin paths')
-  return { errors, operationCount: ops.length, operationIds: [...ids] }
+  const coverage = countTypedOperations(spec)
+  if (coverage.typed < coverage.total) {
+    errors.push(`Untyped success schemas: ${coverage.total - coverage.typed}/${coverage.total} (${coverage.untyped.slice(0, 5).join(', ')}${coverage.untyped.length > 5 ? '…' : ''})`)
+  }
+  return { errors, operationCount: ops.length, operationIds: [...ids], schemaCoverage: coverage }
 }
 
 async function main() {
@@ -38,7 +43,7 @@ async function main() {
     for (const e of built.errors) console.error(`  ✗ ${e}`)
     process.exit(1)
   }
-  console.log(`✓ Built spec: ${built.operationCount} operations`)
+  console.log(`✓ Built spec: ${built.operationCount} operations, typed schemas ${built.schemaCoverage.typed}/${built.schemaCoverage.total}`)
 
   const live = await fetch(`${BASE}/openapi.json`)
   const liveSpec = await live.json()
@@ -52,7 +57,7 @@ async function main() {
     for (const e of liveResult.errors) console.error(`  ✗ ${e}`)
     process.exit(1)
   }
-  console.log(`✓ Live spec: ${liveResult.operationCount} operations`)
+  console.log(`✓ Live spec: ${liveResult.operationCount} operations, typed schemas ${liveResult.schemaCoverage.typed}/${liveResult.schemaCoverage.total}`)
 }
 
 main().catch((err) => {

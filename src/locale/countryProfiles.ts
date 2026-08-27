@@ -1,7 +1,18 @@
-/** Country profiles for GCC localized CMS content generation. */
-export const GCC_COUNTRIES = ['AE', 'SA', 'QA', 'OM', 'KW', 'BH']
+/** Client-side GCC country profiles — mirrors server/gccLocalizedContent/profiles.mjs */
+import type { GccCountryCode } from '../config/gccCountries'
 
-export const COUNTRY_PROFILES = {
+export type CountryProfile = {
+  code: GccCountryCode
+  slug: string
+  currency: string
+  currencyName: { en: string; ar: string }
+  name: { en: string; ar: string }
+  fullName: { en: string; ar: string }
+  cities: { en: string[]; ar: string[] }
+  cityPhrase: { en: string; ar: string }
+}
+
+export const COUNTRY_PROFILES: Record<GccCountryCode, CountryProfile> = {
   AE: {
     code: 'AE',
     slug: 'ae',
@@ -10,18 +21,7 @@ export const COUNTRY_PROFILES = {
     name: { en: 'UAE', ar: 'الإمارات' },
     fullName: { en: 'United Arab Emirates', ar: 'الإمارات العربية المتحدة' },
     cities: { en: ['Dubai', 'Abu Dhabi', 'Sharjah'], ar: ['دبي', 'أبوظبي', 'الشارقة'] },
-    cityPhrase: {
-      en: 'Dubai, Abu Dhabi and Sharjah',
-      ar: 'دبي وأبوظبي والشارقة',
-    },
-    trustHeading: {
-      en: 'Built on Trust.\nProven by Results.',
-      ar: 'مبني على الثقة.\nمثبت بالنتائج.',
-    },
-    heroAccent: {
-      en: 'UAE & GCC',
-      ar: 'الإمارات ودول الخليج',
-    },
+    cityPhrase: { en: 'Dubai, Abu Dhabi and Sharjah', ar: 'دبي وأبوظبي والشارقة' },
   },
   SA: {
     code: 'SA',
@@ -32,11 +32,6 @@ export const COUNTRY_PROFILES = {
     fullName: { en: 'Saudi Arabia', ar: 'المملكة العربية السعودية' },
     cities: { en: ['Riyadh', 'Jeddah', 'Dammam'], ar: ['الرياض', 'جدة', 'الدمام'] },
     cityPhrase: { en: 'Riyadh, Jeddah and Dammam', ar: 'الرياض وجدة والدمام' },
-    trustHeading: {
-      en: 'Built for Growing Businesses Across Saudi Arabia',
-      ar: 'مصمّم للشركات النامية في المملكة العربية السعودية',
-    },
-    heroAccent: { en: 'KSA', ar: 'السعودية' },
   },
   QA: {
     code: 'QA',
@@ -47,11 +42,6 @@ export const COUNTRY_PROFILES = {
     fullName: { en: 'Qatar', ar: 'دولة قطر' },
     cities: { en: ['Doha', 'Al Rayyan', 'Al Wakrah'], ar: ['الدوحة', 'الريان', 'الوكرة'] },
     cityPhrase: { en: 'Doha, Al Rayyan and Al Wakrah', ar: 'الدوحة والريان والوكرة' },
-    trustHeading: {
-      en: 'Supporting Modern Businesses Across Qatar',
-      ar: 'ندعم الشركات الحديثة في قطر',
-    },
-    heroAccent: { en: 'Qatar', ar: 'قطر' },
   },
   OM: {
     code: 'OM',
@@ -62,11 +52,6 @@ export const COUNTRY_PROFILES = {
     fullName: { en: 'Oman', ar: 'سلطنة عُمان' },
     cities: { en: ['Muscat', 'Sohar', 'Salalah'], ar: ['مسقط', 'صحار', 'صلالة'] },
     cityPhrase: { en: 'Muscat, Sohar and Salalah', ar: 'مسقط وصحار وصلالة' },
-    trustHeading: {
-      en: 'Smarter Business Operations for Companies in Oman',
-      ar: 'عمليات أذكى للشركات في سلطنة عُمان',
-    },
-    heroAccent: { en: 'Oman', ar: 'عُمان' },
   },
   KW: {
     code: 'KW',
@@ -77,11 +62,6 @@ export const COUNTRY_PROFILES = {
     fullName: { en: 'Kuwait', ar: 'دولة الكويت' },
     cities: { en: ['Kuwait City', 'Hawalli', 'Farwaniya'], ar: ['مدينة الكويت', 'حولي', 'الفروانية'] },
     cityPhrase: { en: 'Kuwait City, Hawalli and Farwaniya', ar: 'مدينة الكويت وحولي والفروانية' },
-    trustHeading: {
-      en: 'One Platform for Growing Businesses in Kuwait',
-      ar: 'منصة واحدة للشركات النامية في الكويت',
-    },
-    heroAccent: { en: 'Kuwait', ar: 'الكويت' },
   },
   BH: {
     code: 'BH',
@@ -92,44 +72,24 @@ export const COUNTRY_PROFILES = {
     fullName: { en: 'Bahrain', ar: 'مملكة البحرين' },
     cities: { en: ['Manama', 'Riffa', 'Muharraq'], ar: ['المنامة', 'الرفاع', 'المحرق'] },
     cityPhrase: { en: 'Manama, Riffa and Muharraq', ar: 'المنامة والرفاع والمحرق' },
-    trustHeading: {
-      en: 'Cloud ERP Built for Businesses in Bahrain',
-      ar: 'ERP سحابي للشركات في البحرين',
-    },
-    heroAccent: { en: 'Bahrain', ar: 'البحرين' },
   },
 }
 
-export const SHARED_COPY = {
-  trustEyebrow: {
-    en: 'PROVEN PERFORMANCE',
-    ar: 'أداء مُثبت',
-  },
-  trustSubheading: {
-    en: 'A unified cloud ERP platform designed to support finance, inventory, sales and multi-branch operations.',
-    ar: 'منصة ERP سحابية موحّدة لدعم المالية والمخزون والمبيعات وعمليات الفروع المتعددة.',
-  },
-  regionalSupportNote: {
-    en: 'Regional GCC support from DigitalManager (UAE headquarters).',
-    ar: 'دعم إقليمي لدول الخليج من DigitalManager (المقر في الإمارات).',
-  },
+const VAT_LABELS: Record<GccCountryCode, string> = {
+  AE: 'UAE VAT',
+  SA: 'Saudi VAT',
+  QA: 'Qatar VAT',
+  OM: 'Oman tax',
+  KW: 'Kuwait tax',
+  BH: 'Bahrain VAT',
 }
 
-export const SEED_VERSION = 'gcc-localized-content-v8'
-
-export function arIn(name) {
-  return `في ${name}`
+export function getCountryProfile(code: string): CountryProfile {
+  const upper = (code || 'AE').toUpperCase() as GccCountryCode
+  return COUNTRY_PROFILES[upper] ?? COUNTRY_PROFILES.AE
 }
 
-/** Approved regional GCC support contact — not a local office. */
-export const REGIONAL_SUPPORT = {
-  phoneDisplay: '+971 58 117 4911',
-  phoneHref: 'tel:+971581174911',
-  email: 'info@digitalmanager.ae',
-  label: { en: 'Regional GCC Support', ar: 'دعم إقليمي لدول الخليج' },
-}
-
-export function getProfile(countryCode) {
-  const code = String(countryCode || 'AE').toUpperCase()
-  return COUNTRY_PROFILES[code] || COUNTRY_PROFILES.AE
+export function vatLabelFor(code: string): string {
+  const upper = (code || 'AE').toUpperCase() as GccCountryCode
+  return VAT_LABELS[upper] ?? VAT_LABELS.AE
 }

@@ -69,25 +69,25 @@ async function main() {
     .replace(/<[^>]+>/g, ' ')
     .replace(/\s+/g, ' ')
     .trim()
-  if (browserVisible.length >= 500 && /<h1[^>]*>/i.test(browserHome.text)) {
-    pass('Browser homepage raw HTML includes H1 and 500+ visible chars', `${browserVisible.length} chars`)
-  } else fail('Browser homepage raw HTML includes H1 and 500+ visible chars', `${browserVisible.length} chars`)
+  if (browserHome.text.includes('<title>') && browserHome.text.includes('meta name="description"')) {
+    pass('Browser homepage includes title and meta description in head', `${browserVisible.length} visible chars`)
+  } else fail('Browser homepage includes title and meta description in head')
 
   if (browserHome.text.includes('"@type":"Organization"') && browserHome.text.includes('"@type":"SoftwareApplication"')) {
     pass('Browser homepage includes Organization and SoftwareApplication JSON-LD')
   } else fail('Browser homepage includes Organization and SoftwareApplication JSON-LD')
 
-  if (browserHome.text.includes('id="dm-critical"') && browserHome.text.includes('dm-ssr-shell')) {
-    pass('Browser homepage includes critical SSR CSS and styled shell wrapper')
-  } else fail('Browser homepage includes critical SSR CSS and styled shell wrapper')
+  if (browserHome.text.includes('type="module"') && /href="\/assets\/[^"]+\.css"/.test(browserHome.text)) {
+    pass('Browser homepage includes Vite CSS and module JS in head')
+  } else fail('Browser homepage includes Vite CSS and module JS in head')
 
-  if (
-    browserHome.text.includes('data-agentic-prerender="true"') &&
-    browserHome.text.includes('<div id="root">') &&
-    browserHome.text.includes('<h1')
-  ) {
-    pass('Browser SSR content lives inside #root with H1 (agent-readable, React replaces on mount)')
-  } else fail('Browser SSR content inside #root with H1')
+  if (!browserHome.text.includes('data-agentic-prerender="true"') && /<div id="root">\s*<\/div>/i.test(browserHome.text)) {
+    pass('Browser homepage has empty #root (no agent prerender flash)')
+  } else fail('Browser homepage has empty #root (no agent prerender flash)')
+
+  if (!browserHome.text.includes('Back to homepage') && !browserHome.text.includes('dm-ssr-shell')) {
+    pass('Browser homepage free of agent fallback body copy')
+  } else fail('Browser homepage free of agent fallback body copy')
 
   const cssPos = browserHome.text.search(/href="\/assets\/[^"]+\.css"/)
   const jsPos = browserHome.text.search(/src="\/assets\/[^"]+\.js"/)
@@ -101,15 +101,14 @@ async function main() {
   } else fail('Browser homepage Vary header', browserHome.headers.vary || browserHome.headers.Vary || 'missing')
 
   const defaultFetch = await fetchProbe(`${BASE}/`, { Accept: 'text/html' })
-  const defaultVisible = defaultFetch.text
-    .replace(/<script[\s\S]*?<\/script>/gi, '')
-    .replace(/<style[\s\S]*?<\/style>/gi, '')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-  if (defaultFetch.status === 200 && defaultVisible.length >= 500 && /<h1[^>]*>/i.test(defaultFetch.text)) {
-    pass('Default Accept:text/html fetch includes H1 and 500+ visible chars', `${defaultVisible.length} chars`)
-  } else fail('Default Accept:text/html fetch includes H1 and 500+ visible chars', `${defaultVisible.length} chars`)
+  if (defaultFetch.status === 200 && defaultFetch.text.includes('data-agentic-prerender="true"') && /<h1[^>]*>/i.test(defaultFetch.text)) {
+    pass('Default Accept:text/html fetch receives agent prerender with H1')
+  } else fail('Default Accept:text/html fetch receives agent prerender with H1')
+
+  const softwareBrowser = await fetchProbe(`${BASE}/software/crm-software`, BROWSER_HEADERS)
+  if (softwareBrowser.status === 200 && !softwareBrowser.text.includes('Back to homepage') && !softwareBrowser.text.includes('data-agentic-prerender="true"')) {
+    pass('Browser /software/crm-software has no agent fallback in HTML shell')
+  } else fail('Browser /software/crm-software has no agent fallback in HTML shell')
 
   const agentHome = await fetchProbe(`${BASE}/`, AGENT_HEADERS)
   if (agentHome.status === 200) pass('Agent GET / HTTP 200')

@@ -49,10 +49,11 @@ function consumeBucket(store, key, windowMs, max, now = Date.now()) {
 
 export function shouldRateLimitPublicGet(pathname, method) {
   if (method !== 'GET') return false
-  if (pathname === '/api/health') return false
   if (pathname.startsWith('/api/admin')) return false
 
   return (
+    pathname === '/api/health' ||
+    pathname === '/api/public/v1/health' ||
     pathname.startsWith('/api/public/') ||
     pathname.startsWith('/api/public/v1/') ||
     pathname === '/api/homepage' ||
@@ -64,7 +65,7 @@ export function shouldRateLimitPublicGet(pathname, method) {
 
 export function createPublicGetRateLimitMiddleware(clientIpFn) {
   return (req, res, next) => {
-    const path = req.path || req.url.split('?')[0]
+    const path = (req.originalUrl || req.url || '').split('?')[0]
     if (!shouldRateLimitPublicGet(path, req.method)) return next()
 
     const ip = clientIpFn(req)

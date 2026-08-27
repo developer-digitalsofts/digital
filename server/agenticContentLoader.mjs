@@ -4,11 +4,35 @@
 import { readBilingualText, isPublishedRecord } from './contentHelpers.mjs'
 import { buildLocaleHomepagePayload } from './localeHomepage.mjs'
 import { normalizeCountryCode } from './countryHelpers.mjs'
-import { normalizeLocaleLang } from './localeContentModel.mjs'
+import { normalizeLocaleLang, findRecordByIdentity } from './localeContentModel.mjs'
 import { parseLocalePath } from './seoPaths.mjs'
 import { resolveSeoForPath, PUBLIC_SITE_BASE } from './seoResolve.mjs'
 import { uaeSoftwarePaths } from './seoRouteCatalog.mjs'
 import { developersPageCopy } from './agenticDevelopersContent.mjs'
+
+async function loadLocaleSoftwareDetailSeo(deps, countryCode, lang, kind, slug) {
+  const contentType = kind === 'module' ? 'solution' : 'industry'
+  const globalIdentity = `${kind}:${slug}`
+  try {
+    const store = await deps.localePublish.readPublishedStore()
+    const match = findRecordByIdentity(store.records, contentType, globalIdentity, countryCode, lang)
+    if (!match) return null
+    const payload = match.payload || {}
+    const seo = match.seo || {}
+    return {
+      title:
+        readBilingualText(payload.heading, lang) ||
+        readBilingualText(payload.title, lang) ||
+        readBilingualText(seo.pageTitle, lang),
+      description:
+        readBilingualText(payload.shortDescription, lang) ||
+        readBilingualText(seo.metaDescription, lang) ||
+        readBilingualText(payload.fields?.metaDescription, lang),
+    }
+  } catch {
+    return null
+  }
+}
 
 function pickLang(doc, lang, field) {
   return readBilingualText(doc?.[field], lang)
@@ -155,15 +179,41 @@ export async function loadAgenticPageContent(deps, pathname, routeInfo) {
   if (kind === 'software') {
     const softwarePaths = uaeSoftwarePaths()
     const matchPath = restPath.startsWith('/') ? restPath : `/${restPath}`
+    const parts = matchPath.split('/').filter(Boolean)
+    const detailKind = parts[1] === 'industry' ? 'industry' : 'module'
+    const detailSlug = parts[1] === 'industry' ? parts[2] : parts[1]
+    const localeSeo =
+      detailSlug && countryCode !== 'AE'
+        ? await loadLocaleSoftwareDetailSeo(deps, countryCode, lang, detailKind, detailSlug)
+        : null
     return {
       ...base,
       pageType: 'software',
-      title: lang === 'ar' ? 'برمجيات DigitalManager' : 'DigitalManager Software',
+      title:
+        localeSeo?.title ||
+        (lang === 'ar' ? 'برمجيات DigitalManager' : 'DigitalManager Software'),
       description:
-        lang === 'ar'
+        localeSeo?.description ||
+        (lang === 'ar'
           ? 'وحدات ERP سحابية للحسابات والمخزون ونقطة البيع والرواتب والعمليات.'
-          : 'Cloud ERP modules for accounts, inventory, POS, payroll, and operations.',
+          : 'Cloud ERP modules for accounts, inventory, POS, payroll, and operations.'),
       softwarePath: softwarePaths.includes(matchPath) ? matchPath : matchPath,
+    }
+  }
+
+  if (kind === 'locale-industry' && routeInfo?.slug) {
+    const slug = routeInfo.slug
+    const localeSeo = await loadLocaleSoftwareDetailSeo(deps, countryCode, lang, 'industry', slug)
+    return {
+      ...base,
+      pageType: 'software',
+      title: localeSeo?.title || (lang === 'ar' ? 'برمجيات DigitalManager' : 'DigitalManager Software'),
+      description:
+        localeSeo?.description ||
+        (lang === 'ar'
+          ? 'حلول ERP سحابية مهيّأة لقطاعات الأعمال في دول الخليج.'
+          : 'Cloud ERP industry solutions for GCC businesses.'),
+      softwarePath: `/software/industry/${slug}`,
     }
   }
 

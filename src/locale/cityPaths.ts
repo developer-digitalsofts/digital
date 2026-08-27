@@ -11,6 +11,26 @@ import {
 } from './localeConfig'
 import { buildLocalePath, parseLocalePath } from './localePaths'
 
+export const CITY_DISPLAY_NAMES: Record<string, { en: string; ar: string }> = {
+  dubai: { en: 'Dubai', ar: 'دبي' },
+  'abu-dhabi': { en: 'Abu Dhabi', ar: 'أبوظبي' },
+  sharjah: { en: 'Sharjah', ar: 'الشارقة' },
+  ajman: { en: 'Ajman', ar: 'عجمان' },
+  riyadh: { en: 'Riyadh', ar: 'الرياض' },
+  jeddah: { en: 'Jeddah', ar: 'جدة' },
+  dammam: { en: 'Dammam', ar: 'الدمام' },
+  doha: { en: 'Doha', ar: 'الدوحة' },
+  muscat: { en: 'Muscat', ar: 'مسقط' },
+  'kuwait-city': { en: 'Kuwait City', ar: 'مدينة الكويت' },
+  manama: { en: 'Manama', ar: 'المنامة' },
+}
+
+export function getCityDisplayName(citySlug: string, lang: 'en' | 'ar'): string {
+  const names = CITY_DISPLAY_NAMES[citySlug.toLowerCase()]
+  if (names) return names[lang] || names.en
+  return citySlug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+}
+
 export const CITY_PAGE_SLUG = 'erp-software'
 
 /** Known city slugs per country (must match server/cityRegistry.mjs). */

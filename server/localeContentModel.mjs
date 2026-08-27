@@ -3,6 +3,7 @@
  */
 import { nanoid } from 'nanoid'
 import { normalizeCountryCode } from './countryHelpers.mjs'
+import { validateLocalePublishMarkers } from './localePublishMarkers.mjs'
 
 export const LOCALE_CONTENT_SCHEMA_VERSION = 1
 
@@ -188,6 +189,8 @@ export function canPublishRecord(record, { countryEnabled = true } = {}) {
   if (!record.payload || (typeof record.payload === 'object' && Object.keys(record.payload).length === 0)) {
     if (record.inheritanceMode === 'override') return { ok: false, reason: 'Override has incomplete required fields' }
   }
+  const markerCheck = validateLocalePublishMarkers(record)
+  if (!markerCheck.ok) return markerCheck
   return { ok: true }
 }
 
