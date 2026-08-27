@@ -35,7 +35,7 @@ export const GCC_COUNTRY_FLAGS: Record<string, string> = {
 
 export const LOCALE_STORAGE_KEY = 'dm_locale_pref'
 export const LOCALE_PREF_COOKIE = 'dm_locale_pref'
-export const LOCALE_PREF_MAX_AGE_SEC = 15552000
+export const LOCALE_PREF_MAX_AGE_SEC = 604800 // 7 days
 export const LOCALE_SUGGEST_DISMISS_KEY = 'dm_locale_suggest_dismiss'
 
 export function isDefaultLocale(country: LocaleCountrySlug, lang: LocaleLang): boolean {

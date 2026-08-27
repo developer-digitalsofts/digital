@@ -132,13 +132,13 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
         const target = payload?.redirect?.trim()
         if (!target || target === '/' || location.pathname !== '/') return
         const localized = parseLocalePath(target)
-        const manual = payload?.reason === 'manual_preference' || manualPref?.manual === true
+        const manual = payload?.reason === 'manual_preference'
         writeLocalePref({ country: localized.country, lang: localized.lang, manual })
         navigate(target, { replace: true })
       })
       .catch(() => {})
     return () => controller.abort()
-  }, [location.pathname, navigate, manualPref?.manual])
+  }, [location.pathname, navigate])
 
   const setLocale = useCallback(
     (nextCountry: LocaleCountrySlug, nextLang: LocaleLang, opts?: { replace?: boolean }) => {
@@ -149,8 +149,27 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     [navigate, parsed.restPath, setLang],
   )
 
-  const resetAutoLocale = useCallback(() => {
+  const resetAutoLocale = useCallback(async () => {
     clearLocalePref()
+    autoRoutingChecked.current = false
+    try {
+      const res = await fetch('/api/public/locale-routing?path=/', { credentials: 'same-origin' })
+      const payload = res.ok ? ((await res.json()) as { redirect?: string | null; reason?: string }) : null
+      const target = payload?.redirect?.trim()
+      if (target && target !== '/') {
+        const localized = parseLocalePath(target)
+        writeLocalePref({
+          country: localized.country,
+          lang: localized.lang,
+          manual: payload?.reason === 'manual_preference',
+        })
+        autoRoutingChecked.current = true
+        navigate(target, { replace: true })
+        return
+      }
+    } catch {
+      /* fall through to root entry */
+    }
     autoRoutingChecked.current = false
     navigate('/', { replace: true })
   }, [navigate])

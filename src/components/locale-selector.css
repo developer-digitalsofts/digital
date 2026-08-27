@@ -1,5 +1,32 @@
+.dm-locale-select {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .dm-locale-select__reset {
-  display: none;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.38rem 0.75rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dm-locale-select__reset:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.dm-locale-select--compact .dm-locale-select__reset {
+  font-size: 0.625rem;
+  padding-top: 0.32rem;
+  padding-bottom: 0.32rem;
 }
 
 .dm-locale-utility {
