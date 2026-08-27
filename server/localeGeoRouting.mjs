@@ -6,6 +6,7 @@ import { detectCountryFromRequest } from './localeDetect.mjs'
 import { getLocaleHomepageIndexMeta } from './localeHomepage.mjs'
 import { evaluateIndexability } from './seoResolve.mjs'
 import { findLocaleRecord, resolveLocaleRecord } from './localeHelpers.mjs'
+import { buildLocalePath } from './seoPaths.mjs'
 
 export const LOCALE_PREF_COOKIE = 'dm_locale_pref'
 export const LOCALE_PREF_MAX_AGE_SEC = 15552000
@@ -156,10 +157,6 @@ async function resolveLanguage(deps, countryCode, countryItem, req, prefLang) {
   return 'en'
 }
 
-function geoEntryPath(countrySlug, lang) {
-  return `/${countrySlug}/${lang}`
-}
-
 export async function resolveGeoRedirect(deps, req) {
   if (isGeoRedirectBot(req)) return { redirect: null, reason: 'bot' }
 
@@ -173,53 +170,37 @@ export async function resolveGeoRedirect(deps, req) {
   const doc = deps.publishStore.stripMeta(countriesDoc) ?? { items: [] }
 
   let countryCode
-  let detectSource = 'geo'
   if (pref?.country) {
     countryCode = normalizeCountryCode(pref.country.toUpperCase())
-    detectSource = pref.manual ? 'manual_preference' : 'remembered_locale'
   } else {
-    const detected = detectCountryFromRequest(req)
-    countryCode = normalizeCountryCode(detected || 'AE')
-    detectSource = detected ? 'geo_detected' : 'default_uae'
+    countryCode = detectCountryFromRequest(req) || 'AE'
   }
+  countryCode = normalizeCountryCode(countryCode)
+
+  if (countryCode === 'AE') return { redirect: null, reason: 'uae_default' }
 
   const countryItem = (doc.items || []).find((item) => normalizeCountryCode(item.code) === countryCode)
-  if (!countryItem || countryItem.enabled === false) {
-    countryCode = 'AE'
-    detectSource = 'default_uae'
-  }
+  if (!countryItem || countryItem.enabled === false) return { redirect: null, reason: 'country_disabled' }
 
-  const resolvedItem =
-    (doc.items || []).find((item) => normalizeCountryCode(item.code) === countryCode) ||
-    (doc.items || []).find((item) => normalizeCountryCode(item.code) === 'AE')
-  if (!resolvedItem || resolvedItem.enabled === false) {
-    return { redirect: null, reason: 'country_disabled' }
-  }
-
-  const routing = countryRoutingConfig(resolvedItem)
-  const isUae = countryCode === 'AE'
-  if (!isUae && (!routing.autoDetectEnabled || !routing.allowAutoRedirect)) {
+  const routing = countryRoutingConfig(countryItem)
+  if (!routing.autoDetectEnabled || !routing.allowAutoRedirect) {
     return { redirect: null, reason: 'routing_disabled' }
   }
   if (!(await englishPublished(deps, countryCode))) {
-    if (isUae && (await englishPublished(deps, 'AE'))) {
-      countryCode = 'AE'
-    } else {
-      return { redirect: null, reason: 'english_unpublished' }
-    }
+    return { redirect: null, reason: 'english_unpublished' }
   }
 
   const countrySlug = COUNTRY_TO_SLUG[countryCode]
   if (!countrySlug) return { redirect: null, reason: 'unknown_country' }
 
-  const lang = await resolveLanguage(deps, countryCode, resolvedItem, req, pref ? pref.lang : null)
-  const target = geoEntryPath(countrySlug, lang)
-  if (!target || target === '/') return { redirect: null, reason: 'already_default' }
+  const lang = await resolveLanguage(deps, countryCode, countryItem, req, pref ? pref.lang : null)
+  const target = buildLocalePath(countrySlug, lang, '/')
+  if (target === '/') return { redirect: null, reason: 'already_default' }
 
   const manual = pref?.manual === true
   return {
     redirect: target,
-    reason: manual ? 'manual_preference' : detectSource,
+    reason: manual ? 'manual_preference' : pref ? 'remembered_locale' : 'geo_detected',
     countryCode,
     lang,
     countrySlug,

@@ -125,20 +125,18 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     if (location.pathname !== '/') return
     autoRoutingChecked.current = true
 
-    const controller = new AbortController()
-    fetch('/api/public/locale-routing?path=/', { credentials: 'same-origin', signal: controller.signal })
+    fetch('/api/public/locale-routing?path=/', { credentials: 'same-origin' })
       .then((r) => (r.ok ? r.json() : null))
-      .then((payload: { redirect?: string | null; reason?: string } | null) => {
-        const target = payload?.redirect?.trim()
-        if (!target || target === '/' || location.pathname !== '/') return
-        const localized = parseLocalePath(target)
-        const manual = payload?.reason === 'manual_preference' || manualPref?.manual === true
-        writeLocalePref({ country: localized.country, lang: localized.lang, manual })
-        navigate(target, { replace: true })
+      .then((payload: { redirect?: string | null } | null) => {
+        const target = payload?.redirect
+        if (target && target !== '/' && location.pathname === '/') {
+          const localized = parseLocalePath(target)
+          writeLocalePref({ country: localized.country, lang: localized.lang, manual: false })
+          navigate(target, { replace: true })
+        }
       })
       .catch(() => {})
-    return () => controller.abort()
-  }, [location.pathname, navigate, manualPref?.manual])
+  }, [location.pathname, navigate])
 
   const setLocale = useCallback(
     (nextCountry: LocaleCountrySlug, nextLang: LocaleLang, opts?: { replace?: boolean }) => {

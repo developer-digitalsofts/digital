@@ -19,12 +19,11 @@ export function CityPageGuard() {
 
 /** Redirect /ae/en/:city/:page → /:city/:page for UAE English city canonical URLs. */
 export function AeEnCityRedirect() {
-  const { citySlug = '', pageSlug = '' } = useParams()
-  const city = citySlug.toLowerCase()
-  const page = (pageSlug || CITY_PAGE_SLUG).toLowerCase()
-
-  if (isValidCitySlug(city, 'AE') && page === CITY_PAGE_SLUG) {
-    return <Navigate to={`/${city}/${page}`} replace />
+  const params = useParams()
+  const splat = params['*'] || ''
+  const parts = splat.split('/').filter(Boolean)
+  if (parts.length >= 2 && isValidCitySlug(parts[0], 'AE') && parts[1] === CITY_PAGE_SLUG) {
+    return <Navigate to={`/${parts[0]}/${parts[1]}`} replace />
   }
-  return <Navigate to="/ae/en" replace />
+  return <Navigate to="/" replace />
 }
