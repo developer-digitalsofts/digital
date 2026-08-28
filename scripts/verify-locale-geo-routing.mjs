@@ -313,6 +313,10 @@ async function main() {
       if (page.url().includes('/sa/en/erp')) pass('Browser: selector changes locale and path')
       else fail('Browser: selector changes locale and path', page.url())
 
+      await page.goto(`${BASE}/qa/en/contact`, { waitUntil: 'networkidle', timeout: 60000 })
+      if (await page.locator('#contact-form').count()) pass('Browser: /qa/en/contact renders contact form')
+      else fail('Browser: /qa/en/contact renders contact form', page.url())
+
       await browser.close()
     } catch (err) {
       fail('Browser locale regression suite', err instanceof Error ? err.message : String(err))

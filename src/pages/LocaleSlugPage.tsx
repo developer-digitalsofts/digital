@@ -4,6 +4,7 @@ import { useI18n } from '../i18n/I18nProvider'
 import { useLocale } from '../locale/LocaleContext'
 import { ApiError, fetchJson } from '../cms/api'
 import { CmsPageSectionRenderer } from '../components/CmsPageSectionRenderer'
+import { ContactPage } from './ContactPage'
 import type { PageSectionRecord } from '../cms/sectionCatalog'
 import './content-pages.css'
 
@@ -123,8 +124,7 @@ export function ErpLocalePage() {
 }
 
 export function ContactLocalePage() {
-  const { countryCode, lang } = useLocale()
-  return <LocaleSlugPage key={`contact-${countryCode}-${lang}`} slug="contact" />
+  return <ContactPage />
 }
 
 export function SolutionsLocalePage() {

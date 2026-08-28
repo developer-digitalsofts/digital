@@ -3,7 +3,8 @@ import { useCallback, useState, type FormEvent } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { WhatsAppIcon } from '../components/WhatsAppIcon'
 import { useI18n } from '../i18n/I18nProvider'
-import { useSiteSettings } from '../cms/useSiteSettings'
+import { useRegionalSettings } from '../cms/useRegionalSettings'
+import { useLocale } from '../locale/LocaleContext'
 import { apiBase, fetchWithTimeout } from '../cms/api'
 import { useLocaleSubmission } from '../locale/useLocaleSubmission'
 import { pageShellClass } from '../ui/pageShell'
@@ -13,7 +14,9 @@ type Topic = 'demo' | 'pricing' | 'support' | 'other'
 
 export function ContactPage() {
   const { t } = useI18n()
-  const site = useSiteSettings()
+  const site = useRegionalSettings()
+  const { href: localeHref } = useLocale()
+  const homeHref = localeHref('/')
   const location = useLocation()
   const localeMeta = useLocaleSubmission()
   const [name, setName] = useState('')
@@ -60,7 +63,7 @@ export function ContactPage() {
         setStatus('error')
       }
     },
-    [name, email, phone, company, topic, message, location.pathname, location.search],
+    [name, email, phone, company, topic, message, location.pathname, location.search, localeMeta],
   )
 
   return (
@@ -74,7 +77,7 @@ export function ContactPage() {
             {t('contactPage.subtitle')}
           </p>
           <Link
-            to="/"
+            to={homeHref}
             className="mt-6 inline-flex rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-800 transition-colors hover:border-brand hover:text-brand"
           >
             {t('contactPage.backHome')}
