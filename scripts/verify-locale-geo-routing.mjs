@@ -184,6 +184,65 @@ async function main() {
   if (repeatRoot.status === 302 && repeatRoot.headers.location === '/qa/en') pass('Repeat / visit uses remembered locale')
   else fail('Repeat / visit uses remembered locale', `${repeatRoot.status} ${repeatRoot.headers.location}`)
 
+  const omManual = prefCookie({ country: 'om', lang: 'en', manual: true })
+  const qaWithOmCookie = await fetchRaw(`${BASE}/qa/en`, geoHeaders('OM', { Cookie: `dm_locale_pref=${omManual}` }))
+  if (qaWithOmCookie.status === 200 && !qaWithOmCookie.headers.location) {
+    pass('Saved Oman pref + /qa/en stays Qatar (no redirect)')
+  } else fail('Saved Oman pref + /qa/en stays Qatar', `${qaWithOmCookie.status} location=${qaWithOmCookie.headers.location || ''}`)
+
+  const qaErpOmCookie = await fetchRaw(`${BASE}/qa/en/erp`, geoHeaders('OM', { Cookie: `dm_locale_pref=${omManual}` }))
+  if (qaErpOmCookie.status === 200 && !qaErpOmCookie.headers.location) {
+    pass('Saved Oman pref + /qa/en/erp stays Qatar ERP')
+  } else fail('Saved Oman pref + /qa/en/erp stays Qatar ERP', String(qaErpOmCookie.status))
+
+  const qaPref = prefCookie({ country: 'qa', lang: 'en', manual: true })
+  const omSoftwareQaPref = await fetchRaw(`${BASE}/om/en/software/crm-software`, geoHeaders('QA', { Cookie: `dm_locale_pref=${qaPref}` }))
+  if (omSoftwareQaPref.status === 200 && !omSoftwareQaPref.headers.location) {
+    pass('Saved Qatar pref + /om/en/software/crm-software stays Oman')
+  } else fail('Saved Qatar pref + /om/en/software/crm-software stays Oman', String(omSoftwareQaPref.status))
+
+  if (
+    qaWithOmCookie.headers['set-cookie']?.includes('dm_locale_pref=') &&
+    (qaWithOmCookie.headers['set-cookie'].includes('"country":"qa"') ||
+      qaWithOmCookie.headers['set-cookie'].includes('%22country%22%3A%22qa%22'))
+  ) {
+    pass('Explicit /qa/en syncs cookie to Qatar')
+  } else fail('Explicit /qa/en syncs cookie to Qatar', qaWithOmCookie.headers['set-cookie'] || 'missing')
+
+  const refreshQa = await fetchRaw(`${BASE}/qa/en`, {
+    Cookie: `dm_locale_pref=${prefCookie({ country: 'qa', lang: 'en', manual: false })}`,
+  })
+  if (refreshQa.status === 200 && !refreshQa.headers.location) pass('Refresh explicit Qatar URL remains Qatar')
+  else fail('Refresh explicit Qatar URL remains Qatar', String(refreshQa.status))
+
+  const googlebotQaErp = await fetchRaw(`${BASE}/qa/en/erp`, {
+    Accept: 'text/html',
+    'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+  })
+  if (googlebotQaErp.status === 200 && googlebotQaErp.text.toLowerCase().includes('qatar')) {
+    pass('Googlebot /qa/en/erp HTTP 200 Qatar content')
+  } else fail('Googlebot /qa/en/erp HTTP 200 Qatar content', String(googlebotQaErp.status))
+
+  let hops = 0
+  let loopUrl = `${BASE}/`
+  let loopStatus = 0
+  for (let i = 0; i < 5; i++) {
+    const hop = await fetchRaw(loopUrl, geoHeaders('QA'))
+    loopStatus = hop.status
+    if (hop.status >= 300 && hop.status < 400 && hop.headers.location) {
+      hops += 1
+      loopUrl = hop.headers.location.startsWith('http') ? hop.headers.location : `${BASE}${hop.headers.location}`
+      continue
+    }
+    break
+  }
+  if (hops <= 1 && loopStatus === 200) pass('No redirect loops on / with QA geo')
+  else fail('No redirect loops on / with QA geo', `hops=${hops} status=${loopStatus}`)
+
+  const invalidLocale = await fetchRaw(`${BASE}/zz/en`, geoHeaders('AE'))
+  if (invalidLocale.status === 404 || invalidLocale.status === 302) pass('Invalid locale controlled response')
+  else fail('Invalid locale controlled response', String(invalidLocale.status))
+
   const failed = results.filter((r) => !r.ok)
   console.log(`\n${results.length - failed.length}/${results.length} passed`)
   if (failed.length) process.exit(1)

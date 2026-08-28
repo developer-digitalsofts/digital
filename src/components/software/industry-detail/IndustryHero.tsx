@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Check, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useI18n } from '../../../i18n/I18nProvider'
+import { useLocale } from '../../../locale/LocaleContext'
 import { CmsLink } from '../../CmsLink'
 import type { IndustryHeroModel } from '../../../types/industryDetailPage'
 import { IndustryHeroMedia } from './IndustryHeroMedia'
@@ -14,6 +15,8 @@ type Props = {
 
 export function IndustryHero({ model, breadcrumb, slug }: Props) {
   const { lang } = useI18n()
+  const { href: localeHref } = useLocale()
+  const homeHref = localeHref('/')
   const ChevronFwd = lang === 'ar' ? ChevronLeft : ChevronRight
   const [introOpen, setIntroOpen] = useState(false)
 
@@ -22,7 +25,7 @@ export function IndustryHero({ model, breadcrumb, slug }: Props) {
       <div className="ind-hero__shell mx-auto w-full">
         {breadcrumb ? (
           <nav className="ind-breadcrumb" aria-label="Breadcrumb">
-            <Link to="/">{breadcrumb.home}</Link>
+            <Link to={homeHref}>{breadcrumb.home}</Link>
             <span aria-hidden> / </span>
             <span>{breadcrumb.mid}</span>
             <span aria-hidden> / </span>

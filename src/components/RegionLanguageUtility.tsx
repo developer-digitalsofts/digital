@@ -1,4 +1,5 @@
 import { LocaleSelector } from './LocaleSelector'
+import { useLocale } from '../locale/LocaleContext'
 import './locale-selector.css'
 
 type Props = {
@@ -8,6 +9,8 @@ type Props = {
 
 /** Manual region/language fallback — hidden from desktop header; used in mobile menu and footer. */
 export function RegionLanguageUtility({ className = '', hint = true }: Props) {
+  const { resetAutoLocale, hasManualLocalePref } = useLocale()
+
   return (
     <div className={`dm-locale-utility ${className}`.trim()} aria-label="Region and language">
       <p className="dm-locale-utility__title">Region &amp; Language</p>
@@ -17,6 +20,13 @@ export function RegionLanguageUtility({ className = '', hint = true }: Props) {
         </p>
       ) : null}
       <LocaleSelector compact className="dm-locale-utility__select" />
+      <button
+        type="button"
+        className="dm-locale-utility__reset mt-3 text-sm font-semibold text-brand hover:underline"
+        onClick={resetAutoLocale}
+      >
+        {hasManualLocalePref ? 'Reset saved country & detect again' : 'Detect my country again'}
+      </button>
     </div>
   )
 }

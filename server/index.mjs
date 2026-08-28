@@ -22,7 +22,7 @@ import { createPublishStore } from './publishStore.mjs'
 import { migrateCmsSchemaV2 } from './cmsSchemaMigrate.mjs'
 import { registerContentRoutes, ensureBlogBootstrap, ensureCountriesBootstrap } from './contentRoutes.mjs'
 import { registerAgenticRoutes, createSpaShellHandler } from './agenticRoutes.mjs'
-import { registerLocaleGeoRouting } from './localeGeoRouting.mjs'
+import { registerLocaleGeoRouting, registerLocaleUrlPrefSync } from './localeGeoRouting.mjs'
 import { isValidCityForCountry } from './cityRegistry.mjs'
 import {
   notFoundError,
@@ -3415,6 +3415,7 @@ registerLocaleRoutes(app, {
   logActivity: appendActivity,
 })
 
+registerLocaleUrlPrefSync(app)
 registerLocaleGeoRouting(app, { publishStore, localePublish })
 
 /** Canonicalize UAE English city URLs: /ae/en/dubai/erp-software → /dubai/erp-software */

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Check, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useLocale } from '../../../locale/LocaleContext'
 import { useI18n } from '../../../i18n/I18nProvider'
 import { CmsLink } from '../../CmsLink'
 import type { ModuleHeroModel } from '../../../types/moduleDetailPage'
@@ -15,6 +16,8 @@ type Props = {
 
 export function ModuleHero({ model, slug, breadcrumb }: Props) {
   const { lang } = useI18n()
+  const { href: localeHref } = useLocale()
+  const homeHref = localeHref('/')
   const ChevronFwd = lang === 'ar' ? ChevronLeft : ChevronRight
   const [introOpen, setIntroOpen] = useState(false)
 
@@ -23,7 +26,7 @@ export function ModuleHero({ model, slug, breadcrumb }: Props) {
       <div className="mod-hero__shell mx-auto w-full">
         {breadcrumb ? (
           <nav className="mod-breadcrumb" aria-label="Breadcrumb">
-            <Link to="/">{breadcrumb.home}</Link>
+            <Link to={homeHref}>{breadcrumb.home}</Link>
             <span aria-hidden> / </span>
             <span>{breadcrumb.mid}</span>
             <span aria-hidden> / </span>

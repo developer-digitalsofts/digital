@@ -33,7 +33,10 @@ export const GCC_COUNTRY_FLAGS: Record<string, string> = {
   OM: '🇴🇲',
 }
 
-export const LOCALE_STORAGE_KEY = 'dm_locale_pref'
+/** Last viewed locale snapshot (UI only — never used to override explicit URL routes). */
+export const LOCALE_VIEW_STORAGE_KEY = 'dm_locale_view'
+/** @deprecated Use LOCALE_VIEW_STORAGE_KEY */
+export const LOCALE_STORAGE_KEY = LOCALE_VIEW_STORAGE_KEY
 export const LOCALE_PREF_COOKIE = 'dm_locale_pref'
 export const LOCALE_PREF_MAX_AGE_SEC = 15552000
 export const LOCALE_SUGGEST_DISMISS_KEY = 'dm_locale_suggest_dismiss'

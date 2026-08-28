@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useI18n } from '../../../i18n/I18nProvider'
+import { useLocale } from '../../../locale/LocaleContext'
 import { CmsLink } from '../../CmsLink'
 import type { DetailHeroModel } from '../../../types/detailPageSections'
 import { getUniqueHeading } from '../../../data/softwareDetail/detailHeadingUtils'
@@ -31,6 +32,8 @@ type Props = {
 
 export function DetailHero({ model, breadcrumb }: Props) {
   const { lang } = useI18n()
+  const { href: localeHref } = useLocale()
+  const homeHref = localeHref('/')
   const ChevronFwd = lang === 'ar' ? ChevronLeft : ChevronRight
   const [introOpen, setIntroOpen] = useState(false)
 
@@ -46,7 +49,7 @@ export function DetailHero({ model, breadcrumb }: Props) {
       <div className={`accounts-proto-hero__wrap ${detailShellClass}`}>
         {breadcrumb ? (
           <nav className="accounts-proto-breadcrumb" aria-label="Breadcrumb">
-            <Link to="/">{breadcrumb.home}</Link>
+            <Link to={homeHref}>{breadcrumb.home}</Link>
             <span aria-hidden> / </span>
             <span>{breadcrumb.mid}</span>
             <span aria-hidden> / </span>

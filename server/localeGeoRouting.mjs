@@ -34,6 +34,23 @@ const COUNTRY_TO_SLUG = {
   BH: 'bh',
 }
 
+/** Matches /qa/en, /sa/ar/erp, /om/en/software/crm-software, etc. */
+export const EXPLICIT_LOCALE_PATH_RE = /^\/(ae|sa|kw|qa|om|bh)\/(en|ar)(?=\/|$)/i
+
+export function parseExplicitLocalePath(pathname) {
+  const path = pathname.startsWith('/') ? pathname : `/${pathname}`
+  const match = path.match(EXPLICIT_LOCALE_PATH_RE)
+  if (!match) return null
+  const country = match[1].toLowerCase()
+  const lang = match[2].toLowerCase()
+  if (!COUNTRY_TO_SLUG[country.toUpperCase()]) return null
+  return { country, lang: lang === 'ar' ? 'ar' : 'en' }
+}
+
+export function isExplicitLocalePath(pathname) {
+  return parseExplicitLocalePath(pathname) != null
+}
+
 function parseCookies(header) {
   const out = {}
   if (!header || typeof header !== 'string') return out
@@ -157,6 +174,10 @@ async function resolveLanguage(deps, countryCode, countryItem, req, prefLang) {
   return 'en'
 }
 
+/**
+ * Root-entry routing priority (explicit locale URLs never reach this function):
+ * manual preference cookie → trusted proxy country → default UAE English.
+ */
 export async function resolveGeoRedirect(deps, req) {
   if (isGeoRedirectBot(req)) return { redirect: null, reason: 'bot' }
 
@@ -214,6 +235,17 @@ export function geoRedirectCacheHeaders() {
     Pragma: 'no-cache',
     Vary: 'CF-IPCountry, X-Country-Code, Cookie, Accept-Language',
   }
+}
+
+/** Sync dm_locale_pref to match explicit /:country/:lang URLs (Google landing pages, deep links). */
+export function registerLocaleUrlPrefSync(app) {
+  app.use((req, res, next) => {
+    if (req.method !== 'GET' && req.method !== 'HEAD') return next()
+    const explicit = parseExplicitLocalePath(req.path || '/')
+    if (!explicit) return next()
+    res.setHeader('Set-Cookie', buildLocalePrefSetCookie(explicit.country, explicit.lang, false))
+    next()
+  })
 }
 
 export function registerLocaleGeoRouting(app, deps) {

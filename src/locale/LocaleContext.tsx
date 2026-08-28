@@ -16,7 +16,6 @@ import type { CountriesDoc, CountryProfile, ResolvedCountryProfile } from '../ty
 import type { GccCountryCode } from '../config/gccCountries'
 import {
   GCC_COUNTRY_FLAGS,
-  LOCALE_STORAGE_KEY,
   codeToCountrySlug,
   countrySlugToCode,
   isDefaultLocale,
@@ -25,7 +24,7 @@ import {
   type LocaleLang,
 } from './localeConfig'
 import { buildLocalizedHref, localePathFromQueryCountry, parseLocalePath } from './localePaths'
-import { clearLocalePref, readLocalePref, writeLocalePref } from './localePref'
+import { clearLocalePref, readLocalePref, syncLocalePrefFromUrl, writeLocalePref, writeLocaleViewSnapshot } from './localePref'
 
 type LocaleContextValue = {
   country: LocaleCountrySlug
@@ -114,11 +113,20 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      localStorage.setItem(LOCALE_STORAGE_KEY, JSON.stringify({ country, lang }))
+      writeLocaleViewSnapshot(country, lang)
     } catch {
       /* ignore */
     }
   }, [country, lang])
+
+  // Explicit locale URLs always win — sync saved preference after navigation (never redirect).
+  useEffect(() => {
+    if (!parsed.hasLocalePrefix) return
+    const frame = window.requestAnimationFrame(() => {
+      syncLocalePrefFromUrl(parsed.country, parsed.lang)
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [parsed.country, parsed.lang, parsed.hasLocalePrefix, location.key])
 
   useEffect(() => {
     if (autoRoutingChecked.current) return

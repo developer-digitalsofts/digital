@@ -12,6 +12,7 @@ import { footerResourceLinks } from '../data/footerResourceLinks'
 import { megaIndustryLabel, megaModuleLabel } from '../i18n/megaLabels'
 import { apiBase, fetchWithTimeout } from '../cms/api'
 import { CmsLink } from './CmsLink'
+import { useLocale } from '../locale/LocaleContext'
 import { RegionLanguageUtility } from './RegionLanguageUtility'
 import './footer.css'
 
@@ -82,9 +83,11 @@ function mergeFooterRows(base: FooterLink[], extra: FooterLink[]) {
 }
 
 function FooterBrandLogo({ src }: { src: string }) {
+  const { href: localeHref } = useLocale()
+  const homeHref = localeHref('/')
   return (
     <Link
-      to="/"
+      to={homeHref}
       dir="ltr"
       className="dm-footer__brand-logo relative inline-block shrink-0 bg-transparent transition-opacity duration-200 hover:opacity-90"
       aria-label="DigitalManager"

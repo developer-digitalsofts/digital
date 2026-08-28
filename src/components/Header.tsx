@@ -15,6 +15,7 @@ import { useRegionalSettings } from '../cms/useRegionalSettings'
 import { pick } from '../cms/pick'
 import { isTopBarVisibleFromSections, parsePageSections } from '../cms/pageSections'
 import type { CmsHeader, CmsHeaderNavLink } from '../cms/types'
+import { useLocale } from '../locale/LocaleContext'
 import { RegionLanguageUtility } from './RegionLanguageUtility'
 import './header-layout.css'
 
@@ -112,6 +113,8 @@ type HeaderProps = {
 
 export function Header({ onOpenSearch }: HeaderProps) {
   const { lang, t, toggleLang } = useI18n()
+  const { href: localeHref } = useLocale()
+  const homeHref = localeHref('/')
   const { data } = useCms()
   const header = data?.header as CmsHeader | undefined
   const sections = useMemo(() => parsePageSections(data?.pageSections), [data?.pageSections])
@@ -240,7 +243,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
         <div className="dm-header__container">
           <div className="dm-header__bar">
             <Link
-              to="/"
+              to={homeHref}
               className="dm-header__logo isolate flex shrink-0 items-center gap-2 bg-transparent transition-opacity duration-200 hover:opacity-90"
               onClick={() => {
                 closeMega()
@@ -302,7 +305,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                 <ul className="dm-header__nav-list">
                   <li>
                     <NavLink
-                      to="/"
+                      to={homeHref}
                       end
                       onClick={closeMega}
                       className={({ isActive }) =>
@@ -515,7 +518,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                 : (
                   <>
                     <NavLink
-                      to="/"
+                      to={homeHref}
                       end
                       className="rounded-lg px-3 py-2.5 text-sm font-bold uppercase tracking-wide text-[#0f172a] hover:bg-slate-100"
                       onClick={closeMobile}
