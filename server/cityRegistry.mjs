@@ -1,139 +1,99 @@
 /**
- * City registry for GCC localized city pages.
- * Each city belongs to one country and maps to a URL slug.
+ * City registry — Pakistan market (pakistan-version branch).
  */
-import { normalizeCountryCode } from './countryHelpers.mjs'
-import { getProfile } from './gccLocalizedContent/profiles.mjs'
+import { CITY_PRODUCT_PAGE_SLUGS, MARKET_CODE, MARKET_CURRENCY, PK_CITY_SLUGS } from './pakistanConfig.mjs'
 
-/** Primary city page slug (ERP landing per city). */
+/** Default product page (ERP landing per city). */
 export const CITY_PAGE_SLUG = 'erp-software'
+
+export { CITY_PRODUCT_PAGE_SLUGS }
 
 export const CITY_CONTENT_TYPE = 'cityPage'
 
-/** @type {Record<string, { slug: string, name: { en: string, ar: string }, countryCode: string, focus: { en: string, ar: string }, industries: string[], services: string[] }>} */
-export const CITY_REGISTRY = {
-  dubai: {
-    slug: 'dubai',
-    countryCode: 'AE',
-    name: { en: 'Dubai', ar: 'دبي' },
+const CITY_DEFS = {
+  karachi: {
+    name: { en: 'Karachi' },
     focus: {
-      en: 'free-zone trading, retail chains and multi-branch finance teams',
-      ar: 'التجارة في المناطق الحرة وسلاسل التجزئة وفرق المالية متعددة الفروع',
+      en: 'port-linked trading, wholesale depots and multi-branch retail',
     },
-    industries: ['Retail & E-commerce', 'Trading & Distribution', 'Hospitality', 'Real Estate'],
-    services: ['Multi-branch GL consolidation', 'VAT-compliant invoicing', 'POS with inventory sync', 'CRM for B2B sales'],
+    industries: ['Trading & Distribution', 'Retail & E-commerce', 'Logistics', 'Manufacturing'],
+    services: ['Multi-branch GL consolidation', 'PKR invoicing', 'POS with inventory sync', 'CRM for B2B sales'],
   },
-  'abu-dhabi': {
-    slug: 'abu-dhabi',
-    countryCode: 'AE',
-    name: { en: 'Abu Dhabi', ar: 'أبوظبي' },
+  lahore: {
+    name: { en: 'Lahore' },
     focus: {
-      en: 'government-linked projects, contracting and enterprise procurement',
-      ar: 'المشاريع المرتبطة بالجهات الحكومية والمقاولات ومشتريات المؤسسات',
+      en: 'textile manufacturing, FMCG distribution and Punjab retail expansion',
     },
-    industries: ['Construction & Contracting', 'Oil & Gas Services', 'Facilities Management', 'Healthcare'],
-    services: ['Project cost tracking', 'Purchase order workflows', 'Retention & milestone billing', 'Audit-ready reporting'],
+    industries: ['Textile', 'FMCG Distribution', 'Retail', 'F&B'],
+    services: ['Production planning', 'Route delivery', 'Branch KPIs', 'Credit terms & ageing'],
   },
-  sharjah: {
-    slug: 'sharjah',
-    countryCode: 'AE',
-    name: { en: 'Sharjah', ar: 'الشارقة' },
+  islamabad: {
+    name: { en: 'Islamabad' },
     focus: {
-      en: 'industrial manufacturing, warehousing and export-oriented SMEs',
-      ar: 'التصنيع الصناعي والمستودعات والشركات الصغيرة والمتوسطة orientated للتصدير',
+      en: 'professional services, IT firms and healthcare clinics',
     },
-    industries: ['Manufacturing', 'Wholesale Distribution', 'Import/Export', 'Automotive Parts'],
-    services: ['BOM & production planning', 'Warehouse bin management', 'Landed cost tracking', 'Export documentation support'],
+    industries: ['Professional Services', 'IT & Software', 'Healthcare', 'Consulting'],
+    services: ['Milestone billing', 'Approval workflows', 'Timesheet billing', 'Audit-ready exports'],
   },
-  ajman: {
-    slug: 'ajman',
-    countryCode: 'AE',
-    name: { en: 'Ajman', ar: 'عجمان' },
+  rawalpindi: {
+    name: { en: 'Rawalpindi' },
     focus: {
-      en: 'cost-conscious SMEs, light manufacturing and trading offices',
-      ar: 'الشركات الصغيرة والمتوسطة conscious للتكلفة والتصنيع الخفيف ومكاتب التجارة',
+      en: 'workshops, spare-parts retail and twin-city wholesale',
     },
-    industries: ['Trading', 'Light Manufacturing', 'Services', 'F&B Outlets'],
-    services: ['Affordable cloud ERP rollout', 'Simple inventory & invoicing', 'Payroll for small teams', 'Branch-level dashboards'],
+    industries: ['Automotive Parts', 'Workshops', 'Wholesale', 'Retail'],
+    services: ['Job costing', 'Spare parts catalogue', 'Simple inventory', 'Branch dashboards'],
   },
-  riyadh: {
-    slug: 'riyadh',
-    countryCode: 'SA',
-    name: { en: 'Riyadh', ar: 'الرياض' },
+  faisalabad: {
+    name: { en: 'Faisalabad' },
     focus: {
-      en: 'Vision 2030 enterprises, retail expansion and centralized HQ reporting',
-      ar: 'م enterprises رؤية 2030 وتوسع التجزئة وتقارير المقر المركزي',
+      en: 'textile mills, agri-trading and industrial supply',
     },
-    industries: ['Retail Chains', 'Healthcare Groups', 'Contracting', 'Professional Services'],
-    services: ['ZATCA e-invoicing readiness', 'Multi-entity consolidation', 'SAR payroll & GOSI', 'Branch performance KPIs'],
+    industries: ['Textile Manufacturing', 'Agri-Trading', 'Industrial Supply', 'Export'],
+    services: ['BOM & production', 'Landed cost tracking', 'Vendor payments', 'PKR consolidation'],
   },
-  jeddah: {
-    slug: 'jeddah',
-    countryCode: 'SA',
-    name: { en: 'Jeddah', ar: 'جدة' },
+  multan: {
+    name: { en: 'Multan' },
     focus: {
-      en: 'Red Sea port logistics, wholesale distribution and hospitality groups',
-      ar: 'logistics ميناء البحر الأحمر والتوزيع بالجملة ومجموعات الضيافة',
+      en: 'agri-business, cold storage and southern Punjab hubs',
     },
-    industries: ['Logistics & Warehousing', 'Wholesale', 'Hotels & Restaurants', 'Import/Export'],
-    services: ['Route & delivery planning', 'Cold-chain inventory', 'Inter-city stock transfers', 'Hospitality revenue tracking'],
+    industries: ['Agriculture', 'Cold Storage', 'Wholesale', 'Logistics'],
+    services: ['Seasonal forecasting', 'Cold-chain inventory', 'Inter-city transfers', 'PKR reporting'],
   },
-  dammam: {
-    slug: 'dammam',
-    countryCode: 'SA',
-    name: { en: 'Dammam', ar: 'الدمام' },
+  peshawar: {
+    name: { en: 'Peshawar' },
     focus: {
-      en: 'Eastern Province industrial services, spare parts and project-based billing',
-      ar: 'خدمات صناعية المنطقة الشرقية وقطع الغيار والفوترة القائمة على المشاريع',
+      en: 'pharma wholesale, regional distribution and healthcare',
     },
-    industries: ['Oil & Gas Services', 'Industrial Supply', 'Workshop & Maintenance', 'Construction'],
-    services: ['Job costing & timesheets', 'Spare parts catalogue', 'Service contract billing', 'Vendor payment schedules'],
+    industries: ['Pharmaceuticals', 'Wholesale', 'Healthcare', 'Trading'],
+    services: ['Batch tracking', 'Credit ageing', 'Multi-warehouse stock', 'Compliance audit trails'],
   },
-  doha: {
-    slug: 'doha',
-    countryCode: 'QA',
-    name: { en: 'Doha', ar: 'الدوحة' },
+  quetta: {
+    name: { en: 'Quetta' },
     focus: {
-      en: 'services-led businesses, events infrastructure and growing retail brands',
-      ar: 'الشركات القائمة على الخدمات والبنية التحتية للفعاليات وعلامات التجزئة النامية',
+      en: 'trading houses, transport and provincial logistics',
     },
-    industries: ['Professional Services', 'Events & Catering', 'Retail', 'Facilities'],
-    services: ['QAR billing & approvals', 'Project milestone tracking', 'Multi-site inventory', 'Client portal invoicing'],
-  },
-  muscat: {
-    slug: 'muscat',
-    countryCode: 'OM',
-    name: { en: 'Muscat', ar: 'مسقط' },
-    focus: {
-      en: 'logistics corridors, tourism hospitality and family-owned trading groups',
-      ar: 'ممرات logistics والضيافة السياحية ومجموعات التجارة العائلية',
-    },
-    industries: ['Tourism & Hospitality', 'Trading & Distribution', 'Logistics', 'Healthcare Clinics'],
-    services: ['OMR multi-branch accounting', 'Seasonal demand forecasting', 'Fleet & delivery costing', 'Clinic appointment billing'],
-  },
-  'kuwait-city': {
-    slug: 'kuwait-city',
-    countryCode: 'KW',
-    name: { en: 'Kuwait City', ar: 'مدينة الكويت' },
-    focus: {
-      en: 'family businesses, trading houses and multi-brand retail operators',
-      ar: 'الشركات العائلية وبيوت التجارة ومشغلي التجزئة متعددة العلامات',
-    },
-    industries: ['Trading Houses', 'Retail', 'F&B Groups', 'Automotive'],
-    services: ['KWD consolidated reporting', 'Credit terms & ageing', 'Showroom POS integration', 'Inter-company transfers'],
-  },
-  manama: {
-    slug: 'manama',
-    countryCode: 'BH',
-    name: { en: 'Manama', ar: 'المنامة' },
-    focus: {
-      en: 'financial services support, professional firms and compact multi-branch operators',
-      ar: 'دعم الخدمات المالية والشركات المهنية والمشغلين متعددي الفروع compact',
-    },
-    industries: ['Professional Services', 'Retail', 'Healthcare', 'Trading'],
-    services: ['BHD VAT-ready invoicing', 'Time & expense billing', 'Compact branch rollouts', 'Compliance audit trails'],
+    industries: ['Trading Houses', 'Transport', 'Construction Supply', 'Services'],
+    services: ['Fleet costing', 'Project billing', 'Affordable ERP rollout', 'Branch reporting'],
   },
 }
+
+/** @type {Record<string, { slug: string, name: { en: string }, countryCode: string, focus: { en: string }, industries: string[], services: string[] }>} */
+export const CITY_REGISTRY = Object.fromEntries(
+  PK_CITY_SLUGS.map((slug) => {
+    const def = CITY_DEFS[slug]
+    return [
+      slug,
+      {
+        slug,
+        countryCode: MARKET_CODE,
+        name: def.name,
+        focus: def.focus,
+        industries: def.industries,
+        services: def.services,
+      },
+    ]
+  }),
+)
 
 export const ALL_CITY_SLUGS = Object.keys(CITY_REGISTRY)
 
@@ -142,15 +102,19 @@ export function getCity(citySlug) {
   return CITY_REGISTRY[String(citySlug).toLowerCase()] || null
 }
 
-export function getCitiesForCountry(countryCode) {
-  const code = normalizeCountryCode(countryCode)
+export function getCitiesForCountry(countryCode = MARKET_CODE) {
+  const code = String(countryCode || MARKET_CODE).toUpperCase()
   return ALL_CITY_SLUGS.map((slug) => CITY_REGISTRY[slug]).filter((c) => c.countryCode === code)
 }
 
-export function isValidCityForCountry(citySlug, countryCode) {
+export function isValidCityForCountry(citySlug, countryCode = MARKET_CODE) {
   const city = getCity(citySlug)
   if (!city) return false
-  return normalizeCountryCode(city.countryCode) === normalizeCountryCode(countryCode)
+  return city.countryCode === String(countryCode || MARKET_CODE).toUpperCase()
+}
+
+export function isKnownCityProductSlug(pageSlug) {
+  return CITY_PRODUCT_PAGE_SLUGS.includes(String(pageSlug || '').toLowerCase())
 }
 
 export function cityGlobalIdentity(citySlug, pageSlug = CITY_PAGE_SLUG) {
@@ -161,8 +125,10 @@ export function cityRecordKey(citySlug, pageSlug = CITY_PAGE_SLUG) {
   return `${CITY_CONTENT_TYPE}:${cityGlobalIdentity(citySlug, pageSlug)}`
 }
 
-export function getCountryProfileForCity(citySlug) {
-  const city = getCity(citySlug)
-  if (!city) return getProfile('AE')
-  return getProfile(city.countryCode)
+export function getCountryProfileForCity(_citySlug) {
+  return {
+    code: MARKET_CODE,
+    currency: MARKET_CURRENCY,
+    name: 'Pakistan',
+  }
 }

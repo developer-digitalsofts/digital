@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "id": "cat-erp",
+      "name": {
+        "en": "ERP",
+        "ar": "ERP"
+      },
+      "slug": "erp",
+      "description": {
+        "en": "",
+        "ar": ""
+      },
+      "sortOrder": 0,
+      "enabled": true
+    },
+    {
+      "id": "cat-pos",
+      "name": {
+        "en": "POS",
+        "ar": "نقطة البيع"
+      },
+      "slug": "pos",
+      "description": {
+        "en": "",
+        "ar": ""
+      },
+      "sortOrder": 1,
+      "enabled": true
+    },
+    {
+      "id": "cat-inventory",
+      "name": {
+        "en": "Inventory",
+        "ar": "المخزون"
+      },
+      "slug": "inventory",
+      "description": {
+        "en": "",
+        "ar": ""
+      },
+      "sortOrder": 2,
+      "enabled": true
+    },
+    {
+      "id": "cat-accounting",
+      "name": {
+        "en": "Accounting",
+        "ar": "المحاسبة"
+      },
+      "slug": "accounting",
+      "description": {
+        "en": "",
+        "ar": ""
+      },
+      "sortOrder": 3,
+      "enabled": true
+    },
+    {
+      "id": "cat-automation",
+      "name": {
+        "en": "Business Automation",
+        "ar": "أتمتة الأعمال"
+      },
+      "slug": "business-automation",
+      "description": {
+        "en": "",
+        "ar": ""
+      },
+      "sortOrder": 4,
+      "enabled": true
+    },
+    {
+      "id": "cat-transformation",
+      "name": {
+        "en": "Digital Transformation",
+        "ar": "التحول الرقمي"
+      },
+      "slug": "digital-transformation",
+      "description": {
+        "en": "",
+        "ar": ""
+      },
+      "sortOrder": 5,
+      "enabled": true
+    },
+    {
+      "id": "cat-industry",
+      "name": {
+        "en": "Industry Insights",
+        "ar": "رؤى القطاعات"
+      },
+      "slug": "industry-insights",
+      "description": {
+        "en": "",
+        "ar": ""
+      },
+      "sortOrder": 6,
+      "enabled": true
+    }
+  ],
+  "_meta": {
+    "createdAt": "2026-08-21T10:00:00.000Z",
+    "updatedAt": "2026-08-21T10:00:00.000Z",
+    "updatedBy": "content-bootstrap"
+  }
+}

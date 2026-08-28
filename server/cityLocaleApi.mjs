@@ -9,8 +9,10 @@ import {
   getCitiesForCountry,
   getCity,
   isValidCityForCountry,
+  isKnownCityProductSlug,
   ALL_CITY_SLUGS,
   CITY_REGISTRY,
+  CITY_PRODUCT_PAGE_SLUGS,
 } from './cityRegistry.mjs'
 import { buildCityPagePath } from './cityPaths.mjs'
 import { isDefaultLocale, COUNTRY_CODE_TO_SLUG } from './seoPaths.mjs'
@@ -27,7 +29,7 @@ import { buildCityLocaleRecord } from './cityContentBuilder.mjs'
 export function resolveCityContentQuery(citySlug, pageSlug, countryCode, lang) {
   const city = getCity(citySlug)
   if (!city || !isValidCityForCountry(citySlug, countryCode)) return null
-  if (pageSlug !== CITY_PAGE_SLUG) return null
+  if (!isKnownCityProductSlug(pageSlug)) return null
   return {
     contentType: CITY_CONTENT_TYPE,
     globalIdentity: cityGlobalIdentity(citySlug, pageSlug),
@@ -75,7 +77,7 @@ export async function resolveCityContent(deps, { citySlug, pageSlug, countryCode
       store,
       { slug: 'erp', countryCode: query.countryCode, lang: query.lang },
       null,
-      { context, countryEnabled, allowGlobalFallback: query.countryCode === 'AE', allowFallback: true },
+      { context, countryEnabled, allowGlobalFallback: query.countryCode === 'PK', allowFallback: true },
     )
     if (erpFallback.publicView) {
       return {
@@ -127,7 +129,7 @@ export function registerCityLocaleRoutes(app, deps) {
     try {
       const citySlug = String(req.params.citySlug || '').toLowerCase()
       const pageSlug = String(req.params.pageSlug || '').toLowerCase()
-      const countryCode = normalizeCountryCode(String(req.query.country || 'AE'))
+      const countryCode = normalizeCountryCode(String(req.query.country || 'PK'))
       const lang = normalizeLocaleLang(String(req.query.lang || 'en'))
 
       const full = await resolveCityContent(deps, { citySlug, pageSlug, countryCode, lang, context: 'public' })
@@ -164,7 +166,7 @@ export function registerCityLocaleRoutes(app, deps) {
 
   app.get('/api/admin/locale/cities', authMiddleware, async (req, res) => {
     try {
-      const countryCode = normalizeCountryCode(String(req.query.country || 'AE'))
+      const countryCode = normalizeCountryCode(String(req.query.country || 'PK'))
       const store = await localePublish.readDraftStore()
       const published = await localePublish.readPublishedStore()
       const cities = getCitiesForCountry(countryCode).map((city) => {
@@ -198,7 +200,7 @@ export function registerCityLocaleRoutes(app, deps) {
               }
             : null,
           previewPath: buildCityPagePath(
-            COUNTRY_CODE_TO_SLUG[city.countryCode] || 'ae',
+            COUNTRY_CODE_TO_SLUG[city.countryCode] || 'pk',
             'en',
             city.slug,
             CITY_PAGE_SLUG,

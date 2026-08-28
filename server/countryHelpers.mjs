@@ -1,10 +1,11 @@
 /**
- * GCC country helpers for content scoping and public APIs.
+ * Country helpers — Pakistan market (pakistan-version).
  */
+import { PK_CONTACT_PLACEHOLDERS, MARKET_CURRENCY, MARKET_PHONE_CODE } from './pakistanConfig.mjs'
 
-export const GCC_COUNTRY_CODES = ['AE', 'SA', 'KW', 'QA', 'BH', 'OM']
+export const GCC_COUNTRY_CODES = ['PK']
 
-export function normalizeCountryCode(value, fallback = 'AE') {
+export function normalizeCountryCode(value, fallback = 'PK') {
   const upper = String(value ?? '')
     .trim()
     .toUpperCase()
@@ -15,7 +16,7 @@ export function matchesCountryScope(contentCountryCode, selectedCode) {
   const code = String(contentCountryCode ?? '')
     .trim()
     .toUpperCase()
-  if (!code || code === 'ALL' || code === 'GCC') return true
+  if (!code || code === 'ALL' || code === 'PK' || code === 'PAKISTAN' || code === 'GCC') return true
   return code === normalizeCountryCode(selectedCode)
 }
 
@@ -30,7 +31,7 @@ export function readBilingualCountry(value, lang = 'en') {
 }
 
 export function publishedCountries(doc, lang = 'en') {
-  const defaultCode = normalizeCountryCode(doc?.defaultCountryCode, 'AE')
+  const defaultCode = normalizeCountryCode(doc?.defaultCountryCode, 'PK')
   const items = (doc?.items || [])
     .filter((item) => item && item.enabled !== false && GCC_COUNTRY_CODES.includes(String(item.code || '').toUpperCase()))
     .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
@@ -38,14 +39,14 @@ export function publishedCountries(doc, lang = 'en') {
       code: normalizeCountryCode(item.code, defaultCode),
       name: readBilingualCountry(item.name, lang),
       shortName: readBilingualCountry(item.shortName, lang) || readBilingualCountry(item.name, lang),
-      currency: item.currency || '',
-      phoneCode: item.phoneCode || '',
-      primaryEmail: item.primaryEmail || '',
+      currency: item.currency || MARKET_CURRENCY,
+      phoneCode: item.phoneCode || MARKET_PHONE_CODE,
+      primaryEmail: item.primaryEmail || PK_CONTACT_PLACEHOLDERS.primaryEmail,
       salesEmail: item.salesEmail || '',
       supportEmail: item.supportEmail || '',
-      phoneDisplay: item.phoneDisplay || '',
-      phoneHref: item.phoneHref || '',
-      whatsappNumber: String(item.whatsappNumber || '').replace(/\D/g, ''),
+      phoneDisplay: item.phoneDisplay || PK_CONTACT_PLACEHOLDERS.phoneDisplay,
+      phoneHref: item.phoneHref || PK_CONTACT_PLACEHOLDERS.phoneHref,
+      whatsappNumber: String(item.whatsappNumber || PK_CONTACT_PLACEHOLDERS.whatsappNumber).replace(/\D/g, ''),
       officeAddress: readBilingualCountry(item.officeAddress, lang),
       workingHours: readBilingualCountry(item.workingHours, lang),
       isDefault: item.isDefault === true || normalizeCountryCode(item.code) === defaultCode,
@@ -69,78 +70,27 @@ export function resolveCountryProfile(doc, code, lang = 'en') {
 export function defaultCountriesDoc() {
   return {
     schemaVersion: 1,
-    defaultCountryCode: 'AE',
+    defaultCountryCode: 'PK',
     items: [
       {
-        code: 'AE',
-        name: { en: 'United Arab Emirates', ar: 'الإمارات العربية المتحدة' },
-        shortName: { en: 'UAE', ar: 'الإمارات' },
+        code: 'PK',
+        name: { en: 'Pakistan', ar: 'Pakistan' },
+        shortName: { en: 'Pakistan', ar: 'Pakistan' },
         enabled: true,
         isDefault: true,
-        currency: 'AED',
-        phoneCode: '+971',
-        primaryEmail: 'info@digitalmanager.ae',
-        salesEmail: 'info@digitalmanager.ae',
-        supportEmail: 'info@digitalmanager.ae',
-        phoneDisplay: '+971 6 536 6786',
-        phoneHref: 'tel:+97165366786',
-        whatsappNumber: '971581174911',
-        officeAddress: {
-          en: '607, Al Rahma 1, Al Wahda St, Sharjah, UAE',
-          ar: '٦٠٧، الرحمة ١، شارع الوحدة، الشارقة، الإمارات',
-        },
-        workingHours: { en: 'Sat - Thu : 10.00 am - 9.00 pm', ar: 'السبت–الخميس: ١٠ ص – ٩ م' },
+        currency: MARKET_CURRENCY,
+        phoneCode: MARKET_PHONE_CODE,
+        primaryEmail: PK_CONTACT_PLACEHOLDERS.primaryEmail,
+        salesEmail: PK_CONTACT_PLACEHOLDERS.salesEmail,
+        supportEmail: PK_CONTACT_PLACEHOLDERS.supportEmail,
+        phoneDisplay: PK_CONTACT_PLACEHOLDERS.phoneDisplay,
+        phoneHref: PK_CONTACT_PLACEHOLDERS.phoneHref,
+        whatsappNumber: PK_CONTACT_PLACEHOLDERS.whatsappNumber,
+        officeAddress: PK_CONTACT_PLACEHOLDERS.officeAddress,
+        workingHours: PK_CONTACT_PLACEHOLDERS.workingHours,
         sortOrder: 0,
-      },
-      {
-        code: 'SA',
-        name: { en: 'Saudi Arabia', ar: 'المملكة العربية السعودية' },
-        shortName: { en: 'KSA', ar: 'السعودية' },
-        enabled: true,
-        currency: 'SAR',
-        phoneCode: '+966',
-        primaryEmail: 'info@digitalmanager.ae',
-        sortOrder: 1,
-      },
-      {
-        code: 'KW',
-        name: { en: 'Kuwait', ar: 'الكويت' },
-        shortName: { en: 'Kuwait', ar: 'الكويت' },
-        enabled: true,
-        currency: 'KWD',
-        phoneCode: '+965',
-        primaryEmail: 'info@digitalmanager.ae',
-        sortOrder: 2,
-      },
-      {
-        code: 'QA',
-        name: { en: 'Qatar', ar: 'قطر' },
-        shortName: { en: 'Qatar', ar: 'قطر' },
-        enabled: true,
-        currency: 'QAR',
-        phoneCode: '+974',
-        primaryEmail: 'info@digitalmanager.ae',
-        sortOrder: 3,
-      },
-      {
-        code: 'BH',
-        name: { en: 'Bahrain', ar: 'البحرين' },
-        shortName: { en: 'Bahrain', ar: 'البحرين' },
-        enabled: true,
-        currency: 'BHD',
-        phoneCode: '+973',
-        primaryEmail: 'info@digitalmanager.ae',
-        sortOrder: 4,
-      },
-      {
-        code: 'OM',
-        name: { en: 'Oman', ar: 'عُمان' },
-        shortName: { en: 'Oman', ar: 'عُمان' },
-        enabled: true,
-        currency: 'OMR',
-        phoneCode: '+968',
-        primaryEmail: 'info@digitalmanager.ae',
-        sortOrder: 5,
+        autoDetectEnabled: false,
+        allowAutoRedirect: false,
       },
     ],
   }

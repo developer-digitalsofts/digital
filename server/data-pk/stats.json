@@ -1,0 +1,81 @@
+{
+  "eyebrow": {
+    "en": "PROVEN PERFORMANCE",
+    "ar": "أداء مُثبت"
+  },
+  "title": {
+    "en": "Built on Trust.\nProven by Results.",
+    "ar": "مبني على الثقة.\nمثبت بالنتائج."
+  },
+  "subheading": {
+    "en": "A unified cloud ERP platform designed to support finance, inventory, sales and multi-branch operations. Serving teams in Dubai, Abu Dhabi and Sharjah.",
+    "ar": "منصة ERP سحابية موحّدة لدعم المالية والمخزون والمبيعات وعمليات الفروع المتعددة. لخدمة الفرق في دبي وأبوظبي والشارقة."
+  },
+  "items": [
+    {
+      "id": "s-cloud",
+      "value": "Cloud",
+      "label": {
+        "en": "Native ERP Platform",
+        "ar": "منصة ERP سحابية"
+      },
+      "icon": "Award",
+      "accentColor": "#f47c4d",
+      "sortOrder": 0,
+      "active": true
+    },
+    {
+      "id": "s-solutions",
+      "value": "120+",
+      "label": {
+        "en": "Business Solutions",
+        "ar": "حلول أعمال"
+      },
+      "icon": "Layers",
+      "accentColor": "#f47c4d",
+      "sortOrder": 1,
+      "active": true
+    },
+    {
+      "id": "s-currency",
+      "value": "AED",
+      "label": {
+        "en": "VAT-Ready Invoicing",
+        "ar": "فوترة جاهزة للضريبة"
+      },
+      "icon": "Users",
+      "accentColor": "#f47c4d",
+      "sortOrder": 2,
+      "active": true
+    },
+    {
+      "id": "s-unified",
+      "value": "Unified",
+      "label": {
+        "en": "Connected Operations",
+        "ar": "عمليات متصلة"
+      },
+      "icon": "HeartHandshake",
+      "accentColor": "#f47c4d",
+      "sortOrder": 3,
+      "active": true
+    },
+    {
+      "id": "s-region",
+      "value": "UAE",
+      "label": {
+        "en": "Focused Implementation",
+        "ar": "تنفيذ مركّز"
+      },
+      "icon": "GitBranch",
+      "accentColor": "#f47c4d",
+      "sortOrder": 4,
+      "active": true
+    }
+  ],
+  "_meta": {
+    "createdAt": "2026-08-12T08:31:16.124Z",
+    "updatedAt": "2026-08-27T06:42:22.830Z",
+    "updatedBy": "seed-gcc-localized-content"
+  }
+}

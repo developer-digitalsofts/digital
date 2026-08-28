@@ -1,0 +1,19 @@
+[
+  {
+    "id": "1",
+    "email": "admin@digitalmanager.local",
+    "name": "Administrator",
+    "profileImageUrl": "",
+    "passwordHash": "$2b$10$nbXxlgaxbiyOrCM8qP2qregqRyM4ugkyZI6snJ2H0LJekce5f5moK",
+    "role": "admin"
+  },
+  {
+    "id": "vgQKNDsFP-NW",
+    "email": "admin@admin.com",
+    "name": "Super Admin",
+    "profileImageUrl": "",
+    "passwordHash": "$2b$10$X9JO9uCD3.d36PIUe8sdwOuOSHrN8.eZv8gCqEj74Wgl6EjYlxlc2",
+    "role": "Super Admin",
+    "status": "Active"
+  }
+]

@@ -16,12 +16,7 @@ type AdminLocaleContextValue = {
 }
 
 const LABELS: Record<LocaleCountrySlug, string> = {
-  ae: 'UAE',
-  sa: 'Saudi Arabia',
-  kw: 'Kuwait',
-  qa: 'Qatar',
-  bh: 'Bahrain',
-  om: 'Oman',
+  pk: 'Pakistan',
 }
 
 const AdminLocaleContext = createContext<AdminLocaleContextValue | null>(null)
@@ -50,25 +45,17 @@ export function AdminLocaleProvider({ children }: { children: ReactNode }) {
   )
 
   const value = useMemo((): AdminLocaleContextValue => {
-    const isDefault = country === 'ae' && lang === 'en'
-    const translationStatus: TranslationStatus = lang === 'ar' && country !== 'ae' ? 'missing' : isDefault ? 'published' : 'draft'
-    const inheritanceLabel = isDefault
-      ? 'Global UAE English (published baseline)'
-      : lang === 'ar'
-        ? 'Inherited from country default → global (Arabic not auto-published)'
-        : 'Inherited from global content where locale override missing'
-
     return {
       country,
       lang,
-      countryLabel: LABELS[country],
-      langLabel: lang === 'en' ? 'English' : 'Arabic',
+      countryLabel: LABELS[country] || 'Pakistan',
+      langLabel: 'English',
       dirty,
       setDirty,
       setCountry,
       setLang: setLangWithGuard,
-      inheritanceLabel,
-      translationStatus,
+      inheritanceLabel: 'Pakistan English (published baseline)',
+      translationStatus: 'published',
     }
   }, [country, lang, dirty, setCountry, setLangWithGuard])
 

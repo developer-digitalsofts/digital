@@ -5,40 +5,39 @@ import { getCountryProfile } from '../../locale/countryProfiles'
 export type IndustryVisualVariant = 'hero' | 'reports' | 'dashboard' | 'workflow' | 'documents'
 
 /** Illustrative demo amounts per country — not exchange-converted prices. */
-const DEMO_AMOUNTS: Record<string, Record<GccCountryCode, string>> = {
-  'AED 1.8M': { AE: 'AED 1.8M', SA: 'SAR 1.8M', QA: 'QAR 1.65M', OM: 'OMR 18K', KW: 'KWD 15K', BH: 'BHD 180K' },
-  'AED 240K': { AE: 'AED 240K', SA: 'SAR 240K', QA: 'QAR 220K', OM: 'OMR 2.4K', KW: 'KWD 2K', BH: 'BHD 24K' },
-  'AED 6.1M': { AE: 'AED 6.1M', SA: 'SAR 6.1M', QA: 'QAR 5.6M', OM: 'OMR 61K', KW: 'KWD 50K', BH: 'BHD 610K' },
-  'AED 2.4M': { AE: 'AED 2.4M', SA: 'SAR 2.4M', QA: 'QAR 2.2M', OM: 'OMR 24K', KW: 'KWD 20K', BH: 'BHD 240K' },
-  'AED 3.2M': { AE: 'AED 3.2M', SA: 'SAR 3.2M', QA: 'QAR 2.9M', OM: 'OMR 32K', KW: 'KWD 26K', BH: 'BHD 320K' },
-  'AED 1.1M': { AE: 'AED 1.1M', SA: 'SAR 1.1M', QA: 'QAR 1M', OM: 'OMR 11K', KW: 'KWD 9K', BH: 'BHD 110K' },
-  'AED 890K': { AE: 'AED 890K', SA: 'SAR 890K', QA: 'QAR 820K', OM: 'OMR 8.9K', KW: 'KWD 7.2K', BH: 'BHD 89K' },
-  'AED 4.8M': { AE: 'AED 4.8M', SA: 'SAR 4.8M', QA: 'QAR 4.4M', OM: 'OMR 48K', KW: 'KWD 39K', BH: 'BHD 480K' },
-  'AED 2.1M': { AE: 'AED 2.1M', SA: 'SAR 2.1M', QA: 'QAR 1.9M', OM: 'OMR 21K', KW: 'KWD 17K', BH: 'BHD 210K' },
-  'AED 1.4M': { AE: 'AED 1.4M', SA: 'SAR 1.4M', QA: 'QAR 1.3M', OM: 'OMR 14K', KW: 'KWD 11K', BH: 'BHD 140K' },
-  'AED 620K': { AE: 'AED 620K', SA: 'SAR 620K', QA: 'QAR 570K', OM: 'OMR 6.2K', KW: 'KWD 5.1K', BH: 'BHD 62K' },
-  'AED 1.2M': { AE: 'AED 1.2M', SA: 'SAR 1.2M', QA: 'QAR 1.1M', OM: 'OMR 12K', KW: 'KWD 9.8K', BH: 'BHD 120K' },
-  'AED 42K': { AE: 'AED 42K', SA: 'SAR 42K', QA: 'QAR 38K', OM: 'OMR 420', KW: 'KWD 340', BH: 'BHD 4.2K' },
-  'AED 3.4M': { AE: 'AED 3.4M', SA: 'SAR 3.4M', QA: 'QAR 3.1M', OM: 'OMR 34K', KW: 'KWD 28K', BH: 'BHD 340K' },
-  'AED 2.8M': { AE: 'AED 2.8M', SA: 'SAR 2.8M', QA: 'QAR 2.6M', OM: 'OMR 28K', KW: 'KWD 23K', BH: 'BHD 280K' },
-  'AED 640K': { AE: 'AED 640K', SA: 'SAR 640K', QA: 'QAR 590K', OM: 'OMR 6.4K', KW: 'KWD 5.2K', BH: 'BHD 64K' },
-  'AED 840K': { AE: 'AED 840K', SA: 'SAR 840K', QA: 'QAR 770K', OM: 'OMR 8.4K', KW: 'KWD 6.8K', BH: 'BHD 84K' },
-  'AED 120K': { AE: 'AED 120K', SA: 'SAR 120K', QA: 'QAR 110K', OM: 'OMR 1.2K', KW: 'KWD 980', BH: 'BHD 12K' },
-  'AED 1.6M': { AE: 'AED 1.6M', SA: 'SAR 1.6M', QA: 'QAR 1.5M', OM: 'OMR 16K', KW: 'KWD 13K', BH: 'BHD 160K' },
+const DEMO_AMOUNTS: Record<string, Record<string, string>> = {
+  'AED 1.8M': { PK: 'PKR 36M' },
+  'AED 240K': { PK: 'PKR 4.8M' },
+  'AED 6.1M': { PK: 'PKR 122M' },
+  'AED 2.4M': { PK: 'PKR 48M' },
+  'AED 3.2M': { PK: 'PKR 64M' },
+  'AED 1.1M': { PK: 'PKR 22M' },
+  'AED 890K': { PK: 'PKR 17.8M' },
+  'AED 4.8M': { PK: 'PKR 96M' },
+  'AED 2.1M': { PK: 'PKR 42M' },
+  'AED 1.4M': { PK: 'PKR 28M' },
+  'AED 620K': { PK: 'PKR 12.4M' },
+  'AED 1.2M': { PK: 'PKR 24M' },
+  'AED 42K': { PK: 'PKR 840K' },
+  'AED 3.4M': { PK: 'PKR 68M' },
+  'AED 2.8M': { PK: 'PKR 56M' },
+  'AED 640K': { PK: 'PKR 12.8M' },
+  'AED 840K': { PK: 'PKR 16.8M' },
+  'AED 120K': { PK: 'PKR 2.4M' },
+  'AED 1.6M': { PK: 'PKR 32M' },
 }
 
 function regionalizeThemeString(text: string, countryCode: GccCountryCode): string {
-  if (countryCode === 'AE') return text
+  // PK is the default market — still rewrite AED demo amounts to PKR.
   let out = text
   for (const [aed, map] of Object.entries(DEMO_AMOUNTS)) {
-    if (out.includes(aed)) out = out.split(aed).join(map[countryCode] ?? map.AE)
+    if (out.includes(aed)) out = out.split(aed).join(map[countryCode] ?? map.PK ?? aed)
   }
   const profile = getCountryProfile(countryCode)
   return out.split('AED').join(profile.currency)
 }
 
 function regionalizeTheme(theme: IndustryErpTheme, countryCode: GccCountryCode): IndustryErpTheme {
-  if (countryCode === 'AE') return theme
   const clone = structuredClone(theme)
   const walk = (node: unknown): unknown => {
     if (typeof node === 'string') return regionalizeThemeString(node, countryCode)

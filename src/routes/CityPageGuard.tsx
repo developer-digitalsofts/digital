@@ -1,30 +1,18 @@
 import { Navigate, useParams } from 'react-router-dom'
-import { useLocale } from '../locale/LocaleContext'
 import { CITY_PAGE_SLUG, isValidCitySlug } from '../locale/cityPaths'
+import { isCityProductPageSlug } from '../market/pakistanConfig'
 import { CityLocalePage } from '../pages/CityLocalePage'
+import { MARKET_CODE } from '../market/pakistanConfig'
 
-/** Validates city segment and renders city page, or redirects unknown paths. */
+/** Validates Pakistan city + product page segment. */
 export function CityPageGuard() {
   const { citySlug = '', pageSlug = CITY_PAGE_SLUG } = useParams()
-  const { countryCode, href } = useLocale()
   const city = citySlug.toLowerCase()
   const page = (pageSlug || CITY_PAGE_SLUG).toLowerCase()
-  const localeHome = href('/')
 
-  if (!isValidCitySlug(city, countryCode) || page !== CITY_PAGE_SLUG) {
-    return <Navigate to={localeHome} replace />
+  if (!isValidCitySlug(city, MARKET_CODE) || !isCityProductPageSlug(page)) {
+    return <Navigate to="/" replace />
   }
 
   return <CityLocalePage citySlug={city} pageSlug={page} />
-}
-
-/** Redirect /ae/en/:city/:page → /:city/:page for UAE English city canonical URLs. */
-export function AeEnCityRedirect() {
-  const params = useParams()
-  const splat = params['*'] || ''
-  const parts = splat.split('/').filter(Boolean)
-  if (parts.length >= 2 && isValidCitySlug(parts[0], 'AE') && parts[1] === CITY_PAGE_SLUG) {
-    return <Navigate to={`/${parts[0]}/${parts[1]}`} replace />
-  }
-  return <Navigate to="/" replace />
 }

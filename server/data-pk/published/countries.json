@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "defaultCountryCode": "PK",
+  "items": [
+    {
+      "code": "PK",
+      "name": {
+        "en": "Pakistan",
+        "ar": "Pakistan"
+      },
+      "shortName": {
+        "en": "Pakistan",
+        "ar": "Pakistan"
+      },
+      "enabled": true,
+      "isDefault": true,
+      "currency": "PKR",
+      "phoneCode": "+92",
+      "primaryEmail": "info@digitalmanager.com.pk",
+      "salesEmail": "info@digitalmanager.com.pk",
+      "supportEmail": "info@digitalmanager.com.pk",
+      "phoneDisplay": "+92 300 000 0000",
+      "phoneHref": "tel:+923000000000",
+      "whatsappNumber": "923000000000",
+      "officeAddress": {
+        "en": "Suite 100, Placeholder Tower, Karachi, Pakistan",
+        "ar": "Suite 100, Placeholder Tower, Karachi, Pakistan"
+      },
+      "workingHours": {
+        "en": "Mon - Sat : 10.00 am - 6.00 pm",
+        "ar": "Mon - Sat : 10.00 am - 6.00 pm"
+      },
+      "sortOrder": 0,
+      "autoDetectEnabled": false,
+      "allowAutoRedirect": false,
+      "defaultLanguage": "en"
+    }
+  ]
+}

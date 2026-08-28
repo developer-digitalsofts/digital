@@ -1,0 +1,38 @@
+{
+  "logoUrl": "/digitalmanager.svg",
+  "faviconUrl": "/digitalmanager-favicon.png",
+  "showTopBar": true,
+  "topBar": {
+    "email": "info@digitalmanager.ae",
+    "hours": {
+      "en": "Sat - Thu : 10.00 am - 9.00 pm",
+      "ar": "السبت–الخميس: ١٠ ص – ٩ م"
+    },
+    "phoneCta": { "en": "Talk to Us:", "ar": "تحدث معنا:" },
+    "phoneDisplay": "+971 58 117 4911",
+    "phoneHref": "tel:+971581174911"
+  },
+  "nav": {
+    "home": { "en": "Home", "ar": "الرئيسية" },
+    "modules": { "en": "Software by module", "ar": "البرمجيات حسب الوحدة" },
+    "industries": { "en": "Software by industries", "ar": "البرمجيات حسب القطاع" },
+    "contact": { "en": "Contact", "ar": "اتصل بنا" },
+    "arabicToggle": { "en": "النسخة العربية", "ar": "English version" }
+  },
+  "showSearch": true,
+  "showContactGrid": false,
+  "showLoginButton": true,
+  "loginButton": {
+    "text": { "en": "Login", "ar": "تسجيل الدخول" },
+    "href": "/admin/login"
+  },
+  "navLinks": [
+    {
+      "id": "nl-insights",
+      "label": { "en": "Insights", "ar": "الرؤى" },
+      "href": "/blog",
+      "sortOrder": 4,
+      "active": true
+    }
+  ]
+}

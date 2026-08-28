@@ -13,22 +13,22 @@ function normBi(v: unknown): Bilingual {
 }
 
 const FALLBACK = {
-  primaryEmail: 'info@digitalmanager.ae',
-  salesEmail: 'info@digitalmanager.ae',
-  supportEmail: 'info@digitalmanager.ae',
-  phoneDisplay: '+971 6 536 6786',
-  phoneHref: 'tel:+97165366786',
-  whatsappNumber: '971581174911',
-  defaultCountry: { en: 'United Arab Emirates', ar: 'الإمارات العربية المتحدة' },
-  defaultCurrency: 'AED',
-  defaultPhoneCode: '+971',
+  primaryEmail: 'info@digitalmanager.com.pk',
+  salesEmail: 'info@digitalmanager.com.pk',
+  supportEmail: 'info@digitalmanager.com.pk',
+  phoneDisplay: '+92 300 000 0000',
+  phoneHref: 'tel:+923000000000',
+  whatsappNumber: '923000000000',
+  defaultCountry: { en: 'Pakistan', ar: 'Pakistan' },
+  defaultCurrency: 'PKR',
+  defaultPhoneCode: '+92',
   workingHours: {
-    en: 'Sat - Thu : 10.00 am - 9.00 pm',
-    ar: 'السبت–الخميس: ١٠ ص – ٩ م',
+    en: 'Mon - Sat : 10.00 am - 6.00 pm',
+    ar: 'Mon - Sat : 10.00 am - 6.00 pm',
   },
   officeAddress: {
-    en: '607, Al Rahma 1, Al Wahda St, Sharjah, UAE',
-    ar: '٦٠٧، الرحمة ١، شارع الوحدة، الشارقة، الإمارات',
+    en: 'Suite 100, Placeholder Tower, Karachi, Pakistan',
+    ar: 'Suite 100, Placeholder Tower, Karachi, Pakistan',
   },
 } as const
 
@@ -82,13 +82,13 @@ export function useSiteSettings(): SiteSettingsView {
       demoPageLink: String(raw.demoPageLink ?? '/contact#contact-form'),
       primaryCtaLabel: pick(normBi(raw.primaryCtaLabel ?? { en: 'Get Demo', ar: 'احصل على عرض' }), lang),
       defaultSeoTitle: pick(
-        normBi(raw.defaultSeoTitle ?? { en: 'DigitalManager — Cloud ERP for UAE Businesses', ar: 'ديجيتال مانجر — ERP سحابي لأعمال الإمارات' }),
+        normBi(raw.defaultSeoTitle ?? { en: 'DigitalManager — Cloud ERP for Pakistan', ar: 'DigitalManager — Cloud ERP for Pakistan' }),
         lang,
       ),
       defaultMetaDescription: pick(
         normBi(raw.defaultMetaDescription ?? {
-          en: 'Cloud ERP software for retail, manufacturing, logistics and services across the UAE.',
-          ar: 'برمجيات ERP سحابية للتجزئة والتصنيع واللوجستيات والخدمات في الإمارات.',
+          en: 'Cloud ERP software for retail, manufacturing, logistics and services across Pakistan.',
+          ar: 'Cloud ERP software for retail, manufacturing, logistics and services across Pakistan.',
         }),
         lang,
       ),

@@ -10,6 +10,7 @@ import multer from 'multer'
 import { nanoid } from 'nanoid'
 import nodemailer from 'nodemailer'
 import { loadEnv } from './loadEnv.mjs'
+import { PK_CMS_DATA_DIR_NAME } from './pakistanConfig.mjs'
 import {
   allowAdminBootstrap,
   authSecretOrDevFallback,
@@ -22,8 +23,6 @@ import { createPublishStore } from './publishStore.mjs'
 import { migrateCmsSchemaV2 } from './cmsSchemaMigrate.mjs'
 import { registerContentRoutes, ensureBlogBootstrap, ensureCountriesBootstrap } from './contentRoutes.mjs'
 import { registerAgenticRoutes, createSpaShellHandler } from './agenticRoutes.mjs'
-import { registerLocaleGeoRouting, registerLocaleUrlPrefSync } from './localeGeoRouting.mjs'
-import { isValidCityForCountry } from './cityRegistry.mjs'
 import {
   notFoundError,
   internalError,
@@ -72,7 +71,17 @@ loadEnv()
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = __dirname
-const DATA_DIR = path.join(ROOT, 'data')
+/** Pakistan branch: isolated CMS store (never share UAE server/data). Override with CMS_DATA_DIR. */
+const DATA_DIR = (() => {
+  const override = String(process.env.CMS_DATA_DIR || '').trim()
+  if (override) {
+    return path.isAbsolute(override) ? override : path.join(ROOT, override)
+  }
+  return path.join(ROOT, PK_CMS_DATA_DIR_NAME)
+})()
+process.env.MARKET = process.env.MARKET || 'PK'
+process.env.PUBLIC_SITE_URL =
+  process.env.PUBLIC_SITE_URL || process.env.VITE_PUBLIC_SITE_URL || 'https://pk-test.digitalmanager.ae'
 const UPLOADS_DIR = path.join(ROOT, 'uploads')
 const DIST_DIR = path.join(ROOT, '..', 'dist')
 
@@ -3415,19 +3424,8 @@ registerLocaleRoutes(app, {
   logActivity: appendActivity,
 })
 
-registerLocaleUrlPrefSync(app)
-registerLocaleGeoRouting(app, { publishStore, localePublish })
-
-/** Canonicalize UAE English city URLs: /ae/en/dubai/erp-software → /dubai/erp-software */
-app.get(/^\/ae\/en\/([^/]+)\/([^/]+)\/?$/, (req, res, next) => {
-  const citySlug = String(req.params[0] || '').toLowerCase()
-  const pageSlug = String(req.params[1] || '').toLowerCase()
-  if (isValidCityForCountry(citySlug, 'AE')) {
-    res.redirect(302, `/${citySlug}/${pageSlug}`)
-    return
-  }
-  next()
-})
+// Pakistan market: no GCC geo-routing or /ae/en city redirects.
+console.info('[market] Pakistan — geo-routing disabled; CMS dir:', DATA_DIR)
 
 const agenticDeps = () => ({
   distIndex: DIST_INDEX,

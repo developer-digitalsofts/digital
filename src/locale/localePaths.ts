@@ -1,9 +1,5 @@
 import {
-  COUNTRY_CODE_TO_SLUG,
-  COUNTRY_SLUG_TO_CODE,
   DEFAULT_LOCALE,
-  LOCALE_ROUTE_ALIASES,
-  ROOT_TO_LOCALE_ALIASES,
   isDefaultLocale,
   isLocaleCountrySlug,
   isLocaleLang,
@@ -18,22 +14,9 @@ export type ParsedLocalePath = {
   hasLocalePrefix: boolean
 }
 
-const LOCALE_PREFIX_RE = /^\/(ae|sa|kw|qa|om|bh)\/(en|ar)(?=\/|$)/i
-
+/** Pakistan: no /country/lang URL prefix — all paths are root-relative. */
 export function parseLocalePath(pathname: string): ParsedLocalePath {
   const path = pathname.startsWith('/') ? pathname : `/${pathname}`
-  const match = path.match(LOCALE_PREFIX_RE)
-  if (match) {
-    const country = match[1].toLowerCase() as LocaleCountrySlug
-    const lang = match[2].toLowerCase() as LocaleLang
-    const rest = path.slice(match[0].length) || '/'
-    return {
-      country,
-      lang,
-      restPath: rest.startsWith('/') ? rest : `/${rest}`,
-      hasLocalePrefix: true,
-    }
-  }
   return {
     country: DEFAULT_LOCALE.country,
     lang: DEFAULT_LOCALE.lang,
@@ -42,44 +25,33 @@ export function parseLocalePath(pathname: string): ParsedLocalePath {
   }
 }
 
-export function buildLocalePath(country: LocaleCountrySlug, lang: LocaleLang, restPath = '/'): string {
+export function buildLocalePath(_country: LocaleCountrySlug, _lang: LocaleLang, restPath = '/'): string {
   const normalizedRest = restPath.startsWith('/') ? restPath : `/${restPath}`
-  if (isDefaultLocale(country, lang)) {
-    return normalizedRest === '/' ? '/' : normalizedRest
-  }
-  const prefix = `/${country}/${lang}`
-  if (normalizedRest === '/') return prefix
-  return `${prefix}${normalizedRest}`
+  return normalizedRest === '/' ? '/' : normalizedRest
 }
 
-export function buildLocalizedHref(country: LocaleCountrySlug, lang: LocaleLang, internalPath: string): string {
+export function buildLocalizedHref(_country: LocaleCountrySlug, _lang: LocaleLang, internalPath: string): string {
   const clean = internalPath.startsWith('/') ? internalPath : `/${internalPath}`
-  const parsed = parseLocalePath(clean)
-  const pathWithoutLocale = parsed.hasLocalePrefix ? parsed.restPath : clean
-  if (pathWithoutLocale === '/') return buildLocalePath(country, lang, '/')
-  const parts = pathWithoutLocale.split('/').filter(Boolean)
-  // UAE English keeps /blog; other locales use /insights
-  if (!isDefaultLocale(country, lang) && parts[0] && ROOT_TO_LOCALE_ALIASES[parts[0]]) {
-    parts[0] = ROOT_TO_LOCALE_ALIASES[parts[0]]
-  }
-  return buildLocalePath(country, lang, `/${parts.join('/')}`)
+  // Strip accidental legacy GCC prefixes if pasted
+  const stripped = clean.replace(/^\/(ae|sa|kw|qa|om|bh|pk)\/(en|ar)(?=\/|$)/i, '') || '/'
+  return stripped.startsWith('/') ? stripped : `/${stripped}`
 }
 
-export function localePathFromQueryCountry(countryCode: string, lang: LocaleLang, currentPath: string): string {
-  const slug = COUNTRY_CODE_TO_SLUG[countryCode.toUpperCase()] ?? 'ae'
-  const parsed = parseLocalePath(currentPath)
-  return buildLocalePath(slug, lang, parsed.restPath)
+export function localePathFromQueryCountry(_countryCode: string, _lang: LocaleLang, currentPath: string): string {
+  return currentPath.startsWith('/') ? currentPath : `/${currentPath}`
 }
 
 export function fromLocalePublicSegment(publicSegment: string): string {
-  return LOCALE_ROUTE_ALIASES[publicSegment] ?? publicSegment
+  return publicSegment
 }
 
 export function countryCodeFromLocale(country: LocaleCountrySlug): string {
-  return COUNTRY_SLUG_TO_CODE[country]
+  return country === 'pk' ? 'PK' : 'PK'
 }
 
 export function validateLocaleParams(country: string, lang: string): { country: LocaleCountrySlug; lang: LocaleLang } | null {
   if (!isLocaleCountrySlug(country) || !isLocaleLang(lang)) return null
   return { country, lang }
 }
+
+export { isDefaultLocale }

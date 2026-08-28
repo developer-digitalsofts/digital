@@ -21,15 +21,15 @@ import {
 } from './seoPaths.mjs'
 import { registryStaticPaths, uaeCorePaths, uaeSoftwarePaths } from './seoRouteCatalog.mjs'
 import { getLocaleHomepageIndexMeta } from './localeHomepage.mjs'
-import { CITY_PAGE_SLUG, getCitiesForCountry } from './cityRegistry.mjs'
+import { CITY_PAGE_SLUG, CITY_PRODUCT_PAGE_SLUGS, getCitiesForCountry } from './cityRegistry.mjs'
 import { buildCityPagePath, parseCityPagePath } from './cityPaths.mjs'
 import { evaluateCityIndexability, resolveCityContent } from './cityLocaleApi.mjs'
 
 export const PUBLIC_SITE_BASE =
-  (process.env.PUBLIC_SITE_URL || 'https://www.digitalmanager.ae').replace(/\/$/, '')
+  (process.env.PUBLIC_SITE_URL || 'https://pk-test.digitalmanager.ae').replace(/\/$/, '')
 
-const GCC_COUNTRY_SLUGS = ['ae', 'sa', 'kw', 'qa', 'om', 'bh']
-const GCC_LANGS = ['en', 'ar']
+const GCC_COUNTRY_SLUGS = ['pk']
+const GCC_LANGS = ['en']
 
 function absoluteUrl(pathname) {
   const path = pathname.startsWith('/') ? pathname : `/${pathname}`
@@ -504,53 +504,55 @@ export async function buildIndexablePages(deps) {
     )
   }
 
-  // Published city ERP pages (/dubai/erp-software, /sa/en/riyadh/erp-software, …)
+  // Published Pakistan city product pages (/karachi/erp-software, /lahore/pos-software, …)
   for (const countrySlug of GCC_COUNTRY_SLUGS) {
     const countryCode = normalizeCountryCode(countrySlug.toUpperCase())
     if (!enabledCodes.has(countryCode)) continue
     for (const city of getCitiesForCountry(countryCode)) {
-      for (const lang of GCC_LANGS) {
-        const resolved = resolveContent(
-          localeStore,
-          {
-            contentType: 'cityPage',
-            globalIdentity: `city:${city.slug}:${CITY_PAGE_SLUG}`,
-            slug: CITY_PAGE_SLUG,
-            citySlug: city.slug,
-            countryCode,
-            lang,
-          },
-          {
-            context: 'public',
-            countryEnabled: enabledCodes.has(countryCode),
-            allowGlobalFallback: false,
-            allowFallback: false,
-            citySlug: city.slug,
-          },
-        )
-        const check = evaluateCityIndexability({
-          record: resolved.record,
-          meta: resolved.meta,
-          countryCode,
-          lang,
-          countryEnabled: enabledCodes.has(countryCode),
-        })
-        if (!check.indexable) continue
-        const internalPath = `/${city.slug}/${CITY_PAGE_SLUG}`
-        tryAddEntry(
-          entries,
-          seen,
-          makePageEntry({
-            internalPath,
-            countrySlug,
-            lang,
+      for (const pageSlug of CITY_PRODUCT_PAGE_SLUGS) {
+        for (const lang of GCC_LANGS) {
+          const resolved = resolveContent(
+            localeStore,
+            {
+              contentType: 'cityPage',
+              globalIdentity: `city:${city.slug}:${pageSlug}`,
+              slug: pageSlug,
+              citySlug: city.slug,
+              countryCode,
+              lang,
+            },
+            {
+              context: 'public',
+              countryEnabled: enabledCodes.has(countryCode),
+              allowGlobalFallback: false,
+              allowFallback: false,
+              citySlug: city.slug,
+            },
+          )
+          const check = evaluateCityIndexability({
             record: resolved.record,
             meta: resolved.meta,
-            groupKey: groupKeyForRecord(resolved.record) || `city:${city.slug}:${CITY_PAGE_SLUG}`,
-            lastmod: pickLastmod(resolved.record?.updatedAt, resolved.record?.publishedAt),
-            identity: { kind: 'city-page', citySlug: city.slug, slug: CITY_PAGE_SLUG },
-          }),
-        )
+            countryCode,
+            lang,
+            countryEnabled: enabledCodes.has(countryCode),
+          })
+          if (!check.indexable) continue
+          const internalPath = `/${city.slug}/${pageSlug}`
+          tryAddEntry(
+            entries,
+            seen,
+            makePageEntry({
+              internalPath,
+              countrySlug,
+              lang,
+              record: resolved.record,
+              meta: resolved.meta,
+              groupKey: groupKeyForRecord(resolved.record) || `city:${city.slug}:${pageSlug}`,
+              lastmod: pickLastmod(resolved.record?.updatedAt, resolved.record?.publishedAt),
+              identity: { kind: 'city-page', citySlug: city.slug, slug: pageSlug },
+            }),
+          )
+        }
       }
     }
   }

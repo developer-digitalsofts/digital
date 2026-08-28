@@ -1,16 +1,17 @@
 /**
- * Builds genuinely localized city page payloads — unique copy per city, not name substitution.
+ * Builds localized city page payloads — Pakistan market (PKR, English).
  */
 import {
   CITY_PAGE_SLUG,
+  CITY_PRODUCT_PAGE_SLUGS,
   getCity,
   getCountryProfileForCity,
 } from './cityRegistry.mjs'
-import { REGIONAL_SUPPORT } from './gccLocalizedContent/profiles.mjs'
+import { CITY_PRODUCT_LABELS } from './pakistanConfig.mjs'
 
-export const CITY_SEED_VERSION = 'city-localized-content-v1'
+export const CITY_SEED_VERSION = 'pk-city-localized-content-v1'
 
-function bi(en, ar) {
+function bi(en, ar = en) {
   return { en, ar }
 }
 
@@ -18,128 +19,128 @@ function seedMeta() {
   return { _seedVersion: CITY_SEED_VERSION, _seedAt: new Date().toISOString() }
 }
 
-/** Unique H1 / hero angles per city — written for local business context. */
+/** Unique hero angles per Pakistan city. */
 const CITY_HERO_ANGLES = {
-  dubai: {
-    h1: 'Cloud ERP for Dubai trading, retail and multi-branch finance teams',
+  karachi: {
+    h1: 'Cloud ERP for Karachi trading, wholesale and multi-branch retail',
     intro:
-      'Dubai businesses juggle free-zone entities, mainland outlets and warehouse hubs — often on disconnected spreadsheets. DigitalManager connects GL, inventory, POS and VAT reporting so your finance team sees every branch in real time, whether you operate from JAFZA, Dubai Internet City or Deira.',
+      'Karachi operators run port-linked trading houses, wholesale depots and retail chains — often on disconnected spreadsheets. DigitalManager connects GL, inventory, POS and payroll so finance sees every branch in PKR without month-end surprises.',
     metaDesc:
-      'ERP software for Dubai businesses — VAT-ready finance, multi-branch inventory, POS and CRM on one cloud platform. Book a demo for trading, retail and free-zone operators.',
+      'ERP software for Karachi businesses — PKR finance, multi-branch inventory, POS and payroll on one cloud platform. Book a demo for trading, retail and logistics operators.',
   },
-  'abu-dhabi': {
-    h1: 'ERP built for Abu Dhabi contracting, procurement and enterprise finance',
+  lahore: {
+    h1: 'ERP for Lahore textile, FMCG distribution and Punjab retail expansion',
     intro:
-      'Abu Dhabi projects demand milestone billing, retention tracking and audit-ready procurement trails. DigitalManager gives contracting and facilities teams one ledger for purchase orders, job costs and client invoicing — aligned with UAE VAT and group reporting standards.',
+      'Lahore manufacturers and distributors scale across Punjab with seasonal demand and complex credit terms. DigitalManager links production planning, route delivery and branch KPIs on PKR books built for textile, FMCG and F&B operators.',
     metaDesc:
-      'Abu Dhabi ERP software for contracting, procurement and enterprise finance. Project costing, retention billing and VAT-compliant reporting from DigitalManager.',
+      'Lahore ERP software for textile, FMCG and retail. Production planning, branch POS and PKR reporting with DigitalManager cloud ERP.',
   },
-  sharjah: {
-    h1: 'Manufacturing and warehouse ERP for Sharjah industrial operators',
+  islamabad: {
+    h1: 'Professional services ERP for Islamabad project billing and approvals',
     intro:
-      'Sharjah industrial zones run on tight margins — BOM accuracy and warehouse throughput matter. DigitalManager links production planning, bin-level stock and export invoicing so plant managers and finance share one source of truth across Sharjah Industrial Areas and Hamriyah.',
+      'Islamabad firms bill by milestone, retainer and approved timesheets — not generic product lines. DigitalManager gives consulting, IT and healthcare teams PKR ledgers, approval workflows and audit-ready exports from Blue Area to I-8.',
     metaDesc:
-      'Sharjah ERP for manufacturing, warehousing and export SMEs. BOM planning, landed costs and inventory control on DigitalManager cloud ERP.',
+      'Islamabad ERP for professional services, IT and clinics. Milestone billing, approvals and PKR finance on DigitalManager.',
   },
-  ajman: {
-    h1: 'Affordable cloud ERP for Ajman SMEs and trading offices',
+  rawalpindi: {
+    h1: 'Workshop and retail ERP for Rawalpindi twin-city operators',
     intro:
-      'Ajman companies need enterprise capability without enterprise overhead. DigitalManager rolls out in days with invoicing, stock, payroll and simple dashboards — ideal for trading offices, light workshops and growing F&B outlets across Ajman Free Zone and the corniche strip.',
+      'Rawalpindi workshops, spare-parts counters and wholesale outlets need job costing without enterprise overhead. DigitalManager rolls out invoicing, stock and simple dashboards for operators serving Rawalpindi, Islamabad and northern Punjab routes.',
     metaDesc:
-      'Cloud ERP for Ajman SMEs — invoicing, inventory, payroll and branch dashboards without heavy IT. DigitalManager helps trading and service businesses grow.',
+      'Rawalpindi ERP for workshops, retail and wholesale. Job costing, spare parts inventory and PKR invoicing with DigitalManager.',
   },
-  riyadh: {
-    h1: 'Saudi ERP for Riyadh HQ teams scaling retail and enterprise operations',
+  faisalabad: {
+    h1: 'Textile and industrial ERP for Faisalabad mills and agri-traders',
     intro:
-      'Riyadh headquarters coordinate dozens of branches across the Kingdom — often with legacy POS and siloed finance tools. DigitalManager unifies SAR ledgers, ZATCA e-invoicing readiness and branch KPIs so expansion along King Fahd Road and beyond stays controlled.',
+      'Faisalabad textile mills and agri-traders track BOMs, landed costs and export documentation daily. DigitalManager connects production planning, vendor payments and PKR consolidation so plant managers and finance share one source of truth.',
     metaDesc:
-      'Riyadh ERP software with ZATCA e-invoicing, multi-branch SAR finance and retail POS integration. DigitalManager supports Vision 2030 growth companies.',
+      'Faisalabad ERP for textile manufacturing and agri-trading. BOM planning, landed costs and PKR reporting on DigitalManager.',
   },
-  jeddah: {
-    h1: 'Distribution and hospitality ERP for Jeddah port-side businesses',
+  multan: {
+    h1: 'Agri-business ERP for Multan cold storage and southern Punjab hubs',
     intro:
-      'Jeddah wholesalers and hotel groups move stock between corniche showrooms, port warehouses and Makkah-facing depots. DigitalManager tracks inter-city transfers, delivery routes and F&B revenue so operations teams reduce spoilage and finance closes faster each month.',
+      'Multan operators manage seasonal crops, cold storage and inter-city transfers with tight margins. DigitalManager forecasts demand peaks, tracks cold-chain inventory and consolidates PKR reporting across Multan, Khanewal and Sahiwal depots.',
     metaDesc:
-      'Jeddah ERP for logistics, wholesale and hospitality. Route planning, inter-city stock and SAR billing on DigitalManager cloud ERP.',
+      'Multan ERP for agriculture, cold storage and wholesale. Seasonal forecasting, inventory control and PKR finance with DigitalManager.',
   },
-  dammam: {
-    h1: 'Project and spare-parts ERP for Dammam industrial services',
+  peshawar: {
+    h1: 'Pharma and wholesale ERP for Peshawar regional distribution',
     intro:
-      'Eastern Province service companies bill by job, contract and spare-parts consumption — not by generic product lines. DigitalManager ties workshop timesheets, parts catalogues and milestone invoices together for Dammam, Khobar and Jubail operators serving energy and industrial clients.',
+      'Peshawar wholesalers and pharmacies need batch tracking, credit ageing and multi-warehouse stock without slow month-end closes. DigitalManager gives border-trade and healthcare distributors PKR ledgers and compliance-friendly audit trails.',
     metaDesc:
-      'Dammam ERP for oil & gas services, workshops and industrial supply. Job costing, spare parts and contract billing with DigitalManager.',
+      'Peshawar ERP for pharmaceuticals, trading and healthcare. Batch tracking, credit control and PKR billing on DigitalManager.',
   },
-  doha: {
-    h1: 'Services-led ERP for Doha growing brands and project teams',
+  quetta: {
+    h1: 'Trading and logistics ERP for Quetta provincial operators',
     intro:
-      'Doha services firms win work on reputation and delivery speed — but lose margin when project costs sit in email threads. DigitalManager gives professional, events and retail teams QAR billing, approval workflows and milestone tracking aligned with how Doha businesses actually operate.',
+      'Quetta trading houses and transport operators bill by project, delivery run and branch — not one-size-fits-all SKUs. DigitalManager links fleet costing, project billing and affordable cloud ERP rollout for Balochistan growth companies.',
     metaDesc:
-      'Doha ERP software for services, events and retail brands. QAR billing, project milestones and multi-site inventory on DigitalManager.',
-  },
-  muscat: {
-    h1: 'Tourism and trading ERP for Muscat multi-branch operators',
-    intro:
-      'Muscat family businesses often span hotels, clinics and trading counters — each with different peak seasons. DigitalManager forecasts Khareef and holiday demand, links OMR accounting across branches and gives owners one dashboard from Qurum to Ruwi.',
-    metaDesc:
-      'Muscat ERP for tourism, trading and healthcare groups. OMR finance, seasonal forecasting and branch dashboards from DigitalManager.',
-  },
-  'kuwait-city': {
-    h1: 'Trading-house ERP for Kuwait City multi-brand operators',
-    intro:
-      'Kuwait City trading houses manage credit lines, showroom stock and inter-company transfers daily. DigitalManager consolidates KWD reporting, ageing and POS sales so partners see margin by brand — not just month-end totals from separate systems.',
-    metaDesc:
-      'Kuwait City ERP for trading houses and retail groups. KWD consolidation, credit control and showroom POS on DigitalManager cloud ERP.',
-  },
-  manama: {
-    h1: 'Compact ERP for Manama professional firms and branch networks',
-    intro:
-      'Manama firms need audit trails and VAT-ready invoicing without a large IT footprint. DigitalManager supports time billing, compact branch rollouts and BHD reporting for legal, healthcare and retail operators across Manama and Seef.',
-    metaDesc:
-      'Manama ERP for professional services and multi-branch retail. BHD VAT invoicing, time billing and audit trails with DigitalManager.',
+      'Quetta ERP for trading houses, transport and construction supply. Fleet costing, project billing and PKR dashboards with DigitalManager.',
   },
 }
 
-function buildFaqs(city, profile) {
+const PAGE_FOCUS = {
+  'erp-software': {
+    suffix: 'Cloud ERP',
+    angle: (city) =>
+      `Full finance, inventory, payroll and multi-branch operations for ${city.name.en} — configured on PKR books with phased rollout from DigitalManager Pakistan.`,
+    meta: (city) =>
+      `${city.name.en} ERP software — finance, inventory, payroll and branch reporting in PKR. DigitalManager cloud ERP for ${city.focus.en}.`,
+  },
+  'pos-software': {
+    suffix: 'POS Software',
+    angle: (city) =>
+      `Retail billing, stock sync and branch POS for ${city.name.en} outlets — connected to central PKR inventory and finance so counter sales match the ledger.`,
+    meta: (city) =>
+      `${city.name.en} POS software with inventory sync and PKR reporting. DigitalManager retail POS for ${city.focus.en}.`,
+  },
+  'accounting-software': {
+    suffix: 'Accounting Software',
+    angle: (city) =>
+      `General ledger, invoicing and management reporting for ${city.name.en} finance teams — VAT-ready documents and audit exports on PKR without spreadsheet chaos.`,
+    meta: (city) =>
+      `${city.name.en} accounting software — PKR general ledger, invoicing and financial reporting. DigitalManager for ${city.focus.en}.`,
+  },
+}
+
+function buildFaqs(city, profile, pageSlug) {
   const cityName = city.name.en
-  const currency = profile.currency
+  const product = CITY_PRODUCT_LABELS[pageSlug]?.en || 'ERP'
   return [
     {
-      id: `faq-${city.slug}-1`,
-      question: bi(`Is DigitalManager suitable for ${cityName} businesses?`, `هل DigitalManager مناسب لشركات ${city.name.ar}؟`),
+      id: `faq-${city.slug}-${pageSlug}-1`,
+      question: bi(`Is DigitalManager ${product} suitable for ${cityName} businesses?`),
       answer: bi(
-        `Yes. We configure ${currency} ledgers, VAT workflows and modules for ${city.focus.en}. Implementation is led from our UAE headquarters with regional GCC support.`,
-        `نعم. نُهيّئ دفاتر ${currency} وسير عمل VAT ووحدات لـ${city.focus.ar}. يُدار التنفيذ من مقرنا في الإمارات مع دعم إقليمي.`,
+        `Yes. We configure PKR ledgers, invoicing workflows and modules for ${city.focus.en}. Implementation is led for Pakistan with support for ${cityName} operators.`,
       ),
     },
     {
-      id: `faq-${city.slug}-2`,
-      question: bi(`How long does rollout take in ${cityName}?`, `كم يستغرق التنفيذ في ${city.name.ar}؟`),
+      id: `faq-${city.slug}-${pageSlug}-2`,
+      question: bi(`How long does ${product} rollout take in ${cityName}?`),
       answer: bi(
         `Most ${cityName} SMEs go live in two to six weeks depending on branches and data migration. We phase finance and inventory first, then POS or payroll if needed.`,
-        `معظم الشركات الصغيرة والمتوسطة في ${city.name.ar} تبدأ خلال 2–6 أسابيع حسب الفروع وترحيل البيانات.`,
       ),
     },
     {
-      id: `faq-${city.slug}-3`,
-      question: bi(`Do you support ${profile.fullName.en} VAT and local invoicing?`, `هل تدعمون VAT والفوترة المحلية في ${profile.fullName.ar}؟`),
+      id: `faq-${city.slug}-${pageSlug}-3`,
+      question: bi(`Do you support PKR and local invoicing in ${cityName}?`),
       answer: bi(
-        `DigitalManager supports ${currency} invoicing, tax-ready documents and audit exports configured for ${profile.fullName.en} regulations. Your finance team reviews mappings before go-live.`,
-        `يدعم DigitalManager فوترة ${currency} ومستندات جاهزة للضريبة وتصديرات تدقيق مهيّأة لـ${profile.fullName.ar}.`,
+        `DigitalManager supports ${profile.currency} invoicing, tax-ready documents and audit exports configured for Pakistan regulations. Your finance team reviews mappings before go-live.`,
       ),
     },
   ]
 }
 
-function buildTestimonials(city, profile) {
+function buildTestimonials(city, pageSlug) {
   const industry = city.industries[0]
+  const product = CITY_PRODUCT_LABELS[pageSlug]?.en || 'ERP'
   return [
     {
-      id: `t-${city.slug}-1`,
-      name: bi(`${city.name.en} Operations Lead`, `مسؤول عمليات ${city.name.ar}`),
-      role: bi(`${industry} · ${city.name.en}`, `${industry} · ${city.name.ar}`),
+      id: `t-${city.slug}-${pageSlug}-1`,
+      name: bi(`${city.name.en} Operations Lead`),
+      role: bi(`${industry} · ${city.name.en}`),
       quote: bi(
-        `We replaced three disconnected tools with DigitalManager. Our ${city.name.en} team now closes books faster and sees stock across branches without manual spreadsheets.`,
-        `استبدلنا ثلاث أدوات منفصلة بـ DigitalManager. فريق ${city.name.ar} يُغلق الحسابات أسرع ويرى المخزون عبر الفروع.`,
+        `We replaced disconnected tools with DigitalManager ${product}. Our ${city.name.en} team closes books faster and sees stock across branches without manual spreadsheets.`,
       ),
       rating: 5,
     },
@@ -148,19 +149,29 @@ function buildTestimonials(city, profile) {
 
 /**
  * @param {string} citySlug
- * @param {{ countrySlug: string }} opts
+ * @param {string} pageSlug
  */
-export function buildCityPagePayload(citySlug, opts = {}) {
+export function buildCityPagePayload(citySlug, pageSlug = CITY_PAGE_SLUG) {
   const city = getCity(citySlug)
   if (!city) throw new Error(`Unknown city: ${citySlug}`)
+  if (!CITY_PRODUCT_PAGE_SLUGS.includes(pageSlug)) {
+    throw new Error(`Unknown city page slug: ${pageSlug}`)
+  }
   const profile = getCountryProfileForCity(citySlug)
-  const angle = CITY_HERO_ANGLES[city.slug] || CITY_HERO_ANGLES.dubai
-  const countrySlug = opts.countrySlug || profile.slug
+  const base = CITY_HERO_ANGLES[city.slug] || CITY_HERO_ANGLES.karachi
+  const pageDef = PAGE_FOCUS[pageSlug] || PAGE_FOCUS[CITY_PAGE_SLUG]
+  const productLabel = CITY_PRODUCT_LABELS[pageSlug]?.en || pageDef.suffix
+  const h1 = `${productLabel} for ${city.name.en} — ${pageDef.suffix === 'Cloud ERP' ? base.h1.replace(/^Cloud ERP for /, '') : city.focus.en}`
+  const intro = pageDef.angle(city)
 
   const internalLinks = [
-    { label: bi('Contact us', 'تواصل'), href: `/${countrySlug}/en/contact` },
-    { label: bi('ERP modules', 'وحدات ERP'), href: countrySlug === 'ae' ? '/erp' : `/${countrySlug}/en/erp` },
-    { label: bi('Industries', 'القطاعات'), href: countrySlug === 'ae' ? '/industries' : `/${countrySlug}/en/industries` },
+    { label: bi('Contact us'), href: '/contact' },
+    { label: bi('ERP modules'), href: '/erp' },
+    { label: bi('Industries'), href: '/industries' },
+    ...CITY_PRODUCT_PAGE_SLUGS.filter((s) => s !== pageSlug).map((s) => ({
+      label: bi(CITY_PRODUCT_LABELS[s]?.en || s),
+      href: `/${city.slug}/${s}`,
+    })),
   ]
 
   return {
@@ -168,115 +179,106 @@ export function buildCityPagePayload(citySlug, opts = {}) {
     template: 'cms-page',
     citySlug: city.slug,
     cityName: city.name,
-    pageSlug: CITY_PAGE_SLUG,
-    title: bi(angle.h1, `ERP سحابي لـ${city.name.ar}`),
-    heading: bi(angle.h1, `ERP سحابي لـ${city.name.ar}`),
-    shortDescription: bi(angle.intro.slice(0, 220), `حل ERP سحابي للشركات في ${city.name.ar}.`),
+    pageSlug,
+    title: bi(`${productLabel} · ${city.name.en}`, `${productLabel} · ${city.name.en}`),
+    heading: bi(h1, h1),
+    shortDescription: bi(intro.slice(0, 240), intro.slice(0, 240)),
     contact: {
-      phoneDisplay: REGIONAL_SUPPORT.phoneDisplay,
-      phoneHref: REGIONAL_SUPPORT.phoneHref,
-      email: REGIONAL_SUPPORT.email,
-      label: REGIONAL_SUPPORT.label,
+      phoneDisplay: '+92 300 000 0000',
+      phoneHref: 'tel:+923000000000',
+      email: 'info@digitalmanager.com.pk',
+      label: bi('Pakistan sales'),
       address: bi(
-        `Regional GCC support from DigitalManager UAE — serving ${city.name.en}, ${profile.fullName.en}.`,
-        `دعم إقليمي من DigitalManager الإمارات — نخدم ${city.name.ar} و${profile.fullName.ar}.`,
+        `DigitalManager Pakistan — serving ${city.name.en} and businesses across Pakistan.`,
       ),
     },
     internalLinks,
     sections: [
       {
-        id: `${city.slug}-hero`,
+        id: `${city.slug}-${pageSlug}-hero`,
         type: 'hero',
         visible: true,
         order: 0,
         content: {
-          eyebrow: bi(`ERP Software · ${city.name.en}`, `برمجيات ERP · ${city.name.ar}`),
-          title: bi(angle.h1, `ERP سحابي لـ${city.name.ar}`),
-          description: bi(angle.intro, `منصة ERP للشركات في ${city.name.ar}.`),
-          primaryCta: { label: bi('Book a Demo', 'احجز عرضاً'), href: '/contact' },
-          secondaryCta: {
-            label: bi('Explore Modules', 'استكشف الوحدات'),
-            href: countrySlug === 'ae' ? '/erp' : `/${countrySlug}/en/erp`,
-          },
+          eyebrow: bi(`${productLabel} · ${city.name.en}`),
+          title: bi(h1, h1),
+          description: bi(intro, intro),
+          primaryCta: { label: bi('Book a Demo'), href: '/contact' },
+          secondaryCta: { label: bi('Explore Modules'), href: '/erp' },
         },
       },
       {
-        id: `${city.slug}-services`,
+        id: `${city.slug}-${pageSlug}-services`,
         type: 'featureGrid',
         visible: true,
         order: 1,
         content: {
-          eyebrow: bi('Core capabilities', 'القدرات الأساسية'),
-          title: bi(`ERP services configured for ${city.name.en}`, `خدمات ERP مهيّأة لـ${city.name.ar}`),
+          eyebrow: bi('Core capabilities'),
+          title: bi(`${productLabel} configured for ${city.name.en}`),
           items: city.services.map((s, i) => ({
-            id: `svc-${city.slug}-${i}`,
+            id: `svc-${city.slug}-${pageSlug}-${i}`,
             title: bi(s, s),
-            description: bi(
-              `${s} for ${city.focus.en} — on ${profile.currency} books with DigitalManager.`,
-              `${s} لـ${city.focus.ar} — على دفاتر ${profile.currency}.`,
-            ),
+            description: bi(`${s} for ${city.focus.en} — on PKR books with DigitalManager.`),
           })),
         },
       },
       {
-        id: `${city.slug}-industries`,
+        id: `${city.slug}-${pageSlug}-industries`,
         type: 'featureGrid',
         visible: true,
         order: 2,
         content: {
-          eyebrow: bi('Industries we serve', 'القطاعات'),
-          title: bi(`Industry programmes popular in ${city.name.en}`, `برامج قطاعية في ${city.name.ar}`),
+          eyebrow: bi('Industries we serve'),
+          title: bi(`Industry programmes popular in ${city.name.en}`),
           items: city.industries.map((ind, i) => ({
-            id: `ind-${city.slug}-${i}`,
+            id: `ind-${city.slug}-${pageSlug}-${i}`,
             title: bi(ind, ind),
             description: bi(
               `${ind} operators in ${city.name.en} use DigitalManager for finance, stock and branch reporting.`,
-              `مشغلو ${ind} في ${city.name.ar} يستخدمون DigitalManager.`,
             ),
           })),
         },
       },
       {
-        id: `${city.slug}-body`,
+        id: `${city.slug}-${pageSlug}-body`,
         type: 'richText',
         visible: true,
         order: 3,
         content: {
           html: bi(
-            `<p>${angle.intro}</p><p>Teams across ${profile.fullName.en} choose DigitalManager when spreadsheets slow month-end close or branch stock stops matching the ledger. We configure ${profile.currency} charts, tax mappings and role-based access before your ${city.name.en} users log in.</p>`,
-            `<p>حل ERP للشركات في ${city.name.ar}.</p>`,
+            `<p>${intro}</p><p>Teams in ${city.name.en} choose DigitalManager when spreadsheets slow month-end close or branch stock stops matching the ledger. We configure PKR charts, tax mappings and role-based access before your users log in.</p>`,
           ),
         },
       },
       {
-        id: `${city.slug}-testimonials`,
+        id: `${city.slug}-${pageSlug}-testimonials`,
         type: 'testimonials',
         visible: true,
         order: 4,
-        content: { items: buildTestimonials(city, profile) },
+        content: { items: buildTestimonials(city, pageSlug) },
       },
       {
-        id: `${city.slug}-faqs`,
+        id: `${city.slug}-${pageSlug}-faqs`,
         type: 'faq',
         visible: true,
         order: 5,
-        content: { items: buildFaqs(city, profile) },
+        content: { items: buildFaqs(city, profile, pageSlug) },
       },
     ],
   }
 }
 
-export function buildCityPageSeo(citySlug) {
+export function buildCityPageSeo(citySlug, pageSlug = CITY_PAGE_SLUG) {
   const city = getCity(citySlug)
-  const profile = getCountryProfileForCity(citySlug)
-  const angle = CITY_HERO_ANGLES[city.slug]
-  const title = `${angle.h1} | DigitalManager`
+  const pageDef = PAGE_FOCUS[pageSlug] || PAGE_FOCUS[CITY_PAGE_SLUG]
+  const product = CITY_PRODUCT_LABELS[pageSlug]?.en || 'ERP'
+  const metaDesc = pageDef.meta(city)
+  const title = `${product} ${city.name.en} | DigitalManager Pakistan`
   return {
-    title: bi(title, `ERP ${city.name.ar} | DigitalManager`),
-    description: bi(angle.metaDesc, `ERP سحابي في ${city.name.ar} — ${profile.fullName.ar}.`),
+    title: bi(title, title),
+    description: bi(metaDesc, metaDesc),
     keywords: bi(
-      `ERP ${city.name.en}, cloud ERP ${profile.fullName.en}, ${profile.currency} accounting, DigitalManager`,
-      `ERP ${city.name.ar}, ERP سحابي ${profile.fullName.ar}`,
+      `${product} ${city.name.en}, cloud ERP Pakistan, PKR accounting, DigitalManager ${city.name.en}`,
     ),
     noIndex: false,
     robotsIndex: 'index',
@@ -284,17 +286,17 @@ export function buildCityPageSeo(citySlug) {
   }
 }
 
-export function buildCityLocaleRecord(citySlug, lang = 'en', partial = {}) {
+export function buildCityLocaleRecord(citySlug, pageSlug = CITY_PAGE_SLUG, lang = 'en', partial = {}) {
   const city = getCity(citySlug)
-  const profile = getCountryProfileForCity(citySlug)
-  const payload = buildCityPagePayload(citySlug, { countrySlug: profile.slug })
-  const seo = buildCityPageSeo(citySlug)
+  if (!city) throw new Error(`Unknown city: ${citySlug}`)
+  const payload = buildCityPagePayload(citySlug, pageSlug)
+  const seo = buildCityPageSeo(citySlug, pageSlug)
   const isEn = lang === 'en'
 
   return {
     contentType: 'cityPage',
-    globalIdentity: `city:${city.slug}:${CITY_PAGE_SLUG}`,
-    slug: CITY_PAGE_SLUG,
+    globalIdentity: `city:${city.slug}:${pageSlug}`,
+    slug: pageSlug,
     citySlug: city.slug,
     countryCode: city.countryCode,
     languageCode: lang,

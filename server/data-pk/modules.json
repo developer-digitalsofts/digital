@@ -1,0 +1,185 @@
+{
+  "pill": {
+    "en": "Connected platform",
+    "ar": "منصة متصلة"
+  },
+  "title": {
+    "en": "ERP Module Ecosystem",
+    "ar": "منظومة وحدات ERP"
+  },
+  "subtitle": {
+    "en": "Accounts, inventory, POS, payroll, and reports — one connected ERP platform.",
+    "ar": "الحسابات والمخزون ونقطة البيع والرواتب والتقارير — منصة ERP واحدة متصلة."
+  },
+  "exploreLabel": {
+    "en": "Explore →",
+    "ar": "استكشف ←"
+  },
+  "items": [
+    {
+      "id": "m-accounts",
+      "icon": "Landmark",
+      "accentColor": "#ff7a45",
+      "badge": {
+        "en": "Core",
+        "ar": "أساسي"
+      },
+      "title": {
+        "en": "Accounts",
+        "ar": "الحسابات"
+      },
+      "description": {
+        "en": "Ledger, vouchers, AR/AP, and audit-ready financial statements.",
+        "ar": "دفتر أستاذ وقيود وذمم وقوائم مالية جاهزة للتدقيق."
+      },
+      "href": "/software/accounts-management-software",
+      "sortOrder": 0,
+      "active": true
+    },
+    {
+      "id": "m-production",
+      "icon": "Factory",
+      "accentColor": "#2563eb",
+      "badge": {
+        "en": "Core",
+        "ar": "أساسي"
+      },
+      "title": {
+        "en": "Production",
+        "ar": "الإنتاج"
+      },
+      "description": {
+        "en": "BOM, production orders, and shop-floor tracking linked to inventory.",
+        "ar": "قوائم مواد وأوامر إنتاج وتتبع أرض الورشة مرتبط بالمخزون."
+      },
+      "href": "/software/production-management-software",
+      "sortOrder": 1,
+      "active": true
+    },
+    {
+      "id": "m-pos",
+      "icon": "TabletSmartphone",
+      "accentColor": "#7c3aed",
+      "badge": {
+        "en": "Popular",
+        "ar": "شائع"
+      },
+      "title": {
+        "en": "POS",
+        "ar": "نقطة البيع"
+      },
+      "description": {
+        "en": "Fast checkout, promotions, and live stock sync to ERP.",
+        "ar": "كاشير سريع وعروض ومزامنة مخزون لحظية مع الـ ERP."
+      },
+      "href": "/software/point-of-sale-software",
+      "sortOrder": 2,
+      "active": true
+    },
+    {
+      "id": "m-fbr",
+      "icon": "FileText",
+      "accentColor": "#ef233c",
+      "badge": {
+        "en": "Popular",
+        "ar": "شائع"
+      },
+      "title": {
+        "en": "UAE VAT & Tax Compliance",
+        "ar": "امتثال ضريبة القيمة المضافة"
+      },
+      "description": {
+        "en": "UAE VAT-compliant digital invoicing and real-time POS tax lines.",
+        "ar": "فوترة رقمية متوافقة مع ضريبة القيمة المضافة الإماراتية وخطوط ضريبة نقطة البيع لحظيًا."
+      },
+      "href": "/software/fbr-pos-integration-software",
+      "sortOrder": 3,
+      "active": true
+    },
+    {
+      "id": "m-inventory",
+      "icon": "Package",
+      "accentColor": "#16a34a",
+      "badge": {
+        "en": "Core",
+        "ar": "أساسي"
+      },
+      "title": {
+        "en": "Inventory",
+        "ar": "المخزون"
+      },
+      "description": {
+        "en": "Multi-location stock, transfers, costing, and cycle counts.",
+        "ar": "مخزون متعدد المواقع وتحويلات وتكلفة وجرد دوري."
+      },
+      "href": "/software/inventory-management-software",
+      "sortOrder": 4,
+      "active": true
+    },
+    {
+      "id": "m-payroll",
+      "icon": "Banknote",
+      "accentColor": "#991b1b",
+      "badge": {
+        "en": "Core",
+        "ar": "أساسي"
+      },
+      "title": {
+        "en": "Payroll",
+        "ar": "الرواتب"
+      },
+      "description": {
+        "en": "Payslips, statutory deductions, and approvals in one run.",
+        "ar": "كشوف رواتب واستقطاعات نظامية وموافقات في دورة واحدة."
+      },
+      "href": "/software/payroll-management-software",
+      "sortOrder": 5,
+      "active": true
+    },
+    {
+      "id": "m-sms",
+      "icon": "Cpu",
+      "accentColor": "#84cc16",
+      "badge": {
+        "en": "Core",
+        "ar": "أساسي"
+      },
+      "title": {
+        "en": "SMS",
+        "ar": "الرسائل"
+      },
+      "description": {
+        "en": "SMS and system alerts connecting POS, CRM, and ERP branches.",
+        "ar": "رسائل وتنبيهات تربط نقطة البيع وCRM وفروع ERP."
+      },
+      "href": "/software/sms-integration-system",
+      "sortOrder": 6,
+      "active": true
+    },
+    {
+      "id": "m-crm",
+      "icon": "Users",
+      "accentColor": "#db2777",
+      "badge": {
+        "en": "Popular",
+        "ar": "شائع"
+      },
+      "title": {
+        "en": "CRM",
+        "ar": "إدارة العملاء"
+      },
+      "description": {
+        "en": "Leads, pipelines, and customer history tied to sales and collections.",
+        "ar": "عملاء محتملون ومسارات وتاريخ عملاء مرتبط بالمبيعات والتحصيل."
+      },
+      "href": "/software/crm-software",
+      "sortOrder": 7,
+      "active": true
+    }
+  ],
+  "_meta": {
+    "createdAt": "2026-08-12T08:31:16.124Z",
+    "updatedAt": "2026-08-12T08:31:16.124Z",
+    "updatedBy": "migrate-original-homepage"
+  }
+}

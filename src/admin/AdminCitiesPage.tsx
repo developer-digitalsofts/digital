@@ -16,7 +16,7 @@ type CityRow = {
 
 export function AdminCitiesPage() {
   const toast = useAdminToast()
-  const [countryCode, setCountryCode] = useState('AE')
+  const [countryCode, setCountryCode] = useState('PK')
   const [cities, setCities] = useState<CityRow[]>([])
   const [loading, setLoading] = useState(true)
 

@@ -13,7 +13,6 @@ import { megaIndustryLabel, megaModuleLabel } from '../i18n/megaLabels'
 import { apiBase, fetchWithTimeout } from '../cms/api'
 import { CmsLink } from './CmsLink'
 import { useLocale } from '../locale/LocaleContext'
-import { RegionLanguageUtility } from './RegionLanguageUtility'
 import './footer.css'
 
 const companyKeys = ['coAbout', 'coWorkflow', 'coFaq', 'coContact'] as const
@@ -263,9 +262,9 @@ export function Footer() {
   const colR = resolveFooterText(f?.columnResources, lang, t('footer.colResources'))
 
   const addr = resolveFooterText(f?.contact?.address, lang, t('footer.address'))
-  const phoneDisplay = f?.contact?.phoneDisplay ?? '+971 6 536 6786'
-  const phoneHref = f?.contact?.phoneHref ?? 'tel:+97165366786'
-  const email = f?.contact?.email ?? 'info@digitalmanager.ae'
+  const phoneDisplay = f?.contact?.phoneDisplay ?? '+92 300 000 0000'
+  const phoneHref = f?.contact?.phoneHref ?? 'tel:+923000000000'
+  const email = f?.contact?.email ?? 'info@digitalmanager.com.pk'
 
   const rightsFallback = t('footer.rights')
   const privacyLabel = resolveFooterText(f?.privacy?.label, lang, t('footer.privacy'))
@@ -459,7 +458,7 @@ export function Footer() {
         <div className="dm-footer__bottom">
           <div className="dm-footer__bottom-main">
             <p className="dm-footer__copyright">{copyrightText}</p>
-            <RegionLanguageUtility className="dm-footer__locale-utility" hint={false} />
+            <p className="dm-footer__locale-utility text-xs text-slate-400">DigitalManager Pakistan · PKR</p>
           </div>
           <nav className="dm-footer__legal" aria-label={t('footer.legalNav')}>
             <a href={privacyHref} className="dm-footer__legal-link">

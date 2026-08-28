@@ -1,0 +1,61 @@
+{
+  "websiteName": {
+    "en": "DigitalManager Pakistan",
+    "ar": "DigitalManager Pakistan"
+  },
+  "websiteTagline": {
+    "en": "Cloud ERP for Pakistan businesses",
+    "ar": "Cloud ERP for Pakistan businesses"
+  },
+  "logoUrl": "/digitalmanager.svg",
+  "faviconUrl": "/digitalmanager-favicon.png",
+  "primaryEmail": "info@digitalmanager.com.pk",
+  "salesEmail": "info@digitalmanager.com.pk",
+  "supportEmail": "info@digitalmanager.com.pk",
+  "phoneDisplay": "+92 300 000 0000",
+  "phoneHref": "tel:+923000000000",
+  "whatsappNumber": "923000000000",
+  "officeAddress": {
+    "en": "Suite 100, Placeholder Tower, Karachi, Pakistan",
+    "ar": "Suite 100, Placeholder Tower, Karachi, Pakistan"
+  },
+  "workingHours": {
+    "en": "Mon - Sat : 10.00 am - 6.00 pm",
+    "ar": "Mon - Sat : 10.00 am - 6.00 pm"
+  },
+  "googleMapLink": "",
+  "facebookUrl": "",
+  "linkedinUrl": "",
+  "instagramUrl": "",
+  "youtubeUrl": "",
+  "tiktokUrl": "",
+  "copyrightText": {
+    "en": "© DigitalManager Pakistan. All rights reserved.",
+    "ar": "© DigitalManager Pakistan."
+  },
+  "defaultCountry": {
+    "en": "Pakistan",
+    "ar": "Pakistan"
+  },
+  "defaultCurrency": "PKR",
+  "defaultPhoneCode": "+92",
+  "primaryCtaLabel": {
+    "en": "Get Demo",
+    "ar": "Get Demo"
+  },
+  "demoPageLink": "/contact#contact-form",
+  "defaultSeoTitle": {
+    "en": "DigitalManager — Cloud ERP for Pakistan",
+    "ar": "DigitalManager — Cloud ERP for Pakistan"
+  },
+  "defaultMetaDescription": {
+    "en": "Cloud ERP software for retail, manufacturing, logistics and services across Pakistan.",
+    "ar": "Cloud ERP software for retail, manufacturing, logistics and services across Pakistan."
+  },
+  "ogImageUrl": "",
+  "_meta": {
+    "createdAt": "2026-08-28T12:04:39.402Z",
+    "updatedAt": "2026-08-28T12:04:39.403Z",
+    "updatedBy": "seed-pakistan-market"
+  }
+}

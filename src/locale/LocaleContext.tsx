@@ -53,7 +53,7 @@ function readBi(value: unknown, lang: LocaleLang): string {
 
 function resolveProfile(item: CountryProfile, lang: LocaleLang, fallback?: ResolvedCountryProfile): ResolvedCountryProfile {
   const whatsappNumber = String(item.whatsappNumber ?? fallback?.whatsappNumber ?? '').replace(/\D/g, '')
-  const code = (item.code ?? 'AE').toUpperCase() as GccCountryCode
+  const code = (item.code ?? 'PK').toUpperCase() as GccCountryCode
   return {
     code,
     name: readBi(item.name, lang) || code,
@@ -176,7 +176,7 @@ export function useLocale() {
 export function useCountry() {
   const locale = useLocale()
   return {
-    countryCode: locale.countryCode as 'AE' | 'SA' | 'KW' | 'QA' | 'BH' | 'OM',
+    countryCode: locale.countryCode as GccCountryCode,
     setCountryCode: (code: string) => locale.setLocale(codeToCountrySlug(code), locale.lang),
     countries: locale.countries,
     activeCountry: locale.activeCountry,

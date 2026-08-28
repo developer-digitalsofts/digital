@@ -1,0 +1,16 @@
+{
+  "enableEmailNotification": false,
+  "receiverEmail": "info@digitalmanager.ae",
+  "ccEmail": "",
+  "bccEmail": "",
+  "fromEmail": "noreply@digitalmanager.ae",
+  "fromName": "DigitalManager Website",
+  "replyToField": "customer",
+  "emailSubject": "New lead from DigitalManager website",
+  "emailTemplateBody": "New enquiry:\n\nName: {{name}}\nEmail: {{email}}\nPhone: {{phone}}\nTopic: {{topic}}\nCompany: {{company}}\nMessage: {{message}}\nSource: {{sourcePage}}\n",
+  "_meta": {
+    "createdAt": "2026-01-01T00:00:00.000Z",
+    "updatedAt": "2026-01-01T00:00:00.000Z",
+    "updatedBy": ""
+  }
+}

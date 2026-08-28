@@ -1,14 +1,14 @@
 /**
- * Runtime regionalization for software/industry detail page copy on non-UAE locale routes.
- * UAE baseline content files are preserved; replacements apply only when countryCode !== 'AE'.
+ * Runtime regionalization for software/industry detail page copy.
+ * Pakistan (PK) is the default market; replacements apply when countryCode !== 'PK'.
  */
 import type { GccCountryCode } from '../config/gccCountries'
 import { normalizeCountryCode } from '../config/gccCountries'
 import { getDashboardRegionalData } from '../components/hero/dashboards/dashboardRegionalData'
 import { getCountryProfile, vatLabelFor } from './countryProfiles'
 
-const UAE_CITIES = ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Al Ain']
-const UAE_COMPANIES = ['Dubai Holdings', 'Emirates Supplies', 'Al Noor Trading', 'Gulf Retail LLC']
+const BASELINE_CITIES = ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Al Ain']
+const BASELINE_COMPANIES = ['Dubai Holdings', 'Emirates Supplies', 'Al Noor Trading', 'Gulf Retail LLC']
 
 const ALLOWED_PHRASES = [
   'UAE headquarters',
@@ -28,32 +28,30 @@ function scrubAllowed(text: string): string {
 
 function restoreAllowed(text: string, original: string): string {
   let out = text
-  let i = 0
   for (const phrase of ALLOWED_PHRASES) {
     if (original.includes(phrase)) {
       out = out.replace('\0', phrase)
-      i++
     }
   }
   return out.replace(/\0/g, '')
 }
 
 function replaceRegionalString(text: string, countryCode: GccCountryCode): string {
-  if (!text || countryCode === 'AE') return text
+  if (!text) return text
 
   const profile = getCountryProfile(countryCode)
   const regional = getDashboardRegionalData(countryCode)
   const scrubbed = scrubAllowed(text)
   let out = scrubbed
 
-  for (const company of UAE_COMPANIES) {
-    const idx = UAE_COMPANIES.indexOf(company)
+  for (const company of BASELINE_COMPANIES) {
+    const idx = BASELINE_COMPANIES.indexOf(company)
     const replacement = regional.companies[idx] ?? regional.companies[0]
     out = out.split(company).join(replacement)
   }
 
-  for (const city of UAE_CITIES) {
-    const idx = UAE_CITIES.indexOf(city)
+  for (const city of BASELINE_CITIES) {
+    const idx = BASELINE_CITIES.indexOf(city)
     const replacement = profile.cities.en[idx] ?? profile.cities.en[0]
     out = out.split(city).join(replacement)
   }
@@ -79,7 +77,6 @@ function replaceRegionalString(text: string, countryCode: GccCountryCode): strin
 }
 
 function walkRegionalize<T>(value: T, countryCode: GccCountryCode): T {
-  if (countryCode === 'AE') return value
   if (typeof value === 'string') return replaceRegionalString(value, countryCode) as T
   if (Array.isArray(value)) return value.map((item) => walkRegionalize(item, countryCode)) as T
   if (value && typeof value === 'object') {
@@ -94,7 +91,8 @@ function walkRegionalize<T>(value: T, countryCode: GccCountryCode): T {
 
 export function regionalizeSoftwareDetailPage<T>(page: T, countryCode: string): T {
   const code = normalizeCountryCode(countryCode)
-  if (code === 'AE') return page
+  // PK is the default market (`isDefault = code === 'PK'`). Baseline content still
+  // uses AED/UAE strings, so we always walk and rewrite to the active profile.
   return walkRegionalize(page, code)
 }
 

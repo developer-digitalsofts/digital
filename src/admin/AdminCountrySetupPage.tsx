@@ -6,13 +6,7 @@ import { AdminLocaleItemStatus } from './AdminLocaleItemStatus'
 import { useAdminLocale } from './AdminLocaleContext'
 import type { CountrySetupMode } from '../types/localeContent'
 
-const COUNTRY_OPTIONS = [
-  { code: 'QA', label: 'Qatar' },
-  { code: 'SA', label: 'Saudi Arabia' },
-  { code: 'KW', label: 'Kuwait' },
-  { code: 'OM', label: 'Oman' },
-  { code: 'BH', label: 'Bahrain' },
-]
+const COUNTRY_OPTIONS = [{ code: 'PK', label: 'Pakistan' }] as const
 
 type SetupReport = {
   country: string
@@ -30,14 +24,14 @@ type SetupReport = {
 export function AdminCountrySetupPage() {
   const { setCountry } = useAdminLocale()
   const navigate = useNavigate()
-  const [countryCode, setCountryCode] = useState('QA')
+  const [countryCode, setCountryCode] = useState('PK')
   const [languages, setLanguages] = useState<Array<'en' | 'ar'>>(['en'])
   const [mode, setMode] = useState<CountrySetupMode>('structure_only')
   const [status, setStatus] = useState<'idle' | 'running' | 'done' | 'error'>('idle')
   const [report, setReport] = useState<SetupReport | null>(null)
   const [error, setError] = useState<string | null>(null)
 
-  const canRun = useMemo(() => countryCode !== 'AE' && languages.length > 0, [countryCode, languages])
+  const canRun = useMemo(() => countryCode === 'PK' && languages.length > 0, [countryCode, languages])
 
   const toggleLang = (lang: 'en' | 'ar') => {
     setLanguages((prev) => (prev.includes(lang) ? prev.filter((l) => l !== lang) : [...prev, lang]))
@@ -54,7 +48,7 @@ export function AdminCountrySetupPage() {
       })
       setReport(res.report)
       setStatus('done')
-      setCountry(countryCode.toLowerCase() as 'qa' | 'sa' | 'kw' | 'om' | 'bh')
+      setCountry(countryCode.toLowerCase() as 'pk')
     } catch (e) {
       setStatus('error')
       setError(e instanceof Error ? e.message : 'Setup failed')

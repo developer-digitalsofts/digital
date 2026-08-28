@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useCms } from '../cms/CmsContext'
 import { resolveTestimonialsCms } from '../cms/resolveHomepageCms'
-import { useCountry } from '../context/CountryContext'
 import { useLocale } from '../locale/LocaleContext'
+import { normalizeCountryCode } from '../config/gccCountries'
 import { useI18n } from '../i18n/I18nProvider'
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
 import { resolvePublicMediaUrl } from '../cms/publicMediaUrl'
@@ -95,9 +95,9 @@ function TestimonialCard({ item }: { item: ResolvedTestimonial }) {
 export function TestimonialsSection() {
   const { t, lang } = useI18n()
   const { data } = useCms()
-  const { countryCode } = useCountry()
-  const { href } = useLocale()
-  const copy = useMemo(() => resolveTestimonialsCms(data ?? undefined, t, lang, countryCode), [data, t, lang, countryCode])
+  const { href, countryCode } = useLocale()
+  const marketCode = normalizeCountryCode(countryCode)
+  const copy = useMemo(() => resolveTestimonialsCms(data ?? undefined, t, lang, marketCode), [data, t, lang, marketCode])
   const reducedMotion = usePrefersReducedMotion()
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)

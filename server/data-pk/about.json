@@ -1,0 +1,64 @@
+{
+  "eyebrow": {
+    "en": "About Us",
+    "ar": "من نحن"
+  },
+  "title": {
+    "en": "About DigitalManager",
+    "ar": "عن ديجيتال مانجر"
+  },
+  "paragraphs": [
+    {
+      "en": "DigitalManager is a cloud ERP platform built for growing businesses across UAE, GCC and international markets. It helps companies manage finance, inventory, sales, operations and reporting from one connected system.",
+      "ar": "ديجيتال مانجر منصة ERP سحابية للشركات النامية عبر الإمارات والخليج والأسواق الدولية. تساعد الشركات على إدارة المالية والمخزون والمبيعات والعمليات والتقارير من نظام متصل واحد."
+    },
+    {
+      "en": "Built for multi-branch teams and industry-specific workflows, DigitalManager improves visibility, reduces manual work and helps management make faster decisions.",
+      "ar": "مصممة للفرق متعددة الفروع وسير العمل الخاص بالقطاع، تحسّن الرؤية وتقلّل العمل اليدوي وتساعد الإدارة على اتخاذ قرارات أسرع."
+    }
+  ],
+  "trustItems": [
+    {
+      "id": "at1",
+      "label": {
+        "en": "Since 2004",
+        "ar": "منذ ٢٠٠٤"
+      },
+      "sortOrder": 0,
+      "active": true
+    },
+    {
+      "id": "at2",
+      "label": {
+        "en": "Trusted Across UAE & GCC",
+        "ar": "موثوق عبر الإمارات والخليج"
+      },
+      "sortOrder": 1,
+      "active": true
+    },
+    {
+      "id": "at3",
+      "label": {
+        "en": "Enterprise ERP Solutions",
+        "ar": "حلول ERP للمؤسسات"
+      },
+      "sortOrder": 2,
+      "active": true
+    },
+    {
+      "id": "at4",
+      "label": {
+        "en": "Multi-Branch ERP Support",
+        "ar": "دعم ERP متعدد الفروع"
+      },
+      "sortOrder": 3,
+      "active": true
+    }
+  ],
+  "imageUrl": "",
+  "_meta": {
+    "createdAt": "2026-08-12T08:31:16.124Z",
+    "updatedAt": "2026-08-12T08:31:16.124Z",
+    "updatedBy": "migrate-original-homepage"
+  }
+}

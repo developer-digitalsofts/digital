@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 2,
+  "eyebrow": {
+    "en": "All-in-One ERP Modules",
+    "ar": "وحدات ERP شاملة"
+  },
+  "title": {
+    "en": "Enterprise-grade control across your value chain",
+    "ar": "تحكم على مستوى المؤسسات عبر سلسلة قيمتك"
+  },
+  "subtitle": {
+    "en": "Manage every department with one connected ERP system.",
+    "ar": "أدِر كل الأقسام بنظام ERP واحد متصل."
+  },
+  "_deprecatedCards": [
+    {
+      "id": "vc1",
+      "icon": "Activity",
+      "accentColor": "#ff7a45",
+      "title": {
+        "en": "Everyday business activity",
+        "ar": "النشاط التجاري اليومي"
+      },
+      "description": {
+        "en": "Capture operational events as they happen so finance and inventory stay aligned.",
+        "ar": "سجّل الأحداث التشغيلية فور حدوثها لتبقى المالية والمخزون متوافقتين."
+      },
+      "sortOrder": 0,
+      "active": true
+    },
+    {
+      "id": "vc2",
+      "icon": "BookOpen",
+      "accentColor": "#2563eb",
+      "title": {
+        "en": "Accounts and bookkeeping",
+        "ar": "الحسابات والدفاتر"
+      },
+      "description": {
+        "en": "Vouchers, ledgers, and period controls designed for disciplined month-end close.",
+        "ar": "قيود وسجلات وضوابط فترات تدعم إغلاق الشهر بانضباط."
+      },
+      "sortOrder": 1,
+      "active": true
+    },
+    {
+      "id": "vc3",
+      "icon": "ShoppingBag",
+      "accentColor": "#10b981",
+      "title": {
+        "en": "Sales and operations",
+        "ar": "المبيعات والعمليات"
+      },
+      "description": {
+        "en": "Orders, deliveries, and billing connected to stock and receivables in real time.",
+        "ar": "طلبات وتسليم وفوترة مرتبطة بالمخزون والذمم المدينة لحظيًا."
+      },
+      "sortOrder": 2,
+      "active": true
+    },
+    {
+      "id": "vc4",
+      "icon": "Users",
+      "accentColor": "#db2777",
+      "title": {
+        "en": "Payroll and HR",
+        "ar": "الرواتب وإدارة الموارد البشرية"
+      },
+      "description": {
+        "en": "Attendance, leave, and payroll outputs with approvals your auditors can follow.",
+        "ar": "حضور وإجازات ورواتب مع موافقات يمكن للمراجعين تتبعها."
+      },
+      "sortOrder": 3,
+      "active": true
+    },
+    {
+      "id": "vc5",
+      "icon": "Package",
+      "accentColor": "#16a34a",
+      "title": {
+        "en": "Inventory management",
+        "ar": "إدارة المخزون"
+      },
+      "description": {
+        "en": "Multi-location stock, transfers, and costing that matches what your warehouse sees.",
+        "ar": "مخزون متعدد المواقع وتحويلات وتكلفة تعكس ما يراه المستودع."
+      },
+      "sortOrder": 4,
+      "active": true
+    },
+    {
+      "id": "vc6",
+      "icon": "LineChart",
+      "accentColor": "#f59e0b",
+      "title": {
+        "en": "Business intelligence reporting",
+        "ar": "ذكاء الأعمال والتقارير"
+      },
+      "description": {
+        "en": "Executive dashboards and operational KPIs without exporting to spreadsheets.",
+        "ar": "لوحات قيادة ومؤشرات تشغيلية دون تصدير لجداول منفصلة."
+      },
+      "sortOrder": 5,
+      "active": true
+    }
+  ],
+  "_meta": {
+    "createdAt": "2026-08-12T08:31:16.124Z",
+    "updatedAt": "2026-08-12T08:31:16.124Z",
+    "updatedBy": "migrate-original-homepage"
+  }
+}

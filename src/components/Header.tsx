@@ -16,7 +16,6 @@ import { pick } from '../cms/pick'
 import { isTopBarVisibleFromSections, parsePageSections } from '../cms/pageSections'
 import type { CmsHeader, CmsHeaderNavLink } from '../cms/types'
 import { useLocale } from '../locale/LocaleContext'
-import { RegionLanguageUtility } from './RegionLanguageUtility'
 import './header-layout.css'
 
 type MegaKey = 'module' | 'industry'
@@ -651,7 +650,8 @@ export function Header({ onOpenSearch }: HeaderProps) {
                 )}
             </nav>
             <div className="mt-3 border-t border-slate-100 pt-3">
-              <RegionLanguageUtility />
+              {/* Pakistan market: no GCC country selector */}
+              <p className="px-3 py-2 text-xs text-slate-500">Serving Pakistan · PKR</p>
             </div>
           </div>
         )}

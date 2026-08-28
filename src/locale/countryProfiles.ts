@@ -1,5 +1,12 @@
-/** Client-side GCC country profiles — mirrors server/gccLocalizedContent/profiles.mjs */
+/** Client-side country profiles — Pakistan market (pakistan-version). */
 import type { GccCountryCode } from '../config/gccCountries'
+import {
+  MARKET_CODE,
+  MARKET_CURRENCY,
+  MARKET_SLUG,
+  PK_CITY_SLUGS,
+  PK_CONTACT_PLACEHOLDERS,
+} from '../market/pakistanConfig'
 
 export type CountryProfile = {
   code: GccCountryCode
@@ -12,84 +19,40 @@ export type CountryProfile = {
   cityPhrase: { en: string; ar: string }
 }
 
+const PK_CITY_NAMES = PK_CITY_SLUGS.map((slug) => slug.charAt(0).toUpperCase() + slug.slice(1))
+
 export const COUNTRY_PROFILES: Record<GccCountryCode, CountryProfile> = {
-  AE: {
-    code: 'AE',
-    slug: 'ae',
-    currency: 'AED',
-    currencyName: { en: 'UAE Dirham (AED)', ar: 'درهم إماراتي (AED)' },
-    name: { en: 'UAE', ar: 'الإمارات' },
-    fullName: { en: 'United Arab Emirates', ar: 'الإمارات العربية المتحدة' },
-    cities: { en: ['Dubai', 'Abu Dhabi', 'Sharjah'], ar: ['دبي', 'أبوظبي', 'الشارقة'] },
-    cityPhrase: { en: 'Dubai, Abu Dhabi and Sharjah', ar: 'دبي وأبوظبي والشارقة' },
-  },
-  SA: {
-    code: 'SA',
-    slug: 'sa',
-    currency: 'SAR',
-    currencyName: { en: 'Saudi Riyal (SAR)', ar: 'ريال سعودي (SAR)' },
-    name: { en: 'Saudi Arabia', ar: 'السعودية' },
-    fullName: { en: 'Saudi Arabia', ar: 'المملكة العربية السعودية' },
-    cities: { en: ['Riyadh', 'Jeddah', 'Dammam'], ar: ['الرياض', 'جدة', 'الدمام'] },
-    cityPhrase: { en: 'Riyadh, Jeddah and Dammam', ar: 'الرياض وجدة والدمام' },
-  },
-  QA: {
-    code: 'QA',
-    slug: 'qa',
-    currency: 'QAR',
-    currencyName: { en: 'Qatari Riyal (QAR)', ar: 'ريال قطري (QAR)' },
-    name: { en: 'Qatar', ar: 'قطر' },
-    fullName: { en: 'Qatar', ar: 'دولة قطر' },
-    cities: { en: ['Doha', 'Al Rayyan', 'Al Wakrah'], ar: ['الدوحة', 'الريان', 'الوكرة'] },
-    cityPhrase: { en: 'Doha, Al Rayyan and Al Wakrah', ar: 'الدوحة والريان والوكرة' },
-  },
-  OM: {
-    code: 'OM',
-    slug: 'om',
-    currency: 'OMR',
-    currencyName: { en: 'Omani Rial (OMR)', ar: 'ريال عُماني (OMR)' },
-    name: { en: 'Oman', ar: 'عُمان' },
-    fullName: { en: 'Oman', ar: 'سلطنة عُمان' },
-    cities: { en: ['Muscat', 'Sohar', 'Salalah'], ar: ['مسقط', 'صحار', 'صلالة'] },
-    cityPhrase: { en: 'Muscat, Sohar and Salalah', ar: 'مسقط وصحار وصلالة' },
-  },
-  KW: {
-    code: 'KW',
-    slug: 'kw',
-    currency: 'KWD',
-    currencyName: { en: 'Kuwaiti Dinar (KWD)', ar: 'دينار كويتي (KWD)' },
-    name: { en: 'Kuwait', ar: 'الكويت' },
-    fullName: { en: 'Kuwait', ar: 'دولة الكويت' },
-    cities: { en: ['Kuwait City', 'Hawalli', 'Farwaniya'], ar: ['مدينة الكويت', 'حولي', 'الفروانية'] },
-    cityPhrase: { en: 'Kuwait City, Hawalli and Farwaniya', ar: 'مدينة الكويت وحولي والفروانية' },
-  },
-  BH: {
-    code: 'BH',
-    slug: 'bh',
-    currency: 'BHD',
-    currencyName: { en: 'Bahraini Dinar (BHD)', ar: 'دينار بحريني (BHD)' },
-    name: { en: 'Bahrain', ar: 'البحرين' },
-    fullName: { en: 'Bahrain', ar: 'مملكة البحرين' },
-    cities: { en: ['Manama', 'Riffa', 'Muharraq'], ar: ['المنامة', 'الرفاع', 'المحرق'] },
-    cityPhrase: { en: 'Manama, Riffa and Muharraq', ar: 'المنامة والرفاع والمحرق' },
+  PK: {
+    code: MARKET_CODE,
+    slug: MARKET_SLUG,
+    currency: MARKET_CURRENCY,
+    currencyName: { en: 'Pakistani Rupee (PKR)', ar: 'روبية باكستانية (PKR)' },
+    name: { en: 'Pakistan', ar: 'باكستان' },
+    fullName: { en: 'Pakistan', ar: 'جمهورية باكستان الإسلامية' },
+    cities: {
+      en: [...PK_CITY_NAMES],
+      ar: [...PK_CITY_NAMES],
+    },
+    cityPhrase: {
+      en: 'Karachi, Lahore and Islamabad',
+      ar: 'كراتشي ولاهور وإسلام آباد',
+    },
   },
 }
 
 const VAT_LABELS: Record<GccCountryCode, string> = {
-  AE: 'UAE VAT',
-  SA: 'Saudi VAT',
-  QA: 'Qatar VAT',
-  OM: 'Oman tax',
-  KW: 'Kuwait tax',
-  BH: 'Bahrain VAT',
+  PK: 'Pakistan sales tax',
 }
 
 export function getCountryProfile(code: string): CountryProfile {
-  const upper = (code || 'AE').toUpperCase() as GccCountryCode
-  return COUNTRY_PROFILES[upper] ?? COUNTRY_PROFILES.AE
+  const upper = (code || MARKET_CODE).toUpperCase() as GccCountryCode
+  return COUNTRY_PROFILES[upper] ?? COUNTRY_PROFILES.PK
 }
 
 export function vatLabelFor(code: string): string {
-  const upper = (code || 'AE').toUpperCase() as GccCountryCode
-  return VAT_LABELS[upper] ?? VAT_LABELS.AE
+  const upper = (code || MARKET_CODE).toUpperCase() as GccCountryCode
+  return VAT_LABELS[upper] ?? VAT_LABELS.PK
 }
+
+/** Contact placeholders for regionalized copy (from pakistanConfig). */
+export const COUNTRY_CONTACT = PK_CONTACT_PLACEHOLDERS

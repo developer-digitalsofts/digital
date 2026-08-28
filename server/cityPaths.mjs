@@ -1,65 +1,78 @@
 /**
- * City page path parsing and building — server mirror of src/locale/cityPaths.ts
+ * City page path parsing — Pakistan flat URLs: /karachi/erp-software
  */
-import { isDefaultLocale, buildLocalePath, parseLocalePath } from './seoPaths.mjs'
 import {
   CITY_PAGE_SLUG,
   getCity,
+  isKnownCityProductSlug,
   isValidCityForCountry,
 } from './cityRegistry.mjs'
-import { COUNTRY_SLUG_TO_CODE } from './seoPaths.mjs'
+import { MARKET_CODE, MARKET_SLUG } from './pakistanConfig.mjs'
 
 export { CITY_PAGE_SLUG }
 
-export function buildCityPagePath(countrySlug, lang, citySlug, pageSlug = CITY_PAGE_SLUG) {
-  const rest = `/${citySlug}/${pageSlug}`
-  return buildLocalePath(countrySlug, lang, rest)
+export function buildCityPagePath(_countrySlug, _lang, citySlug, pageSlug = CITY_PAGE_SLUG) {
+  return `/${String(citySlug).toLowerCase()}/${String(pageSlug).toLowerCase()}`
 }
 
 export function parseCityPagePath(pathname) {
-  const parsed = parseLocalePath(pathname)
-  const countryCode = COUNTRY_SLUG_TO_CODE[parsed.country] || 'AE'
-  const parts = parsed.restPath.replace(/^\/+|\/+$/g, '').split('/').filter(Boolean)
+  const path = pathname.startsWith('/') ? pathname : `/${pathname}`
+  const parts = path.replace(/^\/+|\/+$/g, '').split('/').filter(Boolean)
 
-  if (parts.length < 2) {
-    return { ...parsed, countryCode, citySlug: null, pageSlug: null, isCityPage: false }
+  if (parts.length !== 2) {
+    return {
+      country: MARKET_SLUG,
+      lang: 'en',
+      countryCode: MARKET_CODE,
+      citySlug: null,
+      pageSlug: null,
+      isCityPage: false,
+      restPath: path,
+      hasLocalePrefix: false,
+    }
   }
 
-  const [citySlug, pageSlug, ...rest] = parts
-  if (rest.length > 0) {
-    return { ...parsed, countryCode, citySlug: null, pageSlug: null, isCityPage: false }
-  }
-
-  if (!isValidCityForCountry(citySlug, countryCode)) {
-    return { ...parsed, countryCode, citySlug: null, pageSlug: null, isCityPage: false }
+  const [citySlug, pageSlug] = parts
+  if (!isValidCityForCountry(citySlug, MARKET_CODE) || !isKnownCityProductSlug(pageSlug)) {
+    return {
+      country: MARKET_SLUG,
+      lang: 'en',
+      countryCode: MARKET_CODE,
+      citySlug: null,
+      pageSlug: null,
+      isCityPage: false,
+      restPath: path,
+      hasLocalePrefix: false,
+    }
   }
 
   return {
-    ...parsed,
-    countryCode,
-    citySlug,
-    pageSlug,
+    country: MARKET_SLUG,
+    lang: 'en',
+    countryCode: MARKET_CODE,
+    citySlug: citySlug.toLowerCase(),
+    pageSlug: pageSlug.toLowerCase(),
     isCityPage: true,
-    internalPath: `/${citySlug}/${pageSlug}`,
+    restPath: path,
+    hasLocalePrefix: false,
+    internalPath: `/${citySlug.toLowerCase()}/${pageSlug.toLowerCase()}`,
   }
 }
 
 export function isKnownCityPageSlug(pageSlug) {
-  return pageSlug === CITY_PAGE_SLUG
+  return isKnownCityProductSlug(pageSlug)
 }
 
-export function cityBreadcrumbPaths(countrySlug, lang, citySlug, pageSlug = CITY_PAGE_SLUG) {
+export function cityBreadcrumbPaths(_countrySlug, _lang, citySlug, pageSlug = CITY_PAGE_SLUG) {
   const city = getCity(citySlug)
-  const homePath = buildLocalePath(countrySlug, lang, '/')
-  const countryPath = isDefaultLocale(countrySlug, lang) ? '/' : buildLocalePath(countrySlug, lang, '/')
-  const cityPath = buildCityPagePath(countrySlug, lang, citySlug, pageSlug)
+  const cityPath = buildCityPagePath(MARKET_SLUG, 'en', citySlug, pageSlug)
   return [
-    { name: 'Home', path: homePath },
+    { name: 'Home', path: '/' },
     { name: city?.name?.en || citySlug, path: cityPath },
   ]
 }
 
-export function absoluteCityUrl(base, countrySlug, lang, citySlug, pageSlug = CITY_PAGE_SLUG) {
-  const path = buildCityPagePath(countrySlug, lang, citySlug, pageSlug)
+export function absoluteCityUrl(base, _countrySlug, _lang, citySlug, pageSlug = CITY_PAGE_SLUG) {
+  const path = buildCityPagePath(MARKET_SLUG, 'en', citySlug, pageSlug)
   return `${base.replace(/\/$/, '')}${path}`
 }

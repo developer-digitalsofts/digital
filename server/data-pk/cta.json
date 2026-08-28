@@ -1,0 +1,37 @@
+{
+  "title": {
+    "en": "Ready to modernize your business with a trusted ERP partner?",
+    "ar": "هل أنت مستعد لتحديث أعمالك مع شريك ERP موثوق؟"
+  },
+  "paragraph": {
+    "en": "DigitalManager helps growing businesses across UAE, GCC and international markets manage accounts, inventory, sales, payroll, POS and reporting from one connected platform.",
+    "ar": "يساعد ديجيتال مانجر الشركات النامية عبر الإمارات والخليج والأسواق الدولية على إدارة الحسابات والمخزون والمبيعات والرواتب ونقطة البيع والتقارير من منصة واحدة متصلة."
+  },
+  "background": "",
+  "primary": {
+    "label": {
+      "en": "Book Free Demo",
+      "ar": "احجز عرضًا مجانيًا"
+    },
+    "href": "/contact"
+  },
+  "secondary": {
+    "label": {
+      "en": "Talk to an ERP Consultant",
+      "ar": "تحدث مع مستشار ERP"
+    },
+    "href": "/contact"
+  },
+  "whatsapp": {
+    "label": {
+      "en": "WhatsApp Now",
+      "ar": "واتساب الآن"
+    },
+    "href": "https://wa.me/971581174911"
+  },
+  "_meta": {
+    "createdAt": "2026-08-12T08:31:16.124Z",
+    "updatedAt": "2026-08-12T08:31:16.124Z",
+    "updatedBy": "migrate-original-homepage"
+  }
+}

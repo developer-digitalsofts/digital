@@ -41,12 +41,8 @@ import { AdminBlogCategoriesPage } from './admin/content/AdminBlogCategoriesPage
 import { AdminCountriesPage } from './admin/AdminCountriesPage'
 import { AdminCountrySetupPage } from './admin/AdminCountrySetupPage'
 import { AdminCitiesPage } from './admin/AdminCitiesPage'
-import { LocaleGuard } from './routes/LocaleGuard'
-import { ErpLocalePage, ContactLocalePage, SolutionsLocalePage, BusinessModelsLocalePage, FaqsLocalePage } from './pages/LocaleSlugPage'
-import { LocaleSoftwarePage, LocaleIndustrySlugPage } from './pages/LocaleSoftwarePage'
-import { LocaleFallbackPage } from './pages/LocaleFallbackPage'
+import { ErpLocalePage, SolutionsLocalePage, BusinessModelsLocalePage, FaqsLocalePage } from './pages/LocaleSlugPage'
 import { CityPageGuard } from './routes/CityPageGuard'
-import { AeEnCityRedirect } from './routes/CityPageGuard'
 
 export default function App() {
   return (
@@ -114,7 +110,7 @@ export default function App() {
         </Route>
       </Route>
       <Route element={<Layout />}>
-        {/* UAE English root — preserved exactly */}
+        {/* Pakistan English root */}
         <Route index element={<HomePage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="privacy" element={<PrivacyPage />} />
@@ -130,36 +126,10 @@ export default function App() {
         <Route path="faqs" element={<FaqsLocalePage />} />
         <Route path="software/:flatSlug" element={<SoftwarePage />} />
         <Route path="software/:kind/:slug" element={<SoftwarePage />} />
+        {/* City product pages: /karachi/erp-software, /lahore/pos-software, … */}
         <Route path=":citySlug/:pageSlug" element={<CityPageGuard />} />
         <Route path=":slug" element={<CmsPage />} />
       </Route>
-
-      {/* GCC locale routes — /ae/ar, /sa/en, /qa/en/insights, etc. */}
-      <Route path=":country/:lang" element={<LocaleGuard />}>
-        <Route element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="about" element={<AboutPage />} />
-          <Route path="privacy" element={<PrivacyPage />} />
-          <Route path="developers" element={<DevelopersPage />} />
-          <Route path="industries" element={<IndustriesPage />} />
-          <Route path="industries/:slug" element={<LocaleIndustrySlugPage />} />
-          <Route path="contact" element={<ContactLocalePage />} />
-          <Route path="testimonials" element={<TestimonialsPage />} />
-          <Route path="insights" element={<BlogListingPage />} />
-          <Route path="insights/:slug" element={<BlogDetailPage />} />
-          <Route path="erp" element={<ErpLocalePage />} />
-          <Route path="solutions" element={<SolutionsLocalePage />} />
-          <Route path="business-models" element={<BusinessModelsLocalePage />} />
-          <Route path="faqs" element={<FaqsLocalePage />} />
-          <Route path="software/:flatSlug" element={<LocaleSoftwarePage />} />
-          <Route path="software/:kind/:slug" element={<LocaleSoftwarePage />} />
-          <Route path=":citySlug/:pageSlug" element={<CityPageGuard />} />
-          <Route path=":slug" element={<CmsPage />} />
-          <Route path="*" element={<LocaleFallbackPage />} />
-        </Route>
-      </Route>
-
-      <Route path="ae/en/*" element={<AeEnCityRedirect />} />
     </Routes>
   )
 }

@@ -1,0 +1,501 @@
+{
+  "modules": {
+    "heading": {
+      "en": "Powerful modules for every business function",
+      "ar": "وحدات قوية لكل وظيفة أعمال"
+    },
+    "subheading": {
+      "en": "Choose the tools you need and manage everything from one connected platform.",
+      "ar": "اختر الأدوات التي تحتاجها وأدر كل شيء من منصة واحدة متصلة."
+    },
+    "viewAllLabel": {
+      "en": "View All Modules →",
+      "ar": "عرض جميع الوحدات ←"
+    },
+    "viewAllHref": "/#modules",
+    "categories": [
+      {
+        "id": "financeCompliance",
+        "title": {
+          "en": "FINANCE & COMPLIANCE",
+          "ar": "المالية والامتثال"
+        },
+        "items": [
+          {
+            "id": "accountsFinance",
+            "title": {
+              "en": "Accounts & Finance",
+              "ar": "الحسابات والمالية"
+            },
+            "description": {
+              "en": "Ledgers, vouchers, cash flow and bank control",
+              "ar": "دفاتر وسندات وتدفق نقدي وبنوك"
+            },
+            "imageUrl": "/software-images/accounts-management-software/dashboard.jpg",
+            "imageAlt": {
+              "en": "Accounts and finance software",
+              "ar": "برمجيات الحسابات والمالية"
+            },
+            "href": "/software/accounts-management-software",
+            "featured": true,
+            "active": true,
+            "sortOrder": 0
+          },
+          {
+            "id": "vatCompliance",
+            "title": {
+              "en": "UAE VAT & Tax Compliance",
+              "ar": "امتثال ضريبة القيمة المضافة في الإمارات"
+            },
+            "description": {
+              "en": "UAE VAT-compliant invoicing and tax reporting",
+              "ar": "فوترة متوافقة مع ضريبة القيمة المضافة وتقارير ضريبية"
+            },
+            "imageUrl": "/software-images/fbr-pos-integration-software/dashboard.jpg",
+            "imageAlt": {
+              "en": "UAE VAT and tax compliance software",
+              "ar": "برمجيات امتثال ضريبة القيمة المضافة"
+            },
+            "href": "/software/fbr-pos-integration-software",
+            "featured": true,
+            "active": true,
+            "sortOrder": 1
+          },
+          {
+            "id": "reportsAnalytics",
+            "title": {
+              "en": "Reports & Analytics",
+              "ar": "التقارير والتحليلات"
+            },
+            "description": {
+              "en": "Real-time dashboards and business insights",
+              "ar": "لوحات معلومات فورية ورؤى الأعمال"
+            },
+            "imageUrl": "/software-images/accounts-management-software/reports.jpg",
+            "imageAlt": {
+              "en": "Business reports and analytics",
+              "ar": "تقارير وتحليلات الأعمال"
+            },
+            "href": "/software/accounts-management-software",
+            "featured": true,
+            "active": true,
+            "sortOrder": 2
+          }
+        ],
+        "sortOrder": 0,
+        "active": true
+      },
+      {
+        "id": "operations",
+        "title": {
+          "en": "OPERATIONS",
+          "ar": "العمليات"
+        },
+        "items": [
+          {
+            "id": "inventoryManagement",
+            "title": {
+              "en": "Inventory Management",
+              "ar": "إدارة المخزون"
+            },
+            "description": {
+              "en": "Stock levels, transfers and warehouse control",
+              "ar": "مستويات المخزون والتحويلات والمستودعات"
+            },
+            "imageUrl": "/software-images/inventory-management-software/hero.jpg",
+            "imageAlt": {
+              "en": "Inventory management software",
+              "ar": "برمجيات إدارة المخزون"
+            },
+            "href": "/software/inventory-management-software",
+            "featured": true,
+            "active": true,
+            "sortOrder": 0
+          },
+          {
+            "id": "productionManagement",
+            "title": {
+              "en": "Production Management",
+              "ar": "إدارة الإنتاج"
+            },
+            "description": {
+              "en": "Work orders, BOM and shop-floor visibility",
+              "ar": "أوامر العمل وBOM ورؤية المصنع"
+            },
+            "imageUrl": "/software-images/production-management-software/dashboard.jpg",
+            "imageAlt": {
+              "en": "Production management software",
+              "ar": "برمجيات إدارة الإنتاج"
+            },
+            "href": "/software/production-management-software",
+            "featured": true,
+            "active": true,
+            "sortOrder": 1
+          },
+          {
+            "id": "purchaseManagement",
+            "title": {
+              "en": "Purchase Management",
+              "ar": "إدارة المشتريات"
+            },
+            "description": {
+              "en": "Supplier orders, GRN and procurement control",
+              "ar": "طلبات الموردين وGRN ومراقبة الشراء"
+            },
+            "imageUrl": "/software-images/inventory-management-software/ledger.jpg",
+            "imageAlt": {
+              "en": "Purchase management software",
+              "ar": "برمجيات إدارة المشتريات"
+            },
+            "href": "/software/purchase-management-software",
+            "featured": true,
+            "active": true,
+            "sortOrder": 2
+          }
+        ],
+        "sortOrder": 1,
+        "active": true
+      },
+      {
+        "id": "salesWorkforce",
+        "title": {
+          "en": "SALES & WORKFORCE",
+          "ar": "المبيعات والموارد"
+        },
+        "items": [
+          {
+            "id": "pointOfSale",
+            "title": {
+              "en": "Point of Sale",
+              "ar": "نقطة البيع"
+            },
+            "description": {
+              "en": "Fast checkout, billing and retail sales",
+              "ar": "دفع سريع وفوترة ومبيعات التجزئة"
+            },
+            "imageUrl": "/software-images/point-of-sale-management-software/hero.jpg",
+            "imageAlt": {
+              "en": "Point of sale software",
+              "ar": "برمجيات نقطة البيع"
+            },
+            "href": "/software/point-of-sale-software",
+            "featured": true,
+            "active": true,
+            "sortOrder": 0
+          },
+          {
+            "id": "crmSoftware",
+            "title": {
+              "en": "CRM Software",
+              "ar": "برمجيات CRM"
+            },
+            "description": {
+              "en": "Leads, follow-ups and customer pipeline",
+              "ar": "عملاء محتملون ومتابعات ومسار المبيعات"
+            },
+            "imageUrl": "/software-images/crm-software/dashboard.jpg",
+            "imageAlt": {
+              "en": "CRM software",
+              "ar": "برمجيات CRM"
+            },
+            "href": "/software/crm-software",
+            "featured": true,
+            "active": true,
+            "sortOrder": 1
+          },
+          {
+            "id": "payrollManagement",
+            "title": {
+              "en": "Payroll Management",
+              "ar": "إدارة الرواتب"
+            },
+            "description": {
+              "en": "Salaries, attendance and workforce payroll",
+              "ar": "رواتب وحضور وموارد بشرية"
+            },
+            "imageUrl": "/software-images/payroll-management-software/hero.jpg",
+            "imageAlt": {
+              "en": "Payroll management software",
+              "ar": "برمجيات إدارة الرواتب"
+            },
+            "href": "/software/payroll-management-software",
+            "featured": true,
+            "active": true,
+            "sortOrder": 2
+          }
+        ],
+        "sortOrder": 2,
+        "active": true
+      }
+    ],
+    "footer": {
+      "prompt": {
+        "en": "Not sure which modules your business needs?",
+        "ar": "لست متأكداً أي وحدات يحتاجها عملك؟"
+      },
+      "linkLabel": {
+        "en": "Compare Solutions →",
+        "ar": "قارن الحلول ←"
+      },
+      "linkHref": "/#modules",
+      "buttonLabel": {
+        "en": "Talk to an Expert",
+        "ar": "تحدث إلى خبير"
+      },
+      "buttonHref": "/contact"
+    },
+    "status": "published"
+  },
+  "industries": {
+    "heading": {
+      "en": "Solutions for every type of business",
+      "ar": "حلول لكل نوع من الأعمال"
+    },
+    "subheading": {
+      "en": "Choose your industry to explore software designed for your daily operations.",
+      "ar": "اختر قطاعك لاستكشاف برمجيات مصممة لعملياتك اليومية."
+    },
+    "viewAllLabel": {
+      "en": "View All Industries →",
+      "ar": "عرض جميع القطاعات ←"
+    },
+    "viewAllHref": "/industries",
+    "categories": [
+      {
+        "id": "retailCommerce",
+        "title": {
+          "en": "RETAIL & COMMERCE",
+          "ar": "التجزئة والتجارة"
+        },
+        "items": [
+          {
+            "id": "retailPos",
+            "title": {
+              "en": "Retail POS",
+              "ar": "نقطة بيع التجزئة"
+            },
+            "description": {
+              "en": "Billing, stock and customer management",
+              "ar": "الفوترة والمخزون وإدارة العملاء"
+            },
+            "imageUrl": "/software-images/retail-management-software/hero.jpg",
+            "imageAlt": {
+              "en": "Retail POS software",
+              "ar": "برمجيات نقطة بيع التجزئة"
+            },
+            "href": "/software/industry/retail-management-software",
+            "featured": true,
+            "active": true,
+            "sortOrder": 0
+          },
+          {
+            "id": "supermarket",
+            "title": {
+              "en": "Supermarket Software",
+              "ar": "برمجيات السوبرماركت"
+            },
+            "description": {
+              "en": "Fast checkout and multi-branch control",
+              "ar": "دفع سريع وتحكم متعدد الفروع"
+            },
+            "imageUrl": "/software-images/grocery-store-management-software/hero.jpg",
+            "imageAlt": {
+              "en": "Supermarket software",
+              "ar": "برمجيات السوبرماركت"
+            },
+            "href": "/software/industry/grocery-store-management-software",
+            "featured": true,
+            "active": true,
+            "sortOrder": 1
+          },
+          {
+            "id": "pharmacy",
+            "title": {
+              "en": "Pharmacy Management",
+              "ar": "إدارة الصيدليات"
+            },
+            "description": {
+              "en": "Inventory, expiry and sales tracking",
+              "ar": "المخزون والصلاحية وتتبع المبيعات"
+            },
+            "imageUrl": "/software-images/pharmacy-business-management-software/hero.jpg",
+            "imageAlt": {
+              "en": "Pharmacy management software",
+              "ar": "برمجيات إدارة الصيدليات"
+            },
+            "href": "/software/industry/pharmacy-business-management-software",
+            "featured": true,
+            "active": true,
+            "sortOrder": 2
+          }
+        ],
+        "sortOrder": 0,
+        "active": true
+      },
+      {
+        "id": "manufacturing",
+        "title": {
+          "en": "MANUFACTURING & DISTRIBUTION",
+          "ar": "التصنيع والتوزيع"
+        },
+        "items": [
+          {
+            "id": "manufacturingErp",
+            "title": {
+              "en": "Manufacturing ERP",
+              "ar": "ERP للتصنيع"
+            },
+            "description": {
+              "en": "Production, inventory and costing",
+              "ar": "الإنتاج والمخزون والتكلفة"
+            },
+            "imageUrl": "/software-images/garments-manufacturing-software/hero.jpg",
+            "imageAlt": {
+              "en": "Manufacturing ERP",
+              "ar": "ERP للتصنيع"
+            },
+            "href": "/software/industry/garments-manufacturing-software",
+            "featured": true,
+            "active": true,
+            "sortOrder": 0
+          },
+          {
+            "id": "textileGarments",
+            "title": {
+              "en": "Textile & Garments",
+              "ar": "النسيج والملابس"
+            },
+            "description": {
+              "en": "Orders, production and dispatch",
+              "ar": "الطلبات والإنتاج والإرسال"
+            },
+            "imageUrl": "/software-images/cloud-erp-software-for-textile-industries/hero.jpg",
+            "imageAlt": {
+              "en": "Textile and garments ERP",
+              "ar": "ERP للنسيج والملابس"
+            },
+            "href": "/software/industry/cloud-erp-software-for-textile-industries",
+            "featured": true,
+            "active": true,
+            "sortOrder": 1
+          },
+          {
+            "id": "warehouse",
+            "title": {
+              "en": "Warehouse Management",
+              "ar": "إدارة المستودعات"
+            },
+            "description": {
+              "en": "Locations, transfers and stock visibility",
+              "ar": "المواقع والتحويلات ورؤية المخزون"
+            },
+            "imageUrl": "/software-images/hardware-sanitary-store-software/hero.jpg",
+            "imageAlt": {
+              "en": "Warehouse management",
+              "ar": "إدارة المستودعات"
+            },
+            "href": "/software/industry/hardware-sanitary-store-software",
+            "featured": true,
+            "active": true,
+            "sortOrder": 2
+          }
+        ],
+        "sortOrder": 1,
+        "active": true
+      },
+      {
+        "id": "specialized",
+        "title": {
+          "en": "SPECIALIZED INDUSTRIES",
+          "ar": "القطاعات المتخصصة"
+        },
+        "items": [
+          {
+            "id": "petrolStation",
+            "title": {
+              "en": "Petrol Station Software",
+              "ar": "برمجيات محطات الوقود"
+            },
+            "description": {
+              "en": "Tanks, nozzles, shifts and accounts",
+              "ar": "الخزانات والفوهات والورديات والحسابات"
+            },
+            "imageUrl": "/software-images/petrol-pump-software/hero.jpg",
+            "imageAlt": {
+              "en": "Petrol station software",
+              "ar": "برمجيات محطات الوقود"
+            },
+            "href": "/software/industry/petrol-pump-software",
+            "featured": true,
+            "active": true,
+            "sortOrder": 0
+          },
+          {
+            "id": "lpg",
+            "title": {
+              "en": "LPG Business Software",
+              "ar": "برمجيات أعمال الغاز"
+            },
+            "description": {
+              "en": "Cylinders, filling and distribution",
+              "ar": "الأسطوانات والتعبئة والتوزيع"
+            },
+            "imageUrl": "/software-images/lpg-business-software/hero.jpg",
+            "imageAlt": {
+              "en": "LPG business software",
+              "ar": "برمجيات أعمال الغاز"
+            },
+            "href": "/software/industry/lpg-business-software",
+            "featured": true,
+            "active": true,
+            "sortOrder": 1
+          },
+          {
+            "id": "poultryAgri",
+            "title": {
+              "en": "Poultry & Agriculture",
+              "ar": "الدواجن والزراعة"
+            },
+            "description": {
+              "en": "Flocks, feed, production and finance",
+              "ar": "القطعان والعلف والإنتاج والمالية"
+            },
+            "imageUrl": "/software-images/poultry-control-shed-management-software/hero.jpg",
+            "imageAlt": {
+              "en": "Poultry and agriculture software",
+              "ar": "برمجيات الدواجن والزراعة"
+            },
+            "href": "/software/industry/poultry-control-shed-management-software",
+            "featured": true,
+            "active": true,
+            "sortOrder": 2
+          }
+        ],
+        "sortOrder": 2,
+        "active": true
+      }
+    ],
+    "footer": {
+      "prompt": {
+        "en": "Need a solution tailored to your workflow?",
+        "ar": "هل تحتاج حلاً مخصصاً لسير عملك؟"
+      },
+      "linkLabel": {
+        "en": "Talk to our experts →",
+        "ar": "تحدث إلى خبرائنا ←"
+      },
+      "linkHref": "/contact",
+      "buttonLabel": {
+        "en": "Get a Demo",
+        "ar": "احصل على عرض"
+      },
+      "buttonHref": "/contact#contact-form"
+    },
+    "status": "published"
+  },
+  "_meta": {
+    "createdAt": "2026-08-18T11:19:39.827Z",
+    "updatedAt": "2026-08-18T11:19:39.836Z",
+    "updatedBy": "seed-mega-menus-cms"
+  }
+}

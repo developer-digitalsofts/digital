@@ -1,0 +1,26 @@
+{
+  "eyebrow": {
+    "en": "Connected workflows",
+    "ar": "سير عمل متصل"
+  },
+  "title": {
+    "en": "See how your daily workflows run inside DigitalManager",
+    "ar": "شاهد كيف تسير عملياتك اليومية داخل ديجيتال مانجر"
+  },
+  "body": {
+    "en": "From sales and purchases to stock, accounts, and reports — all in one ERP platform.",
+    "ar": "من المبيعات والمشتريات إلى المخزون والحسابات والتقارير — في منصة ERP واحدة."
+  },
+  "cta": {
+    "label": {
+      "en": "Book Workflow Walkthrough",
+      "ar": "احجز جولة على سير العمل"
+    },
+    "href": "/contact"
+  },
+  "_meta": {
+    "createdAt": "2026-08-12T08:31:16.124Z",
+    "updatedAt": "2026-08-12T08:31:16.124Z",
+    "updatedBy": "migrate-original-homepage"
+  }
+}

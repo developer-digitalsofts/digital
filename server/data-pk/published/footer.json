@@ -1,0 +1,207 @@
+{
+  "logoUrl": "/digitalmanager.svg",
+  "tagline": {
+    "en": "Cloud ERP for accounts, inventory, POS, payroll, and industry-specific programmes — built for teams that need dependable operations every day.",
+    "ar": "ERP سحابي للحسابات والمخزون ونقاط البيع والرواتب وبرامج قطاعية — لفرق تعتمد على العمليات اليومية."
+  },
+  "columnProduct": {
+    "en": "Product",
+    "ar": "المنتج"
+  },
+  "columnIndustries": {
+    "en": "Industries",
+    "ar": "القطاعات"
+  },
+  "columnCompany": {
+    "en": "Company",
+    "ar": "الشركة"
+  },
+  "columnContact": {
+    "en": "Contact",
+    "ar": "اتصل"
+  },
+  "productLinks": [
+    {
+      "id": "pl1",
+      "label": {
+        "en": "Accounts",
+        "ar": "الحسابات"
+      },
+      "href": "/software/accounts-management-software",
+      "sortOrder": 0,
+      "active": true
+    },
+    {
+      "id": "pl2",
+      "label": {
+        "en": "Inventory",
+        "ar": "المخزون"
+      },
+      "href": "/software/inventory-management-software",
+      "sortOrder": 1,
+      "active": true
+    },
+    {
+      "id": "pl3",
+      "label": {
+        "en": "POS",
+        "ar": "نقطة البيع"
+      },
+      "href": "/software/point-of-sale-software",
+      "sortOrder": 2,
+      "active": true
+    },
+    {
+      "id": "pl4",
+      "label": {
+        "en": "Payroll & HRM",
+        "ar": "الرواتب والموارد"
+      },
+      "href": "/software/payroll-management-software",
+      "sortOrder": 3,
+      "active": true
+    },
+    {
+      "id": "pl5",
+      "label": {
+        "en": "CRM",
+        "ar": "إدارة العملاء"
+      },
+      "href": "/software/crm-software",
+      "sortOrder": 4,
+      "active": true
+    }
+  ],
+  "industryLinks": [
+    {
+      "id": "il1",
+      "label": {
+        "en": "Petrol Pump ERP",
+        "ar": "ERP محطات الوقود"
+      },
+      "href": "/software/industry/petrol-pump-software"
+    },
+    {
+      "id": "il2",
+      "label": {
+        "en": "Manufacturing",
+        "ar": "التصنيع"
+      },
+      "href": "/software/industry/garments-manufacturing-software"
+    },
+    {
+      "id": "il3",
+      "label": {
+        "en": "Retail POS",
+        "ar": "تجزئة POS"
+      },
+      "href": "/software/industry/grocery-store-management-software"
+    },
+    {
+      "id": "il4",
+      "label": {
+        "en": "Real Estate",
+        "ar": "العقارات"
+      },
+      "href": "/software/industry/erp-software-for-real-estate-business"
+    },
+    {
+      "id": "il5",
+      "label": {
+        "en": "School Management",
+        "ar": "المدارس"
+      },
+      "href": "/software/industry/education-institute-management-software"
+    }
+  ],
+  "companyLinks": [
+    {
+      "id": "cl1",
+      "label": {
+        "en": "About",
+        "ar": "من نحن"
+      },
+      "href": "/#about"
+    },
+    {
+      "id": "cl2",
+      "label": {
+        "en": "Workflows",
+        "ar": "سير العمل"
+      },
+      "href": "/#workflow"
+    },
+    {
+      "id": "cl3",
+      "label": {
+        "en": "FAQs",
+        "ar": "الأسئلة"
+      },
+      "href": "/#faqs"
+    },
+    {
+      "id": "cl4",
+      "label": {
+        "en": "Contact",
+        "ar": "اتصل بنا"
+      },
+      "href": "/contact"
+    }
+  ],
+  "contact": {
+    "address": {
+      "en": "607, Al Rahma 1, Al Wahda St, Sharjah, UAE",
+      "ar": "٦٠٧، الرحمة ١، شارع الوحدة، الشارقة، الإمارات"
+    },
+    "phoneDisplay": "+971 6 536 6786",
+    "phoneHref": "tel:+97165366786",
+    "email": "info@digitalmanager.ae"
+  },
+  "social": [
+    {
+      "id": "s1",
+      "platform": "facebook",
+      "href": "https://www.facebook.com/Digitalsoftsltd"
+    },
+    {
+      "id": "s2",
+      "platform": "twitter",
+      "href": "https://twitter.com/DIGITALSOFTS"
+    },
+    {
+      "id": "s3",
+      "platform": "linkedin",
+      "href": "https://www.linkedin.com/company/digitalsofts/"
+    }
+  ],
+  "rightsSuffix": {
+    "en": "All rights reserved.",
+    "ar": "جميع الحقوق محفوظة."
+  },
+  "privacy": {
+    "label": {
+      "en": "Privacy",
+      "ar": "الخصوصية"
+    },
+    "href": "/privacy"
+  },
+  "developers": {
+    "label": {
+      "en": "Developers",
+      "ar": "المطورون"
+    },
+    "href": "/developers"
+  },
+  "terms": {
+    "label": {
+      "en": "Terms",
+      "ar": "الشروط"
+    },
+    "href": "#"
+  },
+  "_meta": {
+    "createdAt": "2026-08-12T08:31:16.124Z",
+    "updatedAt": "2026-08-12T08:31:16.124Z",
+    "updatedBy": "migrate-original-homepage"
+  }
+}

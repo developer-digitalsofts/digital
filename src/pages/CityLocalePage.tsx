@@ -6,11 +6,13 @@ import { useCms } from '../cms/CmsContext'
 import { ApiError, fetchJson } from '../cms/api'
 import { CmsPageSectionRenderer } from '../components/CmsPageSectionRenderer'
 import { buildCityPagePath, CITY_PAGE_SLUG, getCityDisplayName } from '../locale/cityPaths'
+import { CITY_PRODUCT_LABELS, PUBLIC_SITE_ORIGIN } from '../market/pakistanConfig'
 import type { LocalePublicPage } from './LocaleSlugPage'
 import './content-pages.css'
 
 type CityPageMeta = {
   resolvedFrom?: string
+  inherited?: boolean
   fallbackUsed?: boolean
   cityFallback?: boolean
   missing?: boolean
@@ -21,7 +23,7 @@ type Props = {
   pageSlug?: string
 }
 
-const SITE_ORIGIN = 'https://www.digitalmanager.ae'
+const SITE_ORIGIN = PUBLIC_SITE_ORIGIN.replace(/\/$/, '')
 
 function CityBreadcrumbs({
   cityName,
@@ -82,7 +84,7 @@ function CityJsonLd({
         contactType: 'customer support',
         email: site.primaryEmail,
         telephone: site.phoneDisplay || undefined,
-        availableLanguage: ['English', 'Arabic'],
+        availableLanguage: ['English'],
       }
     }
 
@@ -144,8 +146,8 @@ export function CityLocalePage({ citySlug, pageSlug = CITY_PAGE_SLUG }: Props) {
 
   const cityPath = buildCityPagePath(country, lang, citySlug, pageSlug)
   const cityDisplayName = getCityDisplayName(citySlug, lang)
-  const erpLabel = lang === 'ar' ? 'برمجيات ERP' : 'ERP Software'
-  const homeLabel = lang === 'ar' ? 'الرئيسية' : 'Home'
+  const erpLabel = CITY_PRODUCT_LABELS[pageSlug as keyof typeof CITY_PRODUCT_LABELS] || 'ERP Software'
+  const homeLabel = 'Home'
 
   useEffect(() => {
     let cancelled = false
