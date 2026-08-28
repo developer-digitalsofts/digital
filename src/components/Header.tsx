@@ -115,6 +115,11 @@ export function Header({ onOpenSearch }: HeaderProps) {
   const { lang, t, toggleLang } = useI18n()
   const { href: localeHref } = useLocale()
   const homeHref = localeHref('/')
+  const contactHref = localeHref('/contact')
+  const localNavHref = useCallback(
+    (path: string) => (/^https?:\/\//i.test(path.trim()) ? path.trim() : localeHref(path.trim())),
+    [localeHref],
+  )
   const { data } = useCms()
   const header = data?.header as CmsHeader | undefined
   const sections = useMemo(() => parsePageSections(data?.pageSections), [data?.pageSections])
@@ -290,7 +295,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                         </a>
                       ) : (
                         <NavLink
-                          to={item.href.trim()}
+                          to={localNavHref(item.href)}
                           end={item.href.trim() === '/'}
                           onClick={closeMega}
                           className={({ isActive }) => `${navLinkBase} ${isActive ? 'text-brand' : ''}`}
@@ -335,7 +340,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                   </li>
                   <li>
                     <NavLink
-                      to="/contact"
+                      to={contactHref}
                       onClick={closeMega}
                       className={({ isActive }) =>
                         `${navLinkBase} ${isActive ? 'text-brand' : ''}`
@@ -505,7 +510,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                         </a>
                       ) : (
                         <NavLink
-                          to={item.href.trim()}
+                          to={localNavHref(item.href)}
                           end={item.href.trim() === '/'}
                           className="block rounded-lg px-3 py-2.5 text-sm font-bold uppercase tracking-wide text-[#0f172a] hover:bg-slate-100"
                           onClick={closeMobile}
@@ -545,7 +550,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                           {moduleMegaItems.map((item) => (
                             <li key={item.slug}>
                               <Link
-                                to={item.to}
+                                to={localeHref(item.to)}
                                 className="group flex items-center gap-3 px-3 py-3 text-sm font-bold text-slate-800 transition-colors hover:bg-[#fff7f3] hover:text-brand"
                                 onClick={closeMobile}
                               >
@@ -609,7 +614,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                                   {cat.links.map((link) => (
                                     <li key={link.slug}>
                                       <Link
-                                        to={link.to}
+                                        to={localeHref(link.to)}
                                         className="flex items-center justify-between px-4 py-2.5 ps-12 text-[13px] font-medium text-slate-700 transition-colors hover:bg-[#fff7f3] hover:text-brand"
                                         onClick={closeMobile}
                                       >
@@ -626,7 +631,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                       )}
                     </div>
                     <NavLink
-                      to="/contact"
+                      to={contactHref}
                       className="rounded-lg px-3 py-2.5 text-sm font-bold uppercase tracking-wide text-[#0f172a] hover:bg-slate-100"
                       onClick={closeMobile}
                     >

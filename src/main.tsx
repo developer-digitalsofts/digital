@@ -7,6 +7,13 @@ import { I18nProvider } from './i18n/I18nProvider'
 import { CmsProvider } from './cms/CmsContext'
 import { LocaleProvider } from './locale/LocaleContext'
 import { AdminToastProvider } from './admin/AdminToastContext'
+import { parseLocalePath } from './locale/localePaths'
+import { syncLocalePrefFromUrl } from './locale/localePref'
+
+const initialLocale = parseLocalePath(window.location.pathname)
+if (initialLocale.hasLocalePrefix) {
+  syncLocalePrefFromUrl(initialLocale.country, initialLocale.lang)
+}
 
 function markAppReady() {
   document.documentElement.classList.add('dm-ready')

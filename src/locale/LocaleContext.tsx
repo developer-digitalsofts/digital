@@ -3,8 +3,8 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
-  useRef,
   type ReactNode,
 } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -79,7 +79,6 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   const location = useLocation()
   const navigate = useNavigate()
   const parsed = useMemo(() => parseLocalePath(location.pathname), [location.pathname])
-  const autoRoutingChecked = useRef(false)
 
   const doc = (data?.countries ?? { items: [] }) as CountriesDoc
   const lang = parsed.hasLocalePrefix ? parsed.lang : (i18nLang as LocaleLang)
@@ -102,6 +101,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   }, [parsed.hasLocalePrefix, parsed.lang, i18nLang, setLang])
 
   useEffect(() => {
+    if (parsed.hasLocalePrefix) return
     const params = new URLSearchParams(location.search)
     const legacy = params.get('country')
     if (!legacy) return
@@ -109,7 +109,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     params.delete('country')
     const qs = params.toString()
     navigate(`${target}${qs ? `?${qs}` : ''}`, { replace: true })
-  }, [location.search, location.pathname, lang, navigate])
+  }, [location.search, location.pathname, lang, navigate, parsed.hasLocalePrefix])
 
   useEffect(() => {
     try {
@@ -119,32 +119,11 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     }
   }, [country, lang])
 
-  // Explicit locale URLs always win — sync saved preference after navigation (never redirect).
-  useEffect(() => {
+  // Explicit locale URLs always win — sync cookie/localStorage before paint (never redirect).
+  useLayoutEffect(() => {
     if (!parsed.hasLocalePrefix) return
-    const frame = window.requestAnimationFrame(() => {
-      syncLocalePrefFromUrl(parsed.country, parsed.lang)
-    })
-    return () => window.cancelAnimationFrame(frame)
+    syncLocalePrefFromUrl(parsed.country, parsed.lang)
   }, [parsed.country, parsed.lang, parsed.hasLocalePrefix, location.key])
-
-  useEffect(() => {
-    if (autoRoutingChecked.current) return
-    if (location.pathname !== '/') return
-    autoRoutingChecked.current = true
-
-    fetch('/api/public/locale-routing?path=/', { credentials: 'same-origin' })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((payload: { redirect?: string | null } | null) => {
-        const target = payload?.redirect
-        if (target && target !== '/' && location.pathname === '/') {
-          const localized = parseLocalePath(target)
-          writeLocalePref({ country: localized.country, lang: localized.lang, manual: false })
-          navigate(target, { replace: true })
-        }
-      })
-      .catch(() => {})
-  }, [location.pathname, navigate])
 
   const setLocale = useCallback(
     (nextCountry: LocaleCountrySlug, nextLang: LocaleLang, opts?: { replace?: boolean }) => {
@@ -157,7 +136,6 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
 
   const resetAutoLocale = useCallback(() => {
     clearLocalePref()
-    autoRoutingChecked.current = false
     navigate('/', { replace: true })
   }, [navigate])
 

@@ -196,6 +196,11 @@ async function main() {
   } else fail('Saved Oman pref + /qa/en/erp stays Qatar ERP', String(qaErpOmCookie.status))
 
   const qaPref = prefCookie({ country: 'qa', lang: 'en', manual: true })
+  const saWithQaPref = await fetchRaw(`${BASE}/sa/en`, geoHeaders('QA', { Cookie: `dm_locale_pref=${qaPref}` }))
+  if (saWithQaPref.status === 200 && !saWithQaPref.headers.location) {
+    pass('Saved Qatar pref + /sa/en stays Saudi (no redirect)')
+  } else fail('Saved Qatar pref + /sa/en stays Saudi', `${saWithQaPref.status} location=${saWithQaPref.headers.location || ''}`)
+
   const omSoftwareQaPref = await fetchRaw(`${BASE}/om/en/software/crm-software`, geoHeaders('QA', { Cookie: `dm_locale_pref=${qaPref}` }))
   if (omSoftwareQaPref.status === 200 && !omSoftwareQaPref.headers.location) {
     pass('Saved Qatar pref + /om/en/software/crm-software stays Oman')
@@ -242,6 +247,50 @@ async function main() {
   const invalidLocale = await fetchRaw(`${BASE}/zz/en`, geoHeaders('AE'))
   if (invalidLocale.status === 404 || invalidLocale.status === 302) pass('Invalid locale controlled response')
   else fail('Invalid locale controlled response', String(invalidLocale.status))
+
+  if (process.env.SKIP_BROWSER_LOCALE_TESTS !== '1') {
+    try {
+      const { chromium } = await import('playwright')
+      const browser = await chromium.launch()
+      const context = await browser.newContext()
+      const page = await context.newPage()
+
+      const omManualCookie = [
+        {
+          name: 'dm_locale_pref',
+          value: JSON.stringify({ country: 'om', lang: 'en', manual: true }),
+          domain: '127.0.0.1',
+          path: '/',
+        },
+      ]
+
+      await context.addCookies(omManualCookie)
+      await page.goto(`${BASE}/qa/en/erp`, { waitUntil: 'networkidle', timeout: 60000 })
+      if (page.url().includes('/qa/en/erp')) pass('Browser: saved Oman + /qa/en/erp URL preserved')
+      else fail('Browser: saved Oman + /qa/en/erp URL preserved', page.url())
+
+      const countrySelect = page.locator('select[aria-label="Select country"]')
+      if ((await countrySelect.inputValue()) === 'qa') pass('Browser: selector syncs to Qatar on explicit URL')
+      else fail('Browser: selector syncs to Qatar on explicit URL', await countrySelect.inputValue())
+
+      await page.reload({ waitUntil: 'networkidle' })
+      if (page.url().includes('/qa/en/erp')) pass('Browser: refresh preserves explicit Qatar ERP path')
+      else fail('Browser: refresh preserves explicit Qatar ERP path', page.url())
+
+      const logoHref = await page.locator('a.dm-header__logo').first().getAttribute('href')
+      if (logoHref?.includes('/qa/en')) pass('Browser: logo/home link retains Qatar locale prefix')
+      else fail('Browser: logo/home link retains Qatar locale prefix', logoHref || 'missing')
+
+      await page.selectOption('select[aria-label="Select country"]', 'sa')
+      await page.waitForURL(/\/sa\/en\/erp/, { timeout: 15000 })
+      if (page.url().includes('/sa/en/erp')) pass('Browser: selector changes locale and path')
+      else fail('Browser: selector changes locale and path', page.url())
+
+      await browser.close()
+    } catch (err) {
+      fail('Browser locale regression suite', err instanceof Error ? err.message : String(err))
+    }
+  }
 
   const failed = results.filter((r) => !r.ok)
   console.log(`\n${results.length - failed.length}/${results.length} passed`)

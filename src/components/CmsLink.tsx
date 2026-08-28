@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
+import { useLocale } from '../locale/LocaleContext'
 
 type Props = {
   to: string
@@ -13,10 +14,15 @@ function scrollToHash(hash: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 
+function isExternalPath(path: string) {
+  return /^(https?:|mailto:|tel:)/i.test(path)
+}
+
 export function CmsLink({ to, className, children, onClick }: Props) {
   const navigate = useNavigate()
+  const { href: localeHref } = useLocale()
 
-  if (/^(https?:|mailto:|tel:)/i.test(to)) {
+  if (isExternalPath(to)) {
     const external = /^https?:/i.test(to)
     return (
       <a
@@ -34,14 +40,15 @@ export function CmsLink({ to, className, children, onClick }: Props) {
   if (hashIndex >= 0) {
     const path = to.slice(0, hashIndex) || '/'
     const hash = to.slice(hashIndex)
+    const localized = localeHref(path)
     return (
       <a
-        href={to}
+        href={`${localized}${hash}`}
         className={className}
         onClick={(e) => {
           onClick?.()
           e.preventDefault()
-          navigate({ pathname: path, hash: hash.replace(/^#/, '') })
+          navigate({ pathname: localized, hash: hash.replace(/^#/, '') })
           window.requestAnimationFrame(() => scrollToHash(hash))
         }}
       >
@@ -50,8 +57,9 @@ export function CmsLink({ to, className, children, onClick }: Props) {
     )
   }
 
+  const localized = localeHref(to.startsWith('/') ? to : `/${to}`)
   return (
-    <Link to={to} className={className} onClick={onClick}>
+    <Link to={localized} className={className} onClick={onClick}>
       {children}
     </Link>
   )

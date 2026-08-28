@@ -6,12 +6,13 @@ import { CityLocalePage } from '../pages/CityLocalePage'
 /** Validates city segment and renders city page, or redirects unknown paths. */
 export function CityPageGuard() {
   const { citySlug = '', pageSlug = CITY_PAGE_SLUG } = useParams()
-  const { countryCode } = useLocale()
+  const { countryCode, href } = useLocale()
   const city = citySlug.toLowerCase()
   const page = (pageSlug || CITY_PAGE_SLUG).toLowerCase()
+  const localeHome = href('/')
 
   if (!isValidCitySlug(city, countryCode) || page !== CITY_PAGE_SLUG) {
-    return <Navigate to="/" replace />
+    return <Navigate to={localeHome} replace />
   }
 
   return <CityLocalePage citySlug={city} pageSlug={page} />
