@@ -34,6 +34,38 @@ const COUNTRY_TO_SLUG = {
   BH: 'bh',
 }
 
+const TEST_COUNTRY_CODES = new Set(Object.keys(COUNTRY_TO_SLUG))
+
+/**
+ * Dev-only geo override via `?test_country=QA` on `/`.
+ * In production requires LOCALE_TEST_COUNTRY_KEY and matching `?test_key=...`.
+ * Ignored for bots, deep routes, and when unauthorized — real users never hit this accidentally.
+ */
+export function parseAuthorizedTestCountry(req) {
+  const raw = req.query?.test_country
+  if (!raw || typeof raw !== 'string') return null
+  const code = raw.trim().toUpperCase()
+  if (!TEST_COUNTRY_CODES.has(code)) return null
+
+  if (process.env.NODE_ENV === 'production') {
+    const secret = String(process.env.LOCALE_TEST_COUNTRY_KEY || '').trim()
+    if (!secret) return null
+    const key = String(req.query?.test_key ?? '').trim()
+    if (!key || key !== secret) return null
+  }
+
+  return code
+}
+
+/** Optional `?test_lang=ar|en` with authorized test_country (root `/` only). */
+export function parseAuthorizedTestLang(req) {
+  if (!parseAuthorizedTestCountry(req)) return null
+  const raw = req.query?.test_lang
+  if (!raw || typeof raw !== 'string') return null
+  const lang = raw.trim().toLowerCase()
+  return lang === 'ar' || lang === 'en' ? lang : null
+}
+
 /** Matches /qa/en, /sa/ar/erp, /om/en/software/crm-software, etc. */
 export const EXPLICIT_LOCALE_PATH_RE = /^\/(ae|sa|kw|qa|om|bh)\/(en|ar)(?=\/|$)/i
 
@@ -176,11 +208,13 @@ async function resolveLanguage(deps, countryCode, countryItem, req, prefLang) {
 
 /**
  * Root-entry routing priority (explicit locale URLs never reach this function):
- * manual preference cookie → trusted proxy country → default UAE English.
+ * authorized test_country query → manual preference cookie → trusted proxy country → default UAE English.
  */
 export async function resolveGeoRedirect(deps, req) {
   if (isGeoRedirectBot(req)) return { redirect: null, reason: 'bot' }
 
+  const testCountry = parseAuthorizedTestCountry(req)
+  const testLang = parseAuthorizedTestLang(req)
   const pref = parseLocalePrefCookie(req.headers.cookie)
   let countriesDoc
   try {
@@ -191,14 +225,18 @@ export async function resolveGeoRedirect(deps, req) {
   const doc = deps.publishStore.stripMeta(countriesDoc) ?? { items: [] }
 
   let countryCode
-  if (pref?.country) {
+  if (testCountry) {
+    countryCode = normalizeCountryCode(testCountry)
+  } else if (pref?.country) {
     countryCode = normalizeCountryCode(pref.country.toUpperCase())
   } else {
     countryCode = detectCountryFromRequest(req) || 'AE'
   }
   countryCode = normalizeCountryCode(countryCode)
 
-  if (countryCode === 'AE') return { redirect: null, reason: 'uae_default' }
+  if (countryCode === 'AE') {
+    return { redirect: null, reason: testCountry ? 'test_country_uae_default' : 'uae_default' }
+  }
 
   const countryItem = (doc.items || []).find((item) => normalizeCountryCode(item.code) === countryCode)
   if (!countryItem || countryItem.enabled === false) return { redirect: null, reason: 'country_disabled' }
@@ -214,18 +252,30 @@ export async function resolveGeoRedirect(deps, req) {
   const countrySlug = COUNTRY_TO_SLUG[countryCode]
   if (!countrySlug) return { redirect: null, reason: 'unknown_country' }
 
-  const lang = await resolveLanguage(deps, countryCode, countryItem, req, pref ? pref.lang : null)
+  const lang = await resolveLanguage(
+    deps,
+    countryCode,
+    countryItem,
+    req,
+    testLang ?? (pref ? pref.lang : null),
+  )
   const target = buildLocalePath(countrySlug, lang, '/')
-  if (target === '/') return { redirect: null, reason: 'already_default' }
+  if (target === '/') return { redirect: null, reason: testCountry ? 'test_country_uae_default' : 'already_default' }
 
-  const manual = pref?.manual === true
+  const manual = testCountry ? false : pref?.manual === true
   return {
     redirect: target,
-    reason: manual ? 'manual_preference' : pref ? 'remembered_locale' : 'geo_detected',
+    reason: testCountry
+      ? 'test_country'
+      : manual
+        ? 'manual_preference'
+        : pref
+          ? 'remembered_locale'
+          : 'geo_detected',
     countryCode,
     lang,
     countrySlug,
-    setPrefCookie: buildLocalePrefSetCookie(countrySlug, lang, manual),
+    setPrefCookie: testCountry ? null : buildLocalePrefSetCookie(countrySlug, lang, manual),
   }
 }
 
@@ -278,6 +328,7 @@ export function registerLocaleGeoRouting(app, deps) {
       if (!result.redirect) return next()
       const headers = { Location: result.redirect, ...geoRedirectCacheHeaders() }
       if (result.setPrefCookie) headers['Set-Cookie'] = result.setPrefCookie
+      if (result.reason === 'test_country') headers['X-Locale-Test-Country'] = result.countryCode || ''
       res.status(302).set(headers).end()
     } catch (e) {
       console.error('[geo-routing]', e)

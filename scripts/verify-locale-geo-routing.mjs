@@ -248,6 +248,33 @@ async function main() {
   if (invalidLocale.status === 404 || invalidLocale.status === 302) pass('Invalid locale controlled response')
   else fail('Invalid locale controlled response', String(invalidLocale.status))
 
+  const testQaOverride = await fetchRaw(`${BASE}/?test_country=QA`, geoHeaders('OM', { Cookie: `dm_locale_pref=${omManual}` }))
+  if (testQaOverride.status === 302 && testQaOverride.headers.location === '/qa/en') {
+    pass('test_country=QA overrides geo IP and saved manual pref')
+  } else {
+    fail('test_country=QA overrides geo IP and saved manual pref', `${testQaOverride.status} ${testQaOverride.headers.location || ''}`)
+  }
+  if (!testQaOverride.headers['set-cookie']) {
+    pass('test_country redirect does not write locale preference cookie')
+  } else {
+    fail('test_country redirect does not write locale preference cookie', testQaOverride.headers['set-cookie'])
+  }
+
+  const testAeRoot = await fetchRaw(`${BASE}/?test_country=AE`, geoHeaders('QA'))
+  if (testAeRoot.status === 200) pass('test_country=AE stays UAE English root')
+  else fail('test_country=AE stays UAE English root', String(testAeRoot.status))
+
+  const testSaApi = await fetchRaw(`${BASE}/api/public/locale-routing?path=/&test_country=SA`, geoHeaders('QA'))
+  if (testSaApi.status === 200) {
+    try {
+      const json = JSON.parse(testSaApi.text)
+      if (json.redirect === '/sa/en' && json.reason === 'test_country') pass('locale-routing API honors test_country=SA')
+      else fail('locale-routing API honors test_country=SA', JSON.stringify(json))
+    } catch {
+      fail('locale-routing API test_country parse')
+    }
+  } else fail('locale-routing API test_country', String(testSaApi.status))
+
   if (process.env.SKIP_BROWSER_LOCALE_TESTS !== '1') {
     try {
       const { chromium } = await import('playwright')
