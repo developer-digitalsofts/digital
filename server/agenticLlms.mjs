@@ -71,6 +71,9 @@ export function buildLlmsTxt({ compact = false } = {}) {
   lines.push('')
   lines.push('## Pakistan city routes')
   lines.push('')
+  lines.push(`- City index (crawlable HTML): ${PUBLIC_SITE_BASE}/cities`)
+  lines.push('- City URLs provide localized full DigitalManager homepages for each Pakistan city, not thin landing pages.')
+  lines.push('')
   for (const city of ALL_CITY_SLUGS) {
     lines.push(`- ${PUBLIC_SITE_BASE}/${city}`)
     for (const product of CITY_PRODUCT_PAGE_SLUGS) {
@@ -80,7 +83,7 @@ export function buildLlmsTxt({ compact = false } = {}) {
   lines.push('')
   lines.push('## Important public pages')
   lines.push('')
-  const core = ['/', '/about', '/contact', '/privacy', '/developers', '/industries', '/erp', '/solutions', '/business-models', '/faqs', '/testimonials', '/blog']
+  const core = ['/', '/cities', '/about', '/contact', '/privacy', '/developers', '/industries', '/erp', '/solutions', '/business-models', '/faqs', '/testimonials', '/blog']
   for (const path of [...core, ...registryStaticPaths()]) {
     const normalized = path === '/' ? PUBLIC_SITE_BASE : `${PUBLIC_SITE_BASE}${path}`
     lines.push(`- ${normalized}`)

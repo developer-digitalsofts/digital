@@ -4,6 +4,7 @@
 import { readBilingualText } from './contentHelpers.mjs'
 import { navigationLinksFromContent } from './agenticContentLoader.mjs'
 import { developersMarkdown } from './agenticDevelopersContent.mjs'
+import { PK_CITY_NAMES, PK_CITY_SLUGS } from './pakistanConfig.mjs'
 
 function mdEscape(text) {
   return String(text ?? '').replace(/\r\n/g, '\n').trim()
@@ -20,7 +21,16 @@ export function renderAgenticMarkdown(content) {
     lines.push('')
   }
 
-  if (content.pageType === 'home') {
+  if (content.pageType === 'cities') {
+    lines.push('## City pages')
+    lines.push('')
+    lines.push('Each city URL opens a localized full DigitalManager homepage.')
+    lines.push('')
+    for (const slug of PK_CITY_SLUGS) {
+      lines.push(`- [DigitalManager in ${PK_CITY_NAMES[slug]}](/${slug})`)
+    }
+    lines.push('')
+  } else if (content.pageType === 'home' || content.pageType === 'city-home') {
     const lang = content.lang
     const hero = content.hero || {}
     const about = content.about || {}
@@ -121,6 +131,7 @@ The requested path \`${pathname}\` does not exist on DigitalManager.
 - Browse the [XML sitemap](/sitemap.xml) for all indexable public URLs
 - Read [llms.txt](/llms.txt) for agent instructions and when to use DigitalManager
 - Review the [DigitalManager developer overview](/developers) and [OpenAPI 3.1 spec](/openapi.json)
+- Browse [DigitalManager city pages](/cities)
 - Return to the [homepage](/) or [contact page](/contact)
 
 ## Popular sections

@@ -12,23 +12,25 @@ function normBi(v: unknown): Bilingual {
   return { en: '', ar: '' }
 }
 
+import { PK_CONTACT_PLACEHOLDERS } from '../market/pakistanConfig'
+
 const FALLBACK = {
-  primaryEmail: 'info@digitalmanager.com.pk',
-  salesEmail: 'info@digitalmanager.com.pk',
-  supportEmail: 'info@digitalmanager.com.pk',
-  phoneDisplay: '+92 300 000 0000',
-  phoneHref: 'tel:+923000000000',
-  whatsappNumber: '923000000000',
+  primaryEmail: PK_CONTACT_PLACEHOLDERS.primaryEmail,
+  salesEmail: PK_CONTACT_PLACEHOLDERS.salesEmail,
+  supportEmail: PK_CONTACT_PLACEHOLDERS.supportEmail,
+  phoneDisplay: PK_CONTACT_PLACEHOLDERS.phoneDisplay,
+  phoneHref: PK_CONTACT_PLACEHOLDERS.phoneHref,
+  whatsappNumber: PK_CONTACT_PLACEHOLDERS.whatsappNumber,
   defaultCountry: { en: 'Pakistan', ar: 'Pakistan' },
   defaultCurrency: 'PKR',
   defaultPhoneCode: '+92',
   workingHours: {
-    en: 'Mon - Sat : 10.00 am - 6.00 pm',
-    ar: 'Mon - Sat : 10.00 am - 6.00 pm',
+    en: PK_CONTACT_PLACEHOLDERS.workingHours,
+    ar: PK_CONTACT_PLACEHOLDERS.workingHours,
   },
   officeAddress: {
-    en: 'Serving businesses across Pakistan',
-    ar: 'Serving businesses across Pakistan',
+    en: PK_CONTACT_PLACEHOLDERS.officeAddress,
+    ar: PK_CONTACT_PLACEHOLDERS.officeAddress,
   },
 } as const
 

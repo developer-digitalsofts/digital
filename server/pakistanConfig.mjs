@@ -11,19 +11,68 @@ export const MARKET_PHONE_CODE = '+92'
 export const PUBLIC_SITE_URL_DEFAULT = 'https://digitalmanager.com.pk'
 export const PUBLIC_SITE_URL_TEMP = 'https://pk-test.digitalmanager.ae'
 
+const TEMP_PUBLIC_HOST_RE = /pk-test\.digitalmanager\.ae/i
+
+/** Canonical production origin. Temporary Coolify/test hosts are never used in public SEO URLs. */
+export function resolvePublicSiteUrl() {
+  const raw = String(process.env.PUBLIC_SITE_URL || process.env.VITE_PUBLIC_SITE_URL || '').trim().replace(/\/$/, '')
+  if (raw && !TEMP_PUBLIC_HOST_RE.test(raw)) return raw
+  return PUBLIC_SITE_URL_DEFAULT
+}
+
+/** Official contact published on https://digitalmanager.pk (Head Office + site-wide channels). */
+export const PK_OFFICIAL_CONTACT = {
+  brandName: 'DigitalManager',
+  legalName: 'DigitalSofts Pvt. Ltd.',
+  emails: {
+    primary: 'sales@digitalmanager.pk',
+    sales: 'sales@digitalmanager.pk',
+    support: 'sales@digitalmanager.pk',
+  },
+  phones: {
+    primary: { display: '+92 326 786 6000', href: 'tel:+923267866000' },
+    secondary: { display: '+92 321 866 1765', href: 'tel:+923218661765' },
+    headOffice: { display: '+92 41 8535 044', href: 'tel:+92418535044' },
+    headOfficeAlt: { display: '+92 300 033 4427', href: 'tel:+923000334427' },
+  },
+  whatsapp: {
+    display: '+92 321 866 1765',
+    international: '923218661765',
+    href: 'https://wa.me/923218661765',
+  },
+  address: {
+    line1: "Sitara Techno Park, Lower Canal Road, People's Colony No 1",
+    city: 'Faisalabad',
+    province: 'Punjab',
+    postalCode: '',
+    country: 'Pakistan',
+    formatted: "Sitara Techno Park, Lower Canal Road, People's Colony No 1, Faisalabad, Pakistan",
+  },
+  businessHours: {
+    en: 'We endeavour to answer all enquiries within 24 hours on business days.',
+  },
+  mapUrl: '',
+  socialLinks: {
+    facebook: 'https://www.facebook.com/DigitalManagerERP',
+    linkedin: '',
+    instagram: '',
+    youtube: '',
+    twitter: '',
+  },
+}
+
+/** Flat CMS / API defaults derived from {@link PK_OFFICIAL_CONTACT}. */
 export const PK_CONTACT_PLACEHOLDERS = {
-  primaryEmail: 'info@digitalmanager.com.pk',
-  salesEmail: 'info@digitalmanager.com.pk',
-  supportEmail: 'info@digitalmanager.com.pk',
-  phoneDisplay: '+92 300 000 0000',
-  phoneHref: 'tel:+923000000000',
-  whatsappNumber: '923000000000',
+  primaryEmail: PK_OFFICIAL_CONTACT.emails.primary,
+  salesEmail: PK_OFFICIAL_CONTACT.emails.sales,
+  supportEmail: PK_OFFICIAL_CONTACT.emails.support,
+  phoneDisplay: PK_OFFICIAL_CONTACT.phones.primary.display,
+  phoneHref: PK_OFFICIAL_CONTACT.phones.primary.href,
+  whatsappNumber: PK_OFFICIAL_CONTACT.whatsapp.international,
   officeAddress: {
-    en: 'Serving businesses across Pakistan',
+    en: PK_OFFICIAL_CONTACT.address.formatted,
   },
-  workingHours: {
-    en: 'Mon - Sat : 10.00 am - 6.00 pm',
-  },
+  workingHours: PK_OFFICIAL_CONTACT.businessHours,
 }
 
 export const PK_SITE_COPY = {
@@ -161,13 +210,23 @@ export function isPakistanMarket() {
 }
 
 export function resolvePakistanContact(siteSettings = {}) {
+  const whatsappNumber = String(siteSettings.whatsappNumber || PK_CONTACT_PLACEHOLDERS.whatsappNumber).replace(/\D/g, '')
   return {
+    brandName: PK_OFFICIAL_CONTACT.brandName,
+    legalName: PK_OFFICIAL_CONTACT.legalName,
     primaryEmail: siteSettings.primaryEmail || PK_CONTACT_PLACEHOLDERS.primaryEmail,
     salesEmail: siteSettings.salesEmail || PK_CONTACT_PLACEHOLDERS.salesEmail,
     supportEmail: siteSettings.supportEmail || PK_CONTACT_PLACEHOLDERS.supportEmail,
     phoneDisplay: siteSettings.phoneDisplay || PK_CONTACT_PLACEHOLDERS.phoneDisplay,
     phoneHref: siteSettings.phoneHref || PK_CONTACT_PLACEHOLDERS.phoneHref,
-    whatsappNumber: siteSettings.whatsappNumber || PK_CONTACT_PLACEHOLDERS.whatsappNumber,
+    secondaryPhoneDisplay: PK_OFFICIAL_CONTACT.phones.secondary.display,
+    secondaryPhoneHref: PK_OFFICIAL_CONTACT.phones.secondary.href,
+    whatsappNumber,
+    whatsappUrl: whatsappNumber ? `https://wa.me/${whatsappNumber}` : PK_OFFICIAL_CONTACT.whatsapp.href,
+    officeAddress:
+      siteSettings.officeAddress?.en || siteSettings.officeAddress || PK_CONTACT_PLACEHOLDERS.officeAddress.en,
     workingHours: siteSettings.workingHours?.en || PK_CONTACT_PLACEHOLDERS.workingHours.en,
+    mapUrl: siteSettings.googleMapLink || PK_OFFICIAL_CONTACT.mapUrl,
+    socialLinks: PK_OFFICIAL_CONTACT.socialLinks,
   }
 }

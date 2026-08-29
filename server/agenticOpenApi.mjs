@@ -3,6 +3,7 @@
  * Admin/CMS/auth/leads listing routes are excluded.
  */
 import { PUBLIC_SITE_BASE } from './seoResolve.mjs'
+import { isPakistanMarket, PK_OFFICIAL_CONTACT } from './pakistanConfig.mjs'
 import { PUBLIC_API_VERSION_POLICY, PUBLIC_API_V1_SUNSET, openApiV1Path } from './publicApiVersioning.mjs'
 import {
   PUBLIC_GET_RATE_LIMIT_MAX,
@@ -166,7 +167,7 @@ export function buildPublicOpenApiSpec() {
       contact: {
         name: 'DigitalManager',
         url: `${PUBLIC_SITE_BASE}/contact`,
-        email: 'info@digitalmanager.ae',
+        email: isPakistanMarket() ? PK_OFFICIAL_CONTACT.emails.primary : 'info@digitalmanager.ae',
       },
     },
     servers: [{ url: PUBLIC_SITE_BASE, description: 'Production website origin (canonical)' }],

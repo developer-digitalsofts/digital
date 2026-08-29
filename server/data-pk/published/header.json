@@ -3,34 +3,58 @@
   "faviconUrl": "/digitalmanager-favicon.png",
   "showTopBar": true,
   "topBar": {
-    "email": "info@digitalmanager.com.pk",
+    "email": "sales@digitalmanager.pk",
     "hours": {
-      "en": "Mon - Sat : 10.00 am - 6.00 pm",
-      "ar": "Mon - Sat : 10.00 am - 6.00 pm"
+      "en": "We endeavour to answer all enquiries within 24 hours on business days.",
+      "ar": "We endeavour to answer all enquiries within 24 hours on business days."
     },
-    "phoneCta": { "en": "Talk to Us:", "ar": "Talk to Us:" },
-    "phoneDisplay": "+92 300 000 0000",
-    "phoneHref": "tel:+923000000000"
+    "phoneCta": {
+      "en": "Talk to Us:",
+      "ar": "Talk to Us:"
+    },
+    "phoneDisplay": "+92 326 786 6000",
+    "phoneHref": "tel:+923267866000"
   },
   "nav": {
-    "home": { "en": "Home", "ar": "الرئيسية" },
-    "modules": { "en": "Software by module", "ar": "البرمجيات حسب الوحدة" },
-    "industries": { "en": "Software by industries", "ar": "البرمجيات حسب القطاع" },
-    "contact": { "en": "Contact", "ar": "اتصل بنا" },
-    "arabicToggle": { "en": "النسخة العربية", "ar": "English version" }
+    "home": {
+      "en": "Home",
+      "ar": "الرئيسية"
+    },
+    "modules": {
+      "en": "Software by module",
+      "ar": "البرمجيات حسب الوحدة"
+    },
+    "industries": {
+      "en": "Software by industries",
+      "ar": "البرمجيات حسب القطاع"
+    },
+    "contact": {
+      "en": "Contact",
+      "ar": "اتصل بنا"
+    },
+    "arabicToggle": {
+      "en": "النسخة العربية",
+      "ar": "English version"
+    }
   },
   "showLangSwitcher": false,
   "showSearch": true,
   "showContactGrid": false,
   "showLoginButton": true,
   "loginButton": {
-    "text": { "en": "Login", "ar": "تسجيل الدخول" },
+    "text": {
+      "en": "Login",
+      "ar": "تسجيل الدخول"
+    },
     "href": "/admin/login"
   },
   "navLinks": [
     {
       "id": "nl-insights",
-      "label": { "en": "Insights", "ar": "الرؤى" },
+      "label": {
+        "en": "Insights",
+        "ar": "الرؤى"
+      },
       "href": "/blog",
       "sortOrder": 4,
       "active": true

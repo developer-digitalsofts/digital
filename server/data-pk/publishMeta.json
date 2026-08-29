@@ -4,5 +4,25 @@
     "lastSavedAt": "2026-08-28T12:56:03.088Z",
     "hasUnpublishedChanges": false,
     "bootstrappedAt": "2026-08-28T12:56:03.088Z"
+  },
+  "blogPosts": {
+    "lastSavedAt": "2026-08-29T10:27:34.520Z",
+    "lastSavedBy": "admin@admin.com",
+    "hasUnpublishedChanges": false,
+    "lastPublishedAt": "2026-08-29T10:27:34.588Z",
+    "lastPublishedBy": "admin@admin.com"
+  },
+  "blogSection": {
+    "lastSavedAt": "2026-08-21T11:30:00.000Z",
+    "lastPublishedAt": "2026-08-29T10:27:34.621Z",
+    "lastPublishedBy": "admin@admin.com",
+    "hasUnpublishedChanges": false
+  },
+  "hero": {
+    "lastSavedAt": "2026-08-29T10:33:35.831Z",
+    "lastSavedBy": "admin@admin.com",
+    "hasUnpublishedChanges": false,
+    "lastPublishedAt": "2026-08-29T10:33:35.846Z",
+    "lastPublishedBy": "admin@admin.com"
   }
 }

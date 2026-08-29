@@ -46,15 +46,25 @@ async function loadCityCmsOverlay(deps, citySlug) {
   }
 }
 
+function cityAwareH1(profile, cmsHeading) {
+  const raw = String(cmsHeading || profile.h1 || '').trim()
+  const hasBrand = /digitalmanager/i.test(raw)
+  const hasCity = new RegExp(profile.cityName, 'i').test(raw)
+  if (hasBrand && hasCity) return raw
+  if (hasCity && !hasBrand) return `DigitalManager in ${profile.cityName} — ${raw}`
+  return profile.h1
+}
+
 function applyHeroOverlay(hero, profile, cms) {
   const next = clone(hero) || {}
-  const h1 = cms.heading || profile.h1
+  const h1 = cityAwareH1(profile, cms.heading)
   const intro = cms.intro || profile.intro
   const eyebrow = cms.eyebrow || profile.eyebrow
   overlayText(next, 'title', h1)
   overlayText(next, 'titleBefore', profile.titleBefore)
   overlayText(next, 'titleAccent', profile.titleAccent)
-  overlayText(next, 'titleLine2', profile.titleLine2)
+  if (profile.titleLine2) overlayText(next, 'titleLine2', profile.titleLine2)
+  else next.titleLine2 = { en: '', ar: '' }
   overlayText(next, 'sub', intro)
   overlayText(next, 'body', intro)
   overlayText(next, 'pill', eyebrow)
@@ -66,7 +76,8 @@ function applyHeroOverlay(hero, profile, cms) {
         overlayText(row, 'pill', eyebrow)
         overlayText(row, 'titleBefore', profile.titleBefore)
         overlayText(row, 'titleAccent', profile.titleAccent)
-        overlayText(row, 'titleLine2', profile.titleLine2)
+        if (profile.titleLine2) overlayText(row, 'titleLine2', profile.titleLine2)
+        else row.titleLine2 = { en: '', ar: '' }
         overlayText(row, 'body', intro)
       } else if (row.body?.en) {
         overlayText(
@@ -133,9 +144,15 @@ function applyDemoCtaOverlay(demoCta, profile) {
   return next
 }
 
+function cityAwareTitle(profile, cmsTitle) {
+  const raw = String(cmsTitle || '').trim()
+  if (new RegExp(`DigitalManager in ${profile.cityName}`, 'i').test(raw)) return raw
+  return profile.metaTitle
+}
+
 function applySeoOverlay(seo, profile, cms) {
   const next = clone(seo) || {}
-  const title = cms.title || profile.metaTitle
+  const title = cityAwareTitle(profile, cms.title)
   const description = cms.description || profile.metaDesc
   overlayText(next, 'pageTitle', title)
   overlayText(next, 'metaDescription', description)
@@ -144,6 +161,8 @@ function applySeoOverlay(seo, profile, cms) {
   overlayText(next, 'twitterTitle', title)
   overlayText(next, 'twitterDescription', description)
   next.canonicalUrl = buildCityHomePath(profile.slug)
+  next.robotsIndex = 'index'
+  next.robotsFollow = 'follow'
   return next
 }
 
@@ -157,7 +176,6 @@ function applySiteSettingsOverlay(siteSettings, profile) {
 
 const CITY_REQUIRED_SECTIONS = [
   'hero',
-  'stats',
   'about',
   'valueChain',
   'demoCta',
@@ -174,6 +192,8 @@ function applyPageSectionsOverlay(pageSections, cmsSections) {
     const current = byId.get(id) || { id, name: id, visible: true, sortOrder: byId.size }
     byId.set(id, { ...current, visible: true })
   }
+  const stats = byId.get('stats')
+  if (stats) byId.set('stats', { ...stats, visible: false })
   if (Array.isArray(cmsSections) && cmsSections.length) {
     for (const row of cmsSections) {
       if (!row?.id) continue

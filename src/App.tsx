@@ -49,6 +49,7 @@ import {
   CitySoftwareGuard,
 } from './routes/CityPageGuard'
 import { NotFoundPage } from './pages/NotFoundPage'
+import { CitiesIndexPage } from './pages/CitiesIndexPage'
 
 export default function App() {
   return (
@@ -130,6 +131,7 @@ export default function App() {
         <Route path="solutions" element={<SolutionsLocalePage />} />
         <Route path="business-models" element={<BusinessModelsLocalePage />} />
         <Route path="faqs" element={<FaqsLocalePage />} />
+        <Route path="cities" element={<CitiesIndexPage />} />
         <Route path="software/:flatSlug" element={<SoftwarePage />} />
         <Route path="software/:kind/:slug" element={<SoftwarePage />} />
         <Route path=":citySlug/software/:kind/:slug" element={<CitySoftwareGuard />} />

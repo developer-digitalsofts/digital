@@ -416,15 +416,13 @@
   color: rgba(148, 163, 184, 0.92);
 }
 
-.dm-footer__city-select {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.35rem;
+.dm-footer__cities {
+  margin-top: 1rem;
+  width: 100%;
 }
 
-.dm-footer__city-select-label {
-  margin: 0;
+.dm-footer__cities-heading {
+  margin: 0 0 0.5rem;
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.06em;
@@ -432,8 +430,30 @@
   color: #fff;
 }
 
-.dm-footer .dm-locale-select__label {
-  color: #e2e8f0;
+.dm-footer__cities-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.85rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dm-footer__cities-list a {
+  color: #cbd5e1;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.dm-footer__cities-list a:hover,
+.dm-footer__cities-list a:focus-visible {
+  color: #fff;
+}
+
+.dm-footer__cities-list a:focus-visible {
+  outline: 2px solid #ff714a;
+  outline-offset: 2px;
 }
 
 @media (min-width: 768px) {

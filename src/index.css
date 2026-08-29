@@ -39,11 +39,6 @@
   padding-block: 42px;
 }
 
-.home-section--trust-stats {
-  padding-top: 0;
-  padding-bottom: var(--dm-section-padding-mobile);
-}
-
 .home-section--industries,
 .home-section--erp-modules,
 .home-section--powerful-modules,
@@ -58,10 +53,6 @@
 }
 
 @media (min-width: 768px) {
-  .home-section--trust-stats {
-    padding-bottom: var(--dm-section-padding-tablet);
-  }
-
   .home-section--industries,
   .home-section--erp-modules,
   .home-section--powerful-modules,
@@ -77,10 +68,6 @@
 }
 
 @media (min-width: 1024px) {
-  .home-section--trust-stats {
-    padding-bottom: 56px;
-  }
-
   .home-section--industries,
   .home-section--erp-modules,
   .home-section--powerful-modules,

@@ -150,18 +150,18 @@
   ],
   "contact": {
     "address": {
-      "en": "Serving businesses across Pakistan",
-      "ar": "Serving businesses across Pakistan"
+      "en": "Sitara Techno Park, Lower Canal Road, People's Colony No 1, Faisalabad, Pakistan",
+      "ar": "Sitara Techno Park, Lower Canal Road, People's Colony No 1, Faisalabad, Pakistan"
     },
-    "phoneDisplay": "+92 300 000 0000",
-    "phoneHref": "tel:+923000000000",
-    "email": "info@digitalmanager.com.pk"
+    "phoneDisplay": "+92 326 786 6000",
+    "phoneHref": "tel:+923267866000",
+    "email": "sales@digitalmanager.pk"
   },
   "social": [
     {
       "id": "s1",
       "platform": "facebook",
-      "href": "https://www.facebook.com/Digitalsoftsltd"
+      "href": "https://www.facebook.com/DigitalManagerERP"
     },
     {
       "id": "s2",
@@ -171,7 +171,7 @@
     {
       "id": "s3",
       "platform": "linkedin",
-      "href": "https://www.linkedin.com/company/digitalsofts/"
+      "href": ""
     }
   ],
   "rightsSuffix": {

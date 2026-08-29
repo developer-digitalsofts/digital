@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { X } from 'lucide-react'
-import { WHATSAPP_URL } from '../constants'
+import { PK_CONTACT_PLACEHOLDERS } from '../market/pakistanConfig'
 import { WhatsAppIcon } from './WhatsAppIcon'
 import { useI18n } from '../i18n/I18nProvider'
 import { useCms } from '../cms/CmsContext'
@@ -23,11 +23,10 @@ export function FloatingWhatsApp() {
   const rootRef = useRef<HTMLDivElement>(null)
 
   const enabled = w ? w.show !== false && w.active !== false : true
-  const digits = (w?.phoneDigits || '971581174911').replace(/\D/g, '')
+  const digits = (w?.phoneDigits || PK_CONTACT_PLACEHOLDERS.whatsappNumber).replace(/\D/g, '')
   const preset = w?.defaultMessage ? pick(w.defaultMessage, lang) : ''
   const waUrl = `https://wa.me/${digits}${preset ? `?text=${encodeURIComponent(preset)}` : ''}`
-  const fallbackUrl = WHATSAPP_URL
-  const href = digits ? waUrl : fallbackUrl
+  const href = digits ? waUrl : PK_CONTACT_PLACEHOLDERS.whatsappNumber ? `https://wa.me/${PK_CONTACT_PLACEHOLDERS.whatsappNumber}` : ''
   const posRight = (w?.position || 'bottom-right') !== 'bottom-left'
   const fabLabel = w?.buttonLabel && (pick(w.buttonLabel, lang) || '').trim()
 

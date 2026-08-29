@@ -1,6 +1,5 @@
 import type { ComponentType } from 'react'
 import { HeroSection } from '../components/HeroSection'
-import { TrustStatsSection } from '../components/TrustStatsSection'
 import { IndustryShowcaseSection } from '../components/IndustryShowcaseSection'
 import { ErpModulesSection } from '../components/erp-modules/ErpModulesSection'
 import { DemoCTASection } from '../components/DemoCTASection'
@@ -8,6 +7,10 @@ import { ModulesSection } from '../components/ModulesSection'
 import { TestimonialsSection } from '../components/TestimonialsSection'
 import { PersonalizedDemoSection } from '../components/PersonalizedDemoSection'
 import { FAQSection } from '../components/FAQSection'
+
+function HiddenHomeSection() {
+  return null
+}
 
 export const HOME_SECTION_SCHEMA_VERSION = 2
 
@@ -61,7 +64,8 @@ export const HOME_SECTION_REGISTRY: HomeSectionDefinition[] = [
     label: 'Trust Metrics',
     category: 'Homepage',
     cmsKey: 'stats',
-    component: TrustStatsSection,
+    component: HiddenHomeSection,
+    deprecated: true,
     defaultSortOrder: 2,
   },
   {
@@ -139,5 +143,6 @@ export function getHomeSectionDefinition(id: string): HomeSectionDefinition | un
 }
 
 export function isActiveHomeSectionId(id: string): id is HomeSectionId {
-  return HOME_SECTION_IDS.has(id as HomeSectionId)
+  const def = registryById.get(id as HomeSectionId)
+  return Boolean(def && !def.deprecated)
 }

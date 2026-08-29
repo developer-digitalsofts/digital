@@ -17,7 +17,6 @@ import { isTopBarVisibleFromSections, parsePageSections } from '../cms/pageSecti
 import type { CmsHeader, CmsHeaderNavLink } from '../cms/types'
 import { useLocale } from '../locale/LocaleContext'
 import { useCity } from '../locale/CityContext'
-import { CitySelector } from './CitySelector'
 import './header-layout.css'
 
 type MegaKey = 'module' | 'industry'
@@ -371,7 +370,6 @@ export function Header({ onOpenSearch }: HeaderProps) {
             </nav>
 
             <div className="dm-header__actions">
-              <CitySelector compact />
               {showLangSwitcher ? (
                 <button
                   type="button"
@@ -501,9 +499,6 @@ export function Header({ onOpenSearch }: HeaderProps) {
 
         {mobileOpen && (
           <div className="animate-fade-up max-h-[min(70dvh,520px)] overflow-y-auto overscroll-contain border-t border-slate-100 bg-white px-3 py-3 motion-reduce:animate-none min-[1180px]:hidden">
-            <div className="mb-3">
-              <CitySelector />
-            </div>
             <nav className="flex flex-col gap-0.5" aria-label="Mobile">
               {navStyle === 'simple' && simpleNavLinks.length > 0
                 ? simpleNavLinks.map((item) => (

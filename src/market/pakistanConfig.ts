@@ -9,19 +9,60 @@ export const PUBLIC_SITE_ORIGIN =
   (typeof import.meta !== 'undefined' && (import.meta as { env?: { VITE_PUBLIC_SITE_URL?: string } }).env?.VITE_PUBLIC_SITE_URL) ||
   'https://digitalmanager.com.pk'
 
+/** Official contact published on https://digitalmanager.pk */
+export const PK_OFFICIAL_CONTACT = {
+  brandName: 'DigitalManager',
+  legalName: 'DigitalSofts Pvt. Ltd.',
+  emails: {
+    primary: 'sales@digitalmanager.pk',
+    sales: 'sales@digitalmanager.pk',
+    support: 'sales@digitalmanager.pk',
+  },
+  phones: {
+    primary: { display: '+92 326 786 6000', href: 'tel:+923267866000' },
+    secondary: { display: '+92 321 866 1765', href: 'tel:+923218661765' },
+    headOffice: { display: '+92 41 8535 044', href: 'tel:+92418535044' },
+    headOfficeAlt: { display: '+92 300 033 4427', href: 'tel:+923000334427' },
+  },
+  whatsapp: {
+    display: '+92 321 866 1765',
+    international: '923218661765',
+    href: 'https://wa.me/923218661765',
+  },
+  address: {
+    line1: "Sitara Techno Park, Lower Canal Road, People's Colony No 1",
+    city: 'Faisalabad',
+    province: 'Punjab',
+    postalCode: '',
+    country: 'Pakistan',
+    formatted: "Sitara Techno Park, Lower Canal Road, People's Colony No 1, Faisalabad, Pakistan",
+  },
+  businessHours: 'We endeavour to answer all enquiries within 24 hours on business days.',
+  mapUrl: '',
+  socialLinks: {
+    facebook: 'https://www.facebook.com/DigitalManagerERP',
+    linkedin: '',
+    instagram: '',
+    youtube: '',
+    twitter: '',
+  },
+} as const
+
 export const PK_CONTACT_PLACEHOLDERS = {
-  primaryEmail: 'info@digitalmanager.com.pk',
-  salesEmail: 'info@digitalmanager.com.pk',
-  supportEmail: 'info@digitalmanager.com.pk',
-  phoneDisplay: '+92 300 000 0000',
-  phoneHref: 'tel:+923000000000',
-  whatsappNumber: '923000000000',
-  officeAddress: 'Serving businesses across Pakistan',
-  workingHours: 'Mon - Sat : 10.00 am - 6.00 pm',
+  primaryEmail: PK_OFFICIAL_CONTACT.emails.primary,
+  salesEmail: PK_OFFICIAL_CONTACT.emails.sales,
+  supportEmail: PK_OFFICIAL_CONTACT.emails.support,
+  phoneDisplay: PK_OFFICIAL_CONTACT.phones.primary.display,
+  phoneHref: PK_OFFICIAL_CONTACT.phones.primary.href,
+  whatsappNumber: PK_OFFICIAL_CONTACT.whatsapp.international,
+  officeAddress: PK_OFFICIAL_CONTACT.address.formatted,
+  workingHours: PK_OFFICIAL_CONTACT.businessHours,
   defaultCountry: 'Pakistan',
   defaultCurrency: 'PKR',
   defaultPhoneCode: '+92',
 } as const
+
+export const PK_WHATSAPP_URL = PK_OFFICIAL_CONTACT.whatsapp.href
 
 export const PK_SITE_COPY = {
   trustLine: 'Trusted by growing businesses across Pakistan.',

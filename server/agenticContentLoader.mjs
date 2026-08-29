@@ -151,6 +151,18 @@ export async function loadAgenticPageContent(deps, pathname, routeInfo) {
     }
   }
 
+  if (kind === 'cities') {
+    return {
+      ...base,
+      pageType: 'cities',
+      title: seo.title || 'DigitalManager across Pakistan | City ERP pages',
+      description:
+        seo.description ||
+        'Localized DigitalManager cloud ERP pages for every major Pakistan city. Each city URL opens the full homepage with city-specific copy.',
+      siteSettings,
+    }
+  }
+
   if (kind === 'developers') {
     const copy = developersPageCopy(lang)
     return {
@@ -243,11 +255,12 @@ export async function loadAgenticPageContent(deps, pathname, routeInfo) {
     return {
       ...base,
       pageType: 'city-home',
-      title: pickLang(cityHome.hero, lang, 'title') || pickLang(cityHome.seo, lang, 'pageTitle') || `${cityName} Cloud ERP`,
+      title: seo.title || pickLang(cityHome.seo, lang, 'pageTitle') || pickLang(cityHome.hero, lang, 'title') || `DigitalManager in ${cityName} | ERP & Business Management Software`,
       description:
+        seo.description ||
+        pickLang(cityHome.seo, lang, 'metaDescription') ||
         pickLang(cityHome.hero, lang, 'body') ||
         pickLang(cityHome.hero, lang, 'sub') ||
-        pickLang(cityHome.seo, lang, 'metaDescription') ||
         serviceArea,
       hero: cityHome.hero || {},
       about: cityHome.about || {},

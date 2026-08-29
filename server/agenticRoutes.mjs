@@ -38,6 +38,7 @@ const NEGOTIABLE_PAGE_KINDS = new Set([
   'city-home',
   'city-software',
   'city-page',
+  'cities',
 ])
 
 let templateCache = { html: '', mtimeMs: 0 }

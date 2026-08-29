@@ -29,7 +29,7 @@ export function HomePage() {
   return (
     <main>
       {orderedSections.map((s) => {
-        if (!isSectionVisible(sections, s.id) || !isActiveHomeSectionId(s.id)) return null
+        if (s.id === 'stats' || !isSectionVisible(sections, s.id) || !isActiveHomeSectionId(s.id)) return null
         const def = getHomeSectionDefinition(s.id)
         if (!def) return null
         const Section = def.component

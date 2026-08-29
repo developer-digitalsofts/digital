@@ -9,22 +9,22 @@
   },
   "logoUrl": "/digitalmanager.svg",
   "faviconUrl": "/digitalmanager-favicon.png",
-  "primaryEmail": "info@digitalmanager.com.pk",
-  "salesEmail": "info@digitalmanager.com.pk",
-  "supportEmail": "info@digitalmanager.com.pk",
-  "phoneDisplay": "+92 300 000 0000",
-  "phoneHref": "tel:+923000000000",
-  "whatsappNumber": "923000000000",
+  "primaryEmail": "sales@digitalmanager.pk",
+  "salesEmail": "sales@digitalmanager.pk",
+  "supportEmail": "sales@digitalmanager.pk",
+  "phoneDisplay": "+92 326 786 6000",
+  "phoneHref": "tel:+923267866000",
+  "whatsappNumber": "923218661765",
   "officeAddress": {
-    "en": "Serving businesses across Pakistan",
-    "ar": "Serving businesses across Pakistan"
+    "en": "Sitara Techno Park, Lower Canal Road, People's Colony No 1, Faisalabad, Pakistan",
+    "ar": "Sitara Techno Park, Lower Canal Road, People's Colony No 1, Faisalabad, Pakistan"
   },
   "workingHours": {
-    "en": "Mon - Sat : 10.00 am - 6.00 pm",
-    "ar": "Mon - Sat : 10.00 am - 6.00 pm"
+    "en": "We endeavour to answer all enquiries within 24 hours on business days.",
+    "ar": "We endeavour to answer all enquiries within 24 hours on business days."
   },
   "googleMapLink": "",
-  "facebookUrl": "",
+  "facebookUrl": "https://www.facebook.com/DigitalManagerERP",
   "linkedinUrl": "",
   "instagramUrl": "",
   "youtubeUrl": "",

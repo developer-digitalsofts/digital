@@ -5,7 +5,7 @@ import { readBilingualText } from './contentHelpers.mjs'
 import { getProfile } from './gccLocalizedContent/profiles.mjs'
 import { PUBLIC_SITE_BASE } from './seoResolve.mjs'
 import { navigationLinksFromContent } from './agenticContentLoader.mjs'
-import { PK_CONTACT_PLACEHOLDERS, MARKET_CODE } from './pakistanConfig.mjs'
+import { PK_CONTACT_PLACEHOLDERS, MARKET_CODE, PK_CITY_NAMES, PK_CITY_SLUGS, PK_OFFICIAL_CONTACT, isPakistanMarket } from './pakistanConfig.mjs'
 
 function escapeHtml(value) {
   return String(value ?? '')
@@ -27,16 +27,10 @@ function textBlock(value) {
 
 function buildOrganizationJsonLd(content) {
   const site = content.siteSettings || {}
-  const sameAs = [site.facebookUrl, site.linkedinUrl, site.instagramUrl, site.youtubeUrl, site.tiktokUrl].filter(
-    (u) => typeof u === 'string' && u.startsWith('http'),
-  )
-  const addressText =
-    readBilingualText(site.officeAddress, content.lang) ||
-    PK_CONTACT_PLACEHOLDERS.officeAddress.en
   const org = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'DigitalManager',
+    name: PK_OFFICIAL_CONTACT.brandName,
     url: PUBLIC_SITE_BASE,
     logo: absoluteAsset(site.logoUrl || '/digitalmanager.svg'),
     description:
@@ -52,15 +46,22 @@ function buildOrganizationJsonLd(content) {
     },
     address: {
       '@type': 'PostalAddress',
-      streetAddress: addressText,
-      addressCountry: content.countryCode || MARKET_CODE,
+      streetAddress: PK_OFFICIAL_CONTACT.address.line1,
+      addressLocality: PK_OFFICIAL_CONTACT.address.city,
+      addressRegion: PK_OFFICIAL_CONTACT.address.province,
+      addressCountry: PK_OFFICIAL_CONTACT.address.country,
     },
   }
   if (content.cityName) {
     org.areaServed = { '@type': 'City', name: content.cityName }
   }
+  const pkSocial = Object.values(PK_OFFICIAL_CONTACT.socialLinks).filter((u) => typeof u === 'string' && u.startsWith('http'))
+  const cmsSocial = [site.facebookUrl, site.linkedinUrl, site.instagramUrl, site.youtubeUrl, site.tiktokUrl].filter(
+    (u) => typeof u === 'string' && u.startsWith('http'),
+  )
+  const sameAs = cmsSocial.length ? cmsSocial : pkSocial
   if (sameAs.length) org.sameAs = sameAs
-  else {
+  else if (!isPakistanMarket()) {
     org.sameAs = [
       'https://www.facebook.com/Digitalsoftsltd',
       'https://www.linkedin.com/company/digitalsofts/',
@@ -111,6 +112,54 @@ function buildWebSiteJsonLd() {
   }
 }
 
+function buildWebPageJsonLd(content) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: content.title || 'DigitalManager',
+    url: content.canonical || PUBLIC_SITE_BASE,
+    description: content.description || '',
+    inLanguage: content.lang === 'ar' ? 'ar' : 'en',
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'DigitalManager',
+      url: PUBLIC_SITE_BASE,
+    },
+    about: {
+      '@type': 'SoftwareApplication',
+      name: 'DigitalManager',
+    },
+  }
+}
+
+function faqItemsFromContent(content) {
+  const lang = content.lang
+  return (content.faqs?.items || [])
+    .filter((item) => item && item.active !== false)
+    .map((item) => ({
+      q: readBilingualText(item.question || item.q, lang),
+      a: readBilingualText(item.answer || item.a, lang),
+    }))
+    .filter((item) => item.q && item.a)
+}
+
+function buildFaqPageJsonLd(content) {
+  const items = faqItemsFromContent(content)
+  if (!items.length) return null
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.a,
+      },
+    })),
+  }
+}
+
 function buildBreadcrumbJsonLd(items) {
   return {
     '@context': 'https://schema.org',
@@ -146,7 +195,29 @@ function buildArticleJsonLd(content) {
 
 export function buildJsonLdBlocks(content) {
   const blocks = [buildOrganizationJsonLd(content), buildSoftwareApplicationJsonLd(content), buildWebSiteJsonLd()]
-  if (content.pageType === 'blog-post') {
+  if (content.pageType === 'home' || content.pageType === 'city-home' || content.pageType === 'cities') {
+    blocks.push(buildWebPageJsonLd(content))
+  }
+  if (content.pageType === 'city-home') {
+    blocks.push(
+      buildBreadcrumbJsonLd([
+        { name: 'Home', item: PUBLIC_SITE_BASE },
+        { name: content.cityName ? `DigitalManager in ${content.cityName}` : content.title, item: content.canonical },
+      ]),
+    )
+    const faq = buildFaqPageJsonLd(content)
+    if (faq) blocks.push(faq)
+  } else if (content.pageType === 'home') {
+    const faq = buildFaqPageJsonLd(content)
+    if (faq) blocks.push(faq)
+  } else if (content.pageType === 'cities') {
+    blocks.push(
+      buildBreadcrumbJsonLd([
+        { name: 'Home', item: PUBLIC_SITE_BASE },
+        { name: 'Cities', item: `${PUBLIC_SITE_BASE}/cities` },
+      ]),
+    )
+  } else if (content.pageType === 'blog-post') {
     const article = buildArticleJsonLd(content)
     if (article) blocks.push(article)
     blocks.push(
@@ -244,6 +315,15 @@ function renderHomeBody(content) {
     .map((s) => `<li><strong>${escapeHtml(s.value || '')}</strong> ${escapeHtml(readBilingualText(s.label, lang))}</li>`)
     .join('\n          ')
 
+  const visibleFaqs = faqItemsFromContent(content)
+  const faqHtml = visibleFaqs
+    .map((item) => `<h3>${escapeHtml(item.q)}</h3>\n        <p>${textBlock(item.a)}</p>`)
+    .join('\n        ')
+
+  const cityLinks = PK_CITY_SLUGS.map(
+    (slug) => `<li><a href="/${slug}">DigitalManager in ${escapeHtml(PK_CITY_NAMES[slug])}</a></li>`,
+  ).join('\n          ')
+
   return `
     <article class="agentic-prerender" data-agentic-prerender="true">
       <header>
@@ -274,12 +354,30 @@ function renderHomeBody(content) {
         <h2>${escapeHtml(readBilingualText(about.title, lang) || (lang === 'ar' ? 'من نحن' : 'About'))}</h2>
         ${aboutParagraphs.map((p) => `<p>${textBlock(p)}</p>`).join('\n        ')}
       </section>
+      ${
+        visibleFaqs.length
+          ? `<section>
+        <h2>${lang === 'ar' ? 'الأسئلة الشائعة' : 'Frequently asked questions'}</h2>
+        ${faqHtml}
+      </section>`
+          : ''
+      }
+      <section>
+        <h2>DigitalManager across Pakistan</h2>
+        <p>Each city URL opens the complete DigitalManager homepage with localized ERP copy. A city page does not imply a local office.</p>
+        <p><a href="/cities">Browse all city pages</a></p>
+        <ul>
+          ${cityLinks}
+        </ul>
+      </section>
       <section>
         <h2>${lang === 'ar' ? 'تواصل معنا' : 'Contact'}</h2>
         <p>${lang === 'ar' ? 'فريق DigitalManager متاح للعروض التوضيحية والدعم.' : 'The DigitalManager team is available for demos and support.'}</p>
         ${site.phoneDisplay ? `<p>${lang === 'ar' ? 'الهاتف' : 'Phone'}: <a href="${escapeHtml(site.phoneHref || '#')}">${escapeHtml(site.phoneDisplay)}</a></p>` : ''}
         ${site.primaryEmail ? `<p>${lang === 'ar' ? 'البريد' : 'Email'}: <a href="mailto:${escapeHtml(site.primaryEmail)}">${escapeHtml(site.primaryEmail)}</a></p>` : ''}
         ${readBilingualText(site.officeAddress, lang) ? `<p>${textBlock(readBilingualText(site.officeAddress, lang))}</p>` : ''}
+        ${readBilingualText(site.workingHours, lang) ? `<p>${textBlock(readBilingualText(site.workingHours, lang))}</p>` : ''}
+        ${site.whatsappNumber ? `<p>${lang === 'ar' ? 'WhatsApp' : 'WhatsApp'}: <a href="https://wa.me/${escapeHtml(String(site.whatsappNumber).replace(/\D/g, ''))}">${escapeHtml(PK_OFFICIAL_CONTACT.whatsapp.display)}</a></p>` : ''}
         <p><a href="${escapeHtml(content.citySlug ? `/${content.citySlug}/contact` : '/contact')}">${lang === 'ar' ? 'صفحة الاتصال' : 'Contact page'}</a></p>
       </section>
       <section>
@@ -325,6 +423,7 @@ function renderContactBody(content) {
         ${site.primaryEmail ? `<p>${lang === 'ar' ? 'البريد' : 'Email'}: ${escapeHtml(site.primaryEmail)}</p>` : ''}
         ${readBilingualText(site.officeAddress, lang) ? `<p>${textBlock(readBilingualText(site.officeAddress, lang))}</p>` : ''}
         ${readBilingualText(site.workingHours, lang) ? `<p>${textBlock(readBilingualText(site.workingHours, lang))}</p>` : ''}
+        ${site.whatsappNumber ? `<p>${lang === 'ar' ? 'WhatsApp' : 'WhatsApp'}: <a href="https://wa.me/${escapeHtml(String(site.whatsappNumber).replace(/\D/g, ''))}">${escapeHtml(PK_OFFICIAL_CONTACT.whatsapp.display)}</a></p>` : ''}
       </section>
       <section>
         <h2>${lang === 'ar' ? 'طلب عرض' : 'Request a demo'}</h2>
@@ -438,6 +537,25 @@ function renderCityHomeBody(content) {
   return renderHomeBody(content)
 }
 
+function renderCitiesIndexBody(content) {
+  const cityLinks = PK_CITY_SLUGS.map(
+    (slug) => `<li><a href="/${slug}">DigitalManager in ${escapeHtml(PK_CITY_NAMES[slug])}</a></li>`,
+  ).join('\n          ')
+  return `
+    <article class="agentic-prerender" data-agentic-prerender="true">
+      <h1>${escapeHtml(content.title || 'DigitalManager across Pakistan')}</h1>
+      <p>${textBlock(content.description)}</p>
+      <section>
+        <h2>City pages</h2>
+        <p>Each city URL is a full DigitalManager homepage localized for that market. Service availability is national.</p>
+        <ul>
+          ${cityLinks}
+        </ul>
+      </section>
+      <p><a href="/">Homepage</a> · <a href="/sitemap.xml">Sitemap</a> · <a href="/llms.txt">llms.txt</a></p>
+    </article>`
+}
+
 function renderGenericBody(content) {
   return `
     <article class="agentic-prerender" data-agentic-prerender="true">
@@ -464,6 +582,8 @@ export function renderAgenticBody(content) {
     case 'city-home':
     case 'city-page':
       return renderCityHomeBody(content)
+    case 'cities':
+      return renderCitiesIndexBody(content)
     default:
       return renderGenericBody(content)
   }
@@ -600,6 +720,7 @@ export function render404Html(templateHtml, pathname, lang = 'en') {
       <p>${intro}</p>
       <ul>
         <li><a href="/">${lang === 'ar' ? 'الرئيسية' : 'Homepage'}</a></li>
+        <li><a href="/cities">DigitalManager across Pakistan</a></li>
         <li><a href="/sitemap.xml">${lang === 'ar' ? 'خريطة الموقع' : 'Sitemap'}</a></li>
         <li><a href="/llms.txt">llms.txt</a></li>
         <li><a href="/developers">${lang === 'ar' ? 'المطورون' : 'Developers'}</a></li>

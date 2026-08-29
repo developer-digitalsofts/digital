@@ -89,12 +89,13 @@ async function main() {
   else fail('Homepage html lang')
   if (
     /rel=["']canonical["'][^>]+https:\/\/(www\.)?digitalmanager\.com\.pk/i.test(home.text) ||
-    /rel=["']canonical["'][^>]+https:\/\/pk-test\.digitalmanager\.ae/i.test(home.text) ||
-    /href=["']https:\/\/(www\.)?digitalmanager\.com\.pk\/?["']/i.test(home.text) ||
-    /href=["']https:\/\/pk-test\.digitalmanager\.ae\/?["']/i.test(home.text)
+    /href=["']https:\/\/(www\.)?digitalmanager\.com\.pk\/?["']/i.test(home.text)
   ) {
-    pass('Homepage canonical uses Pakistan site origin')
-  } else fail('Homepage canonical uses Pakistan site origin')
+    pass('Homepage canonical uses Pakistan production origin')
+  } else fail('Homepage canonical uses Pakistan production origin')
+  if (/pk-test\.digitalmanager\.ae/i.test(home.text)) {
+    fail('Homepage HTML must not use the temporary Coolify domain')
+  } else pass('Homepage HTML avoids temporary Coolify domain')
   if (/property=["']og:type["']/i.test(home.text)) pass('Homepage og:type')
   else fail('Homepage og:type')
   if (/property=["']og:image["']/i.test(home.text)) pass('Homepage og:image')

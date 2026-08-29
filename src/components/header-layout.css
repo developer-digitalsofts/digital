@@ -86,22 +86,6 @@
   margin-inline-start: auto;
 }
 
-.dm-header__actions .dm-locale-select--compact {
-  gap: 0.25rem;
-}
-
-.dm-header__actions .dm-locale-select--compact .dm-locale-select__input {
-  padding-top: 0.28rem;
-  padding-bottom: 0.28rem;
-  padding-right: 1.35rem;
-  font-size: 0.625rem;
-}
-
-.dm-header__actions .dm-locale-select--compact .dm-locale-select__input--lang {
-  min-width: 2.85rem;
-  padding-left: 0.5rem;
-}
-
 .dm-header__lang-btn {
   border-radius: 0.5rem;
   padding: 0.35rem 0.5rem;

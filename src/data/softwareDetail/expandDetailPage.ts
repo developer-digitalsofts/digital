@@ -1,4 +1,5 @@
 import type { Lang } from '../../i18n/messages'
+import { PK_WHATSAPP_URL } from '../../market/pakistanConfig'
 import { getSoftwareDetailCopy } from '../../i18n/softwareDetailCopy'
 import { megaIndustryLabel, megaModuleLabel } from '../../i18n/megaLabels'
 import type { ModuleRichPage } from '../moduleRichPages'
@@ -215,7 +216,7 @@ export function buildSoftwareDetailPageData(
       heading: copy.demoHeading,
       sub: copy.demoSub,
       whatsappLabel: copy.demoWhatsapp,
-      whatsappHref: 'https://wa.me/971581174911',
+      whatsappHref: PK_WHATSAPP_URL,
       contactHref: '/contact#contact-form',
     },
     seoBlocks: copy.seoBlocks(displayName, kind, rich),

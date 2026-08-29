@@ -36,7 +36,9 @@ async function inspect(page) {
     const frameFullyVisible =
       frameR && frameR.top >= 0 && frameR.bottom <= window.innerHeight + 2 && frameR.height > 200
 
-    const tabsAboveDashboard = navR && stageR ? navR.bottom <= stageR.top + 4 : false
+    const tabsBelowDashboard = navR && stageR ? navR.top >= stageR.bottom - 4 : false
+    const tabsOverlapDashboard =
+      navR && stageR ? !(navR.bottom <= stageR.top + 2 || navR.top >= stageR.bottom - 2) : false
     const tabsHorizontal = nav ? getComputedStyle(nav).flexDirection === 'row' : false
 
     const dashboardNotCropped =
@@ -60,7 +62,8 @@ async function inspect(page) {
       gapBelowHeader,
       frameHeight: frameR?.height,
       frameWidth: frameR?.width,
-      tabsAboveDashboard,
+      tabsBelowDashboard,
+      tabsOverlapDashboard,
       tabsHorizontal,
       dashboardNotCropped,
       frameFullyVisible,
@@ -96,7 +99,8 @@ async function main() {
   for (const row of results) {
     if (row.overflowX) failures.push(`${row.width}px: horizontal overflow`)
     if (row.width >= 1024 && !row.tabsHorizontal) failures.push(`${row.width}px: tabs not horizontal`)
-    if (row.width >= 1024 && !row.tabsAboveDashboard) failures.push(`${row.width}px: tabs not above dashboard`)
+    if (row.width >= 1024 && !row.tabsBelowDashboard) failures.push(`${row.width}px: tabs not below dashboard`)
+    if (row.tabsOverlapDashboard) failures.push(`${row.width}px: module cards overlap dashboard image`)
     if (row.width >= 1280 && row.titleLineCount > 3) failures.push(`${row.width}px: title has ${row.titleLineCount} lines`)
     if (row.width >= 1280 && row.gapBelowHeader > 100) failures.push(`${row.width}px: excessive header gap (${row.gapBelowHeader}px)`)
     if (row.width >= 1280 && row.heroHeight > 780) failures.push(`${row.width}px: hero too tall (${row.heroHeight}px)`)

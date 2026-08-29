@@ -1,4 +1,5 @@
 import type { Lang } from '../../i18n/messages'
+import { PK_WHATSAPP_URL } from '../../market/pakistanConfig'
 import type { SoftwareDetailPageData } from './types'
 import { buildAccountsManagementSoftwareDetailAr } from './accountsManagementDetailAr'
 
@@ -211,7 +212,7 @@ function buildAccountsManagementSoftwareDetailEn(): SoftwareDetailPageData {
       heading: 'Request for Demo!',
       sub: 'Share your email and contact number — we will respond with a tailored walkthrough for your chart of accounts and branches.',
       whatsappLabel: 'WhatsApp',
-      whatsappHref: 'https://wa.me/971581174911',
+      whatsappHref: PK_WHATSAPP_URL,
       contactHref: '/contact#contact-form',
     },
     seoBlocks: [

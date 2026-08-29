@@ -22,6 +22,7 @@ const CORE_PATHS = new Set([
   '/solutions',
   '/business-models',
   '/faqs',
+  '/cities',
   ...registryStaticPaths().filter((p) => p !== '/industries' && p !== '/contact' && p !== '/testimonials'),
 ])
 

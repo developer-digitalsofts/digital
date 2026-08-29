@@ -10,7 +10,7 @@ import multer from 'multer'
 import { nanoid } from 'nanoid'
 import nodemailer from 'nodemailer'
 import { loadEnv } from './loadEnv.mjs'
-import { PK_CMS_DATA_DIR_NAME, isPkCitySlug } from './pakistanConfig.mjs'
+import { PK_CMS_DATA_DIR_NAME, isPkCitySlug, resolvePublicSiteUrl } from './pakistanConfig.mjs'
 import {
   allowAdminBootstrap,
   authSecretOrDevFallback,
@@ -81,8 +81,7 @@ const DATA_DIR = (() => {
   return path.join(ROOT, PK_CMS_DATA_DIR_NAME)
 })()
 process.env.MARKET = process.env.MARKET || 'PK'
-process.env.PUBLIC_SITE_URL =
-  process.env.PUBLIC_SITE_URL || process.env.VITE_PUBLIC_SITE_URL || 'https://pk-test.digitalmanager.ae'
+process.env.PUBLIC_SITE_URL = resolvePublicSiteUrl()
 const UPLOADS_DIR = path.join(ROOT, 'uploads')
 const DIST_DIR = path.join(ROOT, '..', 'dist')
 

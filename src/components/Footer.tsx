@@ -14,7 +14,7 @@ import { apiBase, fetchWithTimeout } from '../cms/api'
 import { CmsLink } from './CmsLink'
 import { useLocale } from '../locale/LocaleContext'
 import { useCity } from '../locale/CityContext'
-import { CitySelector } from './CitySelector'
+import { PK_CITY_NAMES, PK_CITY_SLUGS } from '../market/pakistanConfig'
 import { useRegionalSettings } from '../cms/useRegionalSettings'
 import './footer.css'
 
@@ -451,10 +451,19 @@ export function Footer() {
           </div>
 
           <p className="dm-footer__trust-message">{t('footer.trustMessage')}</p>
-          <div className="dm-footer__city-select mt-3">
-            <p className="dm-footer__city-select-label">City</p>
-            <CitySelector />
-          </div>
+          <nav className="dm-footer__cities" aria-label="DigitalManager across Pakistan">
+            <p className="dm-footer__cities-heading">DigitalManager across Pakistan</p>
+            <ul className="dm-footer__cities-list">
+              {PK_CITY_SLUGS.map((slug) => (
+                <li key={slug}>
+                  <a href={`/${slug}`}>{PK_CITY_NAMES[slug]}</a>
+                </li>
+              ))}
+              <li>
+                <a href="/cities">All cities</a>
+              </li>
+            </ul>
+          </nav>
 
           <div className="dm-footer__social">
             <FooterSocialLinks items={f?.social} />

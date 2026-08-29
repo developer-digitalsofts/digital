@@ -1,4 +1,5 @@
-import { Mail, MessageSquare, Phone } from 'lucide-react'
+import { Mail, MapPin, MessageSquare, Phone } from 'lucide-react'
+import { PK_OFFICIAL_CONTACT } from '../market/pakistanConfig'
 import { useCallback, useState, type FormEvent } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { WhatsAppIcon } from '../components/WhatsAppIcon'
@@ -90,14 +91,31 @@ export function ContactPage() {
           <div className="lg:col-span-5">
             <div className="rounded-lg border border-slate-200 bg-white p-5 md:p-6">
               <h2 className="font-heading text-base font-bold text-slate-900">{t('contactPage.phoneLabel')}</h2>
-              {site.phoneDisplay ? (
+              <div className="mt-3 space-y-2">
+                {site.phoneDisplay ? (
+                  <a
+                    href={site.phoneHref}
+                    className="flex items-center gap-2 text-base font-semibold text-brand transition-colors hover:text-brand-dark"
+                  >
+                    <Phone className="size-5 shrink-0" aria-hidden />
+                    {site.phoneDisplay}
+                  </a>
+                ) : null}
                 <a
-                  href={site.phoneHref}
-                  className="mt-3 inline-flex items-center gap-2 text-base font-semibold text-brand transition-colors hover:text-brand-dark"
+                  href={PK_OFFICIAL_CONTACT.phones.secondary.href}
+                  className="flex items-center gap-2 text-base font-semibold text-brand transition-colors hover:text-brand-dark"
                 >
                   <Phone className="size-5 shrink-0" aria-hidden />
-                  {site.phoneDisplay}
+                  {PK_OFFICIAL_CONTACT.phones.secondary.display}
                 </a>
+              </div>
+
+              <h2 className="font-heading mt-6 text-base font-bold text-slate-900">{t('footer.address')}</h2>
+              {site.officeAddress ? (
+                <p className="mt-3 inline-flex items-start gap-2 text-base leading-relaxed text-slate-700">
+                  <MapPin className="mt-0.5 size-5 shrink-0 text-brand" aria-hidden />
+                  <span>{site.officeAddress}</span>
+                </p>
               ) : null}
 
               <h2 className="font-heading mt-6 text-base font-bold text-slate-900">{t('contactPage.emailLabel')}</h2>

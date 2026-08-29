@@ -24,9 +24,10 @@ import { getLocaleHomepageIndexMeta } from './localeHomepage.mjs'
 import { CITY_HOME_SLUG, CITY_PAGE_SLUG, CITY_PRODUCT_PAGE_SLUGS, getCitiesForCountry } from './cityRegistry.mjs'
 import { buildCityPagePath, parseCityPagePath } from './cityPaths.mjs'
 import { evaluateCityIndexability, resolveCityContent } from './cityLocaleApi.mjs'
+import { resolvePublicSiteUrl } from './pakistanConfig.mjs'
+import { getCityHomepageProfile } from './cityHomepageProfiles.mjs'
 
-export const PUBLIC_SITE_BASE =
-  (process.env.PUBLIC_SITE_URL || 'https://pk-test.digitalmanager.ae').replace(/\/$/, '')
+export const PUBLIC_SITE_BASE = resolvePublicSiteUrl()
 
 const GCC_COUNTRY_SLUGS = ['pk']
 const GCC_LANGS = ['en']
@@ -224,6 +225,7 @@ export async function buildIndexablePages(deps) {
     { path: '/about', kind: 'about', title: 'About DigitalManager' },
     { path: '/contact', kind: 'contact', title: 'Contact DigitalManager' },
     { path: '/privacy', kind: 'privacy', title: 'DigitalManager Privacy Policy' },
+    { path: '/cities', kind: 'cities', title: 'DigitalManager across Pakistan | City ERP pages' },
   ]
   for (const page of trustPages) {
     tryAddEntry(entries, seen, {
@@ -628,6 +630,19 @@ function matchEntryForPath(entries, pathname) {
   return entries.find((e) => e.path === buildLocalePath(parsed.country, parsed.lang, rest)) || null
 }
 
+function applyCityHomeSeo(title, description, citySlug) {
+  const profile = getCityHomepageProfile(citySlug)
+  if (!profile) return { title, description }
+  const approvedTitle = new RegExp(`DigitalManager in ${profile.cityName}`, 'i')
+  const titleLooksGood = approvedTitle.test(title || '')
+  const descLooksGood =
+    /digitalmanager/i.test(description || '') && new RegExp(profile.cityName, 'i').test(description || '')
+  return {
+    title: titleLooksGood ? title : profile.metaTitle,
+    description: descLooksGood ? description : profile.metaDesc,
+  }
+}
+
 function fallbackSeoForPath(pathname, seoDoc, lang) {
   const parsed = parseLocalePath(pathname)
   const canonical = absoluteUrl(normalizePublicPath(pathname))
@@ -699,6 +714,17 @@ export async function resolveSeoForPath(deps, pathname) {
       const descFromRecord = readBilingualText(seo.description || seo.metaDescription, cityParsed.lang)
       const canonical = absoluteUrl(buildCityPagePath(cityParsed.country, cityParsed.lang, cityParsed.citySlug, cityParsed.pageSlug))
       const noIndex = !check.indexable || full.meta?.fallbackUsed || full.meta?.cityFallback
+      const citySeo =
+        cityParsed.pageSlug === CITY_HOME_SLUG
+          ? applyCityHomeSeo(
+              titleFromRecord || readBilingualText(seoDoc?.pageTitle, cityParsed.lang) || 'DigitalManager',
+              descFromRecord || readBilingualText(seoDoc?.metaDescription, cityParsed.lang) || '',
+              cityParsed.citySlug,
+            )
+          : {
+              title: titleFromRecord || readBilingualText(seoDoc?.pageTitle, cityParsed.lang) || 'DigitalManager',
+              description: descFromRecord || readBilingualText(seoDoc?.metaDescription, cityParsed.lang) || '',
+            }
       return {
         path: buildCityPagePath(cityParsed.country, cityParsed.lang, cityParsed.citySlug, cityParsed.pageSlug),
         canonical,
@@ -706,8 +732,8 @@ export async function resolveSeoForPath(deps, pathname) {
         robots: noIndex ? 'noindex, follow' : 'index, follow',
         lang: cityParsed.lang,
         dir: cityParsed.lang === 'ar' ? 'rtl' : 'ltr',
-        title: titleFromRecord || readBilingualText(seoDoc?.pageTitle, cityParsed.lang) || 'DigitalManager',
-        description: descFromRecord || readBilingualText(seoDoc?.metaDescription, cityParsed.lang) || '',
+        title: citySeo.title,
+        description: citySeo.description,
         ogLocale: ogLocaleTag(cityParsed.country, cityParsed.lang),
         ogUrl: canonical,
         alternates: [],
@@ -726,8 +752,13 @@ export async function resolveSeoForPath(deps, pathname) {
   const globalTitle = readBilingualText(seoDoc?.pageTitle, lang)
   const globalDesc = readBilingualText(seoDoc?.metaDescription, lang)
 
-  const title = titleFromRecord || match.seoTitle || globalTitle || 'DigitalManager'
-  const description = descFromRecord || globalDesc || ''
+  let title = titleFromRecord || match.seoTitle || globalTitle || 'DigitalManager'
+  let description = descFromRecord || globalDesc || ''
+  if (match.identity?.kind === 'city-page' && match.identity.slug === CITY_HOME_SLUG) {
+    const citySeo = applyCityHomeSeo(title, description, match.identity.citySlug)
+    title = citySeo.title
+    description = citySeo.description
+  }
   const noIndex = !match.indexable
   const robotsIndex = seo.robotsIndex === 'noindex' || noIndex ? 'noindex' : 'index'
   const robotsFollow = seo.robotsFollow === 'nofollow' ? 'nofollow' : 'follow'

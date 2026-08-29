@@ -1,6 +1,7 @@
 import { megaIndustryLabel } from '../../i18n/megaLabels'
 import { getSoftwareDetailCopy } from '../../i18n/softwareDetailCopy'
 import { moduleRichPagesAr } from '../moduleRichPagesAr'
+import { PK_WHATSAPP_URL } from '../../market/pakistanConfig'
 import type { SoftwareDetailPageData } from './types'
 
 const v = (name: string, description: string) => ({ name, description })
@@ -219,7 +220,7 @@ export function buildAccountsManagementSoftwareDetailAr(): SoftwareDetailPageDat
       heading: copy.premiumDemoHeading,
       sub: 'شارك بريدك ورقم التواصل — نرد بجولة مخصصة لدليل حساباتك وفروعك.',
       whatsappLabel: copy.ctaWhatsApp,
-      whatsappHref: 'https://wa.me/971581174911',
+      whatsappHref: PK_WHATSAPP_URL,
       contactHref: '/contact#contact-form',
     },
     seoBlocks: [

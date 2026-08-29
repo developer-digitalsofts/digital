@@ -94,7 +94,7 @@
       "showOnHomepage": false,
       "sortOrder": 0,
       "publishDate": "2026-08-21T10:00:00.000Z",
-      "updatedDate": "2026-08-29T06:51:56.067Z",
+      "updatedDate": "2026-08-29T10:27:34.479Z",
       "status": "draft",
       "enabled": false,
       "countryCode": "AE",
@@ -179,7 +179,7 @@
       "featured": false,
       "showOnHomepage": false,
       "sortOrder": 1,
-      "publishDate": "2026-08-29T06:51:55.633Z",
+      "publishDate": "2026-08-29T10:27:34.145Z",
       "updatedDate": "2026-08-21T11:30:00.000Z",
       "status": "draft",
       "enabled": false,
@@ -20809,7 +20809,7 @@
   ],
   "_meta": {
     "createdAt": "2026-08-21T10:00:00.000Z",
-    "updatedAt": "2026-08-29T06:51:56.095Z",
+    "updatedAt": "2026-08-29T10:27:34.500Z",
     "updatedBy": "admin@admin.com"
   }
 }
