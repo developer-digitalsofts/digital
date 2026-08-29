@@ -1,5 +1,6 @@
 import {
   DEFAULT_LOCALE,
+  countrySlugToCode,
   isDefaultLocale,
   isLocaleCountrySlug,
   isLocaleLang,
@@ -46,7 +47,7 @@ export function fromLocalePublicSegment(publicSegment: string): string {
 }
 
 export function countryCodeFromLocale(country: LocaleCountrySlug): string {
-  return country === 'pk' ? 'PK' : 'PK'
+  return countrySlugToCode(country)
 }
 
 export function validateLocaleParams(country: string, lang: string): { country: LocaleCountrySlug; lang: LocaleLang } | null {

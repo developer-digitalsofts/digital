@@ -1,6 +1,6 @@
-/** Pakistan locale config — single market, English only (pakistan-version). */
+/** Pakistan locale config with UAE-compatible shared market slugs. */
 
-export const LOCALE_COUNTRY_SLUGS = ['pk'] as const
+export const LOCALE_COUNTRY_SLUGS = ['pk', 'ae'] as const
 export type LocaleCountrySlug = (typeof LOCALE_COUNTRY_SLUGS)[number]
 export type LocaleLang = 'en' | 'ar'
 
@@ -8,14 +8,17 @@ export const DEFAULT_LOCALE: { country: LocaleCountrySlug; lang: LocaleLang } = 
 
 export const COUNTRY_SLUG_TO_CODE: Record<LocaleCountrySlug, string> = {
   pk: 'PK',
+  ae: 'AE',
 }
 
 export const COUNTRY_CODE_TO_SLUG: Record<string, LocaleCountrySlug> = {
   PK: 'pk',
+  AE: 'ae',
 }
 
 export const GCC_COUNTRY_FLAGS: Record<string, string> = {
   PK: '🇵🇰',
+  AE: '🇦🇪',
 }
 
 export const LOCALE_VIEW_STORAGE_KEY = 'dm_locale_view_pk'
@@ -25,7 +28,7 @@ export const LOCALE_PREF_MAX_AGE_SEC = 15552000
 export const LOCALE_SUGGEST_DISMISS_KEY = 'dm_locale_suggest_dismiss_pk'
 
 export function isDefaultLocale(country: LocaleCountrySlug, lang: LocaleLang): boolean {
-  return country === 'pk' && lang === 'en'
+  return country === DEFAULT_LOCALE.country && lang === DEFAULT_LOCALE.lang
 }
 
 export function isLocaleCountrySlug(value: string | null | undefined): value is LocaleCountrySlug {

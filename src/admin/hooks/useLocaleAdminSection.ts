@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { adminFetch, friendlyAdminApiMessage } from '../adminApi'
 import { useAdminLocale } from '../AdminLocaleContext'
-import { countrySlugToCode } from '../../locale/localeConfig'
+import { countrySlugToCode, isDefaultLocale } from '../../locale/localeConfig'
 import { ADMIN_SECTION_LOCALE } from '../adminLocaleSections'
 import type { PublishStatus } from './useAdminSection'
 
@@ -15,7 +15,7 @@ export function useLocaleAdminSection<T extends Record<string, unknown>>(section
   const { country, lang, setDirty } = useAdminLocale()
   const localeRef = ADMIN_SECTION_LOCALE[section]
   const countryCode = countrySlugToCode(country)
-  const isDefault = country === 'ae' && lang === 'en'
+  const isDefault = isDefaultLocale(country, lang)
 
   const [data, setDataState] = useState<T | null>(null)
   const [recordId, setRecordId] = useState<string | null>(null)

@@ -17,6 +17,7 @@ type AdminLocaleContextValue = {
 
 const LABELS: Record<LocaleCountrySlug, string> = {
   pk: 'Pakistan',
+  ae: 'UAE',
 }
 
 const AdminLocaleContext = createContext<AdminLocaleContextValue | null>(null)
