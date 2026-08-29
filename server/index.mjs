@@ -10,7 +10,7 @@ import multer from 'multer'
 import { nanoid } from 'nanoid'
 import nodemailer from 'nodemailer'
 import { loadEnv } from './loadEnv.mjs'
-import { PK_CMS_DATA_DIR_NAME } from './pakistanConfig.mjs'
+import { PK_CMS_DATA_DIR_NAME, isPkCitySlug } from './pakistanConfig.mjs'
 import {
   allowAdminBootstrap,
   authSecretOrDevFallback,
@@ -45,6 +45,7 @@ import {
 import { createLocaleStorage } from './localeStorage.mjs'
 import { registerLocaleRoutes } from './localeApi.mjs'
 import { buildLocaleHomepagePayload } from './localeHomepage.mjs'
+import { buildCityHomepagePayload } from './cityHomepage.mjs'
 import { createLocalePublishHelpers } from './localePublish.mjs'
 import { normalizeCountryCode } from './countryHelpers.mjs'
 import { normalizeLocaleLang } from './localeContentModel.mjs'
@@ -1483,8 +1484,17 @@ app.get('/api/homepage', async (req, res) => {
   try {
     const countryCode = normalizeCountryCode(req.query.country || req.query.countryCode || 'AE')
     const lang = normalizeLocaleLang(req.query.lang || req.query.language || 'en')
+    const citySlug = String(req.query.city || req.query.citySlug || '').toLowerCase()
     let out
-    if (countryCode === 'AE' && lang === 'en') {
+    if (isPkCitySlug(citySlug)) {
+      out = await buildCityHomepagePayload(
+        {
+          loadPublishedHomepagePayload,
+          localePublish,
+        },
+        citySlug,
+      )
+    } else if (countryCode === 'AE' && lang === 'en') {
       out = await loadPublishedHomepagePayload()
     } else {
       out = await buildLocaleHomepagePayload(

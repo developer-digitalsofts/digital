@@ -186,6 +186,15 @@ export function registerCityLocaleRoutes(app, deps) {
         const intro = source?.payload?.shortDescription?.en || ''
         const title = source?.seo?.title?.en || source?.payload?.title?.en || heading
         const description = source?.seo?.description?.en || ''
+        const eyebrow = source?.payload?.eyebrow?.en || source?.payload?.eyebrow || ''
+        const dashboardCities = Array.isArray(source?.payload?.dashboardCities)
+          ? source.payload.dashboardCities.join(', ')
+          : ''
+        const dashboardCompanies = Array.isArray(source?.payload?.dashboardCompanies)
+          ? source.payload.dashboardCompanies.join(', ')
+          : ''
+        const extraFaq = source?.payload?.extraFaqs?.[0] || source?.payload?.homepageFaqs?.[0] || null
+        const pageSections = source?.payload?.pageSections || []
         return {
           ...city,
           recordId: draft?.id || pub?.id || null,
@@ -193,6 +202,12 @@ export function registerCityLocaleRoutes(app, deps) {
           intro,
           title,
           description,
+          eyebrow,
+          dashboardCities,
+          dashboardCompanies,
+          extraFaqQ: extraFaq?.q || extraFaq?.question?.en || '',
+          extraFaqA: extraFaq?.a || extraFaq?.answer?.en || '',
+          pageSections,
           draft: draft
             ? {
                 publicationStatus: draft.publicationStatus,
@@ -288,11 +303,28 @@ export function registerCityLocaleRoutes(app, deps) {
       const intro = String(req.body?.intro || '').trim()
       const title = String(req.body?.title || '').trim()
       const description = String(req.body?.description || '').trim()
+      const eyebrow = String(req.body?.eyebrow || '').trim()
+      const dashboardCities = String(req.body?.dashboardCities || '')
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean)
+      const dashboardCompanies = String(req.body?.dashboardCompanies || '')
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean)
+      const extraFaqQ = String(req.body?.extraFaqQ || '').trim()
+      const extraFaqA = String(req.body?.extraFaqA || '').trim()
+      const pageSections = Array.isArray(req.body?.pageSections) ? req.body.pageSections : existing.payload?.pageSections
       const payload = {
         ...existing.payload,
         heading: heading ? { en: heading } : existing.payload?.heading,
         shortDescription: intro ? { en: intro } : existing.payload?.shortDescription,
         title: title ? { en: title } : existing.payload?.title,
+        eyebrow: eyebrow ? { en: eyebrow } : existing.payload?.eyebrow,
+        dashboardCities: dashboardCities.length ? dashboardCities : existing.payload?.dashboardCities,
+        dashboardCompanies: dashboardCompanies.length ? dashboardCompanies : existing.payload?.dashboardCompanies,
+        extraFaqs: extraFaqQ && extraFaqA ? [{ q: extraFaqQ, a: extraFaqA }] : existing.payload?.extraFaqs,
+        pageSections,
       }
       if (heading && payload.sections?.[0]?.content) {
         payload.sections[0].content = {

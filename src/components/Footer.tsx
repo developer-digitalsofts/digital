@@ -86,7 +86,8 @@ function mergeFooterRows(base: FooterLink[], extra: FooterLink[]) {
 
 function FooterBrandLogo({ src }: { src: string }) {
   const { href: localeHref } = useLocale()
-  const homeHref = localeHref('/')
+  const { cityHref } = useCity()
+  const homeHref = cityHref(localeHref('/'))
   return (
     <Link
       to={homeHref}
@@ -233,18 +234,14 @@ function FooterLinkList({
     <ul className="dm-footer__links">
       {links.map((row) => (
         <li key={row.key}>
-          {row.useCms ? (
-            <CmsLink to={row.href} className="dm-footer__link">
-              {row.label}
-            </CmsLink>
-          ) : row.href.startsWith('http') || row.href.startsWith('#') || row.href.startsWith('mailto:') ? (
+          {row.href.startsWith('http') || row.href.startsWith('#') || row.href.startsWith('mailto:') ? (
             <a href={row.href} className="dm-footer__link">
               {row.label}
             </a>
           ) : (
-            <Link to={row.href} className="dm-footer__link">
+            <CmsLink to={row.href} className="dm-footer__link">
               {row.label}
-            </Link>
+            </CmsLink>
           )}
         </li>
       ))}

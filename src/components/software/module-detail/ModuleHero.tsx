@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Check, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useLocale } from '../../../locale/LocaleContext'
+import { useOptionalCity } from '../../../locale/CityContext'
 import { useI18n } from '../../../i18n/I18nProvider'
 import { CmsLink } from '../../CmsLink'
 import type { ModuleHeroModel } from '../../../types/moduleDetailPage'
@@ -17,7 +18,8 @@ type Props = {
 export function ModuleHero({ model, slug, breadcrumb }: Props) {
   const { lang } = useI18n()
   const { href: localeHref } = useLocale()
-  const homeHref = localeHref('/')
+  const city = useOptionalCity()
+  const homeHref = city?.cityHref(localeHref('/')) || localeHref('/')
   const ChevronFwd = lang === 'ar' ? ChevronLeft : ChevronRight
   const [introOpen, setIntroOpen] = useState(false)
 

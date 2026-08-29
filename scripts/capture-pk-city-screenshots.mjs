@@ -4,6 +4,7 @@
  */
 import { mkdir } from 'node:fs/promises'
 import { chromium } from 'playwright'
+import { ALL_CITY_SLUGS } from '../server/cityRegistry.mjs'
 
 const BASE = (process.env.BASE_URL || process.argv[2] || 'http://127.0.0.1:3040').replace(/\/$/, '')
 const OUT = 'screenshots/pakistan-cities'
@@ -14,8 +15,22 @@ const ROUTES = [
   { path: '/', name: 'homepage' },
   { path: '/karachi', name: 'karachi' },
   { path: '/lahore', name: 'lahore' },
-  { path: '/islamabad', name: 'islamabad' },
+  { path: '/hyderabad', name: 'hyderabad' },
+  { path: '/faisalabad', name: 'faisalabad' },
 ]
+
+async function revealPage(page) {
+  await page.evaluate(async () => {
+    const step = 700
+    const max = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)
+    for (let y = 0; y < max; y += step) {
+      window.scrollTo(0, y)
+      await new Promise((r) => setTimeout(r, 90))
+    }
+    window.scrollTo(0, 0)
+    await new Promise((r) => setTimeout(r, 250))
+  })
+}
 
 async function loginAdmin(page) {
   const res = await fetch(`${BASE}/api/admin/auth/login`, {
@@ -44,9 +59,15 @@ async function main() {
     const footerSelect = page.locator('footer .dm-locale-select').first()
     if ((await headerSelect.count()) === 0) throw new Error(`${route.path}: header city selector missing`)
     if ((await footerSelect.count()) === 0) throw new Error(`${route.path}: footer city selector missing`)
+    await revealPage(page)
     const file = `${OUT}/${route.name}.png`
     await page.screenshot({ path: file, fullPage: true })
     console.log(`saved ${file}`)
+    await page.setViewportSize({ width: 390, height: 844 })
+    await revealPage(page)
+    await page.screenshot({ path: `${OUT}/${route.name}-mobile.png`, fullPage: true })
+    console.log(`saved ${OUT}/${route.name}-mobile.png`)
+    await page.setViewportSize({ width: 1440, height: 900 })
     if (route.name === 'homepage') {
       await page.locator('header').first().screenshot({ path: `${OUT}/homepage-header-selector.png` })
       await page.locator('footer').first().screenshot({ path: `${OUT}/homepage-footer-selector.png` })
@@ -54,6 +75,29 @@ async function main() {
       console.log(`saved ${OUT}/homepage-footer-selector.png`)
     }
     await page.close()
+  }
+
+  const captured = new Set(ROUTES.map((r) => r.path))
+  for (const citySlug of ALL_CITY_SLUGS) {
+    const path = `/${citySlug}`
+    if (captured.has(path)) continue
+    for (const viewport of [
+      { width: 1440, height: 900 },
+      { width: 390, height: 844 },
+    ]) {
+      const page = await context.newPage()
+      await page.setViewportSize(viewport)
+      await page.goto(`${BASE}${path}`, { waitUntil: 'networkidle', timeout: 45000 })
+      await page.waitForSelector('header .dm-locale-select, .dm-header__actions .dm-locale-select, footer .dm-locale-select', {
+        state: 'attached',
+        timeout: 20000,
+      })
+      const hero = await page.locator('h1, .dm-hero').first().count()
+      const footer = await page.locator('footer').count()
+      if (!hero || !footer) throw new Error(`${path} @${viewport.width}: missing hero or footer`)
+      await page.close()
+      console.log(`ok ${path} ${viewport.width}px`)
+    }
   }
 
   const loginRes = await fetch(`${BASE}/api/admin/auth/login`, {

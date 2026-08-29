@@ -36,6 +36,10 @@ function assertCityParser() {
   }
   const unknown = parseCityPagePath('/karachi/not-a-page')
   if (!unknown.unknownCityPath) fail('parser', 'unknown city path should 404')
+  const contact = parseCityPagePath('/hyderabad/contact')
+  if (!contact.isCitySitePage || contact.sitePath !== '/contact') fail('parser', '/hyderabad/contact')
+  const industries = parseCityPagePath('/hyderabad/industries/retail')
+  if (!industries.isCitySitePage || industries.sitePath !== '/industries/retail') fail('parser', '/hyderabad/industries/retail')
   const prefMustNotWin = parseCityPagePath('/quetta')
   if (prefMustNotWin.citySlug !== 'quetta') fail('parser', 'explicit URL city must win')
 }
@@ -59,6 +63,20 @@ async function main() {
       if (body.length < 500) fail(`${citySlug} API`, `payload too short (${body.length})`)
     }
 
+    const homeApi = `/api/homepage?country=PK&lang=en&city=${citySlug}`
+    const { res: homeApiRes, json: homeJson } = await get(homeApi)
+    if (homeApiRes.status !== 200) fail(`${citySlug} homepage API`, `status ${homeApiRes.status}`)
+    else {
+      if (homeJson?.city?.slug !== citySlug) fail(`${citySlug} homepage API`, 'missing city overlay')
+      if (!homeJson?.hero || !homeJson?.modules || !homeJson?.industries || !homeJson?.faqs) {
+        fail(`${citySlug} homepage API`, 'missing full homepage sections')
+      }
+      const heroTitle = homeJson?.hero?.title?.en || ''
+      if (!String(heroTitle).toLowerCase().includes(city.name.en.toLowerCase())) {
+        fail(`${citySlug} homepage API`, `hero title not city-specific: ${heroTitle}`)
+      }
+    }
+
     const homePath = buildCityHomePath(citySlug)
     const { res: htmlRes, text } = await get(homePath, { Accept: 'text/html', 'User-Agent': 'GPTBot' })
     if (htmlRes.status !== 200) fail(homePath, `status ${htmlRes.status}`)
@@ -69,6 +87,12 @@ async function main() {
       const textLen = text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().length
       if (textLen < 500) fail(homePath, `raw text too short (${textLen})`)
       if (!text.includes(`rel="canonical"`) && !text.includes('rel=canonical')) fail(homePath, 'missing canonical')
+      const h2Count = (text.match(/<h2[\s>]/g) || []).length
+      if (h2Count < 3) fail(homePath, `expected full homepage H2s, got ${h2Count}`)
+      if (!/ERP Modules|Industries|Why DigitalManager|modules/i.test(text)) {
+        fail(homePath, 'agent HTML is not the full homepage')
+      }
+      if (!new RegExp(city.name.en, 'i').test(text)) fail(homePath, 'missing city name')
       if (
         text.includes('607, Al Rahma') ||
         text.includes('+971 58') ||
@@ -77,6 +101,11 @@ async function main() {
       ) {
         fail(homePath, 'UAE leftover in HTML')
       }
+    }
+
+    for (const site of ['/contact', '/faqs', '/industries']) {
+      const { res: siteRes } = await get(`/${citySlug}${site}`, { Accept: 'text/html' })
+      if (siteRes.status !== 200) fail(`/${citySlug}${site}`, `status ${siteRes.status}`)
     }
 
     const productPath = buildCitySoftwarePath(citySlug, 'erp-software')

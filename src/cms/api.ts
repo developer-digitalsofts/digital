@@ -134,6 +134,7 @@ export type FetchHomepageOptions = {
   bustCache?: boolean
   countryCode?: string
   lang?: string
+  citySlug?: string | null
 }
 
 /**
@@ -144,6 +145,7 @@ export async function fetchHomepage<T>(opts?: FetchHomepageOptions): Promise<T> 
   const params = new URLSearchParams()
   if (opts?.countryCode) params.set('country', opts.countryCode)
   if (opts?.lang) params.set('lang', opts.lang)
+  if (opts?.citySlug) params.set('city', opts.citySlug)
   if (opts?.bustCache) params.set('v', String(Date.now()))
   const qs = params.toString()
   const path = `/api/homepage${qs ? `?${qs}` : ''}`

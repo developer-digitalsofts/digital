@@ -155,6 +155,31 @@ export async function resolvePublicPath(deps, pathname) {
       softwarePath: cityParsed.softwarePath,
     }
   }
+  if (cityParsed.isCitySitePage && cityParsed.citySlug) {
+    const site = cityParsed.sitePath || `/${cityParsed.pageSlug || ''}`
+    if (site.startsWith('/industries/')) {
+      return {
+        known: true,
+        kind: 'city-software',
+        path,
+        locale: parsed,
+        restPath: normalizedInternal,
+        citySlug: cityParsed.citySlug,
+        pageSlug: cityParsed.pageSlug,
+        softwarePath: cityParsed.softwarePath || `/software/industry/${site.split('/')[2]}`,
+      }
+    }
+    const kind = site.replace(/^\//, '').replace(/\//g, '-') || 'home'
+    return {
+      known: true,
+      kind,
+      path,
+      locale: parsed,
+      restPath: normalizedInternal,
+      citySlug: cityParsed.citySlug,
+      pageSlug: cityParsed.pageSlug,
+    }
+  }
   if (cityParsed.isCityPage && cityParsed.citySlug && cityParsed.pageSlug) {
     return {
       known: true,

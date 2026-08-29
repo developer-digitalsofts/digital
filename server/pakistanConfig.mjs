@@ -79,6 +79,10 @@ export function servingBusinessesIn(cityName) {
   return `Serving businesses in ${cityName}`
 }
 
+export function isPkCitySlug(value) {
+  return Boolean(value && PK_CITY_SLUGS.includes(String(value).toLowerCase()))
+}
+
 export function buildCityHomePath(citySlug) {
   return `/${String(citySlug).toLowerCase()}`
 }
@@ -88,6 +92,62 @@ export function buildCitySoftwarePath(citySlug, softwarePath) {
   if (rest === '/' || rest === '') return buildCityHomePath(citySlug)
   if (rest.startsWith('/software/')) return `/${String(citySlug).toLowerCase()}${rest}`
   return `/${String(citySlug).toLowerCase()}/software${rest.startsWith('/') ? rest : `/${rest}`}`
+}
+
+export const CITY_SITE_PAGE_SLUGS = [
+  'contact',
+  'faqs',
+  'industries',
+  'about',
+  'testimonials',
+  'erp',
+  'solutions',
+  'business-models',
+]
+
+export const CITY_AWARE_FIRST_SEGMENTS = ['software', ...CITY_SITE_PAGE_SLUGS]
+
+export function isCitySitePageSlug(value) {
+  return Boolean(value && CITY_SITE_PAGE_SLUGS.includes(String(value).toLowerCase()))
+}
+
+function splitPathAffixes(internalPath) {
+  const raw = internalPath || '/'
+  const hashIndex = raw.indexOf('#')
+  const queryIndex = raw.indexOf('?')
+  const cut = [hashIndex, queryIndex].filter((i) => i >= 0).sort((a, b) => a - b)[0]
+  if (cut == null) return { path: raw, suffix: '' }
+  return { path: raw.slice(0, cut), suffix: raw.slice(cut) }
+}
+
+export function isCityAwareInternalPath(internalPath) {
+  const { path } = splitPathAffixes(internalPath)
+  const rest = path.startsWith('/') ? path : `/${path}`
+  if (rest === '/' || rest === '') return true
+  const first = rest.replace(/^\//, '').split('/')[0]
+  return CITY_AWARE_FIRST_SEGMENTS.includes(first)
+}
+
+export function buildCityAwarePath(citySlug, internalPath) {
+  const { path, suffix } = splitPathAffixes(internalPath || '/')
+  const rest = path.startsWith('/') ? path : `/${path}`
+  const city = String(citySlug).toLowerCase()
+  if (!city) return `${rest === '' ? '/' : rest}${suffix}`
+  if (rest === '/' || rest === '') return `/${city}${suffix}`
+  if (rest === `/${city}` || rest.startsWith(`/${city}/`)) return `${rest}${suffix}`
+  if (!isCityAwareInternalPath(rest)) return `${rest}${suffix}`
+  return `/${city}${rest}${suffix}`
+}
+
+export function stripCityAwarePrefix(pathname) {
+  const { path, suffix } = splitPathAffixes(pathname || '/')
+  const parts = path.replace(/^\/+|\/+$/g, '').split('/').filter(Boolean)
+  if (parts.length === 0) return suffix || '/'
+  if (PK_CITY_SLUGS.includes(parts[0])) {
+    const rest = parts.slice(1)
+    return `${rest.length ? `/${rest.join('/')}` : '/'}${suffix}`
+  }
+  return `${path.startsWith('/') ? path : `/${path}`}${suffix}`
 }
 
 /** CMS data folder relative to server/ — never share with UAE server/data */

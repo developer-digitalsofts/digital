@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { GCC_COUNTRY_CODES } from '../config/gccCountries'
+import { HOME_SECTION_REGISTRY } from '../cms/homeSectionRegistry'
 import { adminFetch } from './adminApi'
 import { useAdminToast } from './AdminToastContext'
+
+type SectionRow = { id: string; name?: string; visible?: boolean; sortOrder?: number }
 
 type CityRow = {
   slug: string
@@ -14,6 +17,12 @@ type CityRow = {
   intro?: string
   title?: string
   description?: string
+  eyebrow?: string
+  dashboardCities?: string
+  dashboardCompanies?: string
+  extraFaqQ?: string
+  extraFaqA?: string
+  pageSections?: SectionRow[]
   draft: { publicationStatus: string; translationStatus: string; enabled: boolean; updatedAt?: string } | null
   published: { publicationStatus: string; translationStatus: string; enabled: boolean; publishedAt?: string } | null
 }
@@ -28,6 +37,12 @@ export function AdminCitiesPage() {
   const [intro, setIntro] = useState('')
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  const [eyebrow, setEyebrow] = useState('')
+  const [dashboardCities, setDashboardCities] = useState('')
+  const [dashboardCompanies, setDashboardCompanies] = useState('')
+  const [extraFaqQ, setExtraFaqQ] = useState('')
+  const [extraFaqA, setExtraFaqA] = useState('')
+  const [sectionVis, setSectionVis] = useState<Record<string, boolean>>({})
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -84,7 +99,24 @@ export function AdminCitiesPage() {
     try {
       await adminFetch(`/api/admin/locale/cities/${citySlug}`, {
         method: 'PUT',
-        body: JSON.stringify({ pageSlug: 'home', heading, intro, title, description }),
+        body: JSON.stringify({
+          pageSlug: 'home',
+          heading,
+          intro,
+          title,
+          description,
+          eyebrow,
+          dashboardCities,
+          dashboardCompanies,
+          extraFaqQ,
+          extraFaqA,
+          pageSections: HOME_SECTION_REGISTRY.map((def, index) => ({
+            id: def.id,
+            name: def.label,
+            visible: sectionVis[def.id] !== false,
+            sortOrder: def.defaultSortOrder ?? index + 1,
+          })),
+        }),
       })
       toast.push('City homepage saved', 'success')
       setEditing(null)
@@ -104,8 +136,8 @@ export function AdminCitiesPage() {
       <div>
         <h2 className="text-xl font-bold text-slate-900">City Pages</h2>
         <p className="text-sm text-slate-600">
-          Manage Pakistan city homepages (/karachi, /lahore, …) and city software routes (/karachi/software/crm-software).
-          Seed, edit SEO and H1, preview, then publish. Frontend uses published city content immediately.
+          Each city URL renders the full Pakistan homepage with city overlays. Unspecified fields inherit the national
+          homepage. Edit hero/SEO, dashboard sample labels, FAQs, section visibility, then preview and publish.
         </p>
       </div>
 
@@ -170,6 +202,17 @@ export function AdminCitiesPage() {
                               setIntro(city.intro || '')
                               setTitle(city.title || '')
                               setDescription(city.description || '')
+                              setEyebrow(city.eyebrow || '')
+                              setDashboardCities(city.dashboardCities || '')
+                              setDashboardCompanies(city.dashboardCompanies || '')
+                              setExtraFaqQ(city.extraFaqQ || '')
+                              setExtraFaqA(city.extraFaqA || '')
+                              const vis: Record<string, boolean> = {}
+                              for (const def of HOME_SECTION_REGISTRY) vis[def.id] = true
+                              for (const row of city.pageSections || []) {
+                                if (row.id) vis[row.id] = row.visible !== false
+                              }
+                              setSectionVis(vis)
                             }}
                           >
                             Edit
@@ -188,10 +231,30 @@ export function AdminCitiesPage() {
                     </div>
                     {editing === city.slug ? (
                       <div className="mt-3 space-y-2 rounded-lg border border-slate-200 p-3">
-                        <input className="w-full rounded border border-slate-200 px-2 py-1" placeholder="Page title" value={title} onChange={(e) => setTitle(e.target.value)} />
-                        <input className="w-full rounded border border-slate-200 px-2 py-1" placeholder="H1" value={heading} onChange={(e) => setHeading(e.target.value)} />
-                        <textarea className="w-full rounded border border-slate-200 px-2 py-1" placeholder="Introductory copy" value={intro} onChange={(e) => setIntro(e.target.value)} />
+                        <input className="w-full rounded border border-slate-200 px-2 py-1" placeholder="SEO title" value={title} onChange={(e) => setTitle(e.target.value)} />
+                        <input className="w-full rounded border border-slate-200 px-2 py-1" placeholder="Hero eyebrow" value={eyebrow} onChange={(e) => setEyebrow(e.target.value)} />
+                        <input className="w-full rounded border border-slate-200 px-2 py-1" placeholder="Hero H1" value={heading} onChange={(e) => setHeading(e.target.value)} />
+                        <textarea className="w-full rounded border border-slate-200 px-2 py-1" placeholder="Hero description" value={intro} onChange={(e) => setIntro(e.target.value)} />
                         <textarea className="w-full rounded border border-slate-200 px-2 py-1" placeholder="Meta description" value={description} onChange={(e) => setDescription(e.target.value)} />
+                        <input className="w-full rounded border border-slate-200 px-2 py-1" placeholder="Dashboard branches (comma-separated)" value={dashboardCities} onChange={(e) => setDashboardCities(e.target.value)} />
+                        <input className="w-full rounded border border-slate-200 px-2 py-1" placeholder="Dashboard sample labels (comma-separated)" value={dashboardCompanies} onChange={(e) => setDashboardCompanies(e.target.value)} />
+                        <input className="w-full rounded border border-slate-200 px-2 py-1" placeholder="Extra FAQ question" value={extraFaqQ} onChange={(e) => setExtraFaqQ(e.target.value)} />
+                        <textarea className="w-full rounded border border-slate-200 px-2 py-1" placeholder="Extra FAQ answer" value={extraFaqA} onChange={(e) => setExtraFaqA(e.target.value)} />
+                        <fieldset className="rounded border border-slate-200 p-2">
+                          <legend className="px-1 text-xs font-semibold text-slate-600">Homepage sections (blank inherits Pakistan defaults)</legend>
+                          <div className="grid gap-1 sm:grid-cols-2">
+                            {HOME_SECTION_REGISTRY.map((def) => (
+                              <label key={def.id} className="flex items-center gap-2 text-xs">
+                                <input
+                                  type="checkbox"
+                                  checked={sectionVis[def.id] !== false}
+                                  onChange={(e) => setSectionVis((prev) => ({ ...prev, [def.id]: e.target.checked }))}
+                                />
+                                {def.label}
+                              </label>
+                            ))}
+                          </div>
+                        </fieldset>
                         <div className="flex gap-2">
                           <button type="button" className="rounded bg-slate-900 px-3 py-1 text-xs font-semibold text-white" onClick={() => void saveEdits(city.slug)}>
                             Save

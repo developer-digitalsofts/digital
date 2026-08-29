@@ -9,10 +9,9 @@ import { parseLocalePath } from './seoPaths.mjs'
 import { resolveSeoForPath, PUBLIC_SITE_BASE } from './seoResolve.mjs'
 import { uaeSoftwarePaths } from './seoRouteCatalog.mjs'
 import { developersPageCopy } from './agenticDevelopersContent.mjs'
-import { resolveCityContent } from './cityLocaleApi.mjs'
-import { buildCityPagePayload } from './cityContentBuilder.mjs'
 import { getCity } from './cityRegistry.mjs'
-import { servingBusinessesIn } from './pakistanConfig.mjs'
+import { servingBusinessesIn, buildCityAwarePath } from './pakistanConfig.mjs'
+import { buildCityHomepagePayload } from './cityHomepage.mjs'
 
 async function loadLocaleSoftwareDetailSeo(deps, countryCode, lang, kind, slug) {
   const contentType = kind === 'module' ? 'solution' : 'industry'
@@ -120,15 +119,22 @@ export async function loadAgenticPageContent(deps, pathname, routeInfo) {
   }
 
   if (kind === 'contact') {
+    const city = routeInfo?.citySlug ? getCity(routeInfo.citySlug) : null
+    const contactSettings = city
+      ? { ...siteSettings, officeAddress: { en: servingBusinessesIn(city.name.en) } }
+      : siteSettings
     return {
       ...base,
       pageType: 'contact',
-      title: lang === 'ar' ? 'اتصل بنا' : 'Contact DigitalManager',
-      description:
-        lang === 'ar'
+      title: city ? `Contact DigitalManager — ${city.name.en}` : lang === 'ar' ? 'اتصل بنا' : 'Contact DigitalManager',
+      description: city
+        ? `${servingBusinessesIn(city.name.en)}. Contact DigitalManager for demos, support, and business enquiries.`
+        : lang === 'ar'
           ? 'تواصل مع فريق DigitalManager للعروض التوضيحية والدعم والاستفسارات.'
           : 'Contact the DigitalManager team for demos, support, and business enquiries.',
-      siteSettings,
+      siteSettings: contactSettings,
+      cityName: city?.name?.en,
+      citySlug: routeInfo?.citySlug,
     }
   }
 
@@ -225,36 +231,37 @@ export async function loadAgenticPageContent(deps, pathname, routeInfo) {
 
   if ((kind === 'city-home' || kind === 'city-page') && routeInfo?.citySlug) {
     const city = getCity(routeInfo.citySlug)
-    const pageSlug = routeInfo.pageSlug || 'home'
-    const full = await resolveCityContent(deps, {
-      citySlug: routeInfo.citySlug,
-      pageSlug,
-      countryCode: 'PK',
-      lang,
-      context: 'public',
-    }).catch(() => null)
-    const payload = full?.publicView || buildCityPagePayload(routeInfo.citySlug, pageSlug === 'home' || pageSlug ? pageSlug : 'home')
-    const title =
-      readBilingualText(payload.heading, lang) ||
-      readBilingualText(payload.title, lang) ||
-      (city ? `${city.name.en} Cloud ERP` : 'DigitalManager Pakistan')
-    const description =
-      readBilingualText(payload.shortDescription, lang) ||
-      (city ? servingBusinessesIn(city.name.en) : '')
-    const bodyHtml =
-      payload.sections
-        ?.filter((s) => s.type === 'richText')
-        .map((s) => readBilingualText(s.content?.html, lang))
-        .join(' ') || description
+    const cityHome = await buildCityHomepagePayload(
+      {
+        loadPublishedHomepagePayload: deps.loadPublishedHomepagePayload,
+        localePublish: deps.localePublish,
+      },
+      routeInfo.citySlug,
+    )
+    const cityName = city?.name?.en || routeInfo.citySlug
+    const serviceArea = servingBusinessesIn(cityName)
     return {
       ...base,
       pageType: 'city-home',
-      title,
-      description,
-      cityName: city?.name?.en || routeInfo.citySlug,
-      serviceArea: city ? servingBusinessesIn(city.name.en) : '',
-      bodyHtml,
-      payload,
+      title: pickLang(cityHome.hero, lang, 'title') || pickLang(cityHome.seo, lang, 'pageTitle') || `${cityName} Cloud ERP`,
+      description:
+        pickLang(cityHome.hero, lang, 'body') ||
+        pickLang(cityHome.hero, lang, 'sub') ||
+        pickLang(cityHome.seo, lang, 'metaDescription') ||
+        serviceArea,
+      hero: cityHome.hero || {},
+      about: cityHome.about || {},
+      stats: cityHome.stats || {},
+      modules: cityHome.modules || {},
+      industries: cityHome.industries || {},
+      footer: cityHome.footer || {},
+      header: cityHome.header || {},
+      navigation: cityHome.navigation || {},
+      faqs: cityHome.faqs || {},
+      siteSettings: cityHome.siteSettings || siteSettings,
+      cityName,
+      citySlug: routeInfo.citySlug,
+      serviceArea,
     }
   }
 
@@ -310,6 +317,14 @@ export function navigationLinksFromContent(content, lang) {
       { label: lang === 'ar' ? 'اتصل' : 'Contact', href: '/contact' },
       { label: lang === 'ar' ? 'المدونة' : 'Blog', href: '/blog' },
     )
+  }
+  const citySlug = content.citySlug
+  if (citySlug) {
+    for (const link of links) {
+      if (typeof link.href === 'string' && link.href.startsWith('/')) {
+        link.href = buildCityAwarePath(citySlug, link.href)
+      }
+    }
   }
   links.push(
     { label: lang === 'ar' ? 'DigitalManager للمطورين' : 'DigitalManager Developers', href: '/developers' },

@@ -11,7 +11,14 @@ import {
   isKnownCityProductSlug,
   isValidCityForCountry,
 } from './cityRegistry.mjs'
-import { MARKET_CODE, MARKET_SLUG, buildCityHomePath, buildCitySoftwarePath } from './pakistanConfig.mjs'
+import {
+  MARKET_CODE,
+  MARKET_SLUG,
+  buildCityAwarePath,
+  buildCityHomePath,
+  buildCitySoftwarePath,
+  isCitySitePageSlug,
+} from './pakistanConfig.mjs'
 
 export { CITY_PAGE_SLUG, CITY_HOME_SLUG }
 
@@ -34,7 +41,9 @@ function emptyParse(path) {
     isCityPage: false,
     isCityHome: false,
     isCitySoftware: false,
+    isCitySitePage: false,
     isLegacyCityProduct: false,
+    sitePath: null,
     restPath: path,
     hasLocalePrefix: false,
   }
@@ -61,7 +70,9 @@ export function parseCityPagePath(pathname) {
       isCityPage: true,
       isCityHome: true,
       isCitySoftware: false,
+      isCitySitePage: false,
       isLegacyCityProduct: false,
+      sitePath: '/',
       restPath: path,
       hasLocalePrefix: false,
       internalPath: buildCityHomePath(citySlug),
@@ -80,10 +91,54 @@ export function parseCityPagePath(pathname) {
       isCityPage: true,
       isCityHome: false,
       isCitySoftware: true,
+      isCitySitePage: false,
       isLegacyCityProduct: false,
+      sitePath: softwarePath,
       restPath: path,
       hasLocalePrefix: false,
       internalPath: `/${citySlug}${softwarePath}`,
+    }
+  }
+
+  if (parts[1] === 'industries' && parts.length <= 3) {
+    const sitePath = `/${parts.slice(1).join('/')}`
+    return {
+      country: MARKET_SLUG,
+      lang: 'en',
+      countryCode: MARKET_CODE,
+      citySlug,
+      pageSlug: parts.slice(1).join('/'),
+      softwarePath: parts[2] ? `/software/industry/${parts[2]}` : null,
+      isCityPage: true,
+      isCityHome: false,
+      isCitySoftware: false,
+      isCitySitePage: true,
+      isLegacyCityProduct: false,
+      sitePath,
+      restPath: path,
+      hasLocalePrefix: false,
+      internalPath: `/${citySlug}${sitePath}`,
+    }
+  }
+
+  if (parts.length === 2 && isCitySitePageSlug(parts[1])) {
+    const sitePath = `/${parts[1]}`
+    return {
+      country: MARKET_SLUG,
+      lang: 'en',
+      countryCode: MARKET_CODE,
+      citySlug,
+      pageSlug: parts[1],
+      softwarePath: null,
+      isCityPage: true,
+      isCityHome: false,
+      isCitySoftware: false,
+      isCitySitePage: true,
+      isLegacyCityProduct: false,
+      sitePath,
+      restPath: path,
+      hasLocalePrefix: false,
+      internalPath: `/${citySlug}${sitePath}`,
     }
   }
 
@@ -98,7 +153,9 @@ export function parseCityPagePath(pathname) {
       isCityPage: true,
       isCityHome: false,
       isCitySoftware: false,
+      isCitySitePage: false,
       isLegacyCityProduct: true,
+      sitePath: `/software/${parts[1].toLowerCase()}`,
       restPath: path,
       hasLocalePrefix: false,
       redirectTo: buildCitySoftwarePath(citySlug, parts[1]),

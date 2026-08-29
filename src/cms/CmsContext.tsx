@@ -5,6 +5,7 @@ import { normalizeHomepagePayload, unknownHomeSectionIds, type NormalizedHomepag
 import type { HomepagePayload } from './types'
 import { parseLocalePath } from '../locale/localePaths'
 import { countrySlugToCode } from '../locale/localeConfig'
+import { useOptionalCity } from '../locale/CityContext'
 
 type CmsState = {
   data: NormalizedHomepagePayload | null
@@ -24,8 +25,10 @@ const CmsContext = createContext<CmsState | null>(null)
 export function CmsProvider({ children }: { children: ReactNode }) {
   const location = useLocation()
   const parsed = useMemo(() => parseLocalePath(location.pathname), [location.pathname])
+  const city = useOptionalCity()
   const countryCode = countrySlugToCode(parsed.country)
   const lang = parsed.lang
+  const citySlug = city?.citySlug || null
 
   const [data, setData] = useState<NormalizedHomepagePayload | null>(null)
   const [localeMeta, setLocaleMeta] = useState<CmsState['localeMeta']>(null)
@@ -51,6 +54,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
       bustCache: bust,
       countryCode,
       lang,
+      citySlug,
     })
       .then((payload) => {
         if (cancelled) return
@@ -111,7 +115,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true
     }
-  }, [tick, countryCode, lang])
+  }, [tick, countryCode, lang, citySlug])
 
   // Refetch when the tab becomes visible again (e.g. after publishing in admin).
   useEffect(() => {

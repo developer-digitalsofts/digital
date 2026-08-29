@@ -41,7 +41,13 @@ import { AdminCountriesPage } from './admin/AdminCountriesPage'
 import { AdminCountrySetupPage } from './admin/AdminCountrySetupPage'
 import { AdminCitiesPage } from './admin/AdminCitiesPage'
 import { ErpLocalePage, SolutionsLocalePage, BusinessModelsLocalePage, FaqsLocalePage } from './pages/LocaleSlugPage'
-import { CityHomeOrCmsGuard, CityLegacyProductGuard, CitySoftwareGuard } from './routes/CityPageGuard'
+import {
+  CityHomeOrCmsGuard,
+  CityIndustryGuard,
+  CityLegacyProductGuard,
+  CitySitePageGuard,
+  CitySoftwareGuard,
+} from './routes/CityPageGuard'
 import { NotFoundPage } from './pages/NotFoundPage'
 
 export default function App() {
@@ -128,6 +134,8 @@ export default function App() {
         <Route path="software/:kind/:slug" element={<SoftwarePage />} />
         <Route path=":citySlug/software/:kind/:slug" element={<CitySoftwareGuard />} />
         <Route path=":citySlug/software/:flatSlug" element={<CitySoftwareGuard />} />
+        <Route path=":citySlug/industries/:industrySlug" element={<CityIndustryGuard />} />
+        <Route path=":citySlug/industries" element={<CitySitePageGuard />} />
         <Route path=":citySlug/:pageSlug" element={<CityLegacyProductGuard />} />
         <Route path=":citySlug" element={<CityHomeOrCmsGuard />} />
         <Route path="*" element={<NotFoundPage />} />

@@ -16,6 +16,7 @@ import { pick } from '../cms/pick'
 import { isTopBarVisibleFromSections, parsePageSections } from '../cms/pageSections'
 import type { CmsHeader, CmsHeaderNavLink } from '../cms/types'
 import { useLocale } from '../locale/LocaleContext'
+import { useCity } from '../locale/CityContext'
 import { CitySelector } from './CitySelector'
 import './header-layout.css'
 
@@ -114,11 +115,16 @@ type HeaderProps = {
 export function Header({ onOpenSearch }: HeaderProps) {
   const { lang, t, toggleLang } = useI18n()
   const { href: localeHref } = useLocale()
-  const homeHref = localeHref('/')
-  const contactHref = localeHref('/contact')
+  const { cityHref } = useCity()
+  const resolveHref = useCallback(
+    (path: string) => cityHref(localeHref(path)),
+    [cityHref, localeHref],
+  )
+  const homeHref = resolveHref('/')
+  const contactHref = resolveHref('/contact')
   const localNavHref = useCallback(
-    (path: string) => (/^https?:\/\//i.test(path.trim()) ? path.trim() : localeHref(path.trim())),
-    [localeHref],
+    (path: string) => (/^https?:\/\//i.test(path.trim()) ? path.trim() : resolveHref(path.trim())),
+    [resolveHref],
   )
   const { data } = useCms()
   const header = data?.header as CmsHeader | undefined
@@ -554,7 +560,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                           {moduleMegaItems.map((item) => (
                             <li key={item.slug}>
                               <Link
-                                to={localeHref(item.to)}
+                                to={resolveHref(item.to)}
                                 className="group flex items-center gap-3 px-3 py-3 text-sm font-bold text-slate-800 transition-colors hover:bg-[#fff7f3] hover:text-brand"
                                 onClick={closeMobile}
                               >
@@ -618,7 +624,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                                   {cat.links.map((link) => (
                                     <li key={link.slug}>
                                       <Link
-                                        to={localeHref(link.to)}
+                                        to={resolveHref(link.to)}
                                         className="flex items-center justify-between px-4 py-2.5 ps-12 text-[13px] font-medium text-slate-700 transition-colors hover:bg-[#fff7f3] hover:text-brand"
                                         onClick={closeMobile}
                                       >

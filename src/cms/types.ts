@@ -85,12 +85,15 @@ export type HomepagePayload = {
     footerColumns?: Record<string, FooterNavLink[]>
     pages?: { id: string; slug: string; title?: Bilingual; headerEnabled?: boolean; footerEnabled?: boolean }[]
   }
+  city?: { slug: string; name: string; serviceArea: string }
+  regional?: { currency?: string; cities?: string[]; companies?: string[] }
   meta?: {
     slug?: string
     status?: string
     schemaVersion?: number
     updatedAt?: string | null
     publishedAt?: string | null
+    locale?: Record<string, unknown>
   }
 }
 

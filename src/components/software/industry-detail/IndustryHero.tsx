@@ -3,6 +3,7 @@ import { Check, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useI18n } from '../../../i18n/I18nProvider'
 import { useLocale } from '../../../locale/LocaleContext'
+import { useOptionalCity } from '../../../locale/CityContext'
 import { CmsLink } from '../../CmsLink'
 import type { IndustryHeroModel } from '../../../types/industryDetailPage'
 import { IndustryHeroMedia } from './IndustryHeroMedia'
@@ -16,7 +17,8 @@ type Props = {
 export function IndustryHero({ model, breadcrumb, slug }: Props) {
   const { lang } = useI18n()
   const { href: localeHref } = useLocale()
-  const homeHref = localeHref('/')
+  const city = useOptionalCity()
+  const homeHref = city?.cityHref(localeHref('/')) || localeHref('/')
   const ChevronFwd = lang === 'ar' ? ChevronLeft : ChevronRight
   const [introOpen, setIntroOpen] = useState(false)
 

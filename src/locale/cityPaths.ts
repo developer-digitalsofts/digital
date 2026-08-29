@@ -7,11 +7,14 @@ import {
   CITY_HOME_SLUG,
   CITY_PRODUCT_LABELS,
   CITY_PRODUCT_PAGE_SLUGS,
+  CITY_SITE_PAGE_SLUGS,
   PK_CITY_NAMES,
   PK_CITY_SLUGS,
+  buildCityAwarePath,
   buildCityHomePath,
   buildCitySoftwarePath,
   isCityProductPageSlug,
+  isCitySitePageSlug,
   isPkCitySlug,
   MARKET_CODE,
   MARKET_SLUG,
@@ -32,7 +35,16 @@ export function getCityDisplayName(citySlug: string, _lang: 'en' | 'ar' = 'en'):
 
 export const CITY_PAGE_SLUG = CITY_HOME_SLUG
 
-export { CITY_HOME_SLUG, CITY_PRODUCT_PAGE_SLUGS, CITY_PRODUCT_LABELS, buildCityHomePath, buildCitySoftwarePath }
+export {
+  CITY_HOME_SLUG,
+  CITY_PRODUCT_PAGE_SLUGS,
+  CITY_PRODUCT_LABELS,
+  CITY_SITE_PAGE_SLUGS,
+  buildCityAwarePath,
+  buildCityHomePath,
+  buildCitySoftwarePath,
+  isCitySitePageSlug,
+}
 
 export const CITY_SLUGS_BY_COUNTRY: Record<string, string[]> = {
   PK: [...PK_CITY_SLUGS],
@@ -56,7 +68,9 @@ export type ParsedCityPath = {
   isCityPage: boolean
   isCityHome: boolean
   isCitySoftware: boolean
+  isCitySitePage: boolean
   isLegacyCityProduct: boolean
+  sitePath: string | null
   redirectTo?: string
   unknownCityPath?: boolean
   restPath: string
@@ -74,7 +88,9 @@ function emptyParse(path: string): ParsedCityPath {
     isCityPage: false,
     isCityHome: false,
     isCitySoftware: false,
+    isCitySitePage: false,
     isLegacyCityProduct: false,
+    sitePath: null,
     restPath: path,
     hasLocalePrefix: false,
   }
@@ -113,7 +129,9 @@ export function parseCityPagePath(pathname: string): ParsedCityPath {
       isCityPage: true,
       isCityHome: true,
       isCitySoftware: false,
+      isCitySitePage: false,
       isLegacyCityProduct: false,
+      sitePath: '/',
       restPath: path,
       hasLocalePrefix: false,
     }
@@ -131,7 +149,49 @@ export function parseCityPagePath(pathname: string): ParsedCityPath {
       isCityPage: true,
       isCityHome: false,
       isCitySoftware: true,
+      isCitySitePage: false,
       isLegacyCityProduct: false,
+      sitePath: softwarePath,
+      restPath: path,
+      hasLocalePrefix: false,
+    }
+  }
+
+  if (parts[1] === 'industries' && parts.length <= 3) {
+    const sitePath = `/${parts.slice(1).join('/')}`
+    return {
+      country: MARKET_SLUG as LocaleCountrySlug,
+      lang: 'en',
+      countryCode: MARKET_CODE,
+      citySlug,
+      pageSlug: parts.slice(1).join('/'),
+      softwarePath: parts[2] ? `/software/industry/${parts[2]}` : null,
+      isCityPage: true,
+      isCityHome: false,
+      isCitySoftware: false,
+      isCitySitePage: true,
+      isLegacyCityProduct: false,
+      sitePath,
+      restPath: path,
+      hasLocalePrefix: false,
+    }
+  }
+
+  if (parts.length === 2 && isCitySitePageSlug(parts[1])) {
+    const sitePath = `/${parts[1]}`
+    return {
+      country: MARKET_SLUG as LocaleCountrySlug,
+      lang: 'en',
+      countryCode: MARKET_CODE,
+      citySlug,
+      pageSlug: parts[1],
+      softwarePath: null,
+      isCityPage: true,
+      isCityHome: false,
+      isCitySoftware: false,
+      isCitySitePage: true,
+      isLegacyCityProduct: false,
+      sitePath,
       restPath: path,
       hasLocalePrefix: false,
     }
@@ -148,7 +208,9 @@ export function parseCityPagePath(pathname: string): ParsedCityPath {
       isCityPage: true,
       isCityHome: false,
       isCitySoftware: false,
+      isCitySitePage: false,
       isLegacyCityProduct: true,
+      sitePath: `/software/${parts[1].toLowerCase()}`,
       redirectTo: buildCitySoftwarePath(citySlug, parts[1]),
       restPath: path,
       hasLocalePrefix: false,

@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useLocale } from '../locale/LocaleContext'
+import { useOptionalCity } from '../locale/CityContext'
 
 type Props = {
   to: string
@@ -21,6 +22,11 @@ function isExternalPath(path: string) {
 export function CmsLink({ to, className, children, onClick }: Props) {
   const navigate = useNavigate()
   const { href: localeHref } = useLocale()
+  const city = useOptionalCity()
+  const resolveHref = (path: string) => {
+    const localized = localeHref(path)
+    return city?.cityHref(localized) || localized
+  }
 
   if (isExternalPath(to)) {
     const external = /^https?:/i.test(to)
@@ -40,7 +46,7 @@ export function CmsLink({ to, className, children, onClick }: Props) {
   if (hashIndex >= 0) {
     const path = to.slice(0, hashIndex) || '/'
     const hash = to.slice(hashIndex)
-    const localized = localeHref(path)
+    const localized = resolveHref(path)
     return (
       <a
         href={`${localized}${hash}`}
@@ -57,7 +63,7 @@ export function CmsLink({ to, className, children, onClick }: Props) {
     )
   }
 
-  const localized = localeHref(to.startsWith('/') ? to : `/${to}`)
+  const localized = resolveHref(to.startsWith('/') ? to : `/${to}`)
   return (
     <Link to={localized} className={className} onClick={onClick}>
       {children}

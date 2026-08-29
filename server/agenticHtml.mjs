@@ -56,6 +56,9 @@ function buildOrganizationJsonLd(content) {
       addressCountry: content.countryCode || MARKET_CODE,
     },
   }
+  if (content.cityName) {
+    org.areaServed = { '@type': 'City', name: content.cityName }
+  }
   if (sameAs.length) org.sameAs = sameAs
   else {
     org.sameAs = [
@@ -277,7 +280,7 @@ function renderHomeBody(content) {
         ${site.phoneDisplay ? `<p>${lang === 'ar' ? 'الهاتف' : 'Phone'}: <a href="${escapeHtml(site.phoneHref || '#')}">${escapeHtml(site.phoneDisplay)}</a></p>` : ''}
         ${site.primaryEmail ? `<p>${lang === 'ar' ? 'البريد' : 'Email'}: <a href="mailto:${escapeHtml(site.primaryEmail)}">${escapeHtml(site.primaryEmail)}</a></p>` : ''}
         ${readBilingualText(site.officeAddress, lang) ? `<p>${textBlock(readBilingualText(site.officeAddress, lang))}</p>` : ''}
-        <p><a href="/contact">${lang === 'ar' ? 'صفحة الاتصال' : 'Contact page'}</a></p>
+        <p><a href="${escapeHtml(content.citySlug ? `/${content.citySlug}/contact` : '/contact')}">${lang === 'ar' ? 'صفحة الاتصال' : 'Contact page'}</a></p>
       </section>
       <section>
         <h2>${lang === 'ar' ? 'DigitalManager — موارد المطورين' : 'DigitalManager developer resources'}</h2>
@@ -432,18 +435,7 @@ function renderSoftwareBody(content) {
 }
 
 function renderCityHomeBody(content) {
-  const city = content.cityName || 'Pakistan'
-  const service = content.serviceArea || `Serving businesses in ${city}`
-  const body = content.bodyHtml || content.description || ''
-  return `
-    <article class="agentic-prerender" data-agentic-prerender="true">
-      <h1>${escapeHtml(content.title)}</h1>
-      <p>${textBlock(content.description)}</p>
-      <p>${escapeHtml(service)}</p>
-      <div>${body}</div>
-      <p>DigitalManager is cloud ERP for finance, inventory, POS, payroll and multi-branch operations on PKR books. ${escapeHtml(service)}. We do not invent a local office address for ${escapeHtml(city)} unless the company operates one there. Book a demo to see finance, stock and branch reporting configured for Pakistan.</p>
-      <p><a href="/contact">Book a ${escapeHtml(city)} demo</a> · <a href="/">Pakistan homepage</a></p>
-    </article>`
+  return renderHomeBody(content)
 }
 
 function renderGenericBody(content) {

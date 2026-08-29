@@ -3,9 +3,9 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import {
   PK_CITY_NAMES,
   PK_CITY_SLUGS,
-  buildCityHomePath,
-  buildCitySoftwarePath,
+  buildCityAwarePath,
   servingBusinessesIn,
+  stripCityAwarePrefix,
   type PkCitySlug,
 } from '../market/pakistanConfig'
 import { parseCityPagePath } from './cityPaths'
@@ -23,14 +23,6 @@ type CityContextValue = {
 
 const CityContext = createContext<CityContextValue | null>(null)
 
-function stripCityPrefix(pathname: string): string {
-  const parsed = parseCityPagePath(pathname)
-  if (parsed.isCitySoftware && parsed.softwarePath) return parsed.softwarePath
-  if (parsed.isCityHome) return '/'
-  if (parsed.isLegacyCityProduct && parsed.softwarePath) return parsed.softwarePath
-  return pathname.startsWith('/') ? pathname : `/${pathname}`
-}
-
 export function CityProvider({ children }: { children: ReactNode }) {
   const location = useLocation()
   const navigate = useNavigate()
@@ -45,14 +37,14 @@ export function CityProvider({ children }: { children: ReactNode }) {
 
   const setCity = useCallback(
     (next: PkCitySlug | null) => {
-      const rest = stripCityPrefix(location.pathname)
+      const rest = stripCityAwarePrefix(location.pathname)
       if (!next) {
         clearCityPref()
-        navigate(rest === '/' ? '/' : rest)
+        navigate(rest || '/')
         return
       }
       writeCityPref({ citySlug: next, manual: true })
-      navigate(rest === '/' ? buildCityHomePath(next) : buildCitySoftwarePath(next, rest))
+      navigate(buildCityAwarePath(next, rest || '/'))
     },
     [location.pathname, navigate],
   )
@@ -60,7 +52,7 @@ export function CityProvider({ children }: { children: ReactNode }) {
   const cityHref = useCallback(
     (internalPath: string) => {
       if (!urlCity) return internalPath.startsWith('/') ? internalPath : `/${internalPath}`
-      return buildCitySoftwarePath(urlCity, internalPath)
+      return buildCityAwarePath(urlCity, internalPath)
     },
     [urlCity],
   )

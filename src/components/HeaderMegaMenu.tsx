@@ -6,6 +6,7 @@ import type { MegaMenusCmsDoc, ResolvedMegaMenuPanel } from '../cms/megaMenuType
 import { resolvePublishedMegaMenuPanel } from '../data/resolvePublishedMegaMenus'
 import { useI18n } from '../i18n/I18nProvider'
 import { useLocale } from '../locale/LocaleContext'
+import { useOptionalCity } from '../locale/CityContext'
 import './header-mega-menu.css'
 
 type MegaMenuPanelProps = {
@@ -17,6 +18,8 @@ type MegaMenuPanelProps = {
 function MegaMenuPanel({ panel, ariaLabel, onPick }: MegaMenuPanelProps) {
   const { lang } = useI18n()
   const { href: localeHref } = useLocale()
+  const city = useOptionalCity()
+  const toHref = (path: string) => city?.cityHref(localeHref(path)) || localeHref(path)
   const isRtl = lang === 'ar'
   const panelRef = useRef<HTMLElement>(null)
 
@@ -57,7 +60,7 @@ function MegaMenuPanel({ panel, ariaLabel, onPick }: MegaMenuPanelProps) {
             <ul className="dm-mega-menu__list">
               {column.items.map((item) => (
                 <li key={item.id}>
-                  <Link to={localeHref(item.to)} className="dm-mega-menu__item" onClick={onPick}>
+                  <Link to={toHref(item.to)} className="dm-mega-menu__item" onClick={onPick}>
                     {item.image ? (
                       <span className="dm-mega-menu__thumb">
                         <img src={item.image} alt={item.imageAlt} loading="lazy" decoding="async" />
@@ -84,10 +87,10 @@ function MegaMenuPanel({ panel, ariaLabel, onPick }: MegaMenuPanelProps) {
           {panel.footer.prompt}
         </p>
         <div className="dm-mega-menu__footer-actions">
-          <Link to={localeHref(panel.footer.linkHref)} className="dm-mega-menu__link-action" onClick={onPick}>
+          <Link to={toHref(panel.footer.linkHref)} className="dm-mega-menu__link-action" onClick={onPick}>
             {panel.footer.linkLabel}
           </Link>
-          <Link to={localeHref(panel.footer.buttonHref)} className="dm-mega-menu__button-action" onClick={onPick}>
+          <Link to={toHref(panel.footer.buttonHref)} className="dm-mega-menu__button-action" onClick={onPick}>
             {panel.footer.buttonLabel}
           </Link>
         </div>

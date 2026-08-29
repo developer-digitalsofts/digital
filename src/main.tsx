@@ -27,13 +27,13 @@ root.render(
     <BrowserRouter>
       <AdminToastProvider>
         <I18nProvider>
-          <CmsProvider>
-            <LocaleProvider>
-              <CityProvider>
+          <CityProvider>
+            <CmsProvider>
+              <LocaleProvider>
                 <App />
-              </CityProvider>
-            </LocaleProvider>
-          </CmsProvider>
+              </LocaleProvider>
+            </CmsProvider>
+          </CityProvider>
         </I18nProvider>
       </AdminToastProvider>
     </BrowserRouter>

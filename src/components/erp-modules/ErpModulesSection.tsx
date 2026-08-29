@@ -8,7 +8,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import type { ComponentType } from 'react'
-import { Link } from 'react-router-dom'
+import { CmsLink } from '../CmsLink'
 import { useCms } from '../../cms/CmsContext'
 import { resolveErpModulesHeader } from '../../cms/resolveHomepageCms'
 import { useI18n } from '../../i18n/I18nProvider'
@@ -119,7 +119,7 @@ export function ErpModulesSection() {
             const Preview = mod.Preview
             return (
               <ScrollReveal key={mod.key} delayMs={i * 45} className="erp-function-grid__cell">
-                <Link
+                <CmsLink
                   to={mod.href}
                   className={`erp-function-grid__card erp-function-grid__card--${mod.size}`}
                 >
@@ -133,7 +133,7 @@ export function ErpModulesSection() {
                     </div>
                   </div>
                   <Preview />
-                </Link>
+                </CmsLink>
               </ScrollReveal>
             )
           })}
