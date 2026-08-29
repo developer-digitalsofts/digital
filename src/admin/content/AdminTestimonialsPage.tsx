@@ -194,8 +194,8 @@ export function AdminTestimonialsPage() {
         </select>
         <select className="rounded-xl border border-slate-200 px-3 py-2 text-sm" value={countryFilter} onChange={(e) => setCountryFilter(e.target.value)}>
           <option value="all">All countries</option>
-          <option value="GCC">Shared GCC</option>
-          <option value="AE">UAE</option>
+          <option value="PK">Pakistan</option>
+          <option value="ALL">All markets</option>
           <option value="SA">Saudi Arabia</option>
           <option value="KW">Kuwait</option>
           <option value="QA">Qatar</option>
@@ -272,14 +272,9 @@ export function AdminTestimonialsPage() {
               <label className="text-sm">City<input className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" value={item.city || ''} onChange={(e) => updateItem(item.id, { city: e.target.value })} /></label>
               <label className="text-sm">
                 Country scope
-                <select className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" value={item.countryCode || 'GCC'} onChange={(e) => updateItem(item.id, { countryCode: e.target.value })}>
-                  <option value="GCC">Shared GCC</option>
-                  <option value="AE">UAE</option>
-                  <option value="SA">Saudi Arabia</option>
-                  <option value="KW">Kuwait</option>
-                  <option value="QA">Qatar</option>
-                  <option value="OM">Oman</option>
-                  <option value="BH">Bahrain</option>
+                <select className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" value={item.countryCode || 'PK'} onChange={(e) => updateItem(item.id, { countryCode: e.target.value })}>
+                  <option value="PK">Pakistan</option>
+                  <option value="ALL">All markets</option>
                 </select>
               </label>
               <label className="text-sm">
@@ -289,7 +284,7 @@ export function AdminTestimonialsPage() {
                   <option value="ar">Arabic</option>
                 </select>
               </label>
-              <label className="text-sm">Country label<input className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" value={item.country || ''} onChange={(e) => updateItem(item.id, { country: e.target.value })} placeholder="e.g. UAE" /></label>
+              <label className="text-sm">Country label<input className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" value={item.country || ''} onChange={(e) => updateItem(item.id, { country: e.target.value })} placeholder="e.g. Pakistan" /></label>
               <label className="text-sm">Rating (optional)<input type="number" min={1} max={5} className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" value={item.rating ?? ''} onChange={(e) => updateItem(item.id, { rating: e.target.value ? Number(e.target.value) : undefined })} /></label>
             </div>
             <AdminLayoutMediaField label="Client photo" value={item.image || ''} onChange={(image) => updateItem(item.id, { image })} />

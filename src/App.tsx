@@ -7,7 +7,6 @@ import { AboutPage } from './pages/AboutPage'
 import { PrivacyPage } from './pages/PrivacyPage'
 import { DevelopersPage } from './pages/DevelopersPage'
 import { SoftwarePage } from './pages/SoftwarePage'
-import { CmsPage } from './pages/CmsPage'
 import { AdminLogin } from './admin/AdminLogin'
 import { AdminLayout } from './admin/AdminLayout'
 import { AdminDashboard } from './admin/AdminDashboard'
@@ -42,7 +41,8 @@ import { AdminCountriesPage } from './admin/AdminCountriesPage'
 import { AdminCountrySetupPage } from './admin/AdminCountrySetupPage'
 import { AdminCitiesPage } from './admin/AdminCitiesPage'
 import { ErpLocalePage, SolutionsLocalePage, BusinessModelsLocalePage, FaqsLocalePage } from './pages/LocaleSlugPage'
-import { CityPageGuard } from './routes/CityPageGuard'
+import { CityHomeOrCmsGuard, CityLegacyProductGuard, CitySoftwareGuard } from './routes/CityPageGuard'
+import { NotFoundPage } from './pages/NotFoundPage'
 
 export default function App() {
   return (
@@ -126,9 +126,11 @@ export default function App() {
         <Route path="faqs" element={<FaqsLocalePage />} />
         <Route path="software/:flatSlug" element={<SoftwarePage />} />
         <Route path="software/:kind/:slug" element={<SoftwarePage />} />
-        {/* City product pages: /karachi/erp-software, /lahore/pos-software, … */}
-        <Route path=":citySlug/:pageSlug" element={<CityPageGuard />} />
-        <Route path=":slug" element={<CmsPage />} />
+        <Route path=":citySlug/software/:kind/:slug" element={<CitySoftwareGuard />} />
+        <Route path=":citySlug/software/:flatSlug" element={<CitySoftwareGuard />} />
+        <Route path=":citySlug/:pageSlug" element={<CityLegacyProductGuard />} />
+        <Route path=":citySlug" element={<CityHomeOrCmsGuard />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   )

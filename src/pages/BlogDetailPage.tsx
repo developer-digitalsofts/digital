@@ -210,7 +210,7 @@ export function BlogDetailPage() {
               <p className="blog-article__author-name">{post.author}</p>
               {post.authorRole ? <p className="blog-article__author-role">{post.authorRole}</p> : null}
               <p className="blog-article__author-bio">
-                DigitalManager publishes practical guidance on ERP, inventory, finance and multi-branch operations for growing businesses across the GCC.
+                DigitalManager publishes practical guidance on ERP, inventory, finance and multi-branch operations for growing businesses across Pakistan.
               </p>
             </aside>
           </div>

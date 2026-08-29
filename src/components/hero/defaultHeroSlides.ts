@@ -174,7 +174,7 @@ export function resolveAutoplayMs(hero: HeroCmsPayload | undefined) {
 }
 
 const DEFAULT_HERO_TRUST_POINTS = {
-  en: ['Secure Cloud ERP', 'UAE & GCC Ready', 'Multi-Branch Reporting'],
+  en: ['Secure Cloud ERP', 'Pakistan Ready', 'Multi-Branch Reporting'],
   ar: ['ERP سحابي آمن', 'جاهز للإمارات ودول الخليج', 'تقارير متعددة الفروع'],
 } as const
 

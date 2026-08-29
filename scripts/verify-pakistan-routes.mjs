@@ -4,7 +4,19 @@
  */
 const BASE = (process.env.BASE_URL || process.argv[2] || 'http://127.0.0.1:3040').replace(/\/$/, '')
 
-const CITIES = ['karachi', 'lahore', 'islamabad', 'rawalpindi', 'faisalabad', 'multan', 'peshawar', 'quetta']
+const CITIES = [
+  'karachi',
+  'lahore',
+  'islamabad',
+  'rawalpindi',
+  'faisalabad',
+  'multan',
+  'peshawar',
+  'quetta',
+  'hyderabad',
+  'sialkot',
+  'gujranwala',
+]
 const PRODUCTS = ['erp-software', 'pos-software', 'accounting-software']
 
 const results = []
@@ -54,24 +66,27 @@ async function main() {
   } else fail('Homepage API', String(settings.status))
 
   for (const city of CITIES) {
+    const homePath = `/${city}`
+    const home = await fetchRaw(`${BASE}${homePath}`, { Accept: 'text/html' })
+    if (home.status === 200) pass(`${homePath} HTTP 200`)
+    else fail(`${homePath} HTTP 200`, String(home.status))
+
+    const homeApi = await fetchRaw(`${BASE}/api/public/locale-content/city/${city}/home?country=PK&lang=en`)
+    if (homeApi.status === 200) {
+      try {
+        const json = JSON.parse(homeApi.text)
+        if (json?.page?.heading || json?.page?.title) pass(`${homePath} CMS content`)
+        else fail(`${homePath} CMS content`, 'missing title')
+      } catch {
+        fail(`${homePath} CMS parse`)
+      }
+    } else fail(`${homePath} CMS API`, String(homeApi.status))
+
     for (const product of PRODUCTS) {
-      const path = `/${city}/${product}`
+      const path = `/${city}/software/${product}`
       const res = await fetchRaw(`${BASE}${path}`, { Accept: 'text/html' })
       if (res.status === 200) pass(`${path} HTTP 200`)
       else fail(`${path} HTTP 200`, String(res.status))
-
-      const api = await fetchRaw(
-        `${BASE}/api/public/locale-content/city/${city}/${product}?country=PK&lang=en`,
-      )
-      if (api.status === 200) {
-        try {
-          const json = JSON.parse(api.text)
-          if (json?.page?.heading || json?.page?.title) pass(`${path} CMS content`)
-          else fail(`${path} CMS content`, 'missing title')
-        } catch {
-          fail(`${path} CMS parse`)
-        }
-      } else fail(`${path} CMS API`, String(api.status))
     }
   }
 

@@ -238,7 +238,7 @@ export function DetailSoftwareMockup({ variant, title }: Props) {
   const regional = useDashboardRegionalData()
   const mockups = useMemo(() => buildMockups(regional), [regional])
   const spec = mockups[variant] ?? mockups['generic-module']
-  const appUrl = regional.currency === 'AED' ? 'app.digitalmanager.ae' : `app.digitalmanager.${regional.currency === 'SAR' ? 'sa' : 'com'}`
+  const appUrl = regional.currency === 'PKR' ? 'app.digitalmanager.com.pk' : `app.digitalmanager.${regional.currency === 'SAR' ? 'sa' : 'com'}`
 
   return (
     <div className="accounts-proto-mockup" aria-hidden>

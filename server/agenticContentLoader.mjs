@@ -9,6 +9,10 @@ import { parseLocalePath } from './seoPaths.mjs'
 import { resolveSeoForPath, PUBLIC_SITE_BASE } from './seoResolve.mjs'
 import { uaeSoftwarePaths } from './seoRouteCatalog.mjs'
 import { developersPageCopy } from './agenticDevelopersContent.mjs'
+import { resolveCityContent } from './cityLocaleApi.mjs'
+import { buildCityPagePayload } from './cityContentBuilder.mjs'
+import { getCity } from './cityRegistry.mjs'
+import { servingBusinessesIn } from './pakistanConfig.mjs'
 
 async function loadLocaleSoftwareDetailSeo(deps, countryCode, lang, kind, slug) {
   const contentType = kind === 'module' ? 'solution' : 'industry'
@@ -44,7 +48,7 @@ function pickItemLang(item, lang, field) {
 
 export async function loadAgenticPageContent(deps, pathname, routeInfo) {
   const parsed = routeInfo?.locale || parseLocalePath(pathname)
-  const countryCode = normalizeCountryCode((parsed.country || 'ae').toUpperCase())
+  const countryCode = normalizeCountryCode((parsed.country || 'pk').toUpperCase())
   const lang = normalizeLocaleLang(parsed.lang || 'en')
   const restPath = routeInfo?.restPath || parsed.restPath || '/'
 
@@ -214,8 +218,58 @@ export async function loadAgenticPageContent(deps, pathname, routeInfo) {
         localeSeo?.description ||
         (lang === 'ar'
           ? 'حلول ERP سحابية مهيّأة لقطاعات الأعمال في دول الخليج.'
-          : 'Cloud ERP industry solutions for GCC businesses.'),
+          : 'Cloud ERP industry solutions for Pakistan businesses.'),
       softwarePath: `/software/industry/${slug}`,
+    }
+  }
+
+  if ((kind === 'city-home' || kind === 'city-page') && routeInfo?.citySlug) {
+    const city = getCity(routeInfo.citySlug)
+    const pageSlug = routeInfo.pageSlug || 'home'
+    const full = await resolveCityContent(deps, {
+      citySlug: routeInfo.citySlug,
+      pageSlug,
+      countryCode: 'PK',
+      lang,
+      context: 'public',
+    }).catch(() => null)
+    const payload = full?.publicView || buildCityPagePayload(routeInfo.citySlug, pageSlug === 'home' || pageSlug ? pageSlug : 'home')
+    const title =
+      readBilingualText(payload.heading, lang) ||
+      readBilingualText(payload.title, lang) ||
+      (city ? `${city.name.en} Cloud ERP` : 'DigitalManager Pakistan')
+    const description =
+      readBilingualText(payload.shortDescription, lang) ||
+      (city ? servingBusinessesIn(city.name.en) : '')
+    const bodyHtml =
+      payload.sections
+        ?.filter((s) => s.type === 'richText')
+        .map((s) => readBilingualText(s.content?.html, lang))
+        .join(' ') || description
+    return {
+      ...base,
+      pageType: 'city-home',
+      title,
+      description,
+      cityName: city?.name?.en || routeInfo.citySlug,
+      serviceArea: city ? servingBusinessesIn(city.name.en) : '',
+      bodyHtml,
+      payload,
+    }
+  }
+
+  if (kind === 'city-software' && routeInfo?.citySlug) {
+    const city = getCity(routeInfo.citySlug)
+    const cityName = city?.name?.en || routeInfo.citySlug
+    const softwareTitle = seo.title || 'DigitalManager Software'
+    const softwareDesc = seo.description || 'Cloud ERP modules for accounts, inventory, POS, payroll, and operations.'
+    return {
+      ...base,
+      pageType: 'software',
+      title: softwareTitle.includes(cityName) ? softwareTitle : `${softwareTitle} in ${cityName}`,
+      description: `${softwareDesc} ${servingBusinessesIn(cityName)}.`,
+      cityName,
+      softwarePath: routeInfo.softwarePath || restPath,
     }
   }
 

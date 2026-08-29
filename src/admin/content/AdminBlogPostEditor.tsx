@@ -54,7 +54,7 @@ export function AdminBlogPostEditor({ mode }: { mode: 'new' | 'edit' }) {
         updatedDate: new Date().toISOString(),
         status: 'draft',
         enabled: true,
-        countryCode: 'GCC',
+        countryCode: 'PK',
         languageCode: 'en',
         translationStatus: 'draft',
         faq: [],
@@ -178,14 +178,9 @@ export function AdminBlogPostEditor({ mode }: { mode: 'new' | 'edit' }) {
       <section className="grid gap-3 md:grid-cols-2">
         <label className="block text-sm">
           Country scope
-          <select className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" value={local.countryCode || 'GCC'} onChange={(e) => setLocal({ ...local, countryCode: e.target.value })}>
-            <option value="GCC">Shared GCC</option>
-            <option value="AE">UAE</option>
-            <option value="SA">Saudi Arabia</option>
-            <option value="KW">Kuwait</option>
-            <option value="QA">Qatar</option>
-            <option value="OM">Oman</option>
-            <option value="BH">Bahrain</option>
+          <select className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" value={local.countryCode || 'PK'} onChange={(e) => setLocal({ ...local, countryCode: e.target.value })}>
+            <option value="PK">Pakistan</option>
+            <option value="ALL">All markets</option>
           </select>
         </label>
         <label className="block text-sm">

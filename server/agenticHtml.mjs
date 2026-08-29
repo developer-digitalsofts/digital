@@ -5,6 +5,7 @@ import { readBilingualText } from './contentHelpers.mjs'
 import { getProfile } from './gccLocalizedContent/profiles.mjs'
 import { PUBLIC_SITE_BASE } from './seoResolve.mjs'
 import { navigationLinksFromContent } from './agenticContentLoader.mjs'
+import { PK_CONTACT_PLACEHOLDERS, MARKET_CODE } from './pakistanConfig.mjs'
 
 function escapeHtml(value) {
   return String(value ?? '')
@@ -31,7 +32,7 @@ function buildOrganizationJsonLd(content) {
   )
   const addressText =
     readBilingualText(site.officeAddress, content.lang) ||
-    'Dubai, United Arab Emirates'
+    PK_CONTACT_PLACEHOLDERS.officeAddress.en
   const org = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -45,14 +46,14 @@ function buildOrganizationJsonLd(content) {
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer support',
-      email: site.primaryEmail || 'info@digitalmanager.ae',
-      telephone: site.phoneDisplay || '+971 58 117 4911',
-      availableLanguage: ['English', 'Arabic'],
+      email: site.primaryEmail || PK_CONTACT_PLACEHOLDERS.primaryEmail,
+      telephone: site.phoneDisplay || PK_CONTACT_PLACEHOLDERS.phoneDisplay,
+      availableLanguage: ['English'],
     },
     address: {
       '@type': 'PostalAddress',
       streetAddress: addressText,
-      addressCountry: content.countryCode || 'AE',
+      addressCountry: content.countryCode || MARKET_CODE,
     },
   }
   if (sameAs.length) org.sameAs = sameAs
@@ -67,7 +68,7 @@ function buildOrganizationJsonLd(content) {
 
 function buildSoftwareApplicationJsonLd(content) {
   const site = content.siteSettings || {}
-  const profile = getProfile(content.countryCode || 'AE')
+  const profile = getProfile(content.countryCode || MARKET_CODE)
   return {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
@@ -93,7 +94,7 @@ function buildSoftwareApplicationJsonLd(content) {
       'Retail POS and branch operations',
       'Payroll and HRM',
       'CRM and customer operations',
-      'Multi-branch GCC localization',
+      'Multi-branch Pakistan localization',
     ],
   }
 }
@@ -345,7 +346,7 @@ function renderPrivacyBody(content) {
           ['حماية البيانات', 'نطبق ضوابط عملية لحماية معلومات التواصل ونحدّ من الوصول إلى البيانات داخل فريقنا.'],
           ['ملفات تعريف الارتباط', 'قد يستخدم الموقع ملفات تعريف الارتباط الأساسية وتحليلات متوافقة مع إعدادات المتصفح لتحسين تجربة التصفح.'],
           ['حقوقك', 'يمكنك طلب الوصول إلى معلومات التواصل التي قدمتها أو تصحيحها عبر التواصل معنا على البريد أدناه.'],
-          ['التواصل', `لأسئلة الخصوصية، راسل ${site.primaryEmail || 'info@digitalmanager.ae'}.`],
+          ['التواصل', `لأسئلة الخصوصية، راسل ${site.primaryEmail || PK_CONTACT_PLACEHOLDERS.primaryEmail}.`],
         ]
       : [
           ['Information we collect', 'We collect contact details you submit through website forms — such as name, email, phone, and company — to process demo requests and enquiries.'],
@@ -353,7 +354,7 @@ function renderPrivacyBody(content) {
           ['Data protection', 'We apply practical controls to protect contact information and limit internal access to submitted data.'],
           ['Cookies', 'The site may use essential cookies and privacy-conscious analytics compatible with browser settings to improve browsing experience.'],
           ['Your choices', 'You may request access to or correction of contact information you have submitted by contacting us using the email below.'],
-          ['Contact', `For privacy questions, email ${site.primaryEmail || 'info@digitalmanager.ae'}.`],
+          ['Contact', `For privacy questions, email ${site.primaryEmail || PK_CONTACT_PLACEHOLDERS.primaryEmail}.`],
         ]
 
   return `
@@ -398,14 +399,14 @@ function renderSoftwareBody(content) {
           'تتبع الفرص والعروض والمتابعات',
           'تكامل مع الحسابات والمخزون ونقطة البيع',
           'تقارير أداء الفريق والفروع',
-          'دعم متعدد الفروع في دول الخليج',
+          'دعم متعدد الفروع في باكستان',
         ]
       : [
           'Customer and sales relationship management',
           'Lead, quote, and follow-up tracking',
           'Integration with accounts, inventory, and POS',
           'Branch and team performance reporting',
-          'Multi-branch GCC localization support',
+          'Multi-branch Pakistan localization support',
         ]
   const featureHtml = features.map((f) => `<li>${escapeHtml(f)}</li>`).join('\n          ')
   return `
@@ -418,7 +419,7 @@ function renderSoftwareBody(content) {
       </section>
       <section>
         <h2>${lang === 'ar' ? 'لماذا DigitalManager' : 'Why DigitalManager'}</h2>
-        <p>${lang === 'ar' ? 'DigitalManager منصة ERP سحابية للحسابات والمخزون ونقطة البيع والرواتب والعمليات متعددة الفروع — مع وحدات برمجية متخصصة لقطاعات الأعمال في دول الخليج.' : 'DigitalManager is a cloud ERP platform for accounts, inventory, POS, payroll, and multi-branch operations — with specialized software modules for GCC industries.'}</p>
+        <p>${lang === 'ar' ? 'DigitalManager منصة ERP سحابية للحسابات والمخزون ونقطة البيع والرواتب والعمليات متعددة الفروع — مع وحدات برمجية متخصصة لقطاعات الأعمال في باكستان.' : 'DigitalManager is a cloud ERP platform for accounts, inventory, POS, payroll, and multi-branch operations — with specialized software modules for Pakistan industries.'}</p>
         <p>${lang === 'ar' ? 'اطلب عرضاً توضيحياً لمناقشة متطلباتك وتكامل هذه الوحدة مع باقي عملياتك.' : 'Request a demo to discuss your requirements and how this module integrates with your broader ERP operations.'}</p>
       </section>
       <section>
@@ -427,6 +428,21 @@ function renderSoftwareBody(content) {
         ${site.primaryEmail ? `<p>${lang === 'ar' ? 'البريد' : 'Email'}: ${escapeHtml(site.primaryEmail)}</p>` : ''}
         <p><a href="/contact">${lang === 'ar' ? 'صفحة الاتصال' : 'Contact page'}</a> · <a href="/">${lang === 'ar' ? 'الرئيسية' : 'Homepage'}</a></p>
       </section>
+    </article>`
+}
+
+function renderCityHomeBody(content) {
+  const city = content.cityName || 'Pakistan'
+  const service = content.serviceArea || `Serving businesses in ${city}`
+  const body = content.bodyHtml || content.description || ''
+  return `
+    <article class="agentic-prerender" data-agentic-prerender="true">
+      <h1>${escapeHtml(content.title)}</h1>
+      <p>${textBlock(content.description)}</p>
+      <p>${escapeHtml(service)}</p>
+      <div>${body}</div>
+      <p>DigitalManager is cloud ERP for finance, inventory, POS, payroll and multi-branch operations on PKR books. ${escapeHtml(service)}. We do not invent a local office address for ${escapeHtml(city)} unless the company operates one there. Book a demo to see finance, stock and branch reporting configured for Pakistan.</p>
+      <p><a href="/contact">Book a ${escapeHtml(city)} demo</a> · <a href="/">Pakistan homepage</a></p>
     </article>`
 }
 
@@ -453,6 +469,9 @@ export function renderAgenticBody(content) {
       return renderDevelopersBody(content)
     case 'software':
       return renderSoftwareBody(content)
+    case 'city-home':
+    case 'city-page':
+      return renderCityHomeBody(content)
     default:
       return renderGenericBody(content)
   }

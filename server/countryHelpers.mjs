@@ -16,7 +16,7 @@ export function matchesCountryScope(contentCountryCode, selectedCode) {
   const code = String(contentCountryCode ?? '')
     .trim()
     .toUpperCase()
-  if (!code || code === 'ALL' || code === 'PK' || code === 'PAKISTAN' || code === 'GCC') return true
+  if (!code || code === 'ALL' || code === 'PK' || code === 'PAKISTAN') return true
   return code === normalizeCountryCode(selectedCode)
 }
 

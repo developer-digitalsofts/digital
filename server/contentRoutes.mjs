@@ -151,7 +151,11 @@ export function registerContentRoutes(app, deps) {
     return Boolean(readBilingualText(post.title, lang))
   }
 
-  function publishedBlogPosts(doc, categories, lang = 'en', countryCode = 'AE') {
+  function hasUaeLeftoverCopy(post) {
+    return /UAE|Dubai|Sharjah|Abu Dhabi|\+971|\bAED\b|\bGCC\b|digitalmanager\.ae/i.test(JSON.stringify(post ?? {}))
+  }
+
+  function publishedBlogPosts(doc, categories, lang = 'en', countryCode = 'PK') {
     const selectedCountry = normalizeCountryCode(countryCode)
     return (doc?.items || [])
       .filter(
@@ -160,6 +164,7 @@ export function registerContentRoutes(app, deps) {
           p.slug &&
           readBilingualText(p.title, lang) &&
           matchesCountryScope(p.countryCode, selectedCountry) &&
+          !hasUaeLeftoverCopy(p) &&
           matchesBlogLanguage(p, lang),
       )
       .sort((a, b) => {

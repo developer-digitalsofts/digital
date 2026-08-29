@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { useLocale } from '../locale/LocaleContext'
 import { useSiteSettings, type SiteSettingsView } from './useSiteSettings'
 
-/** Site contact/settings merged with the active GCC country profile. */
+/** Site contact/settings merged with the active Pakistan country profile. */
 export function useRegionalSettings(): SiteSettingsView {
   const site = useSiteSettings()
   const { activeCountry } = useLocale()

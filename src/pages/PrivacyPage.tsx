@@ -52,8 +52,8 @@ export function PrivacyPage() {
             <h2 className="font-heading text-lg font-bold text-slate-900">{lang === 'ar' ? 'التواصل' : 'Contact'}</h2>
             <p className="mt-2 text-base leading-[1.65] text-slate-600">
               {lang === 'ar' ? 'لأسئلة الخصوصية، راسل' : 'For privacy questions, email'}{' '}
-              <a href={`mailto:${site.primaryEmail || 'info@digitalmanager.ae'}`} className="font-semibold text-brand">
-                {site.primaryEmail || 'info@digitalmanager.ae'}
+              <a href={`mailto:${site.primaryEmail || 'info@digitalmanager.com.pk'}`} className="font-semibold text-brand">
+                {site.primaryEmail || 'info@digitalmanager.com.pk'}
               </a>
               .
             </p>

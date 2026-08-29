@@ -40,7 +40,16 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.4rem;
+}
+
+.dm-locale-select__label {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #0f172a;
+  white-space: nowrap;
 }
 
 .dm-locale-select__flag {

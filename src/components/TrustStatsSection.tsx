@@ -43,7 +43,7 @@ export function TrustStatsSection() {
   const stats = data?.stats as StatsCms | undefined
   const { ref, visible } = useInViewOnce<HTMLDivElement>()
 
-  const countryName = activeCountry?.name || 'UAE'
+  const countryName = activeCountry?.name || 'Pakistan'
   const defaultHeadingTemplate = t('trustStats.defaultHeading')
   const eyebrow = stats?.eyebrow?.en || stats?.eyebrow?.ar ? pick(stats.eyebrow, lang) : t('trustStats.eyebrow')
   const heading =

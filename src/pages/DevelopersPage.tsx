@@ -3,7 +3,7 @@ import { useI18n } from '../i18n/I18nProvider'
 import { pageShellClass } from '../ui/pageShell'
 import { sectionPad } from '../ui/saas'
 
-const BASE = typeof window !== 'undefined' ? window.location.origin : 'https://www.digitalmanager.ae'
+const BASE = typeof window !== 'undefined' ? window.location.origin : 'https://digitalmanager.com.pk'
 const TITLE = 'DigitalManager Developer Platform'
 
 export function DevelopersPage() {
@@ -21,7 +21,7 @@ export function DevelopersPage() {
           items: [
             'Fetch company contact details, homepage content, ERP modules, industries, business models, FAQs, blogs, and testimonials.',
             'Submit contact or demo requests via POST /api/public/v1/leads (alias POST /api/leads; rate limited; no API key today).',
-            'Resolve SEO metadata and GCC locale routing for public pages.',
+            'Resolve SEO metadata and Pakistan city routing for public pages.',
           ],
         },
         {

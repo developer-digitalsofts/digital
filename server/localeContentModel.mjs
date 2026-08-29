@@ -44,6 +44,7 @@ export const SLUG_ROUTED_CONTENT_TYPES = new Set([
 
 /** Supported country → languages */
 export const SUPPORTED_LOCALES = {
+  PK: ['en'],
   AE: ['en', 'ar'],
   SA: ['en', 'ar'],
   QA: ['en', 'ar'],
@@ -52,7 +53,7 @@ export const SUPPORTED_LOCALES = {
   BH: ['en', 'ar'],
 }
 
-export const DEFAULT_GLOBAL_COUNTRY = 'AE'
+export const DEFAULT_GLOBAL_COUNTRY = 'PK'
 export const DEFAULT_GLOBAL_LANG = 'en'
 
 export function normalizeLocaleLang(lang) {

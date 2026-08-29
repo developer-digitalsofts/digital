@@ -1,9 +1,9 @@
 {
   "enableEmailNotification": false,
-  "receiverEmail": "info@digitalmanager.ae",
+  "receiverEmail": "info@digitalmanager.com.pk",
   "ccEmail": "",
   "bccEmail": "",
-  "fromEmail": "noreply@digitalmanager.ae",
+  "fromEmail": "noreply@digitalmanager.com.pk",
   "fromName": "DigitalManager Website",
   "replyToField": "customer",
   "emailSubject": "New lead from DigitalManager website",

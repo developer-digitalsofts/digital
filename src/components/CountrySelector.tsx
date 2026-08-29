@@ -19,7 +19,7 @@ export function CountrySelector({ compact = false }: { compact?: boolean }) {
         className="dm-country-select__input"
         value={countryCode}
         onChange={(e) => setCountryCode(e.target.value as GccCountryCode)}
-        aria-label="Select GCC country"
+        aria-label="Select country"
       >
         {countries.map((country) => (
           <option key={country.code} value={country.code}>

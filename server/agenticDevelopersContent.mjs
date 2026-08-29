@@ -19,7 +19,7 @@ export function developersPageCopy(lang = 'en') {
         body: [
           'Retrieve published company contact details, homepage sections, ERP module pages, industries, business models, FAQs, blog posts, and testimonials.',
           'Submit contact or demo enquiries via POST /api/public/v1/leads (alias POST /api/leads; rate limited; no API key required today).',
-          'Resolve SEO metadata, sitemaps, and locale routing for GCC country sites.',
+          'Resolve SEO metadata, sitemaps, and locale routing for Pakistan city sites.',
           'Do not use this API for ERP transactions, admin CMS changes, lead exports, or authenticated back-office workflows.',
         ],
       },

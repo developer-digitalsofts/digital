@@ -175,14 +175,24 @@ export function registerCityLocaleRoutes(app, deps) {
             (r) =>
               r.contentType === CITY_CONTENT_TYPE &&
               r.citySlug === city.slug &&
+              r.globalIdentity === cityGlobalIdentity(city.slug, CITY_PAGE_SLUG) &&
               normalizeCountryCode(r.countryCode) === countryCode &&
               r.languageCode === 'en',
           )
         const draft = match(store.records)
         const pub = match(published.records)
+        const source = draft || pub
+        const heading = source?.payload?.heading?.en || source?.payload?.title?.en || ''
+        const intro = source?.payload?.shortDescription?.en || ''
+        const title = source?.seo?.title?.en || source?.payload?.title?.en || heading
+        const description = source?.seo?.description?.en || ''
         return {
           ...city,
           recordId: draft?.id || pub?.id || null,
+          heading,
+          intro,
+          title,
+          description,
           draft: draft
             ? {
                 publicationStatus: draft.publicationStatus,
@@ -222,14 +232,16 @@ export function registerCityLocaleRoutes(app, deps) {
         return
       }
       const store = await localePublish.readDraftStore()
+      const pageSlug = String(req.body?.pageSlug || CITY_PAGE_SLUG).toLowerCase()
       const existing = (store.records || []).find(
         (r) =>
           r.contentType === CITY_CONTENT_TYPE &&
           r.citySlug === city.slug &&
+          r.globalIdentity === cityGlobalIdentity(city.slug, pageSlug) &&
           normalizeCountryCode(r.countryCode) === city.countryCode &&
           r.languageCode === 'en',
       )
-      const partial = buildCityLocaleRecord(city.slug, 'en')
+      const partial = buildCityLocaleRecord(city.slug, pageSlug, 'en')
       const record = existing
         ? { ...existing, payload: partial.payload, seo: partial.seo, updatedAt: new Date().toISOString() }
         : defaultLocaleRecord({
@@ -244,6 +256,62 @@ export function registerCityLocaleRoutes(app, deps) {
         return
       }
       const saved = await upsertLocaleRecord(deps, record)
+      res.json({ record: saved })
+    } catch (e) {
+      res.status(400).json({ error: productionErrorMessage(e) })
+    }
+  })
+
+  app.put('/api/admin/locale/cities/:citySlug', authMiddleware, async (req, res) => {
+    try {
+      const citySlug = String(req.params.citySlug || '').toLowerCase()
+      const city = getCity(citySlug)
+      if (!city) {
+        res.status(404).json({ error: 'Unknown city' })
+        return
+      }
+      const pageSlug = String(req.body?.pageSlug || CITY_PAGE_SLUG).toLowerCase()
+      const store = await localePublish.readDraftStore()
+      const existing = (store.records || []).find(
+        (r) =>
+          r.contentType === CITY_CONTENT_TYPE &&
+          r.citySlug === city.slug &&
+          r.globalIdentity === cityGlobalIdentity(city.slug, pageSlug) &&
+          normalizeCountryCode(r.countryCode) === city.countryCode &&
+          r.languageCode === 'en',
+      )
+      if (!existing) {
+        res.status(404).json({ error: 'Seed the city page before editing' })
+        return
+      }
+      const heading = String(req.body?.heading || '').trim()
+      const intro = String(req.body?.intro || '').trim()
+      const title = String(req.body?.title || '').trim()
+      const description = String(req.body?.description || '').trim()
+      const payload = {
+        ...existing.payload,
+        heading: heading ? { en: heading } : existing.payload?.heading,
+        shortDescription: intro ? { en: intro } : existing.payload?.shortDescription,
+        title: title ? { en: title } : existing.payload?.title,
+      }
+      if (heading && payload.sections?.[0]?.content) {
+        payload.sections[0].content = {
+          ...payload.sections[0].content,
+          title: { en: heading },
+          description: intro ? { en: intro } : payload.sections[0].content.description,
+        }
+      }
+      const seo = {
+        ...existing.seo,
+        title: title ? { en: title } : existing.seo?.title,
+        description: description ? { en: description } : existing.seo?.description,
+      }
+      const saved = await upsertLocaleRecord(deps, {
+        ...existing,
+        payload,
+        seo,
+        updatedAt: new Date().toISOString(),
+      })
       res.json({ record: saved })
     } catch (e) {
       res.status(400).json({ error: productionErrorMessage(e) })

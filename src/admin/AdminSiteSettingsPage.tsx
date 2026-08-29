@@ -64,8 +64,8 @@ function normalize(raw: Record<string, unknown>): SiteDoc {
     tiktokUrl: String(raw.tiktokUrl ?? ''),
     copyrightText: normBi(raw.copyrightText),
     defaultCountry: normBi(raw.defaultCountry),
-    defaultCurrency: String(raw.defaultCurrency ?? 'AED'),
-    defaultPhoneCode: String(raw.defaultPhoneCode ?? '+971'),
+    defaultCurrency: String(raw.defaultCurrency ?? 'PKR'),
+    defaultPhoneCode: String(raw.defaultPhoneCode ?? '+92'),
     primaryCtaLabel: normBi(raw.primaryCtaLabel),
     demoPageLink: String(raw.demoPageLink ?? '/contact#contact-form'),
     defaultSeoTitle: normBi(raw.defaultSeoTitle),
@@ -235,7 +235,7 @@ export function AdminSiteSettingsPage() {
                 className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-brand"
                 value={doc.phoneHref}
                 onChange={(e) => setDoc({ ...doc, phoneHref: e.target.value })}
-                placeholder="tel:+971..."
+                placeholder="tel:+92..."
               />
             </div>
             <div className="sm:col-span-2">
@@ -316,7 +316,7 @@ export function AdminSiteSettingsPage() {
         <BiPair label="Copyright line" value={doc.copyrightText} onChange={(copyrightText) => setDoc({ ...doc, copyrightText })} rows={2} />
 
         <fieldset className="space-y-3 rounded-xl border border-slate-200 bg-slate-50/50 p-4">
-          <legend className="text-sm font-bold text-slate-800">UAE localization</legend>
+          <legend className="text-sm font-bold text-slate-800">Pakistan localization</legend>
           <BiPair label="Default country" value={doc.defaultCountry} onChange={(defaultCountry) => setDoc({ ...doc, defaultCountry })} />
           <div className="grid gap-3 sm:grid-cols-2">
             <div>
@@ -325,7 +325,7 @@ export function AdminSiteSettingsPage() {
                 className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-brand"
                 value={doc.defaultCurrency}
                 onChange={(e) => setDoc({ ...doc, defaultCurrency: e.target.value })}
-                placeholder="AED"
+                placeholder="PKR"
               />
             </div>
             <div>
@@ -334,7 +334,7 @@ export function AdminSiteSettingsPage() {
                 className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none focus:border-brand"
                 value={doc.defaultPhoneCode}
                 onChange={(e) => setDoc({ ...doc, defaultPhoneCode: e.target.value })}
-                placeholder="+971"
+                placeholder="+92"
               />
             </div>
           </div>

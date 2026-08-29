@@ -2,12 +2,13 @@
  * Builds localized city page payloads — Pakistan market (PKR, English).
  */
 import {
+  CITY_HOME_SLUG,
   CITY_PAGE_SLUG,
   CITY_PRODUCT_PAGE_SLUGS,
   getCity,
   getCountryProfileForCity,
 } from './cityRegistry.mjs'
-import { CITY_PRODUCT_LABELS } from './pakistanConfig.mjs'
+import { CITY_PRODUCT_LABELS, resolvePakistanContact, servingBusinessesIn } from './pakistanConfig.mjs'
 
 export const CITY_SEED_VERSION = 'pk-city-localized-content-v1'
 
@@ -77,9 +78,62 @@ const CITY_HERO_ANGLES = {
     metaDesc:
       'Quetta ERP for trading houses, transport and construction supply. Fleet costing, project billing and PKR dashboards with DigitalManager.',
   },
+  hyderabad: {
+    h1: 'Cloud ERP for Hyderabad wholesale, manufacturing and Sindh retail',
+    intro:
+      'Hyderabad operators run Sindh wholesale markets, light manufacturing and growing retail chains on mixed tools. DigitalManager connects PKR finance, distributor credit and multi-branch stock so Hyderabad teams close the month without spreadsheet chaos.',
+    metaDesc:
+      'Hyderabad ERP software for wholesale, manufacturing and retail. PKR invoicing, distributor credit and inventory sync with DigitalManager.',
+  },
+  sialkot: {
+    h1: 'Export manufacturing ERP for Sialkot sports goods and surgical makers',
+    intro:
+      'Sialkot exporters juggle job costing, shipment documents and PKR cashflow across sports goods and surgical lines. DigitalManager gives factory and finance teams one ledger for orders, landed costs and export-ready reporting.',
+    metaDesc:
+      'Sialkot ERP for export manufacturing, sports goods and surgical instruments. Job costing, export documents and PKR reporting on DigitalManager.',
+  },
+  gujranwala: {
+    h1: 'Industrial ERP for Gujranwala ceramics, electrical and wholesale markets',
+    intro:
+      'Gujranwala manufacturers and wholesalers move ceramics, electrical goods and Punjab dealer stock at speed. DigitalManager ties production planning, dealer billing and PKR inventory so plant and market teams share one source of truth.',
+    metaDesc:
+      'Gujranwala ERP for ceramics, electrical goods and wholesale. Production planning, dealer billing and PKR finance with DigitalManager.',
+  },
+}
+
+const CITY_HOME_EXTRAS = {
+  karachi:
+    'From Korangi warehouses to Clifton service firms, Karachi businesses need one PKR ledger that follows stock across the port, wholesale markets and retail floors. DigitalManager is built for that tempo — not a generic overseas template. Serving businesses in Karachi means configuring tax-ready invoices, branch POS and payroll around how your team already works, then training users before go-live. Finance sees every location without waiting for month-end email attachments.',
+  lahore:
+    'Lahore growth companies expand across Punjab with seasonal peaks and long credit cycles. Serving businesses in Lahore, DigitalManager maps textile, FMCG and retail workflows onto PKR books so production, delivery and branch KPIs stay aligned. Implementation is phased: finance and inventory first, then POS or payroll when the core is stable.',
+  islamabad:
+    'Islamabad professional firms bill by milestone and approval, not shop-floor SKUs. Serving businesses in Islamabad, we configure timesheets, retainers and audit-ready exports for IT, consulting and clinic operators from Blue Area to F-sectors. Your PKR chart of accounts stays clean enough for banks and partners to trust.',
+  rawalpindi:
+    'Rawalpindi workshops and twin-city retailers need job costing without enterprise overhead. Serving businesses in Rawalpindi, DigitalManager rolls out invoicing, spare-parts catalogues and simple dashboards that still consolidate to PKR finance. Operators serving Islamabad routes keep one stock picture instead of two spreadsheets.',
+  faisalabad:
+    'Faisalabad mills and agri-traders live on BOMs, landed costs and vendor payments. Serving businesses in Faisalabad, DigitalManager connects production planning to PKR consolidation so plant managers and finance share one truth. Export documentation stays attached to the same order that hit the ledger.',
+  multan:
+    'Multan agri-businesses move seasonal crops through cold storage and southern Punjab hubs. Serving businesses in Multan, we forecast demand peaks, track cold-chain inventory and consolidate PKR reporting across depots. Credit terms and inter-city transfers stay visible instead of buried in WhatsApp threads.',
+  peshawar:
+    'Peshawar distributors need batch tracking and credit ageing that keep up with regional wholesale. Serving businesses in Peshawar, DigitalManager gives pharmacies and traders PKR ledgers plus compliance-friendly audit trails. Multi-warehouse stock no longer waits on a weekend close.',
+  quetta:
+    'Quetta trading houses and transport operators bill by project and delivery run. Serving businesses in Quetta, DigitalManager links fleet costing, project billing and affordable cloud ERP so Balochistan teams get branch reporting without a heavyweight rollout. PKR dashboards replace month-end reconstruction.',
+  hyderabad:
+    'Hyderabad wholesale and Sindh retail chains juggle distributor credit and mixed inventory. Serving businesses in Hyderabad, DigitalManager syncs POS to a central PKR ledger so counters and warehouses stay honest. Light manufacturers keep job costs next to the invoices they already issue.',
+  sialkot:
+    'Sialkot exporters cannot afford job costs that drift from shipment documents. Serving businesses in Sialkot, DigitalManager keeps sports goods and surgical lines on one PKR consolidation with export-ready reporting. Finance and production stop reconciling after the container has left.',
+  gujranwala:
+    'Gujranwala ceramics and electrical markets move dealer stock faster than paper can follow. Serving businesses in Gujranwala, DigitalManager ties production planning to dealer billing and PKR inventory. Plant and bazaar teams finally share the same numbers.',
 }
 
 const PAGE_FOCUS = {
+  [CITY_HOME_SLUG]: {
+    suffix: 'Cloud ERP',
+    angle: (city) =>
+      `DigitalManager cloud ERP for ${city.name.en} — PKR finance, inventory, POS and payroll configured for ${city.focus.en}. ${servingBusinessesIn(city.name.en)}.`,
+    meta: (city) =>
+      `ERP software in ${city.name.en} — finance, inventory, POS and payroll on PKR books. DigitalManager for ${city.focus.en}.`,
+  },
   'erp-software': {
     suffix: 'Cloud ERP',
     angle: (city) =>
@@ -151,26 +205,31 @@ function buildTestimonials(city, pageSlug) {
  * @param {string} citySlug
  * @param {string} pageSlug
  */
-export function buildCityPagePayload(citySlug, pageSlug = CITY_PAGE_SLUG) {
+export function buildCityPagePayload(citySlug, pageSlug = CITY_PAGE_SLUG, siteSettings = {}) {
   const city = getCity(citySlug)
   if (!city) throw new Error(`Unknown city: ${citySlug}`)
-  if (!CITY_PRODUCT_PAGE_SLUGS.includes(pageSlug)) {
+  const allowed = [CITY_HOME_SLUG, ...CITY_PRODUCT_PAGE_SLUGS]
+  if (!allowed.includes(pageSlug)) {
     throw new Error(`Unknown city page slug: ${pageSlug}`)
   }
   const profile = getCountryProfileForCity(citySlug)
+  const contact = resolvePakistanContact(siteSettings)
   const base = CITY_HERO_ANGLES[city.slug] || CITY_HERO_ANGLES.karachi
-  const pageDef = PAGE_FOCUS[pageSlug] || PAGE_FOCUS[CITY_PAGE_SLUG]
-  const productLabel = CITY_PRODUCT_LABELS[pageSlug]?.en || pageDef.suffix
-  const h1 = `${productLabel} for ${city.name.en} — ${pageDef.suffix === 'Cloud ERP' ? base.h1.replace(/^Cloud ERP for /, '') : city.focus.en}`
-  const intro = pageDef.angle(city)
+  const pageDef = PAGE_FOCUS[pageSlug] || PAGE_FOCUS[CITY_HOME_SLUG]
+  const isHome = pageSlug === CITY_HOME_SLUG
+  const productLabel = isHome ? 'Cloud ERP' : CITY_PRODUCT_LABELS[pageSlug]?.en || pageDef.suffix
+  const h1 = isHome ? base.h1 : `${productLabel} for ${city.name.en}`
+  const intro = isHome ? base.intro : pageDef.angle(city)
+  const extra = CITY_HOME_EXTRAS[city.slug] || CITY_HOME_EXTRAS.karachi
+  const serving = servingBusinessesIn(city.name.en)
 
   const internalLinks = [
     { label: bi('Contact us'), href: '/contact' },
     { label: bi('ERP modules'), href: '/erp' },
     { label: bi('Industries'), href: '/industries' },
-    ...CITY_PRODUCT_PAGE_SLUGS.filter((s) => s !== pageSlug).map((s) => ({
+    ...CITY_PRODUCT_PAGE_SLUGS.map((s) => ({
       label: bi(CITY_PRODUCT_LABELS[s]?.en || s),
-      href: `/${city.slug}/${s}`,
+      href: `/${city.slug}/software/${s}`,
     })),
   ]
 
@@ -180,17 +239,16 @@ export function buildCityPagePayload(citySlug, pageSlug = CITY_PAGE_SLUG) {
     citySlug: city.slug,
     cityName: city.name,
     pageSlug,
-    title: bi(`${productLabel} · ${city.name.en}`, `${productLabel} · ${city.name.en}`),
+    title: bi(isHome ? `${city.name.en} Cloud ERP | DigitalManager Pakistan` : `${productLabel} · ${city.name.en}`),
     heading: bi(h1, h1),
-    shortDescription: bi(intro.slice(0, 240), intro.slice(0, 240)),
+    shortDescription: bi(intro, intro),
+    serviceArea: bi(serving, serving),
     contact: {
-      phoneDisplay: '+92 300 000 0000',
-      phoneHref: 'tel:+923000000000',
-      email: 'info@digitalmanager.com.pk',
+      phoneDisplay: contact.phoneDisplay,
+      phoneHref: contact.phoneHref,
+      email: contact.primaryEmail,
       label: bi('Pakistan sales'),
-      address: bi(
-        `DigitalManager Pakistan — serving ${city.name.en} and businesses across Pakistan.`,
-      ),
+      address: bi(serving, serving),
     },
     internalLinks,
     sections: [
@@ -203,7 +261,7 @@ export function buildCityPagePayload(citySlug, pageSlug = CITY_PAGE_SLUG) {
           eyebrow: bi(`${productLabel} · ${city.name.en}`),
           title: bi(h1, h1),
           description: bi(intro, intro),
-          primaryCta: { label: bi('Book a Demo'), href: '/contact' },
+          primaryCta: { label: bi(`Book a ${city.name.en} demo`), href: '/contact' },
           secondaryCta: { label: bi('Explore Modules'), href: '/erp' },
         },
       },
@@ -246,7 +304,7 @@ export function buildCityPagePayload(citySlug, pageSlug = CITY_PAGE_SLUG) {
         order: 3,
         content: {
           html: bi(
-            `<p>${intro}</p><p>Teams in ${city.name.en} choose DigitalManager when spreadsheets slow month-end close or branch stock stops matching the ledger. We configure PKR charts, tax mappings and role-based access before your users log in.</p>`,
+            `<p>${intro}</p><p>${extra}</p><p>Teams in ${city.name.en} choose DigitalManager when spreadsheets slow month-end close or branch stock stops matching the ledger. We configure PKR charts, tax mappings and role-based access before your users log in. ${serving} — we do not list a local office unless the company operates one there.</p>`,
           ),
         },
       },
@@ -270,10 +328,13 @@ export function buildCityPagePayload(citySlug, pageSlug = CITY_PAGE_SLUG) {
 
 export function buildCityPageSeo(citySlug, pageSlug = CITY_PAGE_SLUG) {
   const city = getCity(citySlug)
-  const pageDef = PAGE_FOCUS[pageSlug] || PAGE_FOCUS[CITY_PAGE_SLUG]
-  const product = CITY_PRODUCT_LABELS[pageSlug]?.en || 'ERP'
+  const pageDef = PAGE_FOCUS[pageSlug] || PAGE_FOCUS[CITY_HOME_SLUG]
+  const isHome = pageSlug === CITY_HOME_SLUG
+  const product = isHome ? 'Cloud ERP' : CITY_PRODUCT_LABELS[pageSlug]?.en || 'ERP'
   const metaDesc = pageDef.meta(city)
-  const title = `${product} ${city.name.en} | DigitalManager Pakistan`
+  const title = isHome
+    ? `${city.name.en} Cloud ERP | DigitalManager Pakistan`
+    : `${product} in ${city.name.en} | DigitalManager Pakistan`
   return {
     title: bi(title, title),
     description: bi(metaDesc, metaDesc),

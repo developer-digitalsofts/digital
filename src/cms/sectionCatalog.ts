@@ -123,7 +123,7 @@ export function defaultSectionContent(type: SectionType): Record<string, unknown
       return {
         items: [
           { id: 'fs1', icon: 'Shield', title: bi('Secure Cloud ERP') },
-          { id: 'fs2', icon: 'Cloud', title: bi('UAE & GCC Ready') },
+          { id: 'fs2', icon: 'Cloud', title: bi('Pakistan Ready') },
           { id: 'fs3', icon: 'GitBranch', title: bi('Multi-Branch Reporting') },
         ],
       }

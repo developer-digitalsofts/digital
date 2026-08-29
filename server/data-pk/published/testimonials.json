@@ -43,14 +43,14 @@
       "ar": "شهادات العملاء | ديجيتال مانجر"
     },
     "seoDescription": {
-      "en": "Read approved client feedback about DigitalManager ERP for growing GCC businesses.",
+      "en": "Read approved client feedback about DigitalManager ERP for growing Pakistan businesses.",
       "ar": "اقرأ آراء العملاء المعتمدة حول DigitalManager ERP للشركات النامية في الخليج."
     }
   },
   "items": [
     {
       "id": "sample-ae-finance",
-      "internalTitle": "SAMPLE — Finance Director (UAE Trading)",
+      "internalTitle": "SAMPLE — Finance Director (Pakistan Trading)",
       "quote": {
         "en": "DigitalManager gave us one connected view of finance, inventory and sales. Month-end close is faster and branch reporting is finally reliable.",
         "ar": "منحنا ديجيتال مانجر رؤية موحدة للمالية والمخزون والمبيعات. إغلاق الشهر أسرع وتقارير الفروع أصبحت موثوقة."
@@ -73,7 +73,7 @@
         "ar": "صورة نموذجية"
       },
       "industry": "Trading",
-      "country": "UAE",
+      "country": "Pakistan",
       "sortOrder": 0,
       "enabled": true,
       "status": "draft",
@@ -87,7 +87,7 @@
     },
     {
       "id": "sample-ae-ops",
-      "internalTitle": "SAMPLE — Operations Manager (UAE Retail)",
+      "internalTitle": "SAMPLE — Operations Manager (Pakistan Retail)",
       "quote": {
         "en": "We replaced spreadsheets with one ERP platform. Inventory, POS and accounts now stay in sync across our stores.",
         "ar": "استبدلنا جداول البيانات بمنصة ERP واحدة. المخزون ونقطة البيع والحسابات متزامنة الآن عبر فروعنا."
@@ -110,7 +110,7 @@
         "ar": "صورة نموذجية"
       },
       "industry": "Retail",
-      "country": "UAE",
+      "country": "Pakistan",
       "sortOrder": 1,
       "enabled": true,
       "status": "draft",
@@ -124,9 +124,9 @@
     },
     {
       "id": "sample-ae-gm",
-      "internalTitle": "SAMPLE — General Manager (UAE Manufacturing)",
+      "internalTitle": "SAMPLE — General Manager (Pakistan Manufacturing)",
       "quote": {
-        "en": "Implementation was structured and the team understood UAE business workflows. Payroll and attendance are much easier to manage now.",
+        "en": "Implementation was structured and the team understood Pakistan business workflows. Payroll and attendance are much easier to manage now.",
         "ar": "كان التنفيذ منظمًا وفهم الفريق سير عمل الأعمال في الإمارات. الرواتب والحضور أصبحا أسهل في الإدارة."
       },
       "customerName": {
@@ -147,7 +147,7 @@
         "ar": "صورة نموذجية"
       },
       "industry": "Manufacturing",
-      "country": "UAE",
+      "country": "Pakistan",
       "sortOrder": 2,
       "enabled": true,
       "status": "draft",
@@ -161,7 +161,7 @@
     },
     {
       "id": "sample-gcc-shared",
-      "internalTitle": "SAMPLE — Shared GCC (Multi-branch)",
+      "internalTitle": "SAMPLE — Shared Pakistan (Multi-branch)",
       "quote": {
         "en": "Having one ERP across branches reduced reconciliation work. Stock transfers and sales reports finally use the same numbers.",
         "ar": "وجود نظام ERP واحد عبر الفروع قلّل أعمال المطابقة. تحويلات المخزون وتقارير المبيعات تستخدم الأرقام نفسها أخيراً."
@@ -175,7 +175,7 @@
         "ar": "رئيس العمليات"
       },
       "company": {
-        "en": "[SAMPLE] GCC Distribution Co.",
+        "en": "[SAMPLE] Pakistan Distribution Co.",
         "ar": "[نموذج] شركة توزيع خليجية"
       },
       "image": "",
@@ -184,15 +184,15 @@
         "ar": "صورة نموذجية"
       },
       "industry": "Distribution",
-      "country": "GCC",
+      "country": "Pakistan",
       "sortOrder": 3,
       "enabled": true,
       "status": "draft",
       "isSample": true,
       "featuredOnHomepage": false,
       "verified": false,
-      "verificationNote": "Shared GCC sample draft. Do not publish without approved customer feedback.",
-      "countryCode": "GCC",
+      "verificationNote": "Shared Pakistan sample draft. Do not publish without approved customer feedback.",
+      "countryCode": "PK",
       "languageCode": "en",
       "solutionUrl": "/erp"
     },
@@ -383,7 +383,7 @@
     },
     {
       "id": "sample-ae-finance-ar",
-      "internalTitle": "SAMPLE AR — Finance Director (UAE) needs_review",
+      "internalTitle": "SAMPLE AR — Finance Director (Pakistan) needs_review",
       "quote": {
         "en": "DigitalManager gave us one connected view of finance, inventory and sales. Month-end close is faster and branch reporting is finally reliable.",
         "ar": "منحنا ديجيتال مانجر رؤية موحدة للمالية والمخزون والمبيعات. إغلاق الشهر أسرع وتقارير الفروع أصبحت موثوقة."
@@ -406,7 +406,7 @@
         "ar": "صورة نموذجية"
       },
       "industry": "Trading",
-      "country": "UAE",
+      "country": "Pakistan",
       "sortOrder": 9,
       "enabled": true,
       "status": "draft",

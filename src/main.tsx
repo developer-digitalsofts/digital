@@ -6,6 +6,7 @@ import App from './App.tsx'
 import { I18nProvider } from './i18n/I18nProvider'
 import { CmsProvider } from './cms/CmsContext'
 import { LocaleProvider } from './locale/LocaleContext'
+import { CityProvider } from './locale/CityContext'
 import { AdminToastProvider } from './admin/AdminToastContext'
 import { parseLocalePath } from './locale/localePaths'
 import { syncLocalePrefFromUrl } from './locale/localePref'
@@ -28,7 +29,9 @@ root.render(
         <I18nProvider>
           <CmsProvider>
             <LocaleProvider>
-              <App />
+              <CityProvider>
+                <App />
+              </CityProvider>
             </LocaleProvider>
           </CmsProvider>
         </I18nProvider>

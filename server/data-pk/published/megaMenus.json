@@ -44,16 +44,16 @@
           {
             "id": "vatCompliance",
             "title": {
-              "en": "UAE VAT & Tax Compliance",
+              "en": "Pakistan Sales Tax & Compliance",
               "ar": "امتثال ضريبة القيمة المضافة في الإمارات"
             },
             "description": {
-              "en": "UAE VAT-compliant invoicing and tax reporting",
+              "en": "Pakistan sales-tax-ready invoicing and tax reporting",
               "ar": "فوترة متوافقة مع ضريبة القيمة المضافة وتقارير ضريبية"
             },
             "imageUrl": "/software-images/fbr-pos-integration-software/dashboard.jpg",
             "imageAlt": {
-              "en": "UAE VAT and tax compliance software",
+              "en": "Pakistan sales tax and compliance software",
               "ar": "برمجيات امتثال ضريبة القيمة المضافة"
             },
             "href": "/software/fbr-pos-integration-software",

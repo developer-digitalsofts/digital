@@ -35,6 +35,9 @@ const NEGOTIABLE_PAGE_KINDS = new Set([
   'faqs',
   'cms-page',
   'locale-industry',
+  'city-home',
+  'city-software',
+  'city-page',
 ])
 
 let templateCache = { html: '', mtimeMs: 0 }
@@ -135,7 +138,13 @@ export function createSpaShellHandler(deps) {
   return async (req, res, next) => {
     if (req.method !== 'GET' && req.method !== 'HEAD') return next()
     const pathname = req.path || '/'
-    if (AGENTIC_EXCLUDED.test(pathname)) return next()
+    if (AGENTIC_EXCLUDED.test(pathname)) {
+      if (pathname.startsWith('/admin') && prefersHtmlDocument(req)) {
+        res.sendFile(deps.distIndex)
+        return
+      }
+      return next()
+    }
     if (pathname === '/robots.txt' || pathname === '/sitemap.xml') return next()
     if (isMarkdownPreferred(req)) return next()
     if (!prefersHtmlDocument(req)) return next()

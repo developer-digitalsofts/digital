@@ -13,6 +13,9 @@ import { megaIndustryLabel, megaModuleLabel } from '../i18n/megaLabels'
 import { apiBase, fetchWithTimeout } from '../cms/api'
 import { CmsLink } from './CmsLink'
 import { useLocale } from '../locale/LocaleContext'
+import { useCity } from '../locale/CityContext'
+import { CitySelector } from './CitySelector'
+import { useRegionalSettings } from '../cms/useRegionalSettings'
 import './footer.css'
 
 const companyKeys = ['coAbout', 'coWorkflow', 'coFaq', 'coContact'] as const
@@ -252,6 +255,8 @@ function FooterLinkList({
 export function Footer() {
   const { t, lang } = useI18n()
   const { data } = useCms()
+  const site = useRegionalSettings()
+  const { serviceArea, isCityRoute } = useCity()
   const f = data?.footer as FooterCms | undefined
 
   const logo = f?.logoUrl?.trim() || SITE_LOGO_SRC
@@ -261,10 +266,10 @@ export function Footer() {
   const colC = resolveFooterText(f?.columnCompany, lang, t('footer.colCompany'))
   const colR = resolveFooterText(f?.columnResources, lang, t('footer.colResources'))
 
-  const addr = resolveFooterText(f?.contact?.address, lang, t('footer.address'))
-  const phoneDisplay = f?.contact?.phoneDisplay ?? '+92 300 000 0000'
-  const phoneHref = f?.contact?.phoneHref ?? 'tel:+923000000000'
-  const email = f?.contact?.email ?? 'info@digitalmanager.com.pk'
+  const addr = isCityRoute ? serviceArea : site.officeAddress || serviceArea
+  const phoneDisplay = f?.contact?.phoneDisplay || site.phoneDisplay
+  const phoneHref = f?.contact?.phoneHref || site.phoneHref
+  const email = f?.contact?.email || site.primaryEmail
 
   const rightsFallback = t('footer.rights')
   const privacyLabel = resolveFooterText(f?.privacy?.label, lang, t('footer.privacy'))
@@ -449,6 +454,10 @@ export function Footer() {
           </div>
 
           <p className="dm-footer__trust-message">{t('footer.trustMessage')}</p>
+          <div className="dm-footer__city-select mt-3">
+            <p className="dm-footer__city-select-label">City</p>
+            <CitySelector />
+          </div>
 
           <div className="dm-footer__social">
             <FooterSocialLinks items={f?.social} />

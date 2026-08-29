@@ -10,10 +10,10 @@ export function LocaleFallbackPage() {
       <div className="content-page__container">
         <h1>Page not available</h1>
         <p className="content-page__intro">
-          This page is not yet published for {country.toUpperCase()} · {lang.toUpperCase()}. Browse the UAE English site or contact us for assistance.
+          This page is not yet published for {country.toUpperCase()} · {lang.toUpperCase()}. Browse the Pakistan English site or contact us for assistance.
         </p>
         <p>
-          <Link to="/">Go to UAE English homepage</Link>
+          <Link to="/">Go to Pakistan homepage</Link>
           {' · '}
           <Link to={localePrefix || '/'}>Go to regional homepage</Link>
         </p>

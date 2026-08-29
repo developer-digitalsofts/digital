@@ -124,7 +124,7 @@ export function AdminLocaleEditorBanner({ contentType, globalIdentity, slug, com
     <div className={`mb-4 space-y-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs ${compact ? '' : 'shadow-sm'}`}>
       {!isDefault && meta?.fallbackUsed ? (
         <div className="rounded-md border border-amber-300 bg-amber-50 px-2 py-1.5 font-medium text-amber-950">
-          UAE fallback content is in use for this locale preview. Publish localized content before it appears on the public site.
+          Pakistan baseline content is in use for this locale preview. Publish localized content before it appears on the public site.
         </div>
       ) : null}
       <div className="flex flex-wrap items-center gap-2">
@@ -172,10 +172,10 @@ export function AdminLocaleEditorBanner({ contentType, globalIdentity, slug, com
               className="rounded border border-brand/30 px-2 py-0.5 font-semibold text-brand hover:bg-brand/5"
               onClick={() => void runAction('copy-uae-structure')}
             >
-              Copy UAE structure as {countryLabel} draft
+              Copy Pakistan structure as {countryLabel} draft
             </button>
             <button type="button" className="rounded border border-slate-200 px-2 py-0.5 hover:bg-slate-50" onClick={() => void runAction('copy-uae')}>
-              Copy this record from UAE English
+              Copy this record from Pakistan English
             </button>
             {lang === 'ar' ? (
               <button type="button" className="rounded border border-slate-200 px-2 py-0.5 hover:bg-slate-50" onClick={() => void runAction('copy-country-en')}>
@@ -213,7 +213,7 @@ export function AdminLocaleEditorBanner({ contentType, globalIdentity, slug, com
                       Reset
                     </button>
                     <button type="button" className="text-brand hover:underline" disabled={!recordId} onClick={() => void runAction('field-copy-uae', { field })}>
-                      Copy UAE
+                      Copy Pakistan
                     </button>
                     {lang === 'ar' ? (
                       <button type="button" className="text-brand hover:underline" disabled={!recordId} onClick={() => void runAction('field-copy-en', { field })}>

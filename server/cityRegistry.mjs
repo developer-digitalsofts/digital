@@ -1,12 +1,18 @@
 /**
  * City registry — Pakistan market (pakistan-version branch).
  */
-import { CITY_PRODUCT_PAGE_SLUGS, MARKET_CODE, MARKET_CURRENCY, PK_CITY_SLUGS } from './pakistanConfig.mjs'
+import {
+  CITY_HOME_SLUG,
+  CITY_PRODUCT_PAGE_SLUGS,
+  MARKET_CODE,
+  MARKET_CURRENCY,
+  PK_CITY_SLUGS,
+} from './pakistanConfig.mjs'
 
-/** Default product page (ERP landing per city). */
-export const CITY_PAGE_SLUG = 'erp-software'
+/** Default city landing identity (homepage). */
+export const CITY_PAGE_SLUG = CITY_HOME_SLUG
 
-export { CITY_PRODUCT_PAGE_SLUGS }
+export { CITY_HOME_SLUG, CITY_PRODUCT_PAGE_SLUGS }
 
 export const CITY_CONTENT_TYPE = 'cityPage'
 
@@ -75,6 +81,30 @@ const CITY_DEFS = {
     industries: ['Trading Houses', 'Transport', 'Construction Supply', 'Services'],
     services: ['Fleet costing', 'Project billing', 'Affordable ERP rollout', 'Branch reporting'],
   },
+  hyderabad: {
+    name: { en: 'Hyderabad' },
+    focus: {
+      en: 'Sindh wholesale, light manufacturing and retail chains',
+    },
+    industries: ['Wholesale', 'Light Manufacturing', 'Retail', 'Services'],
+    services: ['Multi-branch stock', 'PKR invoicing', 'Distributor credit', 'POS sync'],
+  },
+  sialkot: {
+    name: { en: 'Sialkot' },
+    focus: {
+      en: 'export manufacturing, sports goods and surgical instruments',
+    },
+    industries: ['Export Manufacturing', 'Sports Goods', 'Surgical Instruments', 'Trading'],
+    services: ['Export documentation', 'Job costing', 'Landed costs', 'PKR consolidation'],
+  },
+  gujranwala: {
+    name: { en: 'Gujranwala' },
+    focus: {
+      en: 'ceramics, electrical goods and Punjab wholesale markets',
+    },
+    industries: ['Ceramics', 'Electrical Goods', 'Wholesale', 'Manufacturing'],
+    services: ['Production planning', 'Dealer billing', 'Inventory control', 'PKR reporting'],
+  },
 }
 
 /** @type {Record<string, { slug: string, name: { en: string }, countryCode: string, focus: { en: string }, industries: string[], services: string[] }>} */
@@ -114,7 +144,12 @@ export function isValidCityForCountry(citySlug, countryCode = MARKET_CODE) {
 }
 
 export function isKnownCityProductSlug(pageSlug) {
-  return CITY_PRODUCT_PAGE_SLUGS.includes(String(pageSlug || '').toLowerCase())
+  const slug = String(pageSlug || '').toLowerCase()
+  return slug === CITY_HOME_SLUG || CITY_PRODUCT_PAGE_SLUGS.includes(slug)
+}
+
+export function isCityHomeSlug(pageSlug) {
+  return String(pageSlug || '').toLowerCase() === CITY_HOME_SLUG
 }
 
 export function cityGlobalIdentity(citySlug, pageSlug = CITY_PAGE_SLUG) {

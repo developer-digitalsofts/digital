@@ -46,7 +46,7 @@ export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
   { id: 'demo-requests', to: '/admin/demo-requests', label: 'Forms & Leads', icon: CalendarDays },
   { id: 'testimonials', to: '/admin/content/testimonials', label: 'Testimonials', icon: MessageSquare },
   { id: 'blog', to: '/admin/content/blog', label: 'Blog', icon: Newspaper },
-  { id: 'countries', to: '/admin/content/countries', label: 'GCC Countries', icon: Globe2 },
+  { id: 'countries', to: '/admin/content/countries', label: 'Countries', icon: Globe2 },
   { id: 'cities', to: '/admin/content/cities', label: 'City Pages', icon: Globe2 },
   { id: 'country-setup', to: '/admin/content/countries/setup', label: 'Country Setup', icon: Globe2 },
   { id: 'media', to: '/admin/media', label: 'Media Library', icon: ImageIcon },

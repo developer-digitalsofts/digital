@@ -16,12 +16,29 @@ export const PK_CONTACT_PLACEHOLDERS = {
   phoneDisplay: '+92 300 000 0000',
   phoneHref: 'tel:+923000000000',
   whatsappNumber: '923000000000',
-  officeAddress: 'Suite 100, Placeholder Tower, Karachi, Pakistan',
+  officeAddress: 'Serving businesses across Pakistan',
   workingHours: 'Mon - Sat : 10.00 am - 6.00 pm',
   defaultCountry: 'Pakistan',
   defaultCurrency: 'PKR',
   defaultPhoneCode: '+92',
 } as const
+
+export const PK_SITE_COPY = {
+  trustLine: 'Trusted by growing businesses across Pakistan.',
+  trustTitle: 'Trusted By Businesses Across Pakistan',
+  heroBadge: 'Pakistan Ready',
+  marketsBadge: 'Serving businesses across Pakistan',
+  vatLabel: 'Pakistan sales tax',
+  defaultSeoTitle: 'DigitalManager — Cloud ERP for Pakistan',
+  defaultMetaDescription:
+    'Cloud ERP software for retail, manufacturing, logistics and services across Pakistan.',
+} as const
+
+export const CITY_PREF_COOKIE = 'dm_pk_city_pref'
+export const CITY_PREF_STORAGE_KEY = 'dm_pk_city_view'
+export const CITY_PREF_MAX_AGE_SEC = 15552000
+
+export const CITY_HOME_SLUG = 'home' as const
 
 export const CITY_PRODUCT_PAGE_SLUGS = ['erp-software', 'pos-software', 'accounting-software'] as const
 export type CityProductPageSlug = (typeof CITY_PRODUCT_PAGE_SLUGS)[number]
@@ -41,9 +58,30 @@ export const PK_CITY_SLUGS = [
   'multan',
   'peshawar',
   'quetta',
+  'hyderabad',
+  'sialkot',
+  'gujranwala',
 ] as const
 
 export type PkCitySlug = (typeof PK_CITY_SLUGS)[number]
+
+export const PK_CITY_NAMES: Record<PkCitySlug, string> = {
+  karachi: 'Karachi',
+  lahore: 'Lahore',
+  islamabad: 'Islamabad',
+  rawalpindi: 'Rawalpindi',
+  faisalabad: 'Faisalabad',
+  multan: 'Multan',
+  peshawar: 'Peshawar',
+  quetta: 'Quetta',
+  hyderabad: 'Hyderabad',
+  sialkot: 'Sialkot',
+  gujranwala: 'Gujranwala',
+}
+
+export function servingBusinessesIn(cityName: string): string {
+  return `Serving businesses in ${cityName}`
+}
 
 export function isCityProductPageSlug(value: string | null | undefined): value is CityProductPageSlug {
   return Boolean(value && (CITY_PRODUCT_PAGE_SLUGS as readonly string[]).includes(value))
@@ -51,4 +89,15 @@ export function isCityProductPageSlug(value: string | null | undefined): value i
 
 export function isPkCitySlug(value: string | null | undefined): value is PkCitySlug {
   return Boolean(value && (PK_CITY_SLUGS as readonly string[]).includes(value.toLowerCase()))
+}
+
+export function buildCityHomePath(citySlug: string): string {
+  return `/${String(citySlug).toLowerCase()}`
+}
+
+export function buildCitySoftwarePath(citySlug: string, softwarePath: string): string {
+  const rest = softwarePath.startsWith('/') ? softwarePath : `/${softwarePath}`
+  if (rest === '/' || rest === '') return buildCityHomePath(citySlug)
+  if (rest.startsWith('/software/')) return `/${String(citySlug).toLowerCase()}${rest}`
+  return `/${String(citySlug).toLowerCase()}/software${rest.startsWith('/') ? rest : `/${rest}`}`
 }

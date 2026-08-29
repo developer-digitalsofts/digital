@@ -121,8 +121,8 @@ async function main() {
   const locale = await fetch(`${BASE}/sa/en`, {
     headers: { Accept: 'text/html', 'X-Forwarded-For': '203.0.113.88' },
   })
-  if (locale.status === 200) pass('GCC locale route /sa/en still loads')
-  else fail('GCC locale route /sa/en still loads', String(locale.status))
+  if (locale.status === 404) pass('Legacy GCC locale /sa/en returns HTTP 404')
+  else fail('Legacy GCC locale /sa/en returns HTTP 404', String(locale.status))
 
   const failed = results.filter((r) => !r.ok)
   console.log(`\n${results.length - failed.length}/${results.length} passed`)

@@ -9,18 +9,18 @@ export const inventoryPosProducts: ProductRow[] = [
 ]
 
 export const inventoryBranchStock: BranchRow[] = [
-  { branch: 'Dubai', inStock: '1,240', low: '18', out: '3' },
-  { branch: 'Riyadh', inStock: '980', low: '12', out: '2' },
-  { branch: 'Doha', inStock: '760', low: '9', out: '1' },
-  { branch: 'Manama', inStock: '540', low: '6', out: '0' },
+  { branch: 'Karachi', inStock: '1,240', low: '18', out: '3' },
+  { branch: 'Lahore', inStock: '980', low: '12', out: '2' },
+  { branch: 'Islamabad', inStock: '760', low: '9', out: '1' },
+  { branch: 'Faisalabad', inStock: '540', low: '6', out: '0' },
 ]
 
 export const inventorySalesTrend = [22, 28, 26, 34, 32, 38, 36, 40]
 
 export const erpKpis: KpiItem[] = [
-  { label: 'Revenue', value: 'AED 2.4M', hint: '+8.2%', tone: 'positive' },
-  { label: 'Gross Profit', value: 'AED 612K', hint: '+11.3%', tone: 'positive' },
-  { label: 'Receivables', value: 'AED 318K', hint: 'Due 30d', tone: 'warning' },
+  { label: 'Revenue', value: 'PKR 2.4M', hint: '+8.2%', tone: 'positive' },
+  { label: 'Gross Profit', value: 'PKR 612K', hint: '+11.3%', tone: 'positive' },
+  { label: 'Receivables', value: 'PKR 318K', hint: 'Due 30d', tone: 'warning' },
   { label: 'Active Branches', value: '12', hint: 'All Active', tone: 'info' },
 ]
 
@@ -38,10 +38,10 @@ export const erpBusinessHealth = [
 ]
 
 export const erpBranchPerformance = [
-  { name: 'Dubai', value: 92, amount: 'AED 980K' },
-  { name: 'Riyadh', value: 78, amount: 'AED 640K' },
-  { name: 'Doha', value: 65, amount: 'AED 420K' },
-  { name: 'Manama', value: 58, amount: 'AED 360K' },
+  { name: 'Karachi', value: 92, amount: 'PKR 980K' },
+  { name: 'Lahore', value: 78, amount: 'PKR 640K' },
+  { name: 'Islamabad', value: 65, amount: 'PKR 420K' },
+  { name: 'Faisalabad', value: 58, amount: 'PKR 360K' },
 ]
 
 export const financeCashFlow = {
@@ -50,8 +50,8 @@ export const financeCashFlow = {
 }
 
 export const hrPayrollSummary = [
-  { label: 'Processed', value: 'AED 404K', tone: 'positive' as const },
-  { label: 'Pending', value: 'AED 24K', tone: 'warning' as const },
+  { label: 'Processed', value: 'PKR 404K', tone: 'positive' as const },
+  { label: 'Pending', value: 'PKR 24K', tone: 'warning' as const },
   { label: 'Next Run', value: '28 May', tone: 'info' as const },
 ]
 
@@ -63,23 +63,23 @@ export const erpDocuments: { columns: TableColumn[]; rows: TableRow[] } = {
     { key: 'status', label: 'Status' },
   ],
   rows: [
-    { doc: 'SO-20481', branch: 'Dubai', amount: 'AED 42,900', status: { text: 'Posted', tone: 'info' } },
-    { doc: 'GRN-8832', branch: 'Riyadh', amount: 'AED 18,200', status: { text: 'Approved', tone: 'positive' } },
-    { doc: 'INV-9910', branch: 'Doha', amount: 'AED 9,450', status: { text: 'Sent', tone: 'neutral' } },
-    { doc: 'PO-4421', branch: 'Manama', amount: 'AED 6,780', status: { text: 'Cleared', tone: 'purple' } },
+    { doc: 'SO-20481', branch: 'Karachi', amount: 'PKR 42,900', status: { text: 'Posted', tone: 'info' } },
+    { doc: 'GRN-8832', branch: 'Lahore', amount: 'PKR 18,200', status: { text: 'Approved', tone: 'positive' } },
+    { doc: 'INV-9910', branch: 'Islamabad', amount: 'PKR 9,450', status: { text: 'Sent', tone: 'neutral' } },
+    { doc: 'PO-4421', branch: 'Faisalabad', amount: 'PKR 6,780', status: { text: 'Cleared', tone: 'purple' } },
   ],
 }
 
 export const financeKpis: KpiItem[] = [
-  { label: 'Cash in Hand', value: 'AED 842K', hint: '+4.1%', tone: 'positive' },
+  { label: 'Cash in Hand', value: 'PKR 842K', hint: '+4.1%', tone: 'positive' },
   {
     label: 'Net Cash Flow',
-    value: 'AED 126K',
+    value: 'PKR 126K',
     hint: 'This month',
     tone: 'info',
     sparkline: [22, 28, 24, 36, 32, 42, 38, 48],
   },
-  { label: 'Receivables', value: 'AED 318K', hint: 'Due 30d', tone: 'warning' },
+  { label: 'Receivables', value: 'PKR 318K', hint: 'Due 30d', tone: 'warning' },
   { label: 'Net Profit Margin', value: '18.4%', hint: 'Stable', tone: 'positive' },
 ]
 
@@ -104,16 +104,16 @@ export const financeTransactions: { columns: TableColumn[]; rows: TableRow[] } =
     { key: 'status', label: 'Status' },
   ],
   rows: [
-    { ref: 'PAY-8841', account: 'Al Noor Trading', amount: 'AED 12,400', status: { text: 'Paid', tone: 'positive' } },
-    { ref: 'RCT-9912', account: 'Gulf Retail LLC', amount: 'AED 28,900', status: { text: 'Paid', tone: 'positive' } },
-    { ref: 'INV-7720', account: 'Dubai Holdings', amount: 'AED 64,200', status: { text: 'Pending', tone: 'warning' } },
-    { ref: 'PAY-8813', account: 'Emirates Supplies', amount: 'AED 9,850', status: { text: 'Overdue', tone: 'critical' } },
+    { ref: 'PAY-8841', account: 'Karachi Trading Co.', amount: 'PKR 12,400', status: { text: 'Paid', tone: 'positive' } },
+    { ref: 'RCT-9912', account: 'Lahore Retail Group', amount: 'PKR 28,900', status: { text: 'Paid', tone: 'positive' } },
+    { ref: 'INV-7720', account: 'Punjab Holdings', amount: 'PKR 64,200', status: { text: 'Pending', tone: 'warning' } },
+    { ref: 'PAY-8813', account: 'Islamabad Supplies', amount: 'PKR 9,850', status: { text: 'Overdue', tone: 'critical' } },
   ],
 }
 
 export const inventoryKpis: KpiItem[] = [
   { label: 'Stock Accuracy', value: '97%', hint: 'On target', tone: 'positive' },
-  { label: 'Inventory Value', value: 'AED 1.25M', hint: '+5.4%', tone: 'info' },
+  { label: 'Inventory Value', value: 'PKR 1.25M', hint: '+5.4%', tone: 'info' },
   { label: 'Low Stock Items', value: '24', hint: 'Alert', tone: 'warning' },
   { label: 'Fast-Moving Items', value: '32', hint: 'This week', tone: 'purple' },
 ]
@@ -132,10 +132,10 @@ export const inventoryCategoryDonut: DonutSegment[] = [
 ]
 
 export const inventoryWarehouses = [
-  { name: 'Dubai', value: 92 },
-  { name: 'Riyadh', value: 88 },
-  { name: 'Doha', value: 85 },
-  { name: 'Manama', value: 90 },
+  { name: 'Karachi', value: 92 },
+  { name: 'Lahore', value: 88 },
+  { name: 'Islamabad', value: 85 },
+  { name: 'Faisalabad', value: 90 },
 ]
 
 export const inventoryItems: { columns: TableColumn[]; rows: TableRow[] } = {
@@ -155,9 +155,9 @@ export const inventoryItems: { columns: TableColumn[]; rows: TableRow[] } = {
 }
 
 export const posKpis: KpiItem[] = [
-  { label: "Today's Sales", value: 'AED 132,760', hint: '+12%', tone: 'positive' },
+  { label: "Today's Sales", value: 'PKR 132,760', hint: '+12%', tone: 'positive' },
   { label: 'Transactions', value: '486', hint: 'Live', tone: 'info' },
-  { label: 'Average Basket', value: 'AED 273', hint: '+6.2%', tone: 'positive' },
+  { label: 'Average Basket', value: 'PKR 273', hint: '+6.2%', tone: 'positive' },
   { label: 'Active Tills', value: '12/15', hint: 'Open', tone: 'info' },
 ]
 
@@ -187,10 +187,10 @@ export const posReceipts: { columns: TableColumn[]; rows: TableRow[] } = {
     { key: 'status', label: 'Status' },
   ],
   rows: [
-    { receipt: 'RCP-4481', till: 'T-03', payment: 'Card', amount: 'AED 428', status: { text: 'Completed', tone: 'positive' } },
-    { receipt: 'RCP-4482', till: 'T-07', payment: 'Cash', amount: 'AED 156', status: { text: 'Completed', tone: 'positive' } },
-    { receipt: 'RCP-4483', till: 'T-01', payment: 'Wallet', amount: 'AED 892', status: { text: 'Completed', tone: 'info' } },
-    { receipt: 'RCP-4484', till: 'T-05', payment: 'Card', amount: 'AED 312', status: { text: 'Refunded', tone: 'warning' } },
+    { receipt: 'RCP-4481', till: 'T-03', payment: 'Card', amount: 'PKR 428', status: { text: 'Completed', tone: 'positive' } },
+    { receipt: 'RCP-4482', till: 'T-07', payment: 'Cash', amount: 'PKR 156', status: { text: 'Completed', tone: 'positive' } },
+    { receipt: 'RCP-4483', till: 'T-01', payment: 'Wallet', amount: 'PKR 892', status: { text: 'Completed', tone: 'info' } },
+    { receipt: 'RCP-4484', till: 'T-05', payment: 'Card', amount: 'PKR 312', status: { text: 'Refunded', tone: 'warning' } },
   ],
 }
 
@@ -206,7 +206,7 @@ export const hrKpis: KpiItem[] = [
   { label: 'Active Employees', value: '128', hint: 'All branches', tone: 'info' },
   { label: 'Present Today', value: '116', hint: '90.6%', tone: 'positive' },
   { label: 'On Leave', value: '7', hint: 'Pending', tone: 'warning' },
-  { label: 'Monthly Payroll', value: 'AED 428K', hint: 'This cycle', tone: 'purple' },
+  { label: 'Monthly Payroll', value: 'PKR 428K', hint: 'This cycle', tone: 'purple' },
 ]
 
 export const hrAttendanceTrend = {

@@ -21,7 +21,7 @@ import {
 } from './seoPaths.mjs'
 import { registryStaticPaths, uaeCorePaths, uaeSoftwarePaths } from './seoRouteCatalog.mjs'
 import { getLocaleHomepageIndexMeta } from './localeHomepage.mjs'
-import { CITY_PAGE_SLUG, CITY_PRODUCT_PAGE_SLUGS, getCitiesForCountry } from './cityRegistry.mjs'
+import { CITY_HOME_SLUG, CITY_PAGE_SLUG, CITY_PRODUCT_PAGE_SLUGS, getCitiesForCountry } from './cityRegistry.mjs'
 import { buildCityPagePath, parseCityPagePath } from './cityPaths.mjs'
 import { evaluateCityIndexability, resolveCityContent } from './cityLocaleApi.mjs'
 
@@ -504,12 +504,12 @@ export async function buildIndexablePages(deps) {
     )
   }
 
-  // Published Pakistan city product pages (/karachi/erp-software, /lahore/pos-software, …)
+  // Published Pakistan city homes (/karachi) and product pages (/lahore/software/erp-software)
   for (const countrySlug of GCC_COUNTRY_SLUGS) {
     const countryCode = normalizeCountryCode(countrySlug.toUpperCase())
     if (!enabledCodes.has(countryCode)) continue
     for (const city of getCitiesForCountry(countryCode)) {
-      for (const pageSlug of CITY_PRODUCT_PAGE_SLUGS) {
+      for (const pageSlug of [CITY_HOME_SLUG, ...CITY_PRODUCT_PAGE_SLUGS]) {
         for (const lang of GCC_LANGS) {
           const resolved = resolveContent(
             localeStore,
@@ -537,7 +537,7 @@ export async function buildIndexablePages(deps) {
             countryEnabled: enabledCodes.has(countryCode),
           })
           if (!check.indexable) continue
-          const internalPath = `/${city.slug}/${pageSlug}`
+          const internalPath = pageSlug === CITY_HOME_SLUG ? `/${city.slug}` : `/${city.slug}/software/${pageSlug}`
           tryAddEntry(
             entries,
             seen,
@@ -710,8 +710,8 @@ export async function resolveSeoForPath(deps, pathname) {
         description: descFromRecord || readBilingualText(seoDoc?.metaDescription, cityParsed.lang) || '',
         ogLocale: ogLocaleTag(cityParsed.country, cityParsed.lang),
         ogUrl: canonical,
-        alternates: [{ hreflang: 'x-default', href: absoluteUrl(buildLocalePath('ae', 'en', '/')) }],
-        xDefault: absoluteUrl(buildLocalePath('ae', 'en', '/')),
+        alternates: [],
+        xDefault: canonical,
         indexable: !noIndex,
       }
     }

@@ -10,19 +10,13 @@ export function AdminLocaleContextBar() {
       <label className="flex items-center gap-2">
         Country
         <select className="rounded-lg border border-slate-200 px-2 py-1" value={country} onChange={(e) => setCountry(e.target.value as LocaleCountrySlug)}>
-          <option value="ae">UAE</option>
-          <option value="sa">Saudi Arabia</option>
-          <option value="kw">Kuwait</option>
-          <option value="qa">Qatar</option>
-          <option value="bh">Bahrain</option>
-          <option value="om">Oman</option>
+          <option value="pk">Pakistan</option>
         </select>
       </label>
       <label className="flex items-center gap-2">
         Language
         <select className="rounded-lg border border-slate-200 px-2 py-1" value={lang} onChange={(e) => setLang(e.target.value as 'en' | 'ar')}>
-          <option value="en">English</option>
-          <option value="ar">Arabic</option>
+            <option value="en">English</option>
         </select>
       </label>
       <span className="rounded-full bg-white px-3 py-1 font-semibold text-slate-800 ring-1 ring-slate-200">

@@ -27,8 +27,8 @@ const FALLBACK = {
     ar: 'Mon - Sat : 10.00 am - 6.00 pm',
   },
   officeAddress: {
-    en: 'Suite 100, Placeholder Tower, Karachi, Pakistan',
-    ar: 'Suite 100, Placeholder Tower, Karachi, Pakistan',
+    en: 'Serving businesses across Pakistan',
+    ar: 'Serving businesses across Pakistan',
   },
 } as const
 

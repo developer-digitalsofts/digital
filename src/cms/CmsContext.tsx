@@ -67,8 +67,8 @@ export function CmsProvider({ children }: { children: ReactNode }) {
             : {
                 countryCode,
                 lang,
-                fallbackUsed: countryCode !== 'AE',
-                noIndex: countryCode !== 'AE',
+                fallbackUsed: countryCode !== 'PK',
+                noIndex: countryCode !== 'PK',
               },
         )
 
@@ -78,7 +78,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
           console.log('NORMALIZED_PAGE_DATA', normalized)
           if (locale?.fallbackUsed === true) {
             console.info(
-              `[cms] Locale fallback active for ${String(locale.countryCode || countryCode)}/${String(locale.lang || lang)} — public site shows regionalized UAE baseline.`,
+              `[cms] Locale fallback active for ${String(locale.countryCode || countryCode)}/${String(locale.lang || lang)} — public site shows Pakistan baseline.`,
             )
           }
         }

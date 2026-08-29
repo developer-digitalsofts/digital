@@ -19,12 +19,25 @@ export const PK_CONTACT_PLACEHOLDERS = {
   phoneHref: 'tel:+923000000000',
   whatsappNumber: '923000000000',
   officeAddress: {
-    en: 'Suite 100, Placeholder Tower, Karachi, Pakistan',
+    en: 'Serving businesses across Pakistan',
   },
   workingHours: {
     en: 'Mon - Sat : 10.00 am - 6.00 pm',
   },
 }
+
+export const PK_SITE_COPY = {
+  trustLine: 'Trusted by growing businesses across Pakistan.',
+  trustTitle: 'Trusted By Businesses Across Pakistan',
+  heroBadge: 'Pakistan Ready',
+  marketsBadge: 'Serving businesses across Pakistan',
+  vatLabel: 'Pakistan sales tax',
+  defaultSeoTitle: 'DigitalManager — Cloud ERP for Pakistan',
+  defaultMetaDescription:
+    'Cloud ERP software for retail, manufacturing, logistics and services across Pakistan.',
+}
+
+export const CITY_HOME_SLUG = 'home'
 
 export const CITY_PRODUCT_PAGE_SLUGS = ['erp-software', 'pos-software', 'accounting-software']
 
@@ -43,7 +56,39 @@ export const PK_CITY_SLUGS = [
   'multan',
   'peshawar',
   'quetta',
+  'hyderabad',
+  'sialkot',
+  'gujranwala',
 ]
+
+export const PK_CITY_NAMES = {
+  karachi: 'Karachi',
+  lahore: 'Lahore',
+  islamabad: 'Islamabad',
+  rawalpindi: 'Rawalpindi',
+  faisalabad: 'Faisalabad',
+  multan: 'Multan',
+  peshawar: 'Peshawar',
+  quetta: 'Quetta',
+  hyderabad: 'Hyderabad',
+  sialkot: 'Sialkot',
+  gujranwala: 'Gujranwala',
+}
+
+export function servingBusinessesIn(cityName) {
+  return `Serving businesses in ${cityName}`
+}
+
+export function buildCityHomePath(citySlug) {
+  return `/${String(citySlug).toLowerCase()}`
+}
+
+export function buildCitySoftwarePath(citySlug, softwarePath) {
+  const rest = softwarePath.startsWith('/') ? softwarePath : `/${softwarePath}`
+  if (rest === '/' || rest === '') return buildCityHomePath(citySlug)
+  if (rest.startsWith('/software/')) return `/${String(citySlug).toLowerCase()}${rest}`
+  return `/${String(citySlug).toLowerCase()}/software${rest.startsWith('/') ? rest : `/${rest}`}`
+}
 
 /** CMS data folder relative to server/ — never share with UAE server/data */
 export const PK_CMS_DATA_DIR_NAME = 'data-pk'
@@ -53,4 +98,16 @@ export function isPakistanMarket() {
   if (market === 'PK' || market === 'PAKISTAN') return true
   const dataDir = String(process.env.CMS_DATA_DIR || '').trim().toLowerCase()
   return dataDir.includes('data-pk') || dataDir.endsWith('pk')
+}
+
+export function resolvePakistanContact(siteSettings = {}) {
+  return {
+    primaryEmail: siteSettings.primaryEmail || PK_CONTACT_PLACEHOLDERS.primaryEmail,
+    salesEmail: siteSettings.salesEmail || PK_CONTACT_PLACEHOLDERS.salesEmail,
+    supportEmail: siteSettings.supportEmail || PK_CONTACT_PLACEHOLDERS.supportEmail,
+    phoneDisplay: siteSettings.phoneDisplay || PK_CONTACT_PLACEHOLDERS.phoneDisplay,
+    phoneHref: siteSettings.phoneHref || PK_CONTACT_PLACEHOLDERS.phoneHref,
+    whatsappNumber: siteSettings.whatsappNumber || PK_CONTACT_PLACEHOLDERS.whatsappNumber,
+    workingHours: siteSettings.workingHours?.en || PK_CONTACT_PLACEHOLDERS.workingHours.en,
+  }
 }

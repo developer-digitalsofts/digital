@@ -87,9 +87,14 @@ async function main() {
   else fail('Homepage has H2 hierarchy')
   if (/<html[^>]*lang=["']en["']/i.test(home.text)) pass('Homepage html lang=en')
   else fail('Homepage html lang')
-  if (/rel=["']canonical["'][^>]+https:\/\/www\.digitalmanager\.ae/i.test(home.text) || /href=["']https:\/\/www\.digitalmanager\.ae\/?["']/i.test(home.text)) {
-    pass('Homepage canonical uses www.digitalmanager.ae')
-  } else fail('Homepage canonical uses www.digitalmanager.ae')
+  if (
+    /rel=["']canonical["'][^>]+https:\/\/(www\.)?digitalmanager\.com\.pk/i.test(home.text) ||
+    /rel=["']canonical["'][^>]+https:\/\/pk-test\.digitalmanager\.ae/i.test(home.text) ||
+    /href=["']https:\/\/(www\.)?digitalmanager\.com\.pk\/?["']/i.test(home.text) ||
+    /href=["']https:\/\/pk-test\.digitalmanager\.ae\/?["']/i.test(home.text)
+  ) {
+    pass('Homepage canonical uses Pakistan site origin')
+  } else fail('Homepage canonical uses Pakistan site origin')
   if (/property=["']og:type["']/i.test(home.text)) pass('Homepage og:type')
   else fail('Homepage og:type')
   if (/property=["']og:image["']/i.test(home.text)) pass('Homepage og:image')
@@ -273,8 +278,8 @@ async function main() {
   }
 
   const locale = await fetchProbe(`${BASE}/sa/en`, BROWSER_HTML_HEADERS)
-  if (locale.status === 200 && browserShellOk(locale.text)) pass('Locale route /sa/en loads React shell for browser')
-  else fail('Locale route /sa/en loads React shell for browser', String(locale.status))
+  if (locale.status === 404) pass('Legacy GCC locale /sa/en is a real HTTP 404')
+  else fail('Legacy GCC locale /sa/en is a real HTTP 404', String(locale.status))
 
   const blog = await fetchProbe(`${BASE}/blog`, BROWSER_HTML_HEADERS)
   if (blog.status === 200 && blog.text.includes('type="module"')) pass('Blog listing loads React shell for browser')

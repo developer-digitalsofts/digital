@@ -74,7 +74,7 @@ function normalizeHeader(raw: Record<string, unknown>): CmsHeader & { _meta?: Re
     branding,
     navLinks,
     getInTouch,
-    showLangSwitcher: h.showLangSwitcher !== false,
+    showLangSwitcher: h.showLangSwitcher === true,
     _meta: h._meta,
   }
 }

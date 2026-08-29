@@ -2,6 +2,27 @@
 export const GCC_COUNTRIES = ['AE', 'SA', 'QA', 'OM', 'KW', 'BH']
 
 export const COUNTRY_PROFILES = {
+  PK: {
+    code: 'PK',
+    slug: 'pk',
+    currency: 'PKR',
+    currencyName: { en: 'Pakistan Rupee (PKR)', ar: 'روبية باكستانية (PKR)' },
+    name: { en: 'Pakistan', ar: 'Pakistan' },
+    fullName: { en: 'Pakistan', ar: 'Pakistan' },
+    cities: { en: ['Karachi', 'Lahore', 'Islamabad'], ar: ['Karachi', 'Lahore', 'Islamabad'] },
+    cityPhrase: {
+      en: 'Karachi, Lahore and Islamabad',
+      ar: 'Karachi, Lahore and Islamabad',
+    },
+    trustHeading: {
+      en: 'Trusted By Businesses Across Pakistan',
+      ar: 'Trusted By Businesses Across Pakistan',
+    },
+    heroAccent: {
+      en: 'Pakistan',
+      ar: 'Pakistan',
+    },
+  },
   AE: {
     code: 'AE',
     slug: 'ae',
@@ -130,6 +151,6 @@ export const REGIONAL_SUPPORT = {
 }
 
 export function getProfile(countryCode) {
-  const code = String(countryCode || 'AE').toUpperCase()
-  return COUNTRY_PROFILES[code] || COUNTRY_PROFILES.AE
+  const code = String(countryCode || 'PK').toUpperCase()
+  return COUNTRY_PROFILES[code] || COUNTRY_PROFILES.PK
 }

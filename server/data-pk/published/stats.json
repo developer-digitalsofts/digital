@@ -8,7 +8,7 @@
     "ar": "مبني على الثقة.\nمثبت بالنتائج."
   },
   "subheading": {
-    "en": "A unified cloud ERP platform designed to support finance, inventory, sales and multi-branch operations. Serving teams in Dubai, Abu Dhabi and Sharjah.",
+    "en": "A unified cloud ERP platform designed to support finance, inventory, sales and multi-branch operations. Serving businesses across Pakistan.",
     "ar": "منصة ERP سحابية موحّدة لدعم المالية والمخزون والمبيعات وعمليات الفروع المتعددة. لخدمة الفرق في دبي وأبوظبي والشارقة."
   },
   "items": [
@@ -38,7 +38,7 @@
     },
     {
       "id": "s-currency",
-      "value": "AED",
+      "value": "PKR",
       "label": {
         "en": "VAT-Ready Invoicing",
         "ar": "فوترة جاهزة للضريبة"
@@ -62,7 +62,7 @@
     },
     {
       "id": "s-region",
-      "value": "UAE",
+      "value": "PK",
       "label": {
         "en": "Focused Implementation",
         "ar": "تنفيذ مركّز"

@@ -46,8 +46,12 @@ function CityBreadcrumbs({
         </li>
         <li aria-hidden="true">/</li>
         <li className="font-medium text-slate-700">{cityName}</li>
-        <li aria-hidden="true">/</li>
-        <li className="text-slate-600">{pageTitle}</li>
+        {pageTitle ? (
+          <>
+            <li aria-hidden="true">/</li>
+            <li className="text-slate-600">{pageTitle}</li>
+          </>
+        ) : null}
       </ol>
     </nav>
   )
@@ -146,7 +150,7 @@ export function CityLocalePage({ citySlug, pageSlug = CITY_PAGE_SLUG }: Props) {
 
   const cityPath = buildCityPagePath(country, lang, citySlug, pageSlug)
   const cityDisplayName = getCityDisplayName(citySlug, lang)
-  const erpLabel = CITY_PRODUCT_LABELS[pageSlug as keyof typeof CITY_PRODUCT_LABELS] || 'ERP Software'
+  const erpLabel = pageSlug === 'home' ? '' : CITY_PRODUCT_LABELS[pageSlug as keyof typeof CITY_PRODUCT_LABELS] || pageSlug
   const homeLabel = 'Home'
 
   useEffect(() => {

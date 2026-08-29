@@ -6,7 +6,6 @@ import { applyCmsToDetailPage, applyCmsToRichPage } from '../cms/applySoftwareDe
 import {
   applyLocaleToDetailPage,
   applyLocaleToRichPage,
-  hasPublishedLocaleRegional,
   type LocaleSoftwareDetailPage,
 } from '../cms/applyLocaleSoftwareDetail'
 import { fetchJson } from '../cms/api'
@@ -21,6 +20,7 @@ import { useI18n } from '../i18n/I18nProvider'
 import { megaIndustryLabel, megaModuleLabel } from '../i18n/megaLabels'
 import { pick } from '../cms/pick'
 import { useLocale } from '../locale/LocaleContext'
+import { useOptionalCity } from '../locale/CityContext'
 import { SoftwareDetailRegionalProvider } from '../locale/SoftwareDetailRegionalContext'
 import { regionalizeRichPage, regionalizeSoftwareDetailPage } from '../locale/regionalizeSoftwareDetail'
 import { getDashboardRegionalData } from '../components/hero/dashboards/dashboardRegionalData'
@@ -56,6 +56,7 @@ export function SoftwarePage({
   const params = useParams<{ flatSlug?: string; kind?: string; slug?: string }>()
   const { lang, t } = useI18n()
   const { countryCode } = useLocale()
+  const city = useOptionalCity()
   const [cmsRecord, setCmsRecord] = useState<SoftwareDetailCmsRecord | null>(null)
   const [cmsFetchDone, setCmsFetchDone] = useState(false)
   const [localePage, setLocalePage] = useState<LocaleSoftwareDetailPage | null>(null)
@@ -131,8 +132,7 @@ export function SoftwarePage({
 
   const menuItem = staticMenuItem
   const customCms = cmsRecord?.isCustom && cmsRecord.active !== false ? cmsRecord : null
-  const useLocaleCms = hasPublishedLocaleRegional(localePage)
-  const shouldRegionalizeFallback = countryCode !== 'AE' && !useLocaleCms
+  const shouldRegionalizeFallback = countryCode !== 'AE'
 
   const item =
     menuItem ??
@@ -258,10 +258,28 @@ export function SoftwarePage({
 
   const crumbMid = isModule ? t('softwarePage.crumbModules') : t('softwarePage.crumbIndustries')
   const regionalValue = localeRegionalPack ?? fallbackRegionalPack
+  const cityName = city?.cityName
+  const cityDetail = cityName
+    ? {
+        ...detail,
+        metaTitle: detail.metaTitle.includes(cityName)
+          ? detail.metaTitle
+          : `${detail.metaTitle.replace(/\s*\|\s*DigitalManager.*$/, '')} in ${cityName} | DigitalManager Pakistan`,
+        hero: {
+          ...detail.hero,
+          headline: detail.hero.headline.includes(cityName)
+            ? detail.hero.headline
+            : `${detail.hero.headline} for ${cityName}`,
+        },
+        metaDescription: detail.metaDescription.includes(cityName)
+          ? detail.metaDescription
+          : `${detail.metaDescription} ${city.serviceArea}.`,
+      }
+    : detail
 
   const pageBody = isModule ? (
     <ModuleDetailTemplate
-      detail={detail}
+      detail={cityDetail}
       displayName={displayName}
       crumbMid={crumbMid}
       crumbHome={t('softwarePage.crumbHome')}
@@ -270,7 +288,7 @@ export function SoftwarePage({
     />
   ) : (
     <IndustryDetailTemplate
-      detail={detail}
+      detail={cityDetail}
       displayName={displayName}
       crumbMid={crumbMid}
       crumbHome={t('softwarePage.crumbHome')}

@@ -1,28 +1,28 @@
 /**
- * City page path parsing — Pakistan flat URLs: /karachi/erp-software
+ * City page path parsing — Pakistan URLs:
+ *   /karachi
+ *   /karachi/software/crm-software
  */
 import {
+  CITY_HOME_SLUG,
   CITY_PRODUCT_LABELS,
   CITY_PRODUCT_PAGE_SLUGS,
+  PK_CITY_NAMES,
+  PK_CITY_SLUGS,
+  buildCityHomePath,
+  buildCitySoftwarePath,
   isCityProductPageSlug,
   isPkCitySlug,
   MARKET_CODE,
   MARKET_SLUG,
-  PK_CITY_SLUGS,
   type CityProductPageSlug,
+  type PkCitySlug,
 } from '../market/pakistanConfig'
 import type { LocaleCountrySlug, LocaleLang } from './localeConfig'
 
-export const CITY_DISPLAY_NAMES: Record<string, { en: string }> = {
-  karachi: { en: 'Karachi' },
-  lahore: { en: 'Lahore' },
-  islamabad: { en: 'Islamabad' },
-  rawalpindi: { en: 'Rawalpindi' },
-  faisalabad: { en: 'Faisalabad' },
-  multan: { en: 'Multan' },
-  peshawar: { en: 'Peshawar' },
-  quetta: { en: 'Quetta' },
-}
+export const CITY_DISPLAY_NAMES: Record<string, { en: string }> = Object.fromEntries(
+  PK_CITY_SLUGS.map((slug) => [slug, { en: PK_CITY_NAMES[slug] }]),
+)
 
 export function getCityDisplayName(citySlug: string, _lang: 'en' | 'ar' = 'en'): string {
   const names = CITY_DISPLAY_NAMES[citySlug.toLowerCase()]
@@ -30,9 +30,9 @@ export function getCityDisplayName(citySlug: string, _lang: 'en' | 'ar' = 'en'):
   return citySlug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
 }
 
-export const CITY_PAGE_SLUG = 'erp-software'
+export const CITY_PAGE_SLUG = CITY_HOME_SLUG
 
-export { CITY_PRODUCT_PAGE_SLUGS, CITY_PRODUCT_LABELS }
+export { CITY_HOME_SLUG, CITY_PRODUCT_PAGE_SLUGS, CITY_PRODUCT_LABELS, buildCityHomePath, buildCitySoftwarePath }
 
 export const CITY_SLUGS_BY_COUNTRY: Record<string, string[]> = {
   PK: [...PK_CITY_SLUGS],
@@ -52,46 +52,113 @@ export type ParsedCityPath = {
   countryCode: string
   citySlug: string | null
   pageSlug: string | null
+  softwarePath: string | null
   isCityPage: boolean
+  isCityHome: boolean
+  isCitySoftware: boolean
+  isLegacyCityProduct: boolean
+  redirectTo?: string
+  unknownCityPath?: boolean
   restPath: string
   hasLocalePrefix: boolean
+}
+
+function emptyParse(path: string): ParsedCityPath {
+  return {
+    country: MARKET_SLUG as LocaleCountrySlug,
+    lang: 'en',
+    countryCode: MARKET_CODE,
+    citySlug: null,
+    pageSlug: null,
+    softwarePath: null,
+    isCityPage: false,
+    isCityHome: false,
+    isCitySoftware: false,
+    isLegacyCityProduct: false,
+    restPath: path,
+    hasLocalePrefix: false,
+  }
 }
 
 export function buildCityPagePath(
   _country: LocaleCountrySlug,
   _lang: LocaleLang,
   citySlug: string,
-  pageSlug: string = CITY_PAGE_SLUG,
+  pageSlug: string = CITY_HOME_SLUG,
 ): string {
-  return `/${citySlug.toLowerCase()}/${pageSlug.toLowerCase()}`
+  const city = citySlug.toLowerCase()
+  const page = (pageSlug || CITY_HOME_SLUG).toLowerCase()
+  if (!page || page === CITY_HOME_SLUG) return buildCityHomePath(city)
+  return buildCitySoftwarePath(city, page)
 }
 
 export function parseCityPagePath(pathname: string): ParsedCityPath {
   const path = pathname.startsWith('/') ? pathname : `/${pathname}`
   const parts = path.replace(/^\/+|\/+$/g, '').split('/').filter(Boolean)
 
-  if (parts.length !== 2 || !isPkCitySlug(parts[0]) || !isCityProductPageSlug(parts[1])) {
+  if (parts.length === 0 || !isPkCitySlug(parts[0])) {
+    return emptyParse(path)
+  }
+
+  const citySlug = parts[0].toLowerCase() as PkCitySlug
+
+  if (parts.length === 1) {
     return {
       country: MARKET_SLUG as LocaleCountrySlug,
       lang: 'en',
       countryCode: MARKET_CODE,
-      citySlug: null,
-      pageSlug: null,
-      isCityPage: false,
+      citySlug,
+      pageSlug: CITY_HOME_SLUG,
+      softwarePath: null,
+      isCityPage: true,
+      isCityHome: true,
+      isCitySoftware: false,
+      isLegacyCityProduct: false,
+      restPath: path,
+      hasLocalePrefix: false,
+    }
+  }
+
+  if (parts[1] === 'software' && parts.length >= 3 && parts.length <= 4) {
+    const softwarePath = `/${parts.slice(1).join('/')}`
+    return {
+      country: MARKET_SLUG as LocaleCountrySlug,
+      lang: 'en',
+      countryCode: MARKET_CODE,
+      citySlug,
+      pageSlug: parts.slice(2).join('/'),
+      softwarePath,
+      isCityPage: true,
+      isCityHome: false,
+      isCitySoftware: true,
+      isLegacyCityProduct: false,
+      restPath: path,
+      hasLocalePrefix: false,
+    }
+  }
+
+  if (parts.length === 2 && isCityProductPageSlug(parts[1])) {
+    return {
+      country: MARKET_SLUG as LocaleCountrySlug,
+      lang: 'en',
+      countryCode: MARKET_CODE,
+      citySlug,
+      pageSlug: parts[1].toLowerCase() as CityProductPageSlug,
+      softwarePath: `/software/${parts[1].toLowerCase()}`,
+      isCityPage: true,
+      isCityHome: false,
+      isCitySoftware: false,
+      isLegacyCityProduct: true,
+      redirectTo: buildCitySoftwarePath(citySlug, parts[1]),
       restPath: path,
       hasLocalePrefix: false,
     }
   }
 
   return {
-    country: MARKET_SLUG as LocaleCountrySlug,
-    lang: 'en',
-    countryCode: MARKET_CODE,
-    citySlug: parts[0].toLowerCase(),
-    pageSlug: parts[1].toLowerCase() as CityProductPageSlug,
-    isCityPage: true,
-    restPath: path,
-    hasLocalePrefix: false,
+    ...emptyParse(path),
+    citySlug,
+    unknownCityPath: true,
   }
 }
 

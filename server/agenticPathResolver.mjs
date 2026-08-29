@@ -117,6 +117,44 @@ export async function resolvePublicPath(deps, pathname) {
   }
 
   const cityParsed = parseCityPagePath(path)
+  if (cityParsed.redirectTo) {
+    return {
+      known: true,
+      kind: 'redirect',
+      redirectTo: cityParsed.redirectTo,
+      path,
+      locale: parsed,
+      restPath: normalizedInternal,
+      citySlug: cityParsed.citySlug,
+      pageSlug: cityParsed.pageSlug,
+    }
+  }
+  if (cityParsed.unknownCityPath) {
+    return { known: false, kind: 'unknown', path, locale: parsed, restPath: normalizedInternal }
+  }
+  if (cityParsed.isCityHome && cityParsed.citySlug) {
+    return {
+      known: true,
+      kind: 'city-home',
+      path,
+      locale: parsed,
+      restPath: normalizedInternal,
+      citySlug: cityParsed.citySlug,
+      pageSlug: cityParsed.pageSlug,
+    }
+  }
+  if (cityParsed.isCitySoftware && cityParsed.citySlug) {
+    return {
+      known: true,
+      kind: 'city-software',
+      path,
+      locale: parsed,
+      restPath: normalizedInternal,
+      citySlug: cityParsed.citySlug,
+      pageSlug: cityParsed.pageSlug,
+      softwarePath: cityParsed.softwarePath,
+    }
+  }
   if (cityParsed.isCityPage && cityParsed.citySlug && cityParsed.pageSlug) {
     return {
       known: true,

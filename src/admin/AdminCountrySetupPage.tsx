@@ -75,7 +75,7 @@ export function AdminCountrySetupPage() {
       <div>
         <h2 className="text-xl font-bold text-slate-900">Country setup</h2>
         <p className="text-sm text-slate-600">
-          Register a GCC country with locale records only. All non-UAE locales remain Draft and noindex until explicitly published.
+          Register a Pakistan market locale record. Unpublished locales remain Draft and noindex until explicitly published.
         </p>
       </div>
 
@@ -149,7 +149,7 @@ export function AdminCountrySetupPage() {
             <p className="mt-2 text-xs">Arabic placeholders: {report.missingTranslations.join(', ')}</p>
           ) : null}
           <button type="button" className="mt-4 text-sm font-semibold text-brand" onClick={() => navigate('/admin/content/countries')}>
-            Open GCC Countries →
+            Open Countries →
           </button>
         </div>
       ) : null}

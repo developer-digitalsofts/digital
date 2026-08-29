@@ -3,7 +3,8 @@
  */
 import { PUBLIC_SITE_BASE } from './seoResolve.mjs'
 import { registryStaticPaths, uaeSoftwarePaths } from './seoRouteCatalog.mjs'
-import { LOCALE_COUNTRY_SLUGS } from './seoPaths.mjs'
+import { ALL_CITY_SLUGS } from './cityRegistry.mjs'
+import { CITY_PRODUCT_PAGE_SLUGS } from './pakistanConfig.mjs'
 import { PUBLIC_API_VERSION_POLICY } from './publicApiVersioning.mjs'
 
 export function buildLlmsTxt({ compact = false } = {}) {
@@ -18,7 +19,7 @@ export function buildLlmsTxt({ compact = false } = {}) {
   lines.push('')
   lines.push('- Unified cloud ERP for accounts, inventory, production, POS, payroll, CRM, and reporting')
   lines.push('- Industry-specific programmes for retail, manufacturing, logistics, services, and more')
-  lines.push('- Multi-branch and multi-country operations with GCC localized experiences')
+  lines.push('- Multi-branch and multi-city operations with Pakistan localized experiences')
   lines.push('- Demo and contact workflows via POST /api/public/v1/leads; read-only public content API documented at /developers')
   lines.push('')
   lines.push('## DigitalManager Developer Platform')
@@ -50,7 +51,7 @@ export function buildLlmsTxt({ compact = false } = {}) {
   lines.push('')
   lines.push('- A business needs one connected ERP instead of disconnected spreadsheets and tools')
   lines.push('- Teams require VAT-ready invoicing, inventory control, POS, payroll, or branch reporting')
-  lines.push('- Organizations in the UAE and wider GCC want localized English (and approved Arabic) content')
+  lines.push('- Organizations in Pakistan want localized English content for city and national pages')
   lines.push('- Users want product information, module overviews, industry pages, blog insights, or demo requests')
   lines.push('')
   lines.push('## Main ERP use cases')
@@ -62,17 +63,19 @@ export function buildLlmsTxt({ compact = false } = {}) {
   lines.push('- Production and manufacturing workflows')
   lines.push('- CRM and customer operations')
   lines.push('')
-  lines.push('## Supported modules (UAE English examples)')
+  lines.push('## Supported modules (Pakistan English examples)')
   lines.push('')
   for (const path of uaeSoftwarePaths().slice(0, compact ? 8 : 999)) {
     lines.push(`- ${PUBLIC_SITE_BASE}${path}`)
   }
   lines.push('')
-  lines.push('## GCC localized routes')
+  lines.push('## Pakistan city routes')
   lines.push('')
-  for (const country of LOCALE_COUNTRY_SLUGS) {
-    lines.push(`- ${PUBLIC_SITE_BASE}/${country}/en`)
-    lines.push(`- ${PUBLIC_SITE_BASE}/${country}/ar (draft/review content may be noindex until approved)`)
+  for (const city of ALL_CITY_SLUGS) {
+    lines.push(`- ${PUBLIC_SITE_BASE}/${city}`)
+    for (const product of CITY_PRODUCT_PAGE_SLUGS) {
+      lines.push(`- ${PUBLIC_SITE_BASE}/${city}/software/${product}`)
+    }
   }
   lines.push('')
   lines.push('## Important public pages')
@@ -85,8 +88,7 @@ export function buildLlmsTxt({ compact = false } = {}) {
   lines.push('')
   lines.push('## Blog / Insights')
   lines.push('')
-  lines.push(`- UAE English blog listing: ${PUBLIC_SITE_BASE}/blog`)
-  lines.push(`- Locale insights use /{country}/{lang}/insights`)
+  lines.push(`- Pakistan English blog listing: ${PUBLIC_SITE_BASE}/blog`)
   lines.push('')
   lines.push('## Contact / demo')
   lines.push('')

@@ -32,11 +32,7 @@ function getByPath(obj: unknown, path: string): string {
 const STORAGE_KEY = 'dm-lang'
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>(() => {
-    if (typeof window === 'undefined') return 'en'
-    const s = localStorage.getItem(STORAGE_KEY) as Lang | null
-    return s === 'ar' ? 'ar' : 'en'
-  })
+  const [lang, setLangState] = useState<Lang>('en')
 
   const setLang = useCallback((l: Lang) => {
     setLangState(l)

@@ -79,7 +79,7 @@ export function GetDemoModal({ open, onClose }: Props) {
             topic: 'demo',
             source: 'Get Demo Modal',
             message: `Header demo request — business type: ${businessType.trim()}`,
-            email: `demo+${digits || Date.now()}@digitalmanager.ae`,
+            email: `demo+${digits || Date.now()}@digitalmanager.com.pk`,
             sourcePage: `header-get-demo:${location.pathname}${location.search}`.slice(0, 500),
             localeCountry: localeMeta.localeCountry,
             localeLang: localeMeta.localeLang,
@@ -182,7 +182,7 @@ export function GetDemoModal({ open, onClose }: Props) {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className={fieldClass}
-                  placeholder="+971 …"
+                  placeholder="+92 …"
                 />
               </div>
               <div>

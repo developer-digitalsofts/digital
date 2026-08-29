@@ -57,19 +57,19 @@ export function AdminCountriesPage() {
     const out = { ...local, schemaVersion: 1, items: sortItems(local.items) }
     await sec.save(out as CountriesDoc & Record<string, unknown>)
     setBaseline(JSON.stringify(out))
-    toast.push('GCC countries saved', 'success')
+    toast.push('Countries saved', 'success')
   }
 
   if (sec.loading || !local) {
-    return <p className="py-8 text-sm text-slate-600">Loading GCC countries…</p>
+    return <p className="py-8 text-sm text-slate-600">Loading countries…</p>
   }
 
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-xl font-bold text-slate-900">GCC Countries</h2>
+        <h2 className="text-xl font-bold text-slate-900">Countries</h2>
         <p className="text-sm text-slate-600">
-          Manage regional contact details and availability for UAE, KSA, Kuwait, Qatar, Bahrain and Oman. Unset fields inherit from the default country (UAE).
+          Manage Pakistan contact details and availability. Unset fields inherit from the default country (Pakistan).
         </p>
       </div>
 
@@ -77,7 +77,7 @@ export function AdminCountriesPage() {
         Default country code
         <select
           className="mt-1 w-full max-w-xs rounded-xl border border-slate-200 px-3 py-2"
-          value={local.defaultCountryCode || 'AE'}
+          value={local.defaultCountryCode || 'PK'}
           onChange={(e) => setLocal({ ...local, defaultCountryCode: e.target.value as CountriesDoc['defaultCountryCode'] })}
         >
           {GCC_COUNTRY_CODES.map((code) => (
@@ -193,7 +193,7 @@ export function AdminCountriesPage() {
         onPublish={async () => {
           await save()
           await sec.publish()
-          toast.push('GCC countries published', 'success')
+          toast.push('Countries published', 'success')
         }}
         onCancel={() => {
           try {

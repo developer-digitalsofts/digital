@@ -83,8 +83,8 @@ export const messages = {
           desc: 'Ledgers, vouchers, cash flow and bank control',
         },
         vatCompliance: {
-          title: 'UAE VAT & Tax Compliance',
-          desc: 'UAE VAT-compliant invoicing and tax reporting',
+          title: 'Pakistan Sales Tax & Compliance',
+          desc: 'Pakistan sales-tax-ready invoicing and tax reporting',
         },
         reportsAnalytics: {
           title: 'Reports & Analytics',
@@ -211,8 +211,8 @@ export const messages = {
     },
     cta: {
       title: 'Ready to modernize your business with a trusted ERP partner?',
-      sub: 'DigitalManager helps growing businesses across UAE, GCC and international markets manage accounts, inventory, sales, payroll, POS and reporting from one connected platform.',
-      trustLine: 'Trusted by businesses across the UAE, Saudi Arabia, Qatar, Bahrain and Oman.',
+      sub: 'DigitalManager helps growing businesses across Pakistan manage accounts, inventory, sales, payroll, POS and reporting from one connected platform.',
+      trustLine: 'Trusted by businesses across Karachi, Lahore, Islamabad and cities nationwide.',
       demo: 'Book Free Demo',
       expert: 'Talk to an ERP Consultant',
       wa: 'WhatsApp Now',
@@ -358,9 +358,9 @@ export const messages = {
     about: {
       eyebrow: 'About Us',
       title: 'About DigitalManager',
-      p1: 'DigitalManager is a cloud ERP platform built for growing businesses across UAE, GCC and international markets. It helps companies manage finance, inventory, sales, operations and reporting from one connected system.',
+      p1: 'DigitalManager is a cloud ERP platform built for growing businesses across Pakistan. It helps companies manage finance, inventory, sales, operations and reporting from one connected system.',
       p2: 'Built for multi-branch teams and industry-specific workflows, DigitalManager improves visibility, reduces manual work and helps management make faster decisions.',
-      marketsBadge: 'Serving UAE, GCC & International Markets',
+      marketsBadge: 'Serving businesses across Pakistan',
       p3: '',
       imageAlt: 'Business growth illustration showing team planning, operations and ERP support',
       visual: {
@@ -381,7 +381,7 @@ export const messages = {
       },
       trust: {
         since2004: 'Since 2004',
-        gcc: 'Trusted Across UAE & GCC',
+        gcc: 'Trusted Across Pakistan',
         enterprise: 'Enterprise ERP Solutions',
         multibranch: 'Multi-Branch ERP Support',
       },
@@ -410,7 +410,7 @@ export const messages = {
       f4d: 'Fewer manual handoffs from quote to invoice to reconciliation.',
     },
     trustStats: {
-      title: 'Trusted By Businesses Across UAE & GCC',
+      title: 'Trusted By Businesses Across Pakistan',
       bannerTitle: 'Trusted Results.\nStronger Businesses.',
       eyebrow: 'WHY BUSINESSES CHOOSE DIGITALMANAGER',
       heading: 'Built on Trust. Proven by Results.',
@@ -419,10 +419,10 @@ export const messages = {
         'A unified cloud ERP platform designed to support finance, inventory, sales and multi-branch operations.',
       items: {
         experience: { value: 'Cloud', label: 'Native ERP Platform' },
-        softwares: { value: 'AED', label: 'Multi-Currency Ready' },
+        softwares: { value: 'PKR', label: 'Multi-Currency Ready' },
         clients: { value: 'Unified', label: 'Connected Operations' },
         satisfaction: { value: 'Multi', label: 'Branch Operations' },
-        branches: { value: 'GCC', label: 'Regional Support' },
+        branches: { value: 'Pakistan', label: 'National Support' },
       },
     },
     industryListing: {
@@ -667,8 +667,8 @@ export const messages = {
           desc: 'Fast checkout, promotions, and live stock sync to ERP.',
         },
         'fbr-pos-integration-software': {
-          title: 'UAE VAT & Tax Compliance',
-          desc: 'UAE VAT-compliant digital invoicing and real-time POS tax lines.',
+          title: 'Pakistan Sales Tax & Compliance',
+          desc: 'Pakistan sales-tax-ready digital invoicing and real-time POS tax lines.',
         },
         'inventory-management-software': {
           title: 'Inventory',
@@ -706,7 +706,7 @@ export const messages = {
           cat: 'Industry Solution',
         },
         fbr: {
-          title: 'UAE VAT POS',
+          title: 'Pakistan POS Tax',
           desc: 'Compliant digital invoicing with faster reconciliation.',
           cat: 'Compliance',
         },
@@ -798,8 +798,8 @@ export const messages = {
       coContact: 'Contact',
       privacy: 'Privacy Policy',
       terms: 'Terms of Use',
-      address: '607, Al Rahma 1, Al Wahda St, Sharjah, UAE',
-      trustMessage: 'Trusted by businesses across UAE, GCC and international markets.',
+      address: 'Serving businesses across Pakistan',
+      trustMessage: 'Trusted by businesses across Pakistan.',
       legalNav: 'Legal links',
       resources: {
         blog: 'Insights',
@@ -913,7 +913,7 @@ export const messages = {
       emailLabel: 'Email',
       phoneLabel: 'Contact Number',
       emailPlaceholder: 'you@company.com',
-      phonePlaceholder: '+971 …',
+      phonePlaceholder: '+92 …',
       sending: 'Sending…',
       requestSuccess: 'Thank you — our team will contact you shortly.',
       requestError: 'Please enter a valid email and try again.',
@@ -929,12 +929,12 @@ export const messages = {
       titleBeforeAccent: 'With ',
       titleAfter: ' With One Connected ERP Platform',
       body: 'DigitalManager helps businesses manage finance, inventory, sales, POS, HR, CRM, branches and reports from one secure cloud platform.',
-      trustLine: 'Trusted across UAE, GCC and international markets.',
+      trustLine: 'Trusted across Pakistan.',
       ctaDemo: 'Book Free Demo',
       ctaContact: 'Explore ERP Modules',
       features: {
         secureCloud: 'Secure Cloud ERP',
-        gcc: 'UAE & GCC Ready',
+        gcc: 'Pakistan Ready',
         reporting: 'Multi-Branch Reporting',
       },
       badgeAccounts: 'Accounts',
@@ -1363,10 +1363,10 @@ export const messages = {
         'منصة ERP سحابية موحّدة لدعم المالية والمخزون والمبيعات وعمليات الفروع المتعددة.',
       items: {
         experience: { value: 'Cloud', label: 'منصة ERP سحابية' },
-        softwares: { value: 'AED', label: 'جاهزية العملات' },
+        softwares: { value: 'PKR', label: 'جاهزية العملات' },
         clients: { value: 'Unified', label: 'عمليات متصلة' },
         satisfaction: { value: 'Multi', label: 'عمليات الفروع' },
-        branches: { value: 'GCC', label: 'دعم إقليمي' },
+        branches: { value: 'Pakistan', label: 'دعم وطني' },
       },
     },
     industryListing: {
@@ -1857,7 +1857,7 @@ export const messages = {
       emailLabel: 'البريد الإلكتروني',
       phoneLabel: 'رقم التواصل',
       emailPlaceholder: 'you@company.com',
-      phonePlaceholder: '+971 …',
+      phonePlaceholder: '+92 …',
       sending: 'جارٍ الإرسال…',
       requestSuccess: 'شكرًا — سيتواصل فريقنا معك قريبًا.',
       requestError: 'يرجى إدخال بريد إلكتروني صالح والمحاولة مرة أخرى.',

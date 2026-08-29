@@ -82,7 +82,7 @@ export const moduleMegaItems: ModuleMegaItem[] = [
     iconWrap: moduleIconBgClass('point-of-sale-management-software'),
   },
   {
-    ...mod('UAE VAT & Tax Compliance Software', 'fbr-pos-integration-software', '/software/fbr-pos-integration-software'),
+    ...mod('Pakistan Sales Tax & Compliance Software', 'fbr-pos-integration-software', '/software/fbr-pos-integration-software'),
     icon: FileText,
     iconWrap: moduleIconBgClass('fbr-pos-integration-software'),
   },

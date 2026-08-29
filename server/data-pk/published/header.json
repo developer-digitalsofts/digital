@@ -3,14 +3,14 @@
   "faviconUrl": "/digitalmanager-favicon.png",
   "showTopBar": true,
   "topBar": {
-    "email": "info@digitalmanager.ae",
+    "email": "info@digitalmanager.com.pk",
     "hours": {
-      "en": "Sat - Thu : 10.00 am - 9.00 pm",
-      "ar": "السبت–الخميس: ١٠ ص – ٩ م"
+      "en": "Mon - Sat : 10.00 am - 6.00 pm",
+      "ar": "Mon - Sat : 10.00 am - 6.00 pm"
     },
-    "phoneCta": { "en": "Talk to Us:", "ar": "تحدث معنا:" },
-    "phoneDisplay": "+971 58 117 4911",
-    "phoneHref": "tel:+971581174911"
+    "phoneCta": { "en": "Talk to Us:", "ar": "Talk to Us:" },
+    "phoneDisplay": "+92 300 000 0000",
+    "phoneHref": "tel:+923000000000"
   },
   "nav": {
     "home": { "en": "Home", "ar": "الرئيسية" },
@@ -19,6 +19,7 @@
     "contact": { "en": "Contact", "ar": "اتصل بنا" },
     "arabicToggle": { "en": "النسخة العربية", "ar": "English version" }
   },
+  "showLangSwitcher": false,
   "showSearch": true,
   "showContactGrid": false,
   "showLoginButton": true,

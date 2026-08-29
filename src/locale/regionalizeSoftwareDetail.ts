@@ -10,13 +10,7 @@ import { getCountryProfile, vatLabelFor } from './countryProfiles'
 const BASELINE_CITIES = ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Al Ain']
 const BASELINE_COMPANIES = ['Dubai Holdings', 'Emirates Supplies', 'Al Noor Trading', 'Gulf Retail LLC']
 
-const ALLOWED_PHRASES = [
-  'UAE headquarters',
-  'Regional GCC support',
-  'info@digitalmanager.ae',
-  '+971 58 117 4911',
-  'from our UAE team',
-]
+const ALLOWED_PHRASES: string[] = []
 
 function scrubAllowed(text: string): string {
   let out = text
