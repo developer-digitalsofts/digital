@@ -4,6 +4,8 @@ import { useAdminLocale } from '../AdminLocaleContext'
 import { ADMIN_SECTION_LOCALE } from '../adminLocaleSections'
 import { isDefaultLocale } from '../../locale/localeConfig'
 import { useLocaleAdminSection } from './useLocaleAdminSection'
+import { useOptionalAdminCity } from '../AdminCityContext'
+import { useCityAdminSection } from './useCityAdminSection'
 
 export type PublishStatus = {
   status: string
@@ -15,10 +17,16 @@ export type PublishStatus = {
 
 export function useAdminSection<T extends Record<string, unknown>>(section: string) {
   const { country, lang } = useAdminLocale()
+  const cityCtx = useOptionalAdminCity()
   const isDefault = isDefaultLocale(country, lang)
   const hasLocaleMap = Boolean(ADMIN_SECTION_LOCALE[section])
+  const citySection = useCityAdminSection<T>(section)
   const localeSection = useLocaleAdminSection<T>(section)
   const legacySection = useAdminSectionLegacy<T>(section)
+
+  if (cityCtx?.citySlug) {
+    return citySection
+  }
 
   if (!isDefault && hasLocaleMap) {
     return localeSection

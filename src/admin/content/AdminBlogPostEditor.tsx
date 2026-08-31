@@ -9,6 +9,7 @@ import { AdminFormActions } from '../cms/AdminFormActions'
 import { hasCustomFeaturedImage } from '../../cms/blogMedia'
 import { AdminLayoutMediaField } from '../layout/AdminLayoutMediaField'
 import { AdminLocaleEditorBanner } from '../AdminLocaleEditorBanner'
+import { isAdminPkOnlyMode } from '../adminMarketConfig'
 
 const emptyBi = (): Bilingual => ({ en: '', ar: '' })
 
@@ -176,20 +177,24 @@ export function AdminBlogPostEditor({ mode }: { mode: 'new' | 'edit' }) {
       <BilingualInputs labelEn="SEO description" labelAr="SEO description (AR)" multiline rows={2} value={local.seo?.description || emptyBi()} onChange={(description) => setLocal({ ...local, seo: { ...(local.seo || {}), description } })} />
 
       <section className="grid gap-3 md:grid-cols-2">
-        <label className="block text-sm">
-          Country scope
-          <select className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" value={local.countryCode || 'PK'} onChange={(e) => setLocal({ ...local, countryCode: e.target.value })}>
-            <option value="PK">Pakistan</option>
-            <option value="ALL">All markets</option>
-          </select>
-        </label>
-        <label className="block text-sm">
-          Language
-          <select className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" value={local.languageCode || 'en'} onChange={(e) => setLocal({ ...local, languageCode: e.target.value })}>
-            <option value="en">English</option>
-            <option value="ar">Arabic</option>
-          </select>
-        </label>
+        {!isAdminPkOnlyMode() ? (
+          <>
+            <label className="block text-sm">
+              Country scope
+              <select className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" value={local.countryCode || 'PK'} onChange={(e) => setLocal({ ...local, countryCode: e.target.value })}>
+                <option value="PK">Pakistan</option>
+                <option value="ALL">All markets</option>
+              </select>
+            </label>
+            <label className="block text-sm">
+              Language
+              <select className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" value={local.languageCode || 'en'} onChange={(e) => setLocal({ ...local, languageCode: e.target.value })}>
+                <option value="en">English</option>
+                <option value="ar">Arabic</option>
+              </select>
+            </label>
+          </>
+        ) : null}
         <label className="block text-sm md:col-span-2">
           Tags (comma-separated)
           <input className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2" value={(local.tags || []).join(', ')} onChange={(e) => setLocal({ ...local, tags: e.target.value.split(',').map((t) => t.trim()).filter(Boolean) })} />

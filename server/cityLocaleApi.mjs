@@ -349,6 +349,61 @@ export function registerCityLocaleRoutes(app, deps) {
       res.status(400).json({ error: productionErrorMessage(e) })
     }
   })
+
+  app.put('/api/admin/locale/cities/:citySlug/product', authMiddleware, async (req, res) => {
+    try {
+      const citySlug = String(req.params.citySlug || '').toLowerCase()
+      const city = getCity(citySlug)
+      if (!city) {
+        res.status(404).json({ error: 'Unknown city' })
+        return
+      }
+      const pageSlug = String(req.body?.pageSlug || '').toLowerCase()
+      if (!isKnownCityProductSlug(pageSlug)) {
+        res.status(400).json({ error: 'Invalid product page slug' })
+        return
+      }
+      const store = await localePublish.readDraftStore()
+      let existing = (store.records || []).find(
+        (r) =>
+          r.contentType === CITY_CONTENT_TYPE &&
+          r.citySlug === city.slug &&
+          r.globalIdentity === cityGlobalIdentity(city.slug, pageSlug) &&
+          normalizeCountryCode(r.countryCode) === city.countryCode &&
+          r.languageCode === 'en',
+      )
+      if (!existing) {
+        const seeded = buildCityLocaleRecord(city.slug, pageSlug)
+        existing = await upsertLocaleRecord(deps, seeded)
+      }
+      const heading = String(req.body?.heading || '').trim()
+      const intro = String(req.body?.intro || '').trim()
+      const title = String(req.body?.title || '').trim()
+      const description = String(req.body?.description || '').trim()
+      const payload = {
+        ...existing.payload,
+        heading: heading ? { en: heading } : existing.payload?.heading,
+        shortDescription: intro ? { en: intro } : existing.payload?.shortDescription,
+        title: title ? { en: title } : existing.payload?.title,
+      }
+      const seo = {
+        ...existing.seo,
+        title: title ? { en: title } : existing.seo?.title,
+        description: description ? { en: description } : existing.seo?.description,
+      }
+      const saved = await upsertLocaleRecord(deps, {
+        ...existing,
+        payload,
+        seo,
+        inheritanceMode: 'override',
+        translationStatus: 'draft',
+        updatedAt: new Date().toISOString(),
+      })
+      res.json({ record: saved })
+    } catch (e) {
+      res.status(400).json({ error: productionErrorMessage(e) })
+    }
+  })
 }
 
 export { CITY_PAGE_SLUG, CITY_CONTENT_TYPE }

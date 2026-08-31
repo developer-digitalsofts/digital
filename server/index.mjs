@@ -1484,14 +1484,17 @@ app.get('/api/homepage', async (req, res) => {
     const countryCode = normalizeCountryCode(req.query.country || req.query.countryCode || 'AE')
     const lang = normalizeLocaleLang(req.query.lang || req.query.language || 'en')
     const citySlug = String(req.query.city || req.query.citySlug || '').toLowerCase()
+    const preview = req.query.preview === '1' || req.query.preview === 'true'
     let out
     if (isPkCitySlug(citySlug)) {
       out = await buildCityHomepagePayload(
         {
           loadPublishedHomepagePayload,
           localePublish,
+          publishStore,
         },
         citySlug,
+        { preview },
       )
     } else if (countryCode === 'AE' && lang === 'en') {
       out = await loadPublishedHomepagePayload()

@@ -1,11 +1,10 @@
 /**
  * Build a full Pakistan homepage payload localized to one city.
- * Starts from the published national homepage; unspecified fields inherit.
+ * City sections are CMS-managed via city-scoped locale records; national JSON is the fallback baseline.
  */
+import { buildCityHomepageFromCms, listCitySectionRecords } from './cityCmsSections.mjs'
 import { getCityHomepageProfile } from './cityHomepageProfiles.mjs'
 import { isPkCitySlug, buildCityHomePath, servingBusinessesIn } from './pakistanConfig.mjs'
-import { CITY_CONTENT_TYPE, CITY_PAGE_SLUG, cityGlobalIdentity } from './cityRegistry.mjs'
-import { normalizeCountryCode } from './countryHelpers.mjs'
 import { readBilingualText } from './contentHelpers.mjs'
 
 function clone(value) {
@@ -246,11 +245,49 @@ export function applyCityHomepageOverlay(baseline, citySlug, cmsOverlay = {}) {
   return out
 }
 
-export async function buildCityHomepagePayload(deps, citySlug) {
+export async function buildCityHomepagePayload(deps, citySlug, options = {}) {
   const slug = String(citySlug || '').toLowerCase()
   if (!isPkCitySlug(slug)) return deps.loadPublishedHomepagePayload()
+
+  const context = options.preview ? 'preview' : 'public'
+  const store =
+    context === 'preview'
+      ? await deps.localePublish.readDraftStore()
+      : await deps.localePublish.readPublishedStore()
+  const citySections = listCitySectionRecords(store.records, slug)
+
+  // Legacy profile overlay — used only until city section records are migrated
+  if (citySections.length === 0 && !options.preview) {
+    return buildLegacyProfileHomepage(deps, slug)
+  }
+
+  const cmsDeps = {
+    ...deps,
+    publishStore: deps.publishStore,
+  }
+  const out = await buildCityHomepageFromCms(cmsDeps, slug, { context })
+
+  const heroRecord = citySections.find((r) => r.globalIdentity === 'hero')
+  const dashCities = heroRecord?.payload?.dashboardCities
+  const dashCompanies = heroRecord?.payload?.dashboardCompanies
+  const profile = getCityHomepageProfile(slug)
+  if (dashCities?.length >= 4 || dashCompanies?.length >= 4 || profile) {
+    out.regional = {
+      currency: 'PKR',
+      cities: dashCities?.length >= 4 ? dashCities : profile?.branches || [],
+      companies: dashCompanies?.length >= 4 ? dashCompanies : profile?.companies || [],
+    }
+  }
+
+  return out
+}
+
+async function buildLegacyProfileHomepage(deps, slug) {
   const baseline = await deps.loadPublishedHomepagePayload()
-  const record = await loadCityCmsOverlay(deps, slug)
+  const store = await deps.localePublish.readPublishedStore()
+  const record = (store.records || []).find(
+    (r) => r.contentType === 'cityPage' && r.citySlug === slug && r.slug === 'home' && r.publicationStatus === 'published',
+  )
   const cmsOverlay = {
     heading: readBilingualText(record?.payload?.heading, 'en'),
     intro: readBilingualText(record?.payload?.shortDescription, 'en'),

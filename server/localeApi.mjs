@@ -193,7 +193,8 @@ export function registerLocaleRoutes(app, deps) {
   app.get('/api/admin/locale/resolve', authMiddleware, async (req, res) => {
     try {
       const { countryCode, lang } = parseLocaleQuery(req)
-      const { contentType, globalIdentity, slug } = req.query
+      const { contentType, globalIdentity, slug, citySlug } = req.query
+      const normCity = citySlug ? String(citySlug).toLowerCase() : null
       const store = await localePublish.readDraftStore()
       const match = (store.records || []).find(
         (r) =>
@@ -201,14 +202,15 @@ export function registerLocaleRoutes(app, deps) {
           (!globalIdentity || r.globalIdentity === globalIdentity) &&
           (!slug || r.slug === slug) &&
           normalizeCountryCode(r.countryCode) === countryCode &&
-          normalizeLocaleLang(r.languageCode) === lang,
+          normalizeLocaleLang(r.languageCode) === lang &&
+          (normCity ? r.citySlug === normCity : !r.citySlug),
       )
       const baseline = await loadBaseline(match)
       const full = resolveContentWithBaseline(
         store,
-        { contentType, globalIdentity, slug, countryCode, lang },
+        { contentType, globalIdentity, slug, countryCode, lang, citySlug: normCity },
         baseline,
-        { context: 'preview', allowGlobalFallback: true },
+        { context: 'preview', allowGlobalFallback: true, allowFallback: true, citySlug: normCity },
       )
       res.json({ ...full, fieldMeta: listFieldMeta(full.record?.payload) })
     } catch (e) {
@@ -398,14 +400,48 @@ export function registerLocaleRoutes(app, deps) {
 
   app.post('/api/admin/locale/actions/customize', authMiddleware, async (req, res) => {
     try {
-      const { contentType, globalIdentity, countryCode, lang, slug } = req.body || {}
+      const { contentType, globalIdentity, countryCode, lang, slug, citySlug } = req.body || {}
       if (!contentType || !globalIdentity || !countryCode) {
         res.status(400).json({ error: 'contentType, globalIdentity, countryCode required' })
         return
       }
-      const record = await customizeForCountry(deps, { contentType, globalIdentity, countryCode, lang: lang || 'en', slug })
+      const record = await customizeForCountry(deps, {
+        contentType,
+        globalIdentity,
+        countryCode,
+        lang: lang || 'en',
+        slug,
+        citySlug: citySlug ? String(citySlug).toLowerCase() : null,
+      })
       await afterLocaleMutation(req.user?.email)
       res.json({ record })
+    } catch (e) {
+      res.status(400).json({ error: productionErrorMessage(e) })
+    }
+  })
+
+  app.post('/api/admin/locale/actions/use-pk-default', authMiddleware, async (req, res) => {
+    try {
+      const { contentType, globalIdentity, countryCode, lang, slug, citySlug } = req.body || {}
+      if (!contentType || !globalIdentity || !countryCode || !citySlug) {
+        res.status(400).json({ error: 'contentType, globalIdentity, countryCode, citySlug required' })
+        return
+      }
+      const store = await localePublish.readDraftStore()
+      const normCity = String(citySlug).toLowerCase()
+      const existing = (store.records || []).find(
+        (r) =>
+          r.contentType === contentType &&
+          r.globalIdentity === globalIdentity &&
+          normalizeCountryCode(r.countryCode) === normalizeCountryCode(countryCode) &&
+          normalizeLocaleLang(r.languageCode) === normalizeLocaleLang(lang || 'en') &&
+          r.citySlug === normCity,
+      )
+      if (existing) {
+        await deleteLocaleOverride(deps, existing.id)
+      }
+      await afterLocaleMutation(req.user?.email, { syncPublished: true })
+      res.json({ ok: true })
     } catch (e) {
       res.status(400).json({ error: productionErrorMessage(e) })
     }

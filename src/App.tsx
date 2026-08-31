@@ -39,7 +39,9 @@ import { AdminBlogPostEditor } from './admin/content/AdminBlogPostEditor'
 import { AdminBlogCategoriesPage } from './admin/content/AdminBlogCategoriesPage'
 import { AdminCountriesPage } from './admin/AdminCountriesPage'
 import { AdminCountrySetupPage } from './admin/AdminCountrySetupPage'
-import { AdminCitiesPage } from './admin/AdminCitiesPage'
+import { AdminCityHomeEditor, AdminCityHubPage } from './admin/AdminCityHomeEditor'
+import { AdminCityProductEditor } from './admin/AdminCityProductEditor'
+import { isAdminPkOnlyMode } from './admin/adminMarketConfig'
 import { ErpLocalePage, SolutionsLocalePage, BusinessModelsLocalePage, FaqsLocalePage } from './pages/LocaleSlugPage'
 import {
   CityHomeOrCmsGuard,
@@ -82,9 +84,12 @@ export default function App() {
           <Route path="content/blog/categories" element={<AdminBlogCategoriesPage />} />
           <Route path="content/blog/new" element={<AdminBlogPostEditor mode="new" />} />
           <Route path="content/blog/:id/edit" element={<AdminBlogPostEditor mode="edit" />} />
-          <Route path="content/countries" element={<AdminCountriesPage />} />
-          <Route path="content/countries/setup" element={<AdminCountrySetupPage />} />
-          <Route path="content/cities" element={<AdminCitiesPage />} />
+          <Route path="content/countries" element={isAdminPkOnlyMode() ? <Navigate to="/admin" replace /> : <AdminCountriesPage />} />
+          <Route path="content/countries/setup" element={isAdminPkOnlyMode() ? <Navigate to="/admin" replace /> : <AdminCountrySetupPage />} />
+          <Route path="content/cities" element={<AdminCityHubPage />} />
+          <Route path="content/cities/:citySlug/home" element={<AdminCityHomeEditor />} />
+          <Route path="content/cities/:citySlug/products" element={<AdminCityProductEditor />} />
+          <Route path="content/cities-legacy" element={<Navigate to="/admin/content/cities" replace />} />
 
           <Route path="mega-menus" element={<AdminMegaMenusPage />} />
           <Route path="site-settings" element={<AdminSiteSettingsPage />} />

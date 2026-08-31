@@ -25,6 +25,7 @@ const CmsContext = createContext<CmsState | null>(null)
 export function CmsProvider({ children }: { children: ReactNode }) {
   const location = useLocation()
   const parsed = useMemo(() => parseLocalePath(location.pathname), [location.pathname])
+  const preview = useMemo(() => new URLSearchParams(location.search).get('preview') === '1', [location.search])
   const city = useOptionalCity()
   const countryCode = countrySlugToCode(parsed.country)
   const lang = parsed.lang
@@ -55,6 +56,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
       countryCode,
       lang,
       citySlug,
+      preview,
     })
       .then((payload) => {
         if (cancelled) return
@@ -115,7 +117,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
     return () => {
       cancelled = true
     }
-  }, [tick, countryCode, lang, citySlug])
+  }, [tick, countryCode, lang, citySlug, preview])
 
   // Refetch when the tab becomes visible again (e.g. after publishing in admin).
   useEffect(() => {

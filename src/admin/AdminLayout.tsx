@@ -6,6 +6,7 @@ import { ADMIN_LOGOUT_ITEM, ADMIN_NAV_ITEMS, getAdminPageTitle, isAdminNavActive
 import { AdminSidebarBrand } from './AdminSidebarBrand'
 import { AdminLocaleProvider } from './AdminLocaleContext'
 import { AdminLocaleContextBar } from './AdminLocaleContextBar'
+import { filterAdminNavItems, isAdminCityCmsPath } from './adminMarketConfig'
 import { interceptPublicHashLinksInAdmin } from './adminHomeHashGuard'
 
 export function AdminLayout() {
@@ -38,6 +39,8 @@ export function AdminLayout() {
   if (!getAdminToken()) return <Navigate to="/admin/login" replace state={{ from: loc.pathname }} />
 
   const title = useMemo(() => getAdminPageTitle(loc.pathname, loc.search), [loc.pathname, loc.search])
+  const navItems = useMemo(() => filterAdminNavItems(ADMIN_NAV_ITEMS), [])
+  const showLocaleBar = !isAdminCityCmsPath(loc.pathname)
 
   const signOut = async () => {
     try {
@@ -51,7 +54,7 @@ export function AdminLayout() {
 
   const renderNav = (onNavigate?: () => void) => (
     <nav className="space-y-0.5">
-      {ADMIN_NAV_ITEMS.map((item) => {
+      {navItems.map((item) => {
         const Icon = item.icon
         const to = item.to
         const active = isAdminNavActive(loc.pathname, loc.search, item)
@@ -141,7 +144,7 @@ export function AdminLayout() {
         ) : null}
 
         <main className="flex-1 overflow-auto p-4 md:p-6 lg:p-8">
-          <AdminLocaleContextBar />
+          {showLocaleBar ? <AdminLocaleContextBar /> : null}
           <Outlet />
         </main>
       </div>

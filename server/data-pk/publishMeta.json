@@ -6,15 +6,15 @@
     "bootstrappedAt": "2026-08-28T12:56:03.088Z"
   },
   "blogPosts": {
-    "lastSavedAt": "2026-08-29T10:27:34.520Z",
+    "lastSavedAt": "2026-08-29T12:32:54.195Z",
     "lastSavedBy": "admin@admin.com",
     "hasUnpublishedChanges": false,
-    "lastPublishedAt": "2026-08-29T10:27:34.588Z",
+    "lastPublishedAt": "2026-08-29T12:32:54.252Z",
     "lastPublishedBy": "admin@admin.com"
   },
   "blogSection": {
     "lastSavedAt": "2026-08-21T11:30:00.000Z",
-    "lastPublishedAt": "2026-08-29T10:27:34.621Z",
+    "lastPublishedAt": "2026-08-29T12:32:54.282Z",
     "lastPublishedBy": "admin@admin.com",
     "hasUnpublishedChanges": false
   },
@@ -23,6 +23,13 @@
     "lastSavedBy": "admin@admin.com",
     "hasUnpublishedChanges": false,
     "lastPublishedAt": "2026-08-29T10:33:35.846Z",
+    "lastPublishedBy": "admin@admin.com"
+  },
+  "localeRecords": {
+    "lastSavedAt": "2026-08-31T07:59:36.479Z",
+    "lastSavedBy": "admin@admin.com",
+    "hasUnpublishedChanges": false,
+    "lastPublishedAt": "2026-08-31T07:59:36.568Z",
     "lastPublishedBy": "admin@admin.com"
   }
 }

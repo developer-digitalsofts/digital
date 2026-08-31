@@ -15,6 +15,7 @@ import { TestimonialsPage } from '../pages/TestimonialsPage'
 import { CmsPage } from '../pages/CmsPage'
 import { NotFoundPage } from '../pages/NotFoundPage'
 import { SoftwarePage } from '../pages/SoftwarePage'
+import { CityLocalePage } from '../pages/CityLocalePage'
 import { useLocation } from 'react-router-dom'
 
 const INDUSTRY_SHORT_ALIASES: Record<string, string> = {
@@ -61,6 +62,10 @@ export function CitySoftwareGuard() {
   const city = citySlug.toLowerCase()
   if (!isValidCitySlug(city, MARKET_CODE)) {
     return <NotFoundPage />
+  }
+  const productSlug = flatSlug || slug || ''
+  if (productSlug && isCityProductPageSlug(productSlug)) {
+    return <CityLocalePage citySlug={city} pageSlug={productSlug} />
   }
   if (kind && slug) {
     return <SoftwarePage forceKind={kind === 'industry' ? 'industry' : 'module'} forceSlug={slug} />

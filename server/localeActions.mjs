@@ -272,30 +272,66 @@ export async function useGlobalContent(deps, { contentType, globalIdentity, coun
   return upsertLocaleRecord(deps, rec)
 }
 
-export async function customizeForCountry(deps, { contentType, globalIdentity, countryCode, lang, slug }) {
+export async function customizeForCountry(deps, { contentType, globalIdentity, countryCode, lang, slug, citySlug = null }) {
   const store = await deps.localeStorage.readLocaleStore()
   const country = normalizeCountryCode(countryCode)
   const language = lang === 'ar' ? 'ar' : 'en'
+  const city = citySlug ? String(citySlug).toLowerCase() : null
 
   const global = findRecordByIdentity(store.records, contentType, globalIdentity, DEFAULT_GLOBAL_COUNTRY, DEFAULT_GLOBAL_LANG)
-  const existing = findRecordByIdentity(store.records, contentType, globalIdentity, country, language)
+  const existing = findRecordByIdentity(store.records, contentType, globalIdentity, country, language, city)
 
   if (existing?.inheritanceMode === 'override') return existing
 
+  const pkBaseline = findRecordByIdentity(store.records, contentType, globalIdentity, country, language, null)
+  let seedPayload = existing?.payload ? structuredClone(existing.payload) : pkBaseline?.payload ? structuredClone(pkBaseline.payload) : global?.payload ? structuredClone(global.payload) : {}
+
+  if ((!seedPayload || Object.keys(seedPayload).length === 0) && deps.publishStore) {
+    const fileMap = {
+      hero: 'hero.json',
+      stats: 'stats.json',
+      industries: 'industries.json',
+      valueChain: 'valueChain.json',
+      modules: 'modules.json',
+      testimonials: 'testimonials.json',
+      faqs: 'faqs.json',
+      demoCta: 'demoCta.json',
+      personalizedDemo: 'personalizedDemo.json',
+      pageSections: 'pageSections.json',
+      site: 'seo.json',
+    }
+    const baselineFile = fileMap[globalIdentity]
+    if (baselineFile) {
+      try {
+        const raw = await deps.publishStore.readPublished(baselineFile)
+        seedPayload = deps.publishStore.stripMeta(raw) ?? raw ?? {}
+      } catch {
+        /* keep empty */
+      }
+    }
+  }
+
   const rec = defaultLocaleRecord({
     ...(existing || {}),
+    id: city ? `loc_pk_city_${city}_${globalIdentity}_en` : undefined,
     contentType,
     globalIdentity,
     slug: slug || global?.slug || globalIdentity,
     countryCode: country,
     languageCode: language,
+    citySlug: city,
     translationGroupId: global?.translationGroupId || existing?.translationGroupId,
-    sourceRecordId: global?.id || existing?.sourceRecordId || null,
+    sourceRecordId: pkBaseline?.id || global?.id || existing?.sourceRecordId || null,
     inheritanceMode: 'override',
     translationStatus: 'draft',
     publicationStatus: 'draft',
-    payload: existing?.payload ? structuredClone(existing.payload) : global?.payload ? structuredClone(global.payload) : {},
+    payload: { ...seedPayload, _seedVersion: city ? 'pk-city-cms-customize-v1' : seedPayload._seedVersion },
+    seo: contentType === 'seo' && pkBaseline?.seo ? structuredClone(pkBaseline.seo) : existing?.seo || null,
   })
+
+  if (contentType === 'seo' && pkBaseline?.seo && !rec.seo) {
+    rec.seo = structuredClone(pkBaseline.seo)
+  }
 
   return upsertLocaleRecord(deps, rec)
 }

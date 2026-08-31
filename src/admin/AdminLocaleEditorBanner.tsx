@@ -1,5 +1,6 @@
 import { adminFetch } from './adminApi'
 import { useAdminLocale } from './AdminLocaleContext'
+import { isAdminPkOnlyMode } from './adminMarketConfig'
 import { countrySlugToCode } from '../locale/localeConfig'
 import { LOCALE_STATUS_LABELS } from '../types/localeContent'
 import { useAdminLocaleRecord } from './useAdminLocaleRecord'
@@ -115,7 +116,7 @@ export function AdminLocaleEditorBanner({ contentType, globalIdentity, slug, com
   if (isDefault && !compact) {
     return (
       <div className="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-950">
-        <strong>Editing:</strong> {countryLabel} · {langLabel} — Global published baseline
+        <strong>Editing:</strong> {isAdminPkOnlyMode() ? 'Pakistan Website Content' : `${countryLabel} · ${langLabel} — Global published baseline`}
       </div>
     )
   }
@@ -129,7 +130,7 @@ export function AdminLocaleEditorBanner({ contentType, globalIdentity, slug, com
       ) : null}
       <div className="flex flex-wrap items-center gap-2">
         <span className="font-semibold text-slate-700">
-          Editing: {countryLabel} · {langLabel}
+          {isAdminPkOnlyMode() ? 'Editing: Pakistan Website Content' : `Editing: ${countryLabel} · ${langLabel}`}
         </span>
         {loading ? (
           <span className="text-slate-500">Loading locale state…</span>

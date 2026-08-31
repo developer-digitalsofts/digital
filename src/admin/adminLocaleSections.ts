@@ -40,4 +40,27 @@ export const ADMIN_SECTION_LOCALE: Record<string, LocaleSectionRef> = {
   seo: ADMIN_EDITOR_LOCALE.seo,
   contact: ADMIN_EDITOR_LOCALE.contact,
   faqs: HOME_TAB_LOCALE.faqs!,
+  industries: { contentType: 'pageSection', globalIdentity: 'industries', slug: 'industries' },
+  valueChain: { contentType: 'pageSection', globalIdentity: 'valueChain', slug: 'valueChain' },
+  demoCta: { contentType: 'pageSection', globalIdentity: 'demoCta', slug: 'demoCta' },
+  personalizedDemo: { contentType: 'pageSection', globalIdentity: 'personalizedDemo', slug: 'personalizedDemo' },
+  pageSections: { contentType: 'pageSection', globalIdentity: 'pageSections', slug: 'pageSections' },
+  stats: { contentType: 'pageSection', globalIdentity: 'stats', slug: 'stats' },
+}
+
+/** City homepage section map — same identities as national homepage JSON files. */
+export const CITY_ADMIN_SECTIONS: Record<string, LocaleSectionRef> = {
+  hero: { contentType: 'pageSection', globalIdentity: 'hero', slug: 'hero' },
+  stats: { contentType: 'pageSection', globalIdentity: 'stats', slug: 'stats' },
+  industries: { contentType: 'pageSection', globalIdentity: 'industries', slug: 'industries' },
+  about: { contentType: 'pageSection', globalIdentity: 'industries', slug: 'industries' },
+  valueChain: { contentType: 'pageSection', globalIdentity: 'valueChain', slug: 'valueChain' },
+  features: { contentType: 'pageSection', globalIdentity: 'valueChain', slug: 'valueChain' },
+  modules: { contentType: 'pageSection', globalIdentity: 'modules', slug: 'modules' },
+  testimonials: { contentType: 'pageSection', globalIdentity: 'testimonials', slug: 'testimonials' },
+  faqs: { contentType: 'faq', globalIdentity: 'faqs', slug: 'faqs' },
+  demoCta: { contentType: 'pageSection', globalIdentity: 'demoCta', slug: 'demoCta' },
+  personalizedDemo: { contentType: 'pageSection', globalIdentity: 'personalizedDemo', slug: 'personalizedDemo' },
+  pageSections: { contentType: 'pageSection', globalIdentity: 'pageSections', slug: 'pageSections' },
+  seo: { contentType: 'seo', globalIdentity: 'site', slug: 'seo' },
 }

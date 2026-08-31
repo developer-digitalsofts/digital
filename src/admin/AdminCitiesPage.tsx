@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { GCC_COUNTRY_CODES } from '../config/gccCountries'
 import { HOME_SECTION_REGISTRY } from '../cms/homeSectionRegistry'
 import { adminFetch } from './adminApi'
 import { useAdminToast } from './AdminToastContext'
+import { MARKET_CODE } from '../market/pakistanConfig'
 
 type SectionRow = { id: string; name?: string; visible?: boolean; sortOrder?: number }
 
@@ -29,7 +29,7 @@ type CityRow = {
 
 export function AdminCitiesPage() {
   const toast = useAdminToast()
-  const [countryCode, setCountryCode] = useState('PK')
+  const countryCode = MARKET_CODE
   const [cities, setCities] = useState<CityRow[]>([])
   const [loading, setLoading] = useState(true)
   const [editing, setEditing] = useState<string | null>(null)
@@ -135,29 +135,13 @@ export function AdminCitiesPage() {
     <div className="space-y-8">
       <div>
         <h2 className="text-xl font-bold text-slate-900">City Pages</h2>
-        <p className="text-sm text-slate-600">
-          Each city URL renders the full Pakistan homepage with city overlays. Unspecified fields inherit the national
-          homepage. Edit hero/SEO, dashboard sample labels, FAQs, section visibility, then preview and publish.
+        <p className="max-w-3xl text-sm leading-relaxed text-slate-600">
+          Manage individual Pakistan city websites. Unspecified fields inherit the main Pakistan website.
         </p>
       </div>
 
-      <label className="block text-sm font-semibold text-slate-700">
-        Country
-        <select
-          className="mt-1 w-full max-w-xs rounded-xl border border-slate-200 px-3 py-2"
-          value={countryCode}
-          onChange={(e) => setCountryCode(e.target.value)}
-        >
-          {GCC_COUNTRY_CODES.map((code) => (
-            <option key={code} value={code}>
-              {code}
-            </option>
-          ))}
-        </select>
-      </label>
-
       <p className="text-sm text-slate-600">
-        {summary.published} of {summary.total} city homepages published for {countryCode}
+        {summary.published} of {summary.total} city homepages published
       </p>
 
       {loading ? (

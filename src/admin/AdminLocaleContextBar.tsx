@@ -1,8 +1,18 @@
 import { useAdminLocale } from './AdminLocaleContext'
+import { isAdminPkOnlyMode } from './adminMarketConfig'
 import { TRANSLATION_STATUS_LABELS, type LocaleCountrySlug } from '../locale/localeConfig'
 
 export function AdminLocaleContextBar() {
   const { countryLabel, langLabel, country, lang, setCountry, setLang, inheritanceLabel } = useAdminLocale()
+
+  if (isAdminPkOnlyMode()) {
+    return (
+      <div className="mb-4 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm">
+        <span className="font-semibold text-slate-700">Editing:</span>{' '}
+        <span className="font-semibold text-slate-900">{inheritanceLabel}</span>
+      </div>
+    )
+  }
 
   return (
     <div className="mb-4 flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm">
@@ -16,7 +26,7 @@ export function AdminLocaleContextBar() {
       <label className="flex items-center gap-2">
         Language
         <select className="rounded-lg border border-slate-200 px-2 py-1" value={lang} onChange={(e) => setLang(e.target.value as 'en' | 'ar')}>
-            <option value="en">English</option>
+          <option value="en">English</option>
         </select>
       </label>
       <span className="rounded-full bg-white px-3 py-1 font-semibold text-slate-800 ring-1 ring-slate-200">
