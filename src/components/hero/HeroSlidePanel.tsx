@@ -65,7 +65,11 @@ export function HeroSlidePanel({ slide, slideIndex, slideCount, animKey, reduced
     >
       {pill ? <p className="dm-hero__pill">{pill}</p> : null}
 
-      <h1 className={`dm-hero__title${slide.controlledTitleWrap ? ' dm-hero__title--balanced' : ''}`}>
+      <h1
+        className={`dm-hero__title${slide.controlledTitleWrap ? ' dm-hero__title--balanced' : ''}${
+          slide.controlledTitleWrap && !titleLine2 ? ' dm-hero__title--two-phrase' : ''
+        }`}
+      >
         <span className="dm-hero__title-line">{titleBefore}</span>
         {titleLine2 ? <span className="dm-hero__title-line dm-hero__title-line--mid">{titleLine2}</span> : null}
         <span className="dm-hero__title-line dm-hero__title-line--accent">{titleAccent}</span>

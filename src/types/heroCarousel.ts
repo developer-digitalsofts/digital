@@ -1,4 +1,5 @@
 import type { Bilingual } from '../cms/types'
+import type { HeroMockupCmsFields } from './heroMockup'
 
 export type HeroModuleType = 'erp' | 'finance' | 'inventory' | 'pos' | 'hr'
 
@@ -21,12 +22,14 @@ export type HeroCarouselSlide = {
   ctaPrimary: { label: Bilingual; href: string }
   ctaSecondary: { label: Bilingual; href: string }
   dashboardImageUrl?: string
-}
+} & HeroMockupCmsFields
 
 export type HeroCarouselSettings = {
   carouselEnabled?: boolean
   autoplayEnabled?: boolean
   autoplayDurationMs?: number
+  defaultActiveModule?: HeroModuleType
+  mockupVisible?: boolean
   slides?: HeroCarouselSlide[]
 }
 

@@ -25,6 +25,8 @@
     "preview:full": "concurrently -k \"npm run preview\" \"npm run start:api\"",
     "lint": "eslint .",
     "validate": "npm run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "db:seed:admin": "npm --prefix server run seed:admin",
     "images:download": "node scripts/download-software-images-unsplash.mjs",
     "postinstall": "npm --prefix server install"
@@ -52,6 +54,10 @@
     "tailwindcss": "^4.3.0",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.2",
-    "vite": "^8.0.10"
+    "vite": "^8.0.10",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "jsdom": "^26.1.0",
+    "vitest": "^3.2.4"
   }
 }

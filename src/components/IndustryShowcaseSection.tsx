@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { CmsLink } from './CmsLink'
 import { ArrowRight } from 'lucide-react'
 import { useI18n } from '../i18n/I18nProvider'
 import { useCms } from '../cms/CmsContext'
@@ -53,10 +53,10 @@ export function IndustryShowcaseSection() {
         </div>
 
         <div className="home-industry-section__view-all-wrap">
-          <Link to="/industries" className="home-industry-section__view-all group">
+          <CmsLink to="/industries" className="home-industry-section__view-all group">
             {viewAll}
             <ArrowRight className="home-industry-section__view-all-icon" aria-hidden />
-          </Link>
+          </CmsLink>
         </div>
       </div>
     </section>

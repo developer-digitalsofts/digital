@@ -258,14 +258,78 @@ export function HomeHeroCarouselEditor({ slides, carouselEnabled, autoplayEnable
                 />
               </label>
 
+              <label className="block text-sm">
+                <span className="font-semibold text-slate-800">Mockup mode</span>
+                <select
+                  className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm"
+                  value={slide.mockupMode ?? 'component'}
+                  onChange={(e) =>
+                    updateSlide(slide.id, { mockupMode: e.target.value as 'component' | 'image' })
+                  }
+                >
+                  <option value="component">Component (built-in dashboard)</option>
+                  <option value="image">Image</option>
+                </select>
+              </label>
+
+              <label className="block text-sm">
+                <span className="font-semibold text-slate-800">Mockup module override</span>
+                <select
+                  className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm"
+                  value={slide.mockupModule ?? slide.moduleType}
+                  onChange={(e) =>
+                    updateSlide(slide.id, { mockupModule: e.target.value as HeroModuleType })
+                  }
+                >
+                  {MODULE_TYPES.map((m) => (
+                    <option key={m} value={m}>
+                      {m}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
               <label className="block text-sm sm:col-span-2">
                 <span className="font-semibold text-slate-800">Dashboard image URL (optional legacy)</span>
                 <input
                   className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm"
-                  value={slide.dashboardImageUrl ?? ''}
-                  onChange={(e) => updateSlide(slide.id, { dashboardImageUrl: e.target.value })}
+                  value={slide.mockupImage ?? slide.dashboardImageUrl ?? ''}
+                  onChange={(e) =>
+                    updateSlide(slide.id, {
+                      mockupImage: e.target.value,
+                      dashboardImageUrl: e.target.value,
+                      mockupMode: e.target.value.trim() ? 'image' : slide.mockupMode ?? 'component',
+                    })
+                  }
                   placeholder="Leave empty — built-in dashboard mockup is used"
                 />
+              </label>
+
+              <BilingualInputs
+                labelEn="Mockup title override (EN)"
+                labelAr="Mockup title override (AR)"
+                value={slide.mockupData?.title ?? { en: '', ar: '' }}
+                onChange={(title) =>
+                  updateSlide(slide.id, { mockupData: { ...slide.mockupData, title } })
+                }
+              />
+
+              <BilingualInputs
+                labelEn="Mockup subtitle override (EN)"
+                labelAr="Mockup subtitle override (AR)"
+                value={slide.mockupData?.subtitle ?? { en: '', ar: '' }}
+                onChange={(subtitle) =>
+                  updateSlide(slide.id, { mockupData: { ...slide.mockupData, subtitle } })
+                }
+              />
+
+              <label className="flex items-center gap-2 text-sm sm:col-span-2">
+                <input
+                  type="checkbox"
+                  checked={slide.mockupVisible !== false}
+                  onChange={(e) => updateSlide(slide.id, { mockupVisible: e.target.checked })}
+                />
+                Show dashboard mockup for this slide
               </label>
 
               <div className="flex flex-wrap gap-2 sm:col-span-2">

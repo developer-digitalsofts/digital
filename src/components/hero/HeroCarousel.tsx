@@ -6,6 +6,7 @@ import { hasValidHeroSlideList } from './heroSlideValidation'
 import { HeroCarouselDeck } from './HeroCarouselDeck'
 import { HeroSlidePanel } from './HeroSlidePanel'
 import './dm-hero.css'
+import './dm-hero-mockup-v2.css'
 
 type Props = {
   hero?: HeroCmsPayload
