@@ -1,14 +1,17 @@
 import type { FormEvent } from 'react'
 import { SoftwareDemoCtaSection } from '../SoftwareDemoCtaSection'
 import type { DetailDemoModel } from '../../../types/detailPageSections'
+import type { LeadSubmitStatus } from '../../../utils/submitLead'
 
 type Props = {
   uid: string
   model: DetailDemoModel
   demoEmail: string
   setDemoEmail: (v: string) => void
+  honeypot?: string
+  setHoneypot?: (v: string) => void
   onSubmit: (e: FormEvent) => void
-  submitStatus?: 'idle' | 'submitting' | 'success' | 'error'
+  submitStatus?: LeadSubmitStatus
 }
 
 export function DetailDemoCta({
@@ -16,6 +19,8 @@ export function DetailDemoCta({
   model,
   demoEmail,
   setDemoEmail,
+  honeypot,
+  setHoneypot,
   onSubmit,
   submitStatus,
 }: Props) {
@@ -30,6 +35,8 @@ export function DetailDemoCta({
         sendLabel={model.sendLabel}
         demoEmail={demoEmail}
         setDemoEmail={setDemoEmail}
+        honeypot={honeypot}
+        setHoneypot={setHoneypot}
         onSubmit={onSubmit}
         submitStatus={submitStatus}
       />

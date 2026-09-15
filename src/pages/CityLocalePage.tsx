@@ -21,7 +21,7 @@ type Props = {
   pageSlug?: string
 }
 
-const SITE_ORIGIN = 'https://www.digitalmanager.ae'
+const SITE_ORIGIN = 'https://digitalmanager.ae'
 
 function CityBreadcrumbs({
   cityName,

@@ -78,7 +78,10 @@ export function AdminEmailSettingsPage() {
     <div className="mx-auto max-w-2xl space-y-8">
       <div>
         <h1 className="text-2xl font-bold text-slate-900">Email settings</h1>
-        <p className="mt-1 text-sm text-slate-600">Contact form notification email (SMTP is configured on the server).</p>
+        <p className="mt-1 text-sm text-slate-600">
+          Inquiry emails use server environment variables (SMTP_*). From address and sales recipient cannot be overridden
+          by this form — set SMTP_FROM_EMAIL and SMTP_TO_EMAIL in Coolify.
+        </p>
       </div>
 
       <div className="space-y-5 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -130,7 +133,7 @@ export function AdminEmailSettingsPage() {
             className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none ring-brand/30 focus:ring-2"
             value={doc.fromEmail}
             onChange={(e) => setDoc({ ...doc, fromEmail: e.target.value })}
-            placeholder="noreply@company.com"
+            placeholder="info@digitalmanager.ae"
           />
         </div>
 

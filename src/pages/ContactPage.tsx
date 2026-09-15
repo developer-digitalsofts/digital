@@ -5,8 +5,9 @@ import { WhatsAppIcon } from '../components/WhatsAppIcon'
 import { useI18n } from '../i18n/I18nProvider'
 import { useRegionalSettings } from '../cms/useRegionalSettings'
 import { useLocale } from '../locale/LocaleContext'
-import { apiBase, fetchWithTimeout } from '../cms/api'
+import { LeadHoneypot } from '../components/LeadHoneypot'
 import { useLocaleSubmission } from '../locale/useLocaleSubmission'
+import { submitLead, statusFromLeadError, LeadSubmitError, type LeadSubmitStatus } from '../utils/submitLead'
 import { pageShellClass } from '../ui/pageShell'
 import { sectionPad } from '../ui/saas'
 
@@ -25,7 +26,9 @@ export function ContactPage() {
   const [company, setCompany] = useState('')
   const [topic, setTopic] = useState<Topic | ''>('')
   const [message, setMessage] = useState('')
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const [honeypot, setHoneypot] = useState('')
+  const [status, setStatus] = useState<LeadSubmitStatus>('idle')
+  const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
   const onSubmit = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
@@ -33,37 +36,34 @@ export function ContactPage() {
       const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
       const phoneOk = phone.trim().length >= 6
       if (!emailOk || !phoneOk) {
-        setStatus('error')
+        setStatus('validation')
+        setErrorMsg(t('contactPage.formError'))
         return
       }
       setStatus('submitting')
+      setErrorMsg(null)
       try {
-        const res = await fetchWithTimeout(`${apiBase()}/api/leads`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: name.trim(),
-            email: email.trim(),
-            phone: phone.trim(),
-            company: company.trim(),
-            topic: topic || '',
-            message: message.trim(),
-            sourcePage: `${location.pathname}${location.search}`.slice(0, 500),
-            localeCountry: localeMeta.localeCountry,
-            localeLang: localeMeta.localeLang,
-            countryCode: localeMeta.countryCode,
-          }),
+        await submitLead({
+          name: name.trim(),
+          email: email.trim(),
+          phone: phone.trim(),
+          company: company.trim(),
+          topic: topic || '',
+          message: message.trim(),
+          source: 'Contact Form',
+          sourcePage: `${location.pathname}${location.search}`.slice(0, 500),
+          localeCountry: localeMeta.localeCountry,
+          localeLang: localeMeta.localeLang,
+          countryCode: localeMeta.countryCode,
+          company_website: honeypot,
         })
-        if (!res.ok) {
-          setStatus('error')
-          return
-        }
         setStatus('success')
-      } catch {
-        setStatus('error')
+      } catch (err) {
+        setStatus(statusFromLeadError(err))
+        setErrorMsg(err instanceof LeadSubmitError ? err.message : t('contactPage.formError'))
       }
     },
-    [name, email, phone, company, topic, message, location.pathname, location.search, localeMeta],
+    [name, email, phone, company, topic, message, honeypot, location.pathname, location.search, localeMeta, t],
   )
 
   return (
@@ -152,9 +152,10 @@ export function ContactPage() {
                 </p>
               ) : (
                 <form className="mt-6 space-y-5" onSubmit={onSubmit} noValidate>
-                  {status === 'error' && (
-                    <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800">
-                      {t('contactPage.formError')}
+                  <LeadHoneypot id="contact-honeypot" value={honeypot} onChange={setHoneypot} />
+                  {(status === 'error' || status === 'validation' || status === 'temporary') && (
+                    <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">
+                      {errorMsg || t('contactPage.formError')}
                     </p>
                   )}
 

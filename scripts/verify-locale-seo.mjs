@@ -303,7 +303,8 @@ async function verifyRobotsTxt() {
   if (
     res.ok &&
     /Sitemap: https:\/\/(www\.)?digitalmanager\.ae\/sitemap\.xml/.test(text) &&
-    text.includes('Disallow: /admin')
+    text.includes('Disallow: /admin') &&
+    /Disallow:\s*\/api/.test(text)
   ) {
     pass('robots.txt references sitemap and blocks admin')
   } else {

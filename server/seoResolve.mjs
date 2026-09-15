@@ -26,7 +26,7 @@ import { buildCityPagePath, parseCityPagePath } from './cityPaths.mjs'
 import { evaluateCityIndexability, resolveCityContent } from './cityLocaleApi.mjs'
 
 export const PUBLIC_SITE_BASE =
-  (process.env.PUBLIC_SITE_URL || 'https://www.digitalmanager.ae').replace(/\/$/, '')
+  (process.env.PUBLIC_SITE_URL || 'https://digitalmanager.ae').replace(/\/$/, '')
 
 const GCC_COUNTRY_SLUGS = ['ae', 'sa', 'kw', 'qa', 'om', 'bh']
 const GCC_LANGS = ['en', 'ar']
@@ -387,6 +387,7 @@ export async function buildIndexablePages(deps) {
     }
 
     let addedForPath = false
+    let addedAeEn = false
 
     if (globalIdentity && contentType) {
       for (const countrySlug of GCC_COUNTRY_SLUGS) {
@@ -412,6 +413,7 @@ export async function buildIndexablePages(deps) {
           })
           if (!check.indexable) continue
           addedForPath = true
+          if (countryCode === 'AE' && lang === 'en') addedAeEn = true
           tryAddEntry(
             entries,
             seen,
@@ -430,7 +432,8 @@ export async function buildIndexablePages(deps) {
       }
     }
 
-    if (!addedForPath) {
+    // Always keep UAE English catalog URLs indexable even when only other GCC locales have published overrides.
+    if (!addedForPath || !addedAeEn) {
       tryAddEntry(entries, seen, {
         internalPath,
         path: internalPath,

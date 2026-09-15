@@ -29,7 +29,7 @@
     {
       "id": "valueChain",
       "name": "One Platform — Every Business Function",
-      "visible": true,
+      "visible": false,
       "sortOrder": 4
     },
     {

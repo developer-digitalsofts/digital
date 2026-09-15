@@ -87,9 +87,9 @@ async function main() {
   else fail('Homepage has H2 hierarchy')
   if (/<html[^>]*lang=["']en["']/i.test(home.text)) pass('Homepage html lang=en')
   else fail('Homepage html lang')
-  if (/rel=["']canonical["'][^>]+https:\/\/www\.digitalmanager\.ae/i.test(home.text) || /href=["']https:\/\/www\.digitalmanager\.ae\/?["']/i.test(home.text)) {
-    pass('Homepage canonical uses www.digitalmanager.ae')
-  } else fail('Homepage canonical uses www.digitalmanager.ae')
+  if (/rel=["']canonical["'][^>]+https:\/\/(www\.)?digitalmanager\.ae/i.test(home.text) || /href=["']https:\/\/(www\.)?digitalmanager\.ae\/?["']/i.test(home.text)) {
+    pass('Homepage canonical uses digitalmanager.ae')
+  } else fail('Homepage canonical uses digitalmanager.ae')
   if (/property=["']og:type["']/i.test(home.text)) pass('Homepage og:type')
   else fail('Homepage og:type')
   if (/property=["']og:image["']/i.test(home.text)) pass('Homepage og:image')

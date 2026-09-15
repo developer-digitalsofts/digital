@@ -3,7 +3,7 @@ import { useI18n } from '../i18n/I18nProvider'
 import { pageShellClass } from '../ui/pageShell'
 import { sectionPad } from '../ui/saas'
 
-const BASE = typeof window !== 'undefined' ? window.location.origin : 'https://www.digitalmanager.ae'
+const BASE = typeof window !== 'undefined' ? window.location.origin : 'https://digitalmanager.ae'
 const TITLE = 'DigitalManager Developer Platform'
 
 export function DevelopersPage() {

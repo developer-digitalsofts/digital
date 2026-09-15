@@ -4,9 +4,10 @@ import { useLocation } from 'react-router-dom'
 import { useCms } from '../cms/CmsContext'
 import { resolvePersonalizedDemoCms } from '../cms/resolveHomepageCms'
 import { useI18n } from '../i18n/I18nProvider'
-import { apiBase, fetchWithTimeout } from '../cms/api'
 import { useSiteSettings } from '../cms/useSiteSettings'
+import { LeadHoneypot } from './LeadHoneypot'
 import { ScrollReveal } from './ScrollReveal'
+import { submitLead, statusFromLeadError, LeadSubmitError, type LeadSubmitStatus } from '../utils/submitLead'
 import { sectionWhite } from '../ui/saas'
 import './personalized-demo.css'
 
@@ -45,7 +46,8 @@ export function PersonalizedDemoSection() {
   const [industry, setIndustry] = useState('')
   const [employees, setEmployees] = useState('')
   const [discussion, setDiscussion] = useState('')
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const [honeypot, setHoneypot] = useState('')
+  const [status, setStatus] = useState<LeadSubmitStatus>('idle')
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
   const onSubmit = useCallback(
@@ -63,7 +65,7 @@ export function PersonalizedDemoSection() {
         !employees
       ) {
         setErrorMsg(copy.errorMessage)
-        setStatus('error')
+        setStatus('validation')
         return
       }
 
@@ -77,42 +79,30 @@ export function PersonalizedDemoSection() {
       if (discussionText) messageParts.push('', discussionText)
 
       try {
-        const res = await fetchWithTimeout(`${apiBase()}/api/leads`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: name.trim(),
-            email: email.trim(),
-            phone: phone.trim(),
-            company: company.trim(),
-            topic: 'demo',
-            source: 'Homepage Personalized Demo',
-            productService: industryLabel,
-            message: messageParts.join('\n'),
-            sourcePage: `homepage-personalized-demo:${location.pathname}${location.search}`.slice(0, 500),
-          }),
+        await submitLead({
+          name: name.trim(),
+          email: email.trim(),
+          phone: phone.trim(),
+          company: company.trim(),
+          topic: 'demo',
+          source: 'Homepage Personalized Demo',
+          productService: industryLabel,
+          message: messageParts.join('\n'),
+          sourcePage: `homepage-personalized-demo:${location.pathname}${location.search}`.slice(0, 500),
+          company_website: honeypot,
         })
 
-        if (!res.ok) {
-          let message = t('personalizedDemo.submitError')
-          try {
-            const data = (await res.json()) as { error?: string }
-            if (data?.error?.trim()) message = data.error.trim()
-          } catch {
-            /* use default */
-          }
-          setErrorMsg(message)
-          setStatus('error')
-          return
-        }
-
         setStatus('success')
-      } catch {
-        setErrorMsg(t('personalizedDemo.networkError'))
-        setStatus('error')
+      } catch (err) {
+        setStatus(statusFromLeadError(err))
+        setErrorMsg(
+          err instanceof LeadSubmitError
+            ? err.message
+            : t('personalizedDemo.submitError'),
+        )
       }
     },
-    [company, copy.errorMessage, discussion, email, employees, industry, location.pathname, location.search, name, phone, t],
+    [company, copy.errorMessage, discussion, email, employees, honeypot, industry, location.pathname, location.search, name, phone, t],
   )
 
   if (!copy.enabled) return null
@@ -148,6 +138,7 @@ export function PersonalizedDemoSection() {
                 </div>
               ) : (
                 <form className="dm-personalized-demo__form" onSubmit={onSubmit} noValidate>
+                  <LeadHoneypot id="personalized-demo-honeypot" value={honeypot} onChange={setHoneypot} />
                   <div className="dm-personalized-demo__field-row">
                     <label className="dm-personalized-demo__field">
                       <span className="dm-personalized-demo__label dm-personalized-demo__label--sr">{t('personalizedDemo.fields.name')}</span>
@@ -257,7 +248,7 @@ export function PersonalizedDemoSection() {
                     />
                   </label>
 
-                  {status === 'error' && errorMsg ? (
+                  {(status === 'error' || status === 'validation' || status === 'temporary') && errorMsg ? (
                     <p className="dm-personalized-demo__error" role="alert">
                       {errorMsg}
                     </p>

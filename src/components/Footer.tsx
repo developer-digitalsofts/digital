@@ -10,7 +10,8 @@ import { SITE_LOGO_SRC } from '../constants'
 import { getFooterProductModules, resolveFooterIndustryLinks } from '../data/footerMegaLinks'
 import { footerResourceLinks } from '../data/footerResourceLinks'
 import { megaIndustryLabel, megaModuleLabel } from '../i18n/megaLabels'
-import { apiBase, fetchWithTimeout } from '../cms/api'
+import { LeadHoneypot } from './LeadHoneypot'
+import { submitLead, statusFromLeadError, LeadSubmitError, type LeadSubmitStatus } from '../utils/submitLead'
 import { CmsLink } from './CmsLink'
 import { useLocale } from '../locale/LocaleContext'
 import { RegionLanguageUtility } from './RegionLanguageUtility'
@@ -119,7 +120,8 @@ function FooterBrandLogo({ src }: { src: string }) {
 function FooterNewsletter() {
   const { t } = useI18n()
   const [email, setEmail] = useState('')
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const [honeypot, setHoneypot] = useState('')
+  const [status, setStatus] = useState<LeadSubmitStatus>('idle')
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
   const onSubmit = useCallback(
@@ -129,7 +131,7 @@ function FooterNewsletter() {
       const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)
       if (!emailOk) {
         setErrorMsg(t('footer.newsletter.error'))
-        setStatus('error')
+        setStatus('validation')
         return
       }
 
@@ -137,41 +139,29 @@ function FooterNewsletter() {
       setErrorMsg(null)
 
       try {
-        const res = await fetchWithTimeout(`${apiBase()}/api/leads`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: 'Newsletter subscriber',
-            email: email.trim(),
-            phone: '000000',
-            topic: 'newsletter',
-            source: 'Footer Newsletter',
-            message: 'Newsletter subscription request',
-            sourcePage: 'footer-newsletter',
-          }),
+        await submitLead({
+          name: 'Newsletter subscriber',
+          email: trimmed,
+          phone: '',
+          topic: 'newsletter',
+          source: 'Footer Newsletter',
+          message: 'Newsletter subscription request',
+          sourcePage: 'footer-newsletter',
+          company_website: honeypot,
         })
-
-        if (!res.ok) {
-          let message = t('footer.newsletter.error')
-          try {
-            const data = (await res.json()) as { error?: string }
-            if (data?.error?.trim()) message = data.error.trim()
-          } catch {
-            /* use default */
-          }
-          setErrorMsg(message)
-          setStatus('error')
-          return
-        }
 
         setEmail('')
         setStatus('success')
-      } catch {
-        setErrorMsg(t('footer.newsletter.networkError'))
-        setStatus('error')
+      } catch (err) {
+        setStatus(statusFromLeadError(err))
+        setErrorMsg(
+          err instanceof LeadSubmitError
+            ? err.message
+            : t('footer.newsletter.networkError'),
+        )
       }
     },
-    [email, t],
+    [email, honeypot, t],
   )
 
   return (
@@ -179,6 +169,7 @@ function FooterNewsletter() {
       <h3 className="dm-footer__newsletter-title">{t('footer.newsletter.title')}</h3>
       <p className="dm-footer__newsletter-desc">{t('footer.newsletter.desc')}</p>
       <form className="dm-footer__newsletter-form" onSubmit={onSubmit} noValidate>
+        <LeadHoneypot id="footer-newsletter-honeypot" value={honeypot} onChange={setHoneypot} />
         <input
           type="email"
           name="email"
@@ -187,7 +178,7 @@ function FooterNewsletter() {
           value={email}
           onChange={(e) => {
             setEmail(e.target.value)
-            if (status === 'error') {
+            if (status === 'error' || status === 'validation' || status === 'temporary') {
               setStatus('idle')
               setErrorMsg(null)
             }
@@ -197,10 +188,10 @@ function FooterNewsletter() {
             if (!trimmed) return
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
               setErrorMsg(t('footer.newsletter.error'))
-              setStatus('error')
+              setStatus('validation')
             }
           }}
-          aria-invalid={status === 'error' ? true : undefined}
+          aria-invalid={status === 'error' || status === 'validation' ? true : undefined}
           className="dm-footer__newsletter-input"
           placeholder={t('footer.newsletter.placeholder')}
         />
@@ -213,7 +204,7 @@ function FooterNewsletter() {
           {t('footer.newsletter.success')}
         </p>
       ) : null}
-      {status === 'error' && errorMsg ? (
+      {(status === 'error' || status === 'validation' || status === 'temporary') && errorMsg ? (
         <p className="dm-footer__newsletter-message dm-footer__newsletter-message--error" role="alert">
           {errorMsg}
         </p>

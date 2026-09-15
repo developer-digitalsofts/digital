@@ -1,4 +1,4 @@
-import { apiBase, fetchWithTimeout } from '../cms/api'
+import { submitLead } from './submitLead'
 
 export const DETAIL_PAGE_INQUIRY_SOURCE = 'Detail Page Request'
 
@@ -23,6 +23,7 @@ export async function submitDetailPageInquiry(opts: {
   pageTitle: string
   slug: string
   sourcePath: string
+  honeypot?: string
 }): Promise<void> {
   const email = opts.email.trim()
   const submittedAt = new Date()
@@ -33,22 +34,15 @@ export async function submitDetailPageInquiry(opts: {
     submittedAt,
   })
 
-  const res = await fetchWithTimeout(`${apiBase()}/api/leads`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      email,
-      phone: '',
-      name: '',
-      company: '',
-      topic: 'detail-page-request',
-      message,
-      source: DETAIL_PAGE_INQUIRY_SOURCE,
-      sourcePage: opts.sourcePath.slice(0, 500),
-    }),
+  await submitLead({
+    email,
+    phone: '',
+    name: '',
+    company: '',
+    topic: 'detail-page-request',
+    message,
+    source: DETAIL_PAGE_INQUIRY_SOURCE,
+    sourcePage: opts.sourcePath.slice(0, 500),
+    company_website: opts.honeypot ?? '',
   })
-
-  if (!res.ok) {
-    throw new Error('Detail page inquiry failed')
-  }
 }

@@ -8,7 +8,6 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import multer from 'multer'
 import { nanoid } from 'nanoid'
-import nodemailer from 'nodemailer'
 import { loadEnv } from './loadEnv.mjs'
 import {
   allowAdminBootstrap,
@@ -18,6 +17,15 @@ import {
   isProduction,
   resolveSmtpConfig,
 } from './envConfig.mjs'
+import {
+  LEAD_FIELD_LIMITS,
+  clipField,
+  containsHeaderInjection,
+  isInventedDemoEmail,
+  isValidCustomerReplyTo,
+  isValidEmailFormat,
+  sendLeadInquiryEmail,
+} from './leadMail.mjs'
 import { createPublishStore } from './publishStore.mjs'
 import { migrateCmsSchemaV2 } from './cmsSchemaMigrate.mjs'
 import { registerContentRoutes, ensureBlogBootstrap, ensureCountriesBootstrap } from './contentRoutes.mjs'
@@ -803,16 +811,16 @@ async function ensureBootstrapFiles() {
     _meta: defaultDataMeta(),
   }))
   await ensureDataFile('emailSettings.json', () => ({
-    enableEmailNotification: false,
-    receiverEmail: '',
+    enableEmailNotification: true,
+    receiverEmail: 'sales@digitalsofts.com',
     ccEmail: '',
     bccEmail: '',
-    fromEmail: 'noreply@localhost',
-    fromName: 'Website',
+    fromEmail: 'info@digitalmanager.ae',
+    fromName: 'DigitalManager',
     replyToField: 'customer',
-    emailSubject: 'New lead from website',
+    emailSubject: '[DigitalManager UAE] New Website Inquiry',
     emailTemplateBody:
-      'New enquiry:\n\nName: {{name}}\nEmail: {{email}}\nPhone: {{phone}}\nTopic: {{topic}}\nCompany: {{company}}\nMessage: {{message}}\nSource: {{sourcePage}}\n',
+      'Managed by server env (SMTP_FROM_EMAIL / SMTP_TO_EMAIL). CMS templates are not used for From/To.',
     _meta: defaultDataMeta(),
   }))
   await ensureDataFile('seo.json', () => ({
@@ -1309,51 +1317,13 @@ async function handleProfileChangePassword(req, res) {
   res.json({ ok: true, message: 'Password updated successfully' })
 }
 
-async function trySendLeadEmail(lead, settings) {
-  if (!settings?.enableEmailNotification) return
+/**
+ * Notify sales of a saved lead. From/To are env-only (never CMS or request).
+ * Failures are logged; callers must still treat the lead as saved.
+ */
+async function trySendLeadEmail(lead) {
   const smtp = resolveSmtpConfig()
-  const to = (settings.receiverEmail || smtp.receiverEmail || '').trim()
-  if (!to) {
-    console.warn('[lead email] skipped — set receiver email in admin or CONTACT_RECEIVER_EMAIL')
-    return
-  }
-  const subj = (settings.emailSubject || 'New lead').replace(/\{\{(\w+)\}\}/g, (_, k) => String(lead[k] ?? ''))
-  let body = settings.emailTemplateBody || ''
-  for (const k of ['name', 'email', 'phone', 'topic', 'company', 'message', 'sourcePage', 'source']) {
-    body = body.split(`{{${k}}}`).join(String(lead[k] ?? ''))
-  }
-  const from = (settings.fromEmail || smtp.fromEmail || 'noreply@localhost').trim()
-  const replyTo = settings.replyToField === 'customer' ? lead.email : from
-  if (!smtp.host) {
-    console.warn('[lead email] skipped — SMTP_HOST is not configured')
-    return
-  }
-  if (!smtp.ok) {
-    console.warn(`[lead email] skipped — missing SMTP env: ${smtp.missing.join(', ')}`)
-    return
-  }
-  try {
-    const transport = nodemailer.createTransport({
-      host: smtp.host,
-      port: smtp.port,
-      secure: smtp.secure,
-      auth: { user: smtp.user, pass: smtp.pass },
-      connectionTimeout: 5000,
-      greetingTimeout: 5000,
-      socketTimeout: 8000,
-    })
-    await transport.sendMail({
-      from: `"${settings.fromName || 'Site'}" <${from}>`,
-      to,
-      cc: (settings.ccEmail || '').trim() || undefined,
-      bcc: (settings.bccEmail || '').trim() || undefined,
-      replyTo,
-      subject: subj,
-      text: body,
-    })
-  } catch (e) {
-    console.error('[lead email]', e.message || e)
-  }
+  return sendLeadInquiryEmail(lead, smtp)
 }
 
 const storage = multer.diskStorage({
@@ -1626,8 +1596,6 @@ app.get('/api/site-settings', async (_req, res) => {
   }
 })
 
-const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
 app.post('/api/leads', async (req, res) => {
   try {
     const leadLimit = checkLeadRateLimit(req, clientIp)
@@ -1641,22 +1609,80 @@ app.post('/api/leads', async (req, res) => {
       return
     }
     setRateLimitHeaders(res, leadLimit)
-    const { name, email, phone, message, topic, company, sourcePage, source, productService, countryCode, localeCountry, localeLang } = req.body ?? {}
-    const emailStr = typeof email === 'string' ? email.trim() : ''
-    const phoneStr = typeof phone === 'string' ? phone.trim() : ''
-    const sourceStr = typeof source === 'string' ? source.trim() : ''
-    const topicStr = typeof topic === 'string' ? topic.trim() : ''
+
+    const body = req.body ?? {}
+    const honeypotRaw =
+      (typeof body.company_website === 'string' && body.company_website) ||
+      (typeof body.honeypot === 'string' && body.honeypot) ||
+      (typeof body.website === 'string' && body.website) ||
+      ''
+    if (String(honeypotRaw).trim()) {
+      // Bot filled honeypot — acknowledge without storing or emailing
+      res.status(201).json({ ok: true, id: 'ok' })
+      return
+    }
+
+    let emailStr = clipField(body.email, LEAD_FIELD_LIMITS.email)
+    if (isInventedDemoEmail(emailStr)) emailStr = ''
+
+    const phoneStr = clipField(body.phone, LEAD_FIELD_LIMITS.phone)
+    const sourceStr = clipField(body.source, LEAD_FIELD_LIMITS.source)
+    const topicStr = clipField(body.topic, LEAD_FIELD_LIMITS.topic)
+    const nameStr = clipField(body.name, LEAD_FIELD_LIMITS.name)
+    const companyStr = clipField(body.company, LEAD_FIELD_LIMITS.company)
+    const messageStr = clipField(body.message, LEAD_FIELD_LIMITS.message)
+    const productServiceStr = clipField(body.productService, LEAD_FIELD_LIMITS.productService)
+    const sourcePageStr = clipField(body.sourcePage, LEAD_FIELD_LIMITS.sourcePage)
+    const countryCodeStr = clipField(body.countryCode, LEAD_FIELD_LIMITS.countryCode).toUpperCase()
+    const localeCountryStr = clipField(body.localeCountry, LEAD_FIELD_LIMITS.localeCountry).toLowerCase()
+    const localeLangRaw = clipField(body.localeLang, LEAD_FIELD_LIMITS.localeLang)
+    const localeLangStr = localeLangRaw === 'ar' ? 'ar' : localeLangRaw ? 'en' : ''
+
+    const injectionFields = [
+      emailStr,
+      phoneStr,
+      sourceStr,
+      topicStr,
+      nameStr,
+      companyStr,
+      messageStr,
+      productServiceStr,
+      sourcePageStr,
+    ]
+    if (injectionFields.some((v) => containsHeaderInjection(v))) {
+      validationError(res, 'Invalid characters in form fields.')
+      return
+    }
+
     const isDetailPageRequest = sourceStr === 'Detail Page Request'
-    const isDemo = topicStr.toLowerCase() === 'demo' || sourceStr.toLowerCase().includes('get demo')
-    if (!emailRe.test(emailStr)) {
+    const isNewsletter = topicStr.toLowerCase() === 'newsletter' || sourceStr.toLowerCase().includes('newsletter')
+    const isPhoneOnlyDemo = sourceStr === 'Get Demo Modal'
+    const isDemo =
+      topicStr.toLowerCase() === 'demo' ||
+      sourceStr.toLowerCase().includes('get demo') ||
+      sourceStr.toLowerCase().includes('personalized demo')
+
+    if (emailStr && !isValidEmailFormat(emailStr)) {
       validationError(res, 'Valid email is required.')
       return
     }
-    if (!isDetailPageRequest && (!phoneStr || phoneStr.length < 6)) {
+    if (!emailStr && !isPhoneOnlyDemo) {
+      validationError(res, 'Valid email is required.')
+      return
+    }
+    if (isPhoneOnlyDemo && !emailStr && (!phoneStr || phoneStr.length < 6)) {
       validationError(res, 'Phone is required.')
       return
     }
-    if (isDemo && typeof name === 'string' && !name.trim()) {
+    if (!isDetailPageRequest && !isNewsletter && !isPhoneOnlyDemo && (!phoneStr || phoneStr.length < 6)) {
+      validationError(res, 'Phone is required.')
+      return
+    }
+    if (isNewsletter && !isValidEmailFormat(emailStr)) {
+      validationError(res, 'Valid email is required.')
+      return
+    }
+    if (isDemo && !isNewsletter && !nameStr) {
       validationError(res, 'Name is required for demo requests.')
       return
     }
@@ -1664,22 +1690,23 @@ app.post('/api/leads', async (req, res) => {
       conflictError(res, 'A demo request with this phone number was just submitted. Please wait a few minutes.')
       return
     }
+
     const leads = (await readLeads()).map(normalizeLead)
     const now = new Date().toISOString()
     const row = normalizeLead({
       id: nanoid(12),
-      name: typeof name === 'string' ? name.trim() : '',
+      name: nameStr,
       email: emailStr,
-      phone: phoneStr,
-      message: typeof message === 'string' ? message.trim() : '',
+      phone: isNewsletter && (!phoneStr || phoneStr === '000000') ? '' : phoneStr,
+      message: messageStr,
       topic: topicStr,
-      company: typeof company === 'string' ? company.trim() : '',
-      productService: typeof productService === 'string' ? productService.trim() : '',
+      company: companyStr,
+      productService: productServiceStr,
       source: sourceStr,
-      sourcePage: typeof sourcePage === 'string' ? sourcePage.trim().slice(0, 500) : '',
-      countryCode: typeof countryCode === 'string' ? countryCode.trim().toUpperCase().slice(0, 3) : '',
-      localeCountry: typeof localeCountry === 'string' ? localeCountry.trim().toLowerCase().slice(0, 3) : '',
-      localeLang: typeof localeLang === 'string' && localeLang.trim() === 'ar' ? 'ar' : typeof localeLang === 'string' ? 'en' : '',
+      sourcePage: sourcePageStr,
+      countryCode: countryCodeStr || 'AE',
+      localeCountry: localeCountryStr || 'ae',
+      localeLang: localeLangStr || 'en',
       status: 'New',
       internalNote: '',
       assignedTo: '',
@@ -1690,9 +1717,22 @@ app.post('/api/leads', async (req, res) => {
     leads.unshift(row)
     await writeLeads(leads)
     if (isDemo) markDemoSubmission(phoneStr, emailStr, topicStr)
-    const emailSettings = await safeReadJson('emailSettings.json', {})
-    trySendLeadEmail(row, emailSettings).catch(() => {})
-    res.status(201).json({ ok: true, id: row.id })
+
+    // Persist first; email is best-effort and must not roll back the inquiry
+    let emailSent = false
+    try {
+      const result = await trySendLeadEmail(row)
+      emailSent = result?.sent === true
+    } catch {
+      console.error('[lead email] unexpected error after lead save')
+    }
+
+    res.status(201).json({
+      ok: true,
+      id: row.id,
+      emailSent,
+      replyToUsed: Boolean(isValidCustomerReplyTo(row.email)),
+    })
   } catch (e) {
     if (isStorageTimeoutError(e)) {
       serviceUnavailableError(res, 'Could not save lead — storage temporarily unavailable.')
@@ -2489,15 +2529,14 @@ app.put('/api/admin/email', authMiddleware, async (req, res) => {
     }
     if (body.enableEmailNotification === true) {
       const smtp = resolveSmtpConfig()
-      const receiver = (body.receiverEmail || smtp.receiverEmail || '').trim()
-      if (!receiver) {
+      if (!smtp.toEmail) {
         res.status(400).json({
-          error: 'Receiver email is required. Set it in admin email settings or CONTACT_RECEIVER_EMAIL in .env.local',
+          error: 'SMTP_TO_EMAIL is required in server environment (sales inbox). CMS cannot set the recipient.',
         })
         return
       }
       if (!smtp.host) {
-        res.status(400).json({ error: 'SMTP is not configured. Set SMTP_HOST (and related vars) in .env.local' })
+        res.status(400).json({ error: 'SMTP is not configured. Set SMTP_HOST (and related vars) in the server environment.' })
         return
       }
       if (!smtp.ok) {

@@ -22,29 +22,42 @@ export function resolveDatabaseUrl() {
   return (process.env.DATABASE_URL || '').trim() || null
 }
 
+/**
+ * SMTP config for UAE inquiry emails.
+ * Port 587 uses STARTTLS (secure: false + requireTLS). SMTP_SECURE=true is for implicit TLS (465).
+ * Password: SMTP_PASSWORD (preferred). Legacy SMTP_PASS still accepted.
+ * Recipient: SMTP_TO_EMAIL (preferred). Legacy CONTACT_RECEIVER_EMAIL still accepted as fallback.
+ */
 export function resolveSmtpConfig() {
   const host = (process.env.SMTP_HOST || '').trim()
-  if (!host) return { ok: false, missing: ['SMTP_HOST'], transport: null }
-
   const port = Number(process.env.SMTP_PORT || 587)
   const secure = process.env.SMTP_SECURE === 'true'
   const user = (process.env.SMTP_USER || '').trim()
-  const pass = (process.env.SMTP_PASS || '').trim()
+  const pass = (process.env.SMTP_PASSWORD || process.env.SMTP_PASS || '').trim()
+  const fromEmail = (process.env.SMTP_FROM_EMAIL || '').trim()
+  const fromName = (process.env.SMTP_FROM_NAME || 'DigitalManager').trim() || 'DigitalManager'
+  const toEmail = (process.env.SMTP_TO_EMAIL || process.env.CONTACT_RECEIVER_EMAIL || '').trim()
 
   const missing = []
+  if (!host) missing.push('SMTP_HOST')
   if (!user) missing.push('SMTP_USER')
-  if (!pass) missing.push('SMTP_PASS')
+  if (!pass) missing.push('SMTP_PASSWORD')
+  if (!fromEmail) missing.push('SMTP_FROM_EMAIL')
+  if (!toEmail) missing.push('SMTP_TO_EMAIL')
 
   return {
     ok: missing.length === 0,
     missing,
     host,
-    port,
+    port: Number.isFinite(port) && port > 0 ? port : 587,
     secure,
     user,
     pass,
-    fromEmail: (process.env.SMTP_FROM_EMAIL || user || '').trim(),
-    receiverEmail: (process.env.CONTACT_RECEIVER_EMAIL || '').trim(),
+    fromEmail,
+    fromName,
+    toEmail,
+    /** @deprecated use toEmail — kept for older admin checks */
+    receiverEmail: toEmail,
   }
 }
 

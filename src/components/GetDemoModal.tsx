@@ -3,9 +3,10 @@ import { X } from 'lucide-react'
 import { useLocation } from 'react-router-dom'
 import { WHATSAPP_URL } from '../constants'
 import { WhatsAppIcon } from './WhatsAppIcon'
-import { apiBase, fetchWithTimeout } from '../cms/api'
+import { LeadHoneypot } from './LeadHoneypot'
 import { useLocaleSubmission } from '../locale/useLocaleSubmission'
 import { btnPrimary, btnSecondary } from '../ui/saas'
+import { submitLead, statusFromLeadError, LeadSubmitError, type LeadSubmitStatus } from '../utils/submitLead'
 
 type Props = {
   open: boolean
@@ -24,13 +25,15 @@ export function GetDemoModal({ open, onClose }: Props) {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [businessType, setBusinessType] = useState('')
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const [honeypot, setHoneypot] = useState('')
+  const [status, setStatus] = useState<LeadSubmitStatus>('idle')
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
   const resetForm = useCallback(() => {
     setName('')
     setPhone('')
     setBusinessType('')
+    setHoneypot('')
     setStatus('idle')
     setErrorMsg(null)
   }, [])
@@ -62,49 +65,38 @@ export function GetDemoModal({ open, onClose }: Props) {
       e.preventDefault()
       if (!name.trim() || phone.trim().length < 6 || !businessType.trim()) {
         setErrorMsg('Please fill in all fields with a valid phone number.')
-        setStatus('error')
+        setStatus('validation')
         return
       }
       setStatus('submitting')
       setErrorMsg(null)
       try {
         const digits = phone.replace(/\D/g, '')
-        const res = await fetchWithTimeout(`${apiBase()}/api/leads`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            name: name.trim(),
-            phone: phone.trim(),
-            company: businessType.trim(),
-            topic: 'demo',
-            source: 'Get Demo Modal',
-            message: `Header demo request — business type: ${businessType.trim()}`,
-            email: `demo+${digits || Date.now()}@digitalmanager.ae`,
-            sourcePage: `header-get-demo:${location.pathname}${location.search}`.slice(0, 500),
-            localeCountry: localeMeta.localeCountry,
-            localeLang: localeMeta.localeLang,
-            countryCode: localeMeta.countryCode,
-          }),
+        await submitLead({
+          name: name.trim(),
+          phone: phone.trim(),
+          company: businessType.trim(),
+          topic: 'demo',
+          source: 'Get Demo Modal',
+          message: `Header demo request — business type: ${businessType.trim()}`,
+          email: `demo+${digits || Date.now()}@digitalmanager.ae`,
+          sourcePage: `header-get-demo:${location.pathname}${location.search}`.slice(0, 500),
+          localeCountry: localeMeta.localeCountry,
+          localeLang: localeMeta.localeLang,
+          countryCode: localeMeta.countryCode,
+          company_website: honeypot,
         })
-        if (!res.ok) {
-          let message = 'Could not submit your request. Please try again in a moment.'
-          try {
-            const data = (await res.json()) as { error?: string }
-            if (data?.error?.trim()) message = data.error.trim()
-          } catch {
-            /* use default */
-          }
-          setErrorMsg(message)
-          setStatus('error')
-          return
-        }
         setStatus('success')
-      } catch {
-        setErrorMsg('Network error — please check your connection and try again.')
-        setStatus('error')
+      } catch (err) {
+        setStatus(statusFromLeadError(err))
+        setErrorMsg(
+          err instanceof LeadSubmitError
+            ? err.message
+            : 'Could not submit your request. Please try again in a moment.',
+        )
       }
     },
-    [name, phone, businessType, location.pathname, location.search, localeMeta],
+    [name, phone, businessType, honeypot, location.pathname, location.search, localeMeta],
   )
 
   if (!open) return null
@@ -153,6 +145,7 @@ export function GetDemoModal({ open, onClose }: Props) {
             </div>
           ) : (
             <form className="mt-6 space-y-4" onSubmit={onSubmit} noValidate>
+              <LeadHoneypot id="demo-modal-honeypot" value={honeypot} onChange={setHoneypot} />
               <div>
                 <label htmlFor="demo-name" className="text-sm font-semibold text-slate-800">
                   Name
@@ -201,7 +194,7 @@ export function GetDemoModal({ open, onClose }: Props) {
                 />
               </div>
 
-              {status === 'error' && errorMsg ? (
+              {(status === 'error' || status === 'validation' || status === 'temporary') && errorMsg ? (
                 <p className="text-sm font-medium text-red-600" role="alert">
                   {errorMsg}
                 </p>

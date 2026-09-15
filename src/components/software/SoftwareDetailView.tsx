@@ -29,7 +29,7 @@ export function SoftwareDetailView({ detail, displayName, isModule, slug }: Soft
   const pageHeroIcon = useMemo(() => softwarePageIconName(slug, pageKind), [slug, pageKind])
   const ChevronFwd = lang === 'ar' ? ChevronLeft : ChevronRight
   const [tab, setTab] = useState(0)
-  const { demoEmail, setDemoEmail, submitStatus, onSubmit: onDemoSubmit } = useDetailPageInquiry(
+  const { demoEmail, setDemoEmail, honeypot, setHoneypot, submitStatus, onSubmit: onDemoSubmit } = useDetailPageInquiry(
     displayName,
     slug,
   )
@@ -290,6 +290,8 @@ export function SoftwareDetailView({ detail, displayName, isModule, slug }: Soft
         sendLabel="Request Here"
         demoEmail={demoEmail}
         setDemoEmail={setDemoEmail}
+        honeypot={honeypot}
+        setHoneypot={setHoneypot}
         onSubmit={onDemoSubmit}
         submitStatus={submitStatus}
       />

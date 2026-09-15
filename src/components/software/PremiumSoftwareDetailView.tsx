@@ -72,7 +72,7 @@ export function PremiumSoftwareDetailView({
   const uid = useId()
   const ChevronFwd = lang === 'ar' ? ChevronLeft : ChevronRight
   const [tab, setTab] = useState(0)
-  const { demoEmail, setDemoEmail, submitStatus, onSubmit: onDemoSubmit } = useDetailPageInquiry(
+  const { demoEmail, setDemoEmail, honeypot, setHoneypot, submitStatus, onSubmit: onDemoSubmit } = useDetailPageInquiry(
     displayName,
     slug,
   )
@@ -497,6 +497,8 @@ export function PremiumSoftwareDetailView({
           sendLabel={cfg.demoSendButtonLabel}
           demoEmail={demoEmail}
           setDemoEmail={setDemoEmail}
+          honeypot={honeypot}
+          setHoneypot={setHoneypot}
           onSubmit={onDemoSubmit}
           submitStatus={submitStatus}
         />
@@ -901,6 +903,8 @@ export function PremiumSoftwareDetailView({
         sendLabel={cfg.demoSendButtonLabel}
         demoEmail={demoEmail}
         setDemoEmail={setDemoEmail}
+        honeypot={honeypot}
+        setHoneypot={setHoneypot}
         onSubmit={onDemoSubmit}
         submitStatus={submitStatus}
       />

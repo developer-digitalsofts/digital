@@ -4,6 +4,8 @@ import { useI18n } from '../../i18n/I18nProvider'
 import { pageShellClass } from '../../ui/pageShell'
 import { WHATSAPP_URL } from '../../constants'
 import { cardFlat } from '../../ui/saas'
+import { LeadHoneypot } from '../LeadHoneypot'
+import type { LeadSubmitStatus } from '../../utils/submitLead'
 
 type Props = {
   uid: string
@@ -14,8 +16,10 @@ type Props = {
   sendLabel: string
   demoEmail: string
   setDemoEmail: (v: string) => void
+  honeypot?: string
+  setHoneypot?: (v: string) => void
   onSubmit: (e: FormEvent) => void
-  submitStatus?: 'idle' | 'submitting' | 'success' | 'error'
+  submitStatus?: LeadSubmitStatus
 }
 
 /** Quotation / demo CTA — email only, optional WhatsApp below form. */
@@ -28,6 +32,8 @@ export function SoftwareDemoCtaSection({
   sendLabel,
   demoEmail,
   setDemoEmail,
+  honeypot = '',
+  setHoneypot,
   onSubmit,
   submitStatus = 'idle',
 }: Props) {
@@ -47,6 +53,9 @@ export function SoftwareDemoCtaSection({
 
           <div>
             <form className={`${cardFlat} p-6 md:p-7`} onSubmit={onSubmit}>
+              {setHoneypot ? (
+                <LeadHoneypot id={`${uid}-honeypot`} value={honeypot} onChange={setHoneypot} />
+              ) : null}
               <label className="text-xs font-semibold text-slate-600" htmlFor={`${uid}-email`}>
                 {t('softwareDetail.emailLabel')}
               </label>
@@ -72,7 +81,7 @@ export function SoftwareDemoCtaSection({
               {submitStatus === 'success' ? (
                 <p className="mt-3 text-sm font-medium text-emerald-700">{t('softwareDetail.requestSuccess')}</p>
               ) : null}
-              {submitStatus === 'error' ? (
+              {submitStatus === 'error' || submitStatus === 'validation' || submitStatus === 'temporary' ? (
                 <p className="mt-3 text-sm font-medium text-red-600">{t('softwareDetail.requestError')}</p>
               ) : null}
 

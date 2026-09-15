@@ -37,7 +37,7 @@ export function IndustryDetailPageView({
   metaDescription,
 }: Props) {
   const uid = useId()
-  const { demoEmail, setDemoEmail, submitStatus, onSubmit } = useDetailPageInquiry(displayName, slug)
+  const { demoEmail, setDemoEmail, honeypot, setHoneypot, submitStatus, onSubmit } = useDetailPageInquiry(displayName, slug)
 
   useEffect(() => {
     document.title = metaTitle
@@ -80,6 +80,8 @@ export function IndustryDetailPageView({
           model={sections.demo}
           demoEmail={demoEmail}
           setDemoEmail={setDemoEmail}
+          honeypot={honeypot}
+          setHoneypot={setHoneypot}
           onSubmit={onSubmit}
           submitStatus={submitStatus}
         />
