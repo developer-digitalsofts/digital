@@ -17,6 +17,10 @@ import { parseLocalePath } from './seoPaths.mjs'
 const AGENTIC_EXCLUDED =
   /^(?:\/api(?:\/|$)|\/uploads(?:\/|$)|\/admin(?:\/|$)|\/assets(?:\/|$)|\/favicon\.|\/digitalmanager-|.*\.(?:js|css|png|jpg|jpeg|gif|svg|webp|ico|woff2?|map|txt|xml|json)$)/i
 
+/** Paths that must never be rewritten to SPA HTML (assets/API only). /admin IS a React route. */
+const SPA_STATIC_EXCLUDED =
+  /^(?:\/api(?:\/|$)|\/uploads(?:\/|$)|\/assets(?:\/|$)|\/favicon\.|\/digitalmanager-|.*\.(?:js|css|png|jpg|jpeg|gif|svg|webp|ico|woff2?|map|txt|xml|json)$)/i
+
 const NEGOTIABLE_PAGE_KINDS = new Set([
   'home',
   'about',
@@ -135,7 +139,8 @@ export function createSpaShellHandler(deps) {
   return async (req, res, next) => {
     if (req.method !== 'GET' && req.method !== 'HEAD') return next()
     const pathname = req.path || '/'
-    if (AGENTIC_EXCLUDED.test(pathname)) return next()
+    // /admin must receive the Vite SPA — do not reuse AGENTIC_EXCLUDED (that skips admin for markdown only).
+    if (SPA_STATIC_EXCLUDED.test(pathname)) return next()
     if (pathname === '/robots.txt' || pathname === '/sitemap.xml') return next()
     if (isMarkdownPreferred(req)) return next()
     if (!prefersHtmlDocument(req)) return next()
@@ -149,6 +154,15 @@ export function createSpaShellHandler(deps) {
         res.redirect(302, routeInfo.redirectTo)
         return
       }
+
+      // Admin CMS is a client-side React Router app — always serve the Vite shell.
+      if (routeInfo.kind === 'admin') {
+        varyHeader(res)
+        negotiableCacheHeaders(res)
+        res.sendFile(deps.distIndex)
+        return
+      }
+
       if (!routeInfo.known) {
         const template = await readTemplate(deps.distIndex)
         varyHeader(res)

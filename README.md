@@ -126,6 +126,10 @@ With `NODE_ENV=production`, Express automatically serves `dist/` when `dist/inde
 
 If you see **`Cannot GET /`**, the container is running Express without a built `dist/`, or the base directory is wrong (`server/` instead of repo root).
 
+If you see **`Cannot GET /admin`** while `/` works, ensure the deployed build includes the SPA shell fix that serves React Router admin routes from `dist/index.html` (admin must not be excluded from the SPA fallback).
+
+Set **`SERVE_STATIC=true`** explicitly in Coolify. Install must include devDependencies so `vite`/`typescript` are available during `npm run build` (see `nixpacks.toml`: `npm install --include=dev`).
+
 **Split hosting (optional):**
 
 ```bash

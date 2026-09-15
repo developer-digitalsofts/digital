@@ -42,3 +42,6 @@ server/data/backups/
 server/data/published/backups/
 server/data/published/publishMeta.json
 server/data/.test-fixtures/
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
