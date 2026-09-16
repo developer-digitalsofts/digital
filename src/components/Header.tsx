@@ -79,10 +79,11 @@ type MegaMenuTriggerProps = {
   label: string
   isOpen: boolean
   onToggle: () => void
+  onOpen?: () => void
 }
 
 /** Desktop mega nav trigger: open = chevron up (`rotate-180`), closed = chevron down. */
-function MegaMenuTrigger({ id, ariaControlsId, label, isOpen, onToggle }: MegaMenuTriggerProps) {
+function MegaMenuTrigger({ id, ariaControlsId, label, isOpen, onToggle, onOpen }: MegaMenuTriggerProps) {
   return (
     <button
       type="button"
@@ -91,6 +92,8 @@ function MegaMenuTrigger({ id, ariaControlsId, label, isOpen, onToggle }: MegaMe
       aria-controls={ariaControlsId}
       className={navMegaTrigger(isOpen)}
       onClick={onToggle}
+      onMouseEnter={onOpen}
+      onFocus={onOpen}
     >
       {label}
       <span
@@ -249,6 +252,11 @@ export function Header({ onOpenSearch }: HeaderProps) {
       <header
         ref={headerShellRef}
         className={`relative ${scrolled ? headerShellScrolled : headerShellDefault}`}
+        onMouseLeave={(e) => {
+          const next = e.relatedTarget as Node | null
+          if (next && headerShellRef.current?.contains(next)) return
+          closeMega()
+        }}
       >
         <div className="dm-header__container">
           <div className="dm-header__bar">
@@ -332,6 +340,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                       label={navModules}
                       isOpen={mega === 'module'}
                       onToggle={() => toggleMega('module')}
+                      onOpen={() => setMega('module')}
                     />
                   </li>
                   <li>
@@ -341,6 +350,7 @@ export function Header({ onOpenSearch }: HeaderProps) {
                       label={navIndustries}
                       isOpen={mega === 'industry'}
                       onToggle={() => toggleMega('industry')}
+                      onOpen={() => setMega('industry')}
                     />
                   </li>
                   <li>

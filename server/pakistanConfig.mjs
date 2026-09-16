@@ -1,6 +1,6 @@
 /**
  * Pakistan market config — used by pakistan-version branch only.
- * Final domain: digitalmanager.com.pk (temp: pk-test.digitalmanager.ae)
+ * Production canonical domain: https://digitalmanager.com.pk
  */
 export const MARKET_CODE = 'PK'
 export const MARKET_SLUG = 'pk'
@@ -11,16 +11,31 @@ export const MARKET_PHONE_CODE = '+92'
 export const PUBLIC_SITE_URL_DEFAULT = 'https://digitalmanager.com.pk'
 export const PUBLIC_SITE_URL_TEMP = 'https://pk-test.digitalmanager.ae'
 
-const TEMP_PUBLIC_HOST_RE = /pk-test\.digitalmanager\.ae/i
+/** Hosts that must never appear as the public SEO/canonical origin. */
+function isRejectedPublicSiteHost(rawUrl) {
+  try {
+    const host = new URL(rawUrl.includes('://') ? rawUrl : `https://${rawUrl}`).hostname.toLowerCase()
+    if (host === 'pk-test.digitalmanager.ae') return true
+    // Bare .pk is not the Pakistan production site domain.
+    if (host === 'digitalmanager.pk' || host === 'www.digitalmanager.pk') return true
+    // UAE site host must not become Pakistan canonical.
+    if (host === 'digitalmanager.ae' || host === 'www.digitalmanager.ae') return true
+    return false
+  } catch {
+    return true
+  }
+}
 
 /** Canonical production origin. Temporary Coolify/test hosts are never used in public SEO URLs. */
 export function resolvePublicSiteUrl() {
-  const raw = String(process.env.PUBLIC_SITE_URL || process.env.VITE_PUBLIC_SITE_URL || '').trim().replace(/\/$/, '')
-  if (raw && !TEMP_PUBLIC_HOST_RE.test(raw)) return raw
+  const raw = String(process.env.PUBLIC_SITE_URL || process.env.VITE_PUBLIC_SITE_URL || '')
+    .trim()
+    .replace(/\/$/, '')
+  if (raw && !isRejectedPublicSiteHost(raw)) return raw
   return PUBLIC_SITE_URL_DEFAULT
 }
 
-/** Official contact published on https://digitalmanager.pk (Head Office + site-wide channels). */
+/** Official contact published for DigitalManager Pakistan (Head Office + site-wide channels). */
 export const PK_OFFICIAL_CONTACT = {
   brandName: 'DigitalManager',
   legalName: 'DigitalSofts Pvt. Ltd.',

@@ -107,7 +107,7 @@ export const SEO_PAGE_RESPONSE = {
   type: 'object',
   properties: {
     path: { type: 'string', example: '/erp' },
-    canonical: { type: 'string', format: 'uri', example: 'https://digitalmanager.ae/erp' },
+    canonical: { type: 'string', format: 'uri', example: 'https://digitalmanager.com.pk/erp' },
     noIndex: { type: 'boolean', example: false },
     robots: { type: 'string', example: 'index, follow' },
     lang: { type: 'string', enum: ['en', 'ar'], example: 'en' },

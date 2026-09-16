@@ -14,6 +14,7 @@ import { PK_CMS_DATA_DIR_NAME, isPkCitySlug, resolvePublicSiteUrl } from './paki
 import {
   allowAdminBootstrap,
   authSecretOrDevFallback,
+  buildNodemailerTransportOptions,
   envConfigSummary,
   isAuthSecretConfigured,
   isProduction,
@@ -812,16 +813,16 @@ async function ensureBootstrapFiles() {
     _meta: defaultDataMeta(),
   }))
   await ensureDataFile('emailSettings.json', () => ({
-    enableEmailNotification: false,
-    receiverEmail: '',
+    enableEmailNotification: true,
+    receiverEmail: 'sales@digitalsofts.com',
     ccEmail: '',
     bccEmail: '',
-    fromEmail: 'noreply@localhost',
-    fromName: 'Website',
+    fromEmail: 'noreply@digitalmanager.ae',
+    fromName: 'DigitalManager Pakistan',
     replyToField: 'customer',
-    emailSubject: 'New lead from website',
+    emailSubject: '[DigitalManager Pakistan] New Website Inquiry',
     emailTemplateBody:
-      'New enquiry:\n\nName: {{name}}\nEmail: {{email}}\nPhone: {{phone}}\nTopic: {{topic}}\nCompany: {{company}}\nMessage: {{message}}\nSource: {{sourcePage}}\n',
+      'Managed by server env (SMTP_FROM_EMAIL / CONTACT_RECEIVER_EMAIL). CMS From/To fall back only when env is unset.\n\nName: {{name}}\nEmail: {{email}}\nPhone: {{phone}}\nTopic: {{topic}}\nCompany: {{company}}\nMessage: {{message}}\nSource: {{sourcePage}}\n',
     _meta: defaultDataMeta(),
   }))
   await ensureDataFile('seo.json', () => ({
@@ -1319,49 +1320,54 @@ async function handleProfileChangePassword(req, res) {
 }
 
 async function trySendLeadEmail(lead, settings) {
-  if (!settings?.enableEmailNotification) return
+  if (!settings?.enableEmailNotification) return { sent: false, reason: 'disabled' }
   const smtp = resolveSmtpConfig()
-  const to = (settings.receiverEmail || smtp.receiverEmail || '').trim()
+  // Prefer env recipient/from; CMS values are fallback only.
+  const to = (smtp.receiverEmail || settings.receiverEmail || '').trim()
   if (!to) {
-    console.warn('[lead email] skipped — set receiver email in admin or CONTACT_RECEIVER_EMAIL')
-    return
+    console.warn('[lead email] skipped — set CONTACT_RECEIVER_EMAIL or receiver email in admin')
+    return { sent: false, reason: 'no_recipient' }
   }
-  const subj = (settings.emailSubject || 'New lead').replace(/\{\{(\w+)\}\}/g, (_, k) => String(lead[k] ?? ''))
+  const subj = (settings.emailSubject || '[DigitalManager Pakistan] New Website Inquiry').replace(
+    /\{\{(\w+)\}\}/g,
+    (_, k) => String(lead[k] ?? ''),
+  )
   let body = settings.emailTemplateBody || ''
   for (const k of ['name', 'email', 'phone', 'topic', 'company', 'message', 'sourcePage', 'source']) {
     body = body.split(`{{${k}}}`).join(String(lead[k] ?? ''))
   }
-  const from = (settings.fromEmail || smtp.fromEmail || 'noreply@localhost').trim()
-  const replyTo = settings.replyToField === 'customer' ? lead.email : from
+  const from = (smtp.fromEmail || settings.fromEmail || 'noreply@digitalmanager.ae').trim()
+  const fromName = (smtp.fromName || settings.fromName || 'DigitalManager Pakistan').trim() || 'DigitalManager Pakistan'
+  const customerEmail = typeof lead?.email === 'string' ? lead.email.trim() : ''
+  const replyTo =
+    settings.replyToField === 'customer' && customerEmail && !/[\r\n\0]/.test(customerEmail)
+      ? customerEmail
+      : undefined
   if (!smtp.host) {
     console.warn('[lead email] skipped — SMTP_HOST is not configured')
-    return
+    return { sent: false, reason: 'no_host' }
   }
   if (!smtp.ok) {
     console.warn(`[lead email] skipped — missing SMTP env: ${smtp.missing.join(', ')}`)
-    return
+    return { sent: false, reason: 'not_configured' }
   }
   try {
-    const transport = nodemailer.createTransport({
-      host: smtp.host,
-      port: smtp.port,
-      secure: smtp.secure,
-      auth: { user: smtp.user, pass: smtp.pass },
-      connectionTimeout: 5000,
-      greetingTimeout: 5000,
-      socketTimeout: 8000,
-    })
-    await transport.sendMail({
-      from: `"${settings.fromName || 'Site'}" <${from}>`,
+    const transport = nodemailer.createTransport(buildNodemailerTransportOptions(smtp))
+    const mail = {
+      from: `"${fromName.replace(/[\r\n"]/g, '')}" <${from}>`,
       to,
       cc: (settings.ccEmail || '').trim() || undefined,
       bcc: (settings.bccEmail || '').trim() || undefined,
-      replyTo,
       subject: subj,
       text: body,
-    })
+    }
+    if (replyTo) mail.replyTo = replyTo
+    await transport.sendMail(mail)
+    return { sent: true }
   } catch (e) {
-    console.error('[lead email]', e.message || e)
+    const msg = e && typeof e === 'object' && 'message' in e ? String(e.message) : 'send failed'
+    console.error('[lead email]', msg.replace(/pass(word)?[=:]\S+/gi, 'pass=***'))
+    return { sent: false, reason: 'delivery_failed' }
   }
 }
 
@@ -1421,6 +1427,7 @@ function registerMediaUploadRoute(routePath) {
 app.use('/uploads', express.static(UPLOADS_DIR))
 
 app.use('/api', (req, res, next) => {
+  res.setHeader('X-Robots-Tag', 'noindex, nofollow')
   if (req.path === '/health') return next()
   if (!bootstrapReady) {
     res.status(503).json({
