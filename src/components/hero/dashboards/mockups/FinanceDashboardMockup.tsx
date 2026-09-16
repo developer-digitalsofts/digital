@@ -11,7 +11,7 @@ export const FinanceDashboardMockup = memo(function FinanceDashboardMockup({ ani
   const expenses = data.financeGroupedBars.expenses.slice(0, 5)
 
   return (
-    <DashboardFrame moduleType="finance" title="Finance Overview" subtitle="Real-time revenue and cash flow">
+    <DashboardFrame moduleType="finance" title="Finance Overview" subtitle="Revenue, expenses and cash position">
       <DashboardBody>
         <KpiStrip
           items={[
@@ -26,7 +26,7 @@ export const FinanceDashboardMockup = memo(function FinanceDashboardMockup({ ani
               animate={animate}
               labels={labels}
               values={[revenue, expenses]}
-              colors={['#FF714A', '#64748b']}
+              colors={['#FF714A', '#334155']}
               legend={['Revenue', 'Expenses']}
             />
           </Panel>

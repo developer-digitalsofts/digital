@@ -1,19 +1,14 @@
 import { memo } from 'react'
 import { DashboardBody, DashboardFrame } from '../DashboardFrame'
 import { useDashboardRegionalData } from '../useDashboardRegionalData'
-import { KpiStrip, Panel, ProductRows, SparkAreaChart } from '../mockupParts'
+import { DonutWidget, KpiStrip, Panel, SparkAreaChart } from '../mockupParts'
 import type { DashboardMockupProps } from '../types'
 
 export const PosDashboardMockup = memo(function PosDashboardMockup(_props: DashboardMockupProps) {
   const data = useDashboardRegionalData()
-  const products = data.posTopProducts.slice(0, 5).map((p, i) => ({
-    name: p.name,
-    qty: String(p.qty),
-    icon: ['coffee', 'dates', 'water', 'bag', 'bag'][i],
-  }))
 
   return (
-    <DashboardFrame moduleType="pos" title="POS Overview" subtitle="Fast connected retail sales system">
+    <DashboardFrame moduleType="pos" title="POS Overview" subtitle="Daily sales, tills and payment mix">
       <DashboardBody>
         <KpiStrip
           items={[
@@ -27,11 +22,20 @@ export const PosDashboardMockup = memo(function PosDashboardMockup(_props: Dashb
             <SparkAreaChart
               values={data.posHourlySales.values.slice(0, 6)}
               labels={data.posHourlySales.labels.slice(0, 6)}
-              color="#14b8a6"
+              color="#FF714A"
             />
           </Panel>
-          <Panel title="Top-Selling Products">
-            <ProductRows items={products} />
+          <Panel title="Payment Mix">
+            <DonutWidget
+              center="100%"
+              centerSub="Today"
+              size={82}
+              segments={[
+                { label: 'Card', value: 52, color: '#FF714A' },
+                { label: 'Cash', value: 31, color: '#111936' },
+                { label: 'Wallet', value: 17, color: '#94a3b8' },
+              ]}
+            />
           </Panel>
         </div>
       </DashboardBody>

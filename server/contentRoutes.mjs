@@ -418,6 +418,8 @@ export function registerContentRoutes(app, deps) {
       'User-agent: *',
       'Allow: /',
       'Disallow: /admin',
+      'Disallow: /admin/',
+      'Disallow: /api',
       'Disallow: /api/',
       '',
       `Sitemap: ${PUBLIC_SITE_BASE}/sitemap.xml`,

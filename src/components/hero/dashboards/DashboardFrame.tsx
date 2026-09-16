@@ -25,6 +25,12 @@ const SIDEBAR_EXTRA = [BarChart3, Settings]
 export function DashboardFrame({ title, subtitle, moduleType = 'erp', children }: DashboardFrameProps) {
   return (
     <div className="dm-hero__dashboard-frame">
+      <div className="dm-hero__dash-chrome" aria-hidden>
+        <span className="dm-hero__dash-chrome-dot" />
+        <span className="dm-hero__dash-chrome-dot" />
+        <span className="dm-hero__dash-chrome-dot" />
+        <span className="dm-hero__dash-chrome-url">app.digitalmanager.com.pk</span>
+      </div>
       <div className="dm-hero__dash-shell">
         <aside className="dm-hero__dash-sidebar" aria-hidden>
           {SIDEBAR_MODULES.map(({ type, icon: Icon }) => (

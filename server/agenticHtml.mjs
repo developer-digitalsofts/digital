@@ -734,6 +734,11 @@ export function render404Html(templateHtml, pathname, lang = 'en') {
   let html = templateHtml
   html = html.replace(/<html[^>]*>/i, `<html lang="${lang}">`)
   html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${title} — DigitalManager</title>`)
+  if (!/<meta[^>]+name=["']robots["']/i.test(html)) {
+    html = html.replace(/<\/head>/i, '    <meta name="robots" content="noindex, follow" />\n  </head>')
+  } else {
+    html = html.replace(/<meta[^>]+name=["']robots["'][^>]*>/i, '<meta name="robots" content="noindex, follow" />')
+  }
   html = html.replace('<div id="root"></div>', `<div id="root">${body}</div>`)
   html = html.replace('<div id="root"><\/div>', `<div id="root">${body}</div>`)
   return html

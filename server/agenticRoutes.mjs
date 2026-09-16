@@ -141,7 +141,17 @@ export function createSpaShellHandler(deps) {
     const pathname = req.path || '/'
     if (AGENTIC_EXCLUDED.test(pathname)) {
       if (pathname.startsWith('/admin') && prefersHtmlDocument(req)) {
-        res.sendFile(deps.distIndex)
+        res.setHeader('X-Robots-Tag', 'noindex, nofollow')
+        try {
+          const template = await readTemplate(deps.distIndex)
+          const html = template.replace(
+            /<\/head>/i,
+            '    <meta name="robots" content="noindex, nofollow" />\n  </head>',
+          )
+          res.status(200).type('text/html; charset=utf-8').send(html)
+        } catch {
+          res.sendFile(deps.distIndex)
+        }
         return
       }
       return next()

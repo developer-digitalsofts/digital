@@ -1,6 +1,17 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 export function NotFoundPage() {
+  useEffect(() => {
+    let el = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null
+    if (!el) {
+      el = document.createElement('meta')
+      el.setAttribute('name', 'robots')
+      document.head.appendChild(el)
+    }
+    el.setAttribute('content', 'noindex, follow')
+  }, [])
+
   return (
     <main className="content-page">
       <div className="content-page__container">

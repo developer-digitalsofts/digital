@@ -22,18 +22,28 @@ export function resolveDatabaseUrl() {
   return (process.env.DATABASE_URL || '').trim() || null
 }
 
+/**
+ * SMTP config for Pakistan inquiry emails.
+ * Port 587 uses STARTTLS (secure: false + requireTLS). SMTP_SECURE=true is for implicit TLS (465).
+ * Password: SMTP_PASS (Pakistan branch primary). SMTP_PASSWORD accepted as fallback.
+ */
 export function resolveSmtpConfig() {
   const host = (process.env.SMTP_HOST || '').trim()
-  if (!host) return { ok: false, missing: ['SMTP_HOST'], transport: null }
-
-  const port = Number(process.env.SMTP_PORT || 587)
+  const portRaw = Number(process.env.SMTP_PORT || 587)
+  const port = Number.isFinite(portRaw) && portRaw > 0 ? portRaw : 587
   const secure = process.env.SMTP_SECURE === 'true'
   const user = (process.env.SMTP_USER || '').trim()
-  const pass = (process.env.SMTP_PASS || '').trim()
+  const pass = (process.env.SMTP_PASS || process.env.SMTP_PASSWORD || '').trim()
+  const fromEmail = (process.env.SMTP_FROM_EMAIL || '').trim()
+  const fromName = (process.env.SMTP_FROM_NAME || 'DigitalManager Pakistan').trim() || 'DigitalManager Pakistan'
+  const receiverEmail = (process.env.CONTACT_RECEIVER_EMAIL || process.env.SMTP_TO_EMAIL || '').trim()
 
   const missing = []
+  if (!host) missing.push('SMTP_HOST')
   if (!user) missing.push('SMTP_USER')
   if (!pass) missing.push('SMTP_PASS')
+  if (!fromEmail) missing.push('SMTP_FROM_EMAIL')
+  if (!receiverEmail) missing.push('CONTACT_RECEIVER_EMAIL')
 
   return {
     ok: missing.length === 0,
@@ -43,8 +53,26 @@ export function resolveSmtpConfig() {
     secure,
     user,
     pass,
-    fromEmail: (process.env.SMTP_FROM_EMAIL || user || '').trim(),
-    receiverEmail: (process.env.CONTACT_RECEIVER_EMAIL || '').trim(),
+    fromEmail,
+    fromName,
+    receiverEmail,
+    toEmail: receiverEmail,
+  }
+}
+
+/** Nodemailer transport options — STARTTLS on port 587. */
+export function buildNodemailerTransportOptions(smtp) {
+  const port = Number(smtp?.port) || 587
+  const secure = smtp?.secure === true
+  return {
+    host: smtp?.host,
+    port,
+    secure,
+    requireTLS: port === 587 && !secure,
+    auth: { user: smtp?.user, pass: smtp?.pass },
+    connectionTimeout: 5000,
+    greetingTimeout: 5000,
+    socketTimeout: 8000,
   }
 }
 

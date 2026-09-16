@@ -12,7 +12,7 @@ import {
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
-const KPI_VARIANTS = ['dm-hero__kpi-tile--mint', 'dm-hero__kpi-tile--peach', 'dm-hero__kpi-tile--sky', 'dm-hero__kpi-tile--rose'] as const
+const KPI_VARIANTS = ['dm-hero__kpi-tile--peach', 'dm-hero__kpi-tile--navy', 'dm-hero__kpi-tile--neutral'] as const
 const KPI_ICONS = [TrendingUp, Wallet, TrendingDown] as const
 
 export function Panel({
@@ -204,7 +204,7 @@ export function GaugeWidget({ value, label, sublabel }: { value: number; label: 
           cy="26"
           r={r}
           fill="none"
-          stroke="#14b8a6"
+          stroke="#ff714a"
           strokeWidth="5"
           strokeLinecap="round"
           strokeDasharray={c}

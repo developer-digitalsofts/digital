@@ -9,7 +9,7 @@ export const PUBLIC_SITE_ORIGIN =
   (typeof import.meta !== 'undefined' && (import.meta as { env?: { VITE_PUBLIC_SITE_URL?: string } }).env?.VITE_PUBLIC_SITE_URL) ||
   'https://digitalmanager.com.pk'
 
-/** Official contact published on https://digitalmanager.pk */
+/** Official contact published for DigitalManager Pakistan */
 export const PK_OFFICIAL_CONTACT = {
   brandName: 'DigitalManager',
   legalName: 'DigitalSofts Pvt. Ltd.',

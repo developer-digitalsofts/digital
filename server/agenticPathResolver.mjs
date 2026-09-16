@@ -3,7 +3,7 @@
  */
 import { isPublishedRecord } from './contentHelpers.mjs'
 import { LOCALE_ROUTE_REGISTRY } from './localeContentModel.mjs'
-import { parseLocalePath, LOCALE_COUNTRY_SLUGS, LOCALE_LANGS } from './seoPaths.mjs'
+import { parseLocalePath, LOCALE_COUNTRY_SLUGS, LOCALE_LANGS, isDefaultLocale } from './seoPaths.mjs'
 import { parseCityPagePath } from './cityPaths.mjs'
 import { isValidCityForCountry } from './cityRegistry.mjs'
 import { registryStaticPaths, uaeSoftwarePaths } from './seoRouteCatalog.mjs'
@@ -35,7 +35,7 @@ function normalizePath(pathname) {
 }
 
 function blogSegment(lang, country) {
-  return country === 'ae' && lang === 'en' ? 'blog' : 'insights'
+  return isDefaultLocale(country, lang) ? 'blog' : 'insights'
 }
 
 export async function resolvePublicPath(deps, pathname) {
@@ -73,9 +73,11 @@ export async function resolvePublicPath(deps, pathname) {
   const normalizedInternal = internal.length > 1 && internal.endsWith('/') ? internal.slice(0, -1) : internal
 
   if (normalizedInternal === '/' || CORE_PATHS.has(normalizedInternal) || TRUST_PATHS.has(normalizedInternal)) {
+    let kind = normalizedInternal === '/' ? 'home' : normalizedInternal.slice(1).replace(/\//g, '-') || 'home'
+    if (normalizedInternal === '/blog') kind = 'blog-list'
     return {
       known: true,
-      kind: normalizedInternal === '/' ? 'home' : normalizedInternal.slice(1).replace(/\//g, '-') || 'home',
+      kind,
       path,
       locale: parsed,
       restPath: normalizedInternal,

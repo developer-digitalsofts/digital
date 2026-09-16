@@ -11,7 +11,6 @@ import {
 } from './localeContentModel.mjs'
 import { RESOLVED_FROM, findLocaleRecord, resolveContent, resolveLocaleRecord } from './localeHelpers.mjs'
 import {
-  buildLocalizedHref,
   buildLocalePath,
   hreflangTag,
   isDefaultLocale,
@@ -26,6 +25,10 @@ import { buildCityPagePath, parseCityPagePath } from './cityPaths.mjs'
 import { evaluateCityIndexability, resolveCityContent } from './cityLocaleApi.mjs'
 import { resolvePublicSiteUrl } from './pakistanConfig.mjs'
 import { getCityHomepageProfile } from './cityHomepageProfiles.mjs'
+import { loadEnv } from './loadEnv.mjs'
+
+// Ensure .env.local is loaded before resolving the public canonical origin.
+loadEnv()
 
 export const PUBLIC_SITE_BASE = resolvePublicSiteUrl()
 
@@ -74,8 +77,8 @@ export function evaluateIndexability({ record, meta, countryCode, lang, countryE
   const can = canPublishRecord(record, { countryEnabled })
   if (!can.ok) return { indexable: false, reason: can.reason }
 
-  if (country === 'AE' && language === 'en' && !record?.citySlug) {
-    return { indexable: true, reason: 'uae_english_canonical' }
+  if (country === 'PK' && language === 'en' && !record?.citySlug) {
+    return { indexable: true, reason: 'pk_english_canonical' }
   }
 
   if (meta?.resolvedFrom === RESOLVED_FROM.CITY_OVERRIDE && record?.citySlug) {
@@ -132,8 +135,8 @@ function resolveRegistryPage(store, route, countryCode, lang, countryEnabled) {
     {
       context: 'public',
       countryEnabled,
-      allowGlobalFallback: countryCode === 'AE',
-      allowFallback: countryCode === 'AE' || lang === 'en',
+      allowGlobalFallback: countryCode === 'PK' || countryCode === 'AE',
+      allowFallback: countryCode === 'PK' || countryCode === 'AE' || lang === 'en',
     },
   )
   return resolved
@@ -201,16 +204,16 @@ export async function buildIndexablePages(deps) {
   const seen = new Set()
   const homeLastmod = homepageLastmod(publishMeta, seoDoc)
 
-  // Homepage — UAE English canonical
+  // Homepage — Pakistan English canonical
   tryAddEntry(entries, seen, {
     internalPath: '/',
     path: '/',
     absoluteUrl: absoluteUrl('/'),
-    countrySlug: 'ae',
+    countrySlug: 'pk',
     lang: 'en',
-    countryCode: 'AE',
-    hreflang: hreflangTag('ae', 'en'),
-    ogLocale: ogLocaleTag('ae', 'en'),
+    countryCode: 'PK',
+    hreflang: hreflangTag('pk', 'en'),
+    ogLocale: ogLocaleTag('pk', 'en'),
     record: null,
     meta: { resolvedFrom: RESOLVED_FROM.GLOBAL },
     groupKey: 'page:home',
@@ -219,7 +222,7 @@ export async function buildIndexablePages(deps) {
     indexable: true,
   })
 
-  // UAE English trust and developer pages
+  // Pakistan English trust and developer pages
   const trustPages = [
     { path: '/developers', kind: 'developers', title: 'DigitalManager Developer Platform' },
     { path: '/about', kind: 'about', title: 'About DigitalManager' },
@@ -232,11 +235,11 @@ export async function buildIndexablePages(deps) {
       internalPath: page.path,
       path: page.path,
       absoluteUrl: absoluteUrl(page.path),
-      countrySlug: 'ae',
+      countrySlug: 'pk',
       lang: 'en',
-      countryCode: 'AE',
-      hreflang: hreflangTag('ae', 'en'),
-      ogLocale: ogLocaleTag('ae', 'en'),
+      countryCode: 'PK',
+      hreflang: hreflangTag('pk', 'en'),
+      ogLocale: ogLocaleTag('pk', 'en'),
       record: null,
       meta: { resolvedFrom: RESOLVED_FROM.GLOBAL },
       groupKey: `page:${page.kind}`,
@@ -247,9 +250,9 @@ export async function buildIndexablePages(deps) {
     })
   }
 
-  // Published GCC English homepages
+  // Additional published market English homepages (if any beyond root)
   for (const countrySlug of GCC_COUNTRY_SLUGS) {
-    if (countrySlug === 'ae') continue
+    if (countrySlug === 'pk') continue
     const countryCode = normalizeCountryCode(countrySlug.toUpperCase())
     if (!enabledCodes.has(countryCode)) continue
     const homeMeta = await getLocaleHomepageIndexMeta(deps, countryCode, 'en')
@@ -307,16 +310,16 @@ export async function buildIndexablePages(deps) {
     }
   }
 
-  // Blog listing — UAE English
+  // Blog listing — Pakistan English
   tryAddEntry(entries, seen, {
     internalPath: '/blog',
     path: '/blog',
     absoluteUrl: absoluteUrl('/blog'),
-    countrySlug: 'ae',
+    countrySlug: 'pk',
     lang: 'en',
-    countryCode: 'AE',
-    hreflang: hreflangTag('ae', 'en'),
-    ogLocale: ogLocaleTag('ae', 'en'),
+    countryCode: 'PK',
+    hreflang: hreflangTag('pk', 'en'),
+    ogLocale: ogLocaleTag('pk', 'en'),
     record: null,
     meta: {},
     groupKey: 'page:blog-list',
@@ -325,7 +328,7 @@ export async function buildIndexablePages(deps) {
     indexable: true,
   })
 
-  // Testimonials listing (UAE only when enabled content exists)
+  // Testimonials listing (when enabled content exists)
   const tPage = testimonialsDoc?.page || {}
   const hasTestimonials =
     tPage.enabled !== false &&
@@ -335,11 +338,11 @@ export async function buildIndexablePages(deps) {
       internalPath: '/testimonials',
       path: '/testimonials',
       absoluteUrl: absoluteUrl('/testimonials'),
-      countrySlug: 'ae',
+      countrySlug: 'pk',
       lang: 'en',
-      countryCode: 'AE',
-      hreflang: hreflangTag('ae', 'en'),
-      ogLocale: ogLocaleTag('ae', 'en'),
+      countryCode: 'PK',
+      hreflang: hreflangTag('pk', 'en'),
+      ogLocale: ogLocaleTag('pk', 'en'),
       record: null,
       meta: {},
       groupKey: 'page:testimonials',
@@ -349,18 +352,18 @@ export async function buildIndexablePages(deps) {
     })
   }
 
-  // Blog posts — UAE English only (blog CMS is not locale-record based yet)
+  // Blog posts — Pakistan English (blog CMS is not locale-record based yet)
   for (const post of (postsDoc?.items || []).filter((p) => isPublishedRecord(p) && p.slug)) {
     const internalPath = `/blog/${post.slug}`
     tryAddEntry(entries, seen, {
       internalPath,
       path: internalPath,
       absoluteUrl: absoluteUrl(internalPath),
-      countrySlug: 'ae',
+      countrySlug: 'pk',
       lang: 'en',
-      countryCode: 'AE',
-      hreflang: hreflangTag('ae', 'en'),
-      ogLocale: ogLocaleTag('ae', 'en'),
+      countryCode: 'PK',
+      hreflang: hreflangTag('pk', 'en'),
+      ogLocale: ogLocaleTag('pk', 'en'),
       record: null,
       meta: {},
       groupKey: `blog:${post.slug}`,
@@ -370,7 +373,7 @@ export async function buildIndexablePages(deps) {
     })
   }
 
-  // UAE software detail routes (static route catalog)
+  // Pakistan software detail routes (static route catalog)
   for (const internalPath of uaeSoftwarePaths()) {
     let globalIdentity = null
     let contentType = null
@@ -401,8 +404,8 @@ export async function buildIndexablePages(deps) {
             {
               context: 'public',
               countryEnabled: enabledCodes.has(countryCode),
-              allowGlobalFallback: countryCode === 'AE',
-              allowFallback: countryCode === 'AE',
+              allowGlobalFallback: countryCode === 'PK' || countryCode === 'AE',
+              allowFallback: countryCode === 'PK' || countryCode === 'AE' || lang === 'en',
             },
           )
           const check = evaluateIndexability({
@@ -437,11 +440,11 @@ export async function buildIndexablePages(deps) {
         internalPath,
         path: internalPath,
         absoluteUrl: absoluteUrl(internalPath),
-        countrySlug: 'ae',
+        countrySlug: 'pk',
         lang: 'en',
-        countryCode: 'AE',
-        hreflang: hreflangTag('ae', 'en'),
-        ogLocale: ogLocaleTag('ae', 'en'),
+        countryCode: 'PK',
+        hreflang: hreflangTag('pk', 'en'),
+        ogLocale: ogLocaleTag('pk', 'en'),
         record: null,
         meta: { resolvedFrom: RESOLVED_FROM.GLOBAL },
         groupKey: `software-static:${internalPath}`,
@@ -478,8 +481,8 @@ export async function buildIndexablePages(deps) {
     const resolved = resolveLocaleRecord(null, matches, {
       context: 'public',
       countryEnabled: enabledCodes.has(countryCode),
-      allowGlobalFallback: countryCode === 'AE',
-      allowFallback: countryCode === 'AE',
+      allowGlobalFallback: countryCode === 'PK' || countryCode === 'AE',
+      allowFallback: countryCode === 'PK' || countryCode === 'AE' || lang === 'en',
     })
     const check = evaluateIndexability({
       record: resolved.record,
@@ -573,11 +576,11 @@ function groupAlternates(entries) {
 }
 
 function xDefaultPathForGroup(groupEntries) {
-  const aeEn =
-    groupEntries.find((e) => e.countrySlug === 'ae' && e.lang === 'en') ||
+  const preferred =
+    groupEntries.find((e) => e.countrySlug === 'pk' && e.lang === 'en') ||
     groupEntries.find((e) => isDefaultLocale(e.countrySlug, e.lang))
-  if (!aeEn) return null
-  return aeEn.path
+  if (!preferred) return null
+  return preferred.path
 }
 
 export function attachAlternates(entries) {
@@ -643,51 +646,61 @@ function applyCityHomeSeo(title, description, citySlug) {
   }
 }
 
-function fallbackSeoForPath(pathname, seoDoc, lang) {
+function isDisallowedSeoPath(pathname) {
+  const path = normalizePublicPath(pathname)
+  return path === '/admin' || path.startsWith('/admin/') || path === '/api' || path.startsWith('/api/')
+}
+
+function fallbackSeoForPath(pathname, seoDoc) {
   const parsed = parseLocalePath(pathname)
-  const canonical = absoluteUrl(normalizePublicPath(pathname))
+  const path = normalizePublicPath(pathname)
+  const canonical = absoluteUrl(path)
   const title = readBilingualText(seoDoc?.pageTitle, parsed.lang) || readBilingualText(seoDoc?.pageTitle, 'en') || 'DigitalManager'
   const description =
     readBilingualText(seoDoc?.metaDescription, parsed.lang) || readBilingualText(seoDoc?.metaDescription, 'en') || ''
-  const noIndex = !isDefaultLocale(parsed.country, parsed.lang)
-  const xDefaultPath = buildLocalizedHref('ae', 'en', parsed.restPath)
-  const alternates = [{ hreflang: 'x-default', href: absoluteUrl(xDefaultPath) }]
-  if (noIndex) {
-    return {
-      path: normalizePublicPath(pathname),
-      canonical,
-      noIndex: true,
-      robots: 'noindex, follow',
-      lang: parsed.lang,
-      dir: parsed.lang === 'ar' ? 'rtl' : 'ltr',
-      title,
-      description,
-      ogLocale: ogLocaleTag(parsed.country, parsed.lang),
-      ogUrl: canonical,
-      alternates,
-      xDefault: absoluteUrl(xDefaultPath),
-      indexable: false,
-    }
-  }
-  alternates.push({ hreflang: hreflangTag('ae', 'en'), href: absoluteUrl(xDefaultPath) })
+  // Unknown / unmatched public paths must not be treated as indexable.
+  const alternates = [
+    { hreflang: 'x-default', href: canonical },
+    { hreflang: hreflangTag('pk', 'en'), href: canonical },
+  ]
   return {
-    path: normalizePublicPath(pathname),
+    path,
     canonical,
-    noIndex: false,
-    robots: 'index, follow',
+    noIndex: true,
+    robots: 'noindex, follow',
     lang: parsed.lang,
     dir: parsed.lang === 'ar' ? 'rtl' : 'ltr',
     title,
     description,
-    ogLocale: ogLocaleTag(parsed.country, parsed.lang),
+    ogLocale: ogLocaleTag('pk', 'en'),
     ogUrl: canonical,
     alternates,
-    xDefault: absoluteUrl(xDefaultPath),
-    indexable: true,
+    xDefault: canonical,
+    indexable: false,
   }
 }
 
 export async function resolveSeoForPath(deps, pathname) {
+  if (isDisallowedSeoPath(pathname)) {
+    const path = normalizePublicPath(pathname)
+    const canonical = absoluteUrl(path)
+    return {
+      path,
+      canonical,
+      noIndex: true,
+      robots: 'noindex, nofollow',
+      lang: 'en',
+      dir: 'ltr',
+      title: 'DigitalManager',
+      description: '',
+      ogLocale: ogLocaleTag('pk', 'en'),
+      ogUrl: canonical,
+      alternates: [],
+      xDefault: canonical,
+      indexable: false,
+    }
+  }
+
   const { entries, seoDoc } = await buildIndexablePages(deps)
   const withAlternates = attachAlternates(entries)
   const match = matchEntryForPath(withAlternates, pathname)
@@ -783,14 +796,14 @@ export async function resolveSeoForPath(deps, pathname) {
 
 export function sitemapStats(entries) {
   const included = entries.length
-  const uaeRoot = entries.filter((e) => isDefaultLocale(e.countrySlug, e.lang)).length
-  const localized = included - uaeRoot
+  const pkRoot = entries.filter((e) => isDefaultLocale(e.countrySlug, e.lang)).length
+  const localized = included - pkRoot
   const corePaths = uaeCorePaths().length + 1
   const softwarePaths = uaeSoftwarePaths().length
-  const excludedDraftLocales = GCC_COUNTRY_SLUGS.filter((c) => c !== 'ae').length * GCC_LANGS.length
+  const excludedDraftLocales = GCC_COUNTRY_SLUGS.filter((c) => c !== 'pk').length * GCC_LANGS.length
   return {
     included,
-    uaeRoot,
+    uaeRoot: pkRoot,
     localized,
     coreRouteCatalog: corePaths,
     softwareRouteCatalog: softwarePaths,

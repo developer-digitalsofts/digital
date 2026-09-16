@@ -14,12 +14,44 @@ import { apiBase, fetchWithTimeout } from '../cms/api'
 import { CmsLink } from './CmsLink'
 import { useLocale } from '../locale/LocaleContext'
 import { useCity } from '../locale/CityContext'
-import { PK_CITY_NAMES, PK_CITY_SLUGS } from '../market/pakistanConfig'
 import { useRegionalSettings } from '../cms/useRegionalSettings'
 import './footer.css'
 
 const companyKeys = ['coAbout', 'coWorkflow', 'coFaq', 'coContact'] as const
 const companyTos = ['/#about', '/#workflow', '/#faqs', '/contact'] as const
+
+/** Pakistan office contacts — replaces the former city-links footer strip. */
+const PK_OFFICES = [
+  {
+    id: 'lahore',
+    title: 'Lahore Office',
+    lines: ['Office # 624, 6th Floor, AL-Hafeez', 'Shopping Mall, Main Boulevard,', 'Gulberg.'],
+    phones: ['+92 42 3577 4766', '+92 320 844 4410', '+92 321 866 1765'],
+  },
+  {
+    id: 'rawalpindi',
+    title: 'Rawalpindi Office',
+    lines: ['81-C Satellite Town, Iran road,', 'Rawalpindi.'],
+    phones: ['+92 51 844 3030', '+92 326 786 6000', '+92 321 866 1765'],
+  },
+  {
+    id: 'karachi',
+    title: 'Karachi Office',
+    lines: ['Suit # 1503-04, 15th Floor, Caesar’s', 'Tower, Shahrah-e-Faisal, Karachi.'],
+    phones: ['+92 21 3489 7077', '+92 326 786 6000', '+92 321 866 1765'],
+  },
+  {
+    id: 'faisalabad',
+    title: 'Faisalabad Office',
+    lines: ['Sitara Techno Park, Lower Canal Road,', "People's Colony No 1,", 'Faisalabad, Pakistan.'],
+    phones: ['+92 41 85 35 044', '+92 326 786 6000', '+92 321 866 1765'],
+  },
+] as const
+
+function telHref(display: string) {
+  const digits = display.replace(/[^\d+]/g, '')
+  return `tel:${digits.startsWith('+') ? digits : `+${digits}`}`
+}
 
 const footerProducts = getFooterProductModules()
 const footerIndustries = resolveFooterIndustryLinks()
@@ -451,19 +483,36 @@ export function Footer() {
           </div>
 
           <p className="dm-footer__trust-message">{t('footer.trustMessage')}</p>
-          <nav className="dm-footer__cities" aria-label="DigitalManager across Pakistan">
-            <p className="dm-footer__cities-heading">DigitalManager across Pakistan</p>
-            <ul className="dm-footer__cities-list">
-              {PK_CITY_SLUGS.map((slug) => (
-                <li key={slug}>
-                  <a href={`/${slug}`}>{PK_CITY_NAMES[slug]}</a>
-                </li>
+          <section className="dm-footer__offices" aria-label="DigitalManager Pakistan offices">
+            <p className="dm-footer__offices-heading">Our offices across Pakistan</p>
+            <div className="dm-footer__offices-grid">
+              {PK_OFFICES.map((office) => (
+                <article key={office.id} className="dm-footer__office">
+                  <h3 className="dm-footer__office-title">
+                    <MapPin className="dm-footer__office-icon" aria-hidden />
+                    {office.title}
+                  </h3>
+                  <p className="dm-footer__office-address">
+                    {office.lines.map((line) => (
+                      <span key={line} className="dm-footer__office-line">
+                        {line}
+                      </span>
+                    ))}
+                  </p>
+                  <ul className="dm-footer__office-phones">
+                    {office.phones.map((phone) => (
+                      <li key={phone}>
+                        <a href={telHref(phone)} className="dm-footer__office-phone">
+                          <Phone className="dm-footer__office-phone-icon" aria-hidden />
+                          {phone}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
               ))}
-              <li>
-                <a href="/cities">All cities</a>
-              </li>
-            </ul>
-          </nav>
+            </div>
+          </section>
 
           <div className="dm-footer__social">
             <FooterSocialLinks items={f?.social} />

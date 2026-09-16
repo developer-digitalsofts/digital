@@ -1,34 +1,34 @@
 import { memo } from 'react'
 import { DashboardBody, DashboardFrame } from '../DashboardFrame'
 import { useDashboardRegionalData } from '../useDashboardRegionalData'
-import { AlertStat, BranchGrid, GaugeWidget, Panel, ProductRows, SparkAreaChart } from '../mockupParts'
+import { BranchGrid, FillBarChart, KpiStrip, Panel } from '../mockupParts'
 import type { DashboardMockupProps } from '../types'
 
-export const InventoryDashboardMockup = memo(function InventoryDashboardMockup(_props: DashboardMockupProps) {
+export const InventoryDashboardMockup = memo(function InventoryDashboardMockup({ animate = false }: DashboardMockupProps) {
   const data = useDashboardRegionalData()
+  const stockValue = data.inventoryKpis?.[1]?.value ?? data.inventorySalesWeek
+  const movement = data.inventorySalesTrend.slice(0, 5)
+  const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
 
   return (
-    <DashboardFrame moduleType="inventory" title="Inventory & POS" subtitle="Real-time inventory and point of sale overview">
+    <DashboardFrame moduleType="inventory" title="Inventory Overview" subtitle="Stock levels, movement and low-stock alerts">
       <DashboardBody>
-        <div className="dm-hero__kpi-row">
-          <div className="dm-hero__kpi-tile dm-hero__kpi-tile--mint">
-            <p className="dm-hero__kpi-label">Stock Health</p>
-            <GaugeWidget value={97} label="On target" sublabel="+4% vs last week" />
-          </div>
-          <div className="dm-hero__kpi-tile dm-hero__kpi-tile--peach">
-            <p className="dm-hero__kpi-label">Sales (This Week)</p>
-            <p className="dm-hero__kpi-value">{data.inventorySalesWeek}</p>
-            <SparkAreaChart values={data.inventorySalesTrend.slice(0, 6)} color="#FF714A" />
-            <p className="dm-hero__kpi-hint">+12.4% vs last week</p>
-          </div>
-          <div className="dm-hero__kpi-tile dm-hero__kpi-tile--rose">
-            <p className="dm-hero__kpi-label">Low Stock Items</p>
-            <AlertStat value="24" label="Needs attention today" />
-          </div>
-        </div>
+        <KpiStrip
+          items={[
+            { label: 'Stock Value', value: stockValue, hint: '+5.4% this month', tone: 'up' },
+            { label: 'Low Stock', value: '24', hint: 'Needs attention today', tone: 'warn' },
+            { label: 'Accuracy', value: '97%', hint: 'On target', tone: 'up' },
+          ]}
+        />
         <div className="dm-hero__split dm-hero__split--2">
-          <Panel title="Top Selling Products">
-            <ProductRows items={data.inventoryPosProducts.slice(0, 5)} />
+          <Panel title="Stock Movement">
+            <FillBarChart
+              animate={animate}
+              labels={labels}
+              values={[movement, movement.map((v) => Math.max(8, Math.round(v * 0.72)))]}
+              colors={['#FF714A', '#334155']}
+              legend={['Inbound', 'Outbound']}
+            />
           </Panel>
           <Panel title="Branch Stock Overview">
             <BranchGrid rows={data.inventoryBranchStock.slice(0, 4)} />

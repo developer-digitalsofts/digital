@@ -11,7 +11,7 @@ export const ErpDashboardMockup = memo(function ErpDashboardMockup({ animate = f
   const target = data.erpRevenueTarget.target.slice(0, 5)
 
   return (
-    <DashboardFrame moduleType="erp" title="ERP Overview" subtitle="Executive business dashboard">
+    <DashboardFrame moduleType="erp" title="ERP Overview" subtitle="Connected operations across finance, stock and sales">
       <DashboardBody>
         <KpiStrip
           items={[
